@@ -1,9 +1,0 @@
-<gapi-parser-input>
-  <api filename="glade-api.xml">
-    <library name="glade">
-      <namespace name="Glade">
-        <dir>glade/glade</dir>
-      </namespace>
-    </library>
-  </api>
-</gapi-parser-input>
