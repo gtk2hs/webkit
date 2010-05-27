@@ -24,6 +24,10 @@ Extra-Source-Files: hswebkit.h
                     Gtk2HsSetup.hs
                     marshal.list
 					
+Data-Dir:		demo
+Data-Files:		Webkit.hs
+                Makefile
+					
 x-Types-File:       Graphics/UI/Gtk/WebKit/Types.chs
 x-Types-Tag:        webkit
 x-Types-ModName:    Graphics.UI.Gtk.WebKit.Types
