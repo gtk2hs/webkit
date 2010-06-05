@@ -38,8 +38,7 @@ x-Types-Hierarchy:  hierarchy.list
 
 Source-Repository head
   type:         darcs
-  location:     http://code.haskell.org/gtk2hs/
-  subdir:       webkit
+  location:     http://code.haskell.org/webkit/
 
 Library
         build-depends:  base >= 4 && < 5, array, containers, haskell98, mtl,
