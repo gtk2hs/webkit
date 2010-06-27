@@ -35,6 +35,8 @@
 module Graphics.UI.Gtk.WebKit.WebFrame (
 -- * Types
   WebFrame,
+  WebFrameClass,
+  LoadStatus,
 
 -- * Constructors
   webFrameNew,

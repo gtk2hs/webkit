@@ -26,6 +26,8 @@
 module Graphics.UI.Gtk.WebKit.WebSettings (
 -- * Types
   WebSettings,
+  WebSettingsClass,
+  EditingBehavior,
 
 -- * Constructors
   webSettingsNew,

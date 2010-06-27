@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.WebDatabase (
 -- * Types
   WebDatabase,
+  WebDatabaseClass,
 
 -- * Methods  
   webDatabaseGetDisplayName,

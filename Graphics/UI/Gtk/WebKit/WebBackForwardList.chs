@@ -25,7 +25,9 @@
 
 module Graphics.UI.Gtk.WebKit.WebBackForwardList (
 -- * Types
+  WebViewClass,
   WebBackForwardList,
+  WebBackForwardListClass,
 
 -- * Constructors
   webBackForwardListNewWithWebView,

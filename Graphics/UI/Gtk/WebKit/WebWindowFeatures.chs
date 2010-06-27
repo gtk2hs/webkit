@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.WebWindowFeatures (
 -- * Types
   WebWindowFeatures,
+  WebWindowFeaturesClass,
 
 -- * Constructors
   webWindowFeaturesNew,

@@ -31,6 +31,7 @@
 module Graphics.UI.Gtk.WebKit.WebDataSource (
 -- * Types
   WebDataSource,
+  WebDataSourceClass,
 
 -- * Constructors
   webDataSourceNew,

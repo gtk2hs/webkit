@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.SoupAuthDialog (
 -- * Types
   SoupAuthDialog,
+  SoupAuthDialogClass,
 ) where
 
 import System.Glib.FFI

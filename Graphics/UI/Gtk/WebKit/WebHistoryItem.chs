@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.WebHistoryItem (
 -- * Types
   WebHistoryItem,
+  WebHistoryItemClass,
 
 -- * Constructors
   webHistoryItemNew,

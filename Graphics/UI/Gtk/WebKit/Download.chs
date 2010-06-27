@@ -27,6 +27,7 @@
 module Graphics.UI.Gtk.WebKit.Download (
 -- * Types
   Download,
+  DownloadClass,
 
 -- * Enums
   DownloadError(..),

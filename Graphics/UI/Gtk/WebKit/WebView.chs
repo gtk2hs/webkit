@@ -40,6 +40,7 @@
 module Graphics.UI.Gtk.WebKit.WebView (
 -- * Types
   WebView,
+  WebViewClass,
 
 -- * Enums
   NavigationResponse(..),

@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.WebNavigationAction (
 -- * Types
   WebNavigationAction,
+  WebNavigationActionClass,
 
 -- * Enums
   NavigationReason(..),

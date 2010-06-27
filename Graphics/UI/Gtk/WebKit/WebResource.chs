@@ -31,6 +31,7 @@
 module Graphics.UI.Gtk.WebKit.WebResource (
 -- * Types
   WebResource,
+  WebResourceClass,
 
 -- * Constructors
   webResourceNew,

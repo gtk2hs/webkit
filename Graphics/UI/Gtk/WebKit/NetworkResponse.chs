@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.NetworkResponse (
 -- * Types
   NetworkResponse,
+  NetworkResponseClass,
 
 -- * Methods
   networkResponseSetUri,

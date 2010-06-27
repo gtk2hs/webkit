@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.SecurityOrigin (
 -- * Types
   SecurityOrigin,
+  SecurityOriginClass,
 
 -- * Methods  
   securityOriginGetAllWebDatabases,

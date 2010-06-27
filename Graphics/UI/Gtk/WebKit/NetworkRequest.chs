@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.NetworkRequest (
 -- * Types
   NetworkRequest,
+  NetworkRequestClass,
 
 -- * Constructors
   networkRequestNew,

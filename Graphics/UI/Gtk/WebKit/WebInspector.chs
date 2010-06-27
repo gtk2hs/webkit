@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.WebInspector (
 -- * Types
   WebInspector,
+  WebInspectorClass,
 
 -- * Methods
   webInspectorGetInspectedUri,

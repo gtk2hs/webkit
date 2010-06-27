@@ -26,6 +26,7 @@
 module Graphics.UI.Gtk.WebKit.HitTestResult (
 -- * Types
   HitTestResult,
+  HitTestResultClass,
 
 -- * Enums.
   HitTestResultContext(..),
