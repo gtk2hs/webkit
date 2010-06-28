@@ -41,6 +41,9 @@ module Graphics.UI.Gtk.WebKit.Download (
   downloadCancel,
   downloadGetUri,
   downloadGetNetworkRequest,
+#if WEBKIT_CHECK_VERSION (1,1,16)
+  downloadGetNetworkResponse,
+#endif
   downloadGetSuggestedFilename,
   downloadGetDestinationUri,
   downloadGetProgress,
@@ -54,7 +57,9 @@ module Graphics.UI.Gtk.WebKit.Download (
   currentSize,
   destinationUri,
   networkRequest,
+#if WEBKIT_CHECK_VERSION (1,1,16)
   networkResponse,
+#endif
   progress,
   status,
   suggestedFilename,
@@ -129,6 +134,17 @@ downloadGetNetworkRequest ::
  -> IO NetworkRequest
 downloadGetNetworkRequest dl =
     makeNewGObject mkNetworkRequest $ {#call download_get_network_request#} (toDownload dl)
+
+#if WEBKIT_CHECK_VERSION (1,1,16)
+-- | Retrieves the 'NetworkResponse' object that backs the download process.
+--
+-- * Since 1.1.16
+downloadGetNetworkResponse ::
+    DownloadClass self => self
+ -> IO NetworkResponse    
+downloadGetNetworkResponse dl = 
+    makeNewGObject mkNetworkResponse $ {#call download_get_network_response#} (toDownload dl)
+#endif
 
 -- | Retrieves the filename that was suggested by the server,
 -- or the one derived from the URI.
@@ -227,6 +243,7 @@ networkRequest =
   newAttrFromObjectProperty "network-request"
   {#call pure webkit_network_request_get_type#}
 
+#if WEBKIT_CHECK_VERSION (1,1,16)
 -- | The NetworkResponse instance associated with the download.
 --
 -- * Since 1.1.16
@@ -234,6 +251,7 @@ networkResponse :: DownloadClass self => Attr self NetworkResponse
 networkResponse = 
   newAttrFromObjectProperty "network-response"
   {#call pure webkit_network_response_get_type#}
+#endif
 
 -- | Determines the current progress of the download. 
 -- Notice that, although the progress changes are reported as soon as possible, 

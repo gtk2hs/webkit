@@ -47,6 +47,9 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
   webSettingsEditingBehavior,
   webSettingsEnableCaretBrowsing,
   webSettingsEnableDeveloperExtras,
+#if WEBKIT_CHECK_VERSION (1,1,16)
+  webSettingsEnableDomPaste,
+#endif
   webSettingsEnableHtml5Database,
   webSettingsEnableHtml5LocalStorage,
   webSettingsEnableOfflineWebApplicationCache,
@@ -179,6 +182,17 @@ webSettingsEnableCaretBrowsing = newAttrFromBoolProperty "enable-caret-browsing"
 -- This enables, for now, the 'WebInspector'
 webSettingsEnableDeveloperExtras :: (WebSettingsClass self) => Attr self Bool
 webSettingsEnableDeveloperExtras = newAttrFromBoolProperty "enable-developer-extras"
+
+#if WEBKIT_CHECK_VERSION (1,1,16)
+-- | Whether to enable DOM paste. If set to 'True', document.execCommand("Paste") will correctly execute
+-- and paste content of the clipboard.
+-- 
+-- Default value: 'False'
+--
+-- * Since 1.1.16
+webSettingsEnableDomPaste :: (WebSettingsClass self) => Attr self Bool
+webSettingsEnableDomPaste = newAttrFromBoolProperty "enable-dom-paste"
+#endif
 
 -- | Whether to enable HTML5 client-side SQL database support.
 webSettingsEnableHtml5Database :: (WebSettingsClass self) => Attr self Bool
