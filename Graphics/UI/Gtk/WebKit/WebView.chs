@@ -134,7 +134,6 @@ module Graphics.UI.Gtk.WebKit.WebView (
 #if WEBKIT_CHECK_VERSION (1,1,18)
   webViewGetIconUri,
 #endif
-
 -- * Attributes
   webViewZoomLevel,
   webViewFullContentZoom,
@@ -155,6 +154,11 @@ module Graphics.UI.Gtk.WebKit.WebView (
 #if WEBKIT_CHECK_VERSION (1,1,18)
   webViewIconUri,
 #endif
+
+#if WEBKIT_CHECK_VERSION (1,1,20)
+  webViewImContext,
+#endif
+
  
 -- * Signals
   loadStarted,
@@ -278,6 +282,7 @@ webViewGetIconUri webview =
   {#call webkit_web_view_get_icon_uri #} (toWebView webview)
   >>= maybePeek peekUTFString
 #endif
+
 
 -- | Return the main 'WebFrame' of the given 'WebView'.
 webViewGetMainFrame :: 
@@ -916,6 +921,19 @@ webViewWindowFeatures =
 -- * Since 1.1.18
 webViewIconUri :: WebViewClass self => ReadAttr self String
 webViewIconUri = readAttrFromStringProperty "icon-uri"
+#endif
+
+#if WEBKIT_CHECK_VERSION (1,1,20)
+-- | The 'IMMulticontext' for the WebKitWebView.
+-- 
+-- This is the input method context used for all text entry widgets inside the WebKitWebView. It can be
+-- used to generate context menu items for controlling the active input method.
+-- 
+-- * Since 1.1.20
+webViewImContext :: WebViewClass self => ReadAttr self IMContext
+webViewImContext = 
+  readAttrFromObjectProperty "im-context"
+  {#call pure gtk_im_context_get_type #}
 #endif
 
 -- * Signals
