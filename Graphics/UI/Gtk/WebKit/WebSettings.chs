@@ -70,6 +70,9 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
   webSettingsSansFontFamily,
   webSettingsSerifFontFamily,
   webSettingsSpellCheckingLang,
+#if WEBKIT_CHECK_VERSION (1,1,17)
+  webSettingsTabKeyCyclesThroughElements,
+#endif
   webSettingsUserAgent,
   webSettingsUserStylesheetUri,
   webSettingsZoomStep,
@@ -304,6 +307,20 @@ webSettingsSerifFontFamily = newAttrFromStringProperty "serif-font-family"
 -- Default value: @Nothing@
 webSettingsSpellCheckingLang :: (WebSettingsClass self) => Attr self (Maybe String)
 webSettingsSpellCheckingLang = newAttrFromMaybeStringProperty "spell-checking-languages"
+
+#if WEBKIT_CHECK_VERSION (1,1,17)
+-- | Whether the tab key cycles through elements on the page.
+-- 
+-- If flag is 'True', pressing the tab key will focus the next element in the @webView@. If flag is 'False',
+-- the @webView@ will interpret tab key presses as normal key presses. If the selected element is
+-- editable, the tab key will cause the insertion of a tab character.
+-- 
+-- Default value: 'True'
+--
+-- * Since 1.1.17
+webSettingsTabKeyCyclesThroughElements :: (WebSettingsClass self) => Attr self Bool
+webSettingsTabKeyCyclesThroughElements = newAttrFromBoolProperty "tab-key-cycles-through-elements"
+#endif
 
 -- | The User-Agent string used by WebKit
 -- 
