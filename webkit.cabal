@@ -68,6 +68,7 @@ Library
           Graphics.UI.Gtk.WebKit.WebSettings
           Graphics.UI.Gtk.WebKit.WebView
           Graphics.UI.Gtk.WebKit.WebWindowFeatures
+          Graphics.UI.Gtk.WebKit.CacheModel
         other-modules:
           Graphics.UI.Gtk.WebKit.Internal
           Graphics.UI.Gtk.WebKit.Types		  

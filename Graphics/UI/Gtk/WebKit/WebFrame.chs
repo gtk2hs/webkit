@@ -44,6 +44,9 @@ module Graphics.UI.Gtk.WebKit.WebFrame (
 -- * Methods
   webFrameGetWebView,
   webFrameGetName,
+#if WEBKIT_CHECK_VERSION (1,1,18)
+  webFrameGetNetworkResponse,
+#endif
   webFrameGetTitle,
   webFrameGetUri,
   webFrameGetParent,
@@ -108,6 +111,17 @@ webFrameGetName ::
  -> IO (Maybe String) -- ^ the name string or @Nothing@ in case failed.
 webFrameGetName webframe = 
     {#call web_frame_get_name#} (toWebFrame webframe) >>= maybePeek peekCString
+
+#if WEBKIT_CHECK_VERSION (1,1,18)
+-- | Returns a WebKitNetworkResponse object representing the response that was given to the request for
+-- the given frame, or 'Nothing' if the frame was not created by a load. 
+--
+-- * Since 1.1.18
+webFrameGetNetworkResponse :: WebFrameClass self => self -> IO (Maybe NetworkResponse)
+webFrameGetNetworkResponse frame =
+    maybeNull (makeNewGObject mkNetworkResponse) $ 
+   {#call webkit_web_frame_get_network_response#} (toWebFrame frame)
+#endif
 
 -- | Return the title of the given 'WebFrame'.
 webFrameGetTitle :: 

@@ -46,6 +46,9 @@ module Graphics.UI.Gtk.WebKit.WebHistoryItem (
   webHistoryItemGetUri,
   webHistoryItemGetOriginalUri,
   webHistoryItemGetLastVisitedTime,
+#if WEBKIT_CHECK_VERSION (1,1,18)
+  webHistoryItemCopy,
+#endif
 ) where
 
 import Control.Monad		(liftM)
@@ -153,6 +156,17 @@ webHistoryItemGetLastVisitedTime webhistoryitem =
     liftM realToFrac $ 
       {#call web_history_item_get_last_visited_time#} 
         (toWebHistoryItem webhistoryitem)
+
+#if WEBKIT_CHECK_VERSION (1,1,18)
+-- | Makes a copy of the item for use with other WebView objects.
+--
+-- * Since 1.1.18    
+webHistoryItemCopy :: WebHistoryItemClass self => self
+ -> IO WebHistoryItem
+webHistoryItemCopy webhistoryitem =
+    makeNewGObject mkWebHistoryItem $ 
+    {#call webkit_web_history_item_copy#} (toWebHistoryItem webhistoryitem)
+#endif
 
 -- | The title of the 'WebHistoryItem'
 --

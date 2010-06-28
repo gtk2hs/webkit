@@ -73,6 +73,10 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
 #if WEBKIT_CHECK_VERSION (1,1,17)
   webSettingsTabKeyCyclesThroughElements,
 #endif
+#if WEBKIT_CHECK_VERSION (1,1,18)
+  webSettingsEnableDefaultContextMenu,
+  webSettingsEnablePageCache,
+#endif
   webSettingsUserAgent,
   webSettingsUserStylesheetUri,
   webSettingsZoomStep,
@@ -320,6 +324,32 @@ webSettingsSpellCheckingLang = newAttrFromMaybeStringProperty "spell-checking-la
 -- * Since 1.1.17
 webSettingsTabKeyCyclesThroughElements :: (WebSettingsClass self) => Attr self Bool
 webSettingsTabKeyCyclesThroughElements = newAttrFromBoolProperty "tab-key-cycles-through-elements"
+#endif
+
+#if WEBKIT_CHECK_VERSION (1,1,18)
+-- | Whether right-clicks should be handled automatically to create, and display the context
+-- menu. Turning this off will make WebKitGTK+ not emit the populate-popup signal. Notice that the
+-- default button press event handler may still handle right clicks for other reasons, such as in-page
+-- context menus, or right-clicks that are handled by the page itself.
+-- 
+-- Default value: 'True'
+-- 
+-- * Since 1.1.18
+webSettingsEnableDefaultContextMenu :: (WebSettingsClass self) => Attr self Bool
+webSettingsEnableDefaultContextMenu = newAttrFromBoolProperty "enable-default-context-menu"
+
+-- | Enable or disable the page cache. Disabling the page cache is generally only useful for special
+-- circumstances like low-memory scenarios or special purpose applications like static HTML
+-- viewers. This setting only controls the Page Cache, this cache is different than the disk-based or
+-- memory-based traditional resource caches, its point is to make going back and forth between pages
+-- much faster. For details about the different types of caches and their purposes see:
+-- http://webkit.org/ blog/427/webkit-page-cache-i-the-basics/
+-- 
+-- Default value: 'False'
+-- 
+-- * Since 1.1.18
+webSettingsEnablePageCache :: (WebSettingsClass self) => Attr self Bool
+webSettingsEnablePageCache = newAttrFromBoolProperty "enable-page-cache"
 #endif
 
 -- | The User-Agent string used by WebKit

@@ -131,6 +131,10 @@ module Graphics.UI.Gtk.WebKit.WebView (
 
   webViewGetWindowFeatures,
 
+#if WEBKIT_CHECK_VERSION (1,1,18)
+  webViewGetIconUri,
+#endif
+
 -- * Attributes
   webViewZoomLevel,
   webViewFullContentZoom,
@@ -148,6 +152,9 @@ module Graphics.UI.Gtk.WebKit.WebView (
   webViewCopyTargetList,
   webViewPasteTargetList,
   webViewWindowFeatures,
+#if WEBKIT_CHECK_VERSION (1,1,18)
+  webViewIconUri,
+#endif
  
 -- * Signals
   loadStarted,
@@ -176,7 +183,9 @@ module Graphics.UI.Gtk.WebKit.WebView (
   databaseQuotaExceeded,
   documentLoadFinished,
   downloadRequested,
+#if WEBKIT_CHECK_VERSION (1,1,18)
   iconLoaded,
+#endif
   redo,
   undo,
   mimeTypePolicyDecisionRequested,
@@ -259,6 +268,16 @@ webViewGetWindowFeatures ::
  -> IO WebWindowFeatures   
 webViewGetWindowFeatures webview =
   makeNewGObject mkWebWindowFeatures $ {#call web_view_get_window_features#} (toWebView webview)
+
+#if WEBKIT_CHECK_VERSION (1,1,18)
+-- | Obtains the URI for the favicon for the given WebKitWebView, or 'Nothing' if there is none.
+--
+-- * Since 1.1.18
+webViewGetIconUri :: WebViewClass self => self -> IO (Maybe String)
+webViewGetIconUri webview =
+  {#call webkit_web_view_get_icon_uri #} (toWebView webview)
+  >>= maybePeek peekUTFString
+#endif
 
 -- | Return the main 'WebFrame' of the given 'WebView'.
 webViewGetMainFrame :: 
@@ -548,14 +567,14 @@ webViewGetTitle ::
     WebViewClass self => self
  -> IO (Maybe String) -- ^ the title of 'WebView' or Nothing in case of failed.
 webViewGetTitle webview =
-    {#call web_view_get_title#} (toWebView webview) >>= maybePeek peekCString
+    {#call web_view_get_title#} (toWebView webview) >>= maybePeek peekUTFString
 
 -- |Returns the current URI of the contents displayed by the 'WebView'
 webViewGetUri :: 
     WebViewClass self => self
  -> IO (Maybe String) -- ^ the URI of 'WebView' or Nothing in case of failed.
 webViewGetUri webview = 
-    {#call web_view_get_uri#} (toWebView webview) >>= maybePeek peekCString 
+    {#call web_view_get_uri#} (toWebView webview) >>= maybePeek peekUTFString
 
 
 -- | Stops and pending loads on the given data source.
@@ -735,7 +754,7 @@ webViewGetEncoding ::
     WebViewClass self => self 
  -> IO (Maybe String) -- ^ the default encoding or @Nothing@ in case of failed
 webViewGetEncoding webview =
-    {#call web_view_get_encoding#} (toWebView webview) >>= maybePeek peekCString
+    {#call web_view_get_encoding#} (toWebView webview) >>= maybePeek peekUTFString
 
 -- | Sets the current 'WebView' encoding, 
 -- without modifying the default one, and reloads the page
@@ -754,7 +773,7 @@ webViewGetCustomEncoding ::
  -> IO (Maybe String) -- ^ the current encoding string
                       -- or @Nothing@ if there is none set.
 webViewGetCustomEncoding webview = 
-    {#call web_view_get_custom_encoding#} (toWebView webview) >>= maybePeek peekCString
+    {#call web_view_get_custom_encoding#} (toWebView webview) >>= maybePeek peekUTFString
 
 -- | Determines the current status of the load.
 webViewGetLoadStatus :: 
@@ -888,6 +907,16 @@ webViewWindowFeatures :: WebViewClass self => Attr self WebWindowFeatures
 webViewWindowFeatures = 
   newAttrFromObjectProperty "window-features"
   {#call pure webkit_web_window_features_get_type#}
+
+#if WEBKIT_CHECK_VERSION (1,1,18)
+-- | The URI for the favicon for the WebKitWebView.
+-- 
+-- Default value: 'Nothing'
+-- 
+-- * Since 1.1.18
+webViewIconUri :: WebViewClass self => ReadAttr self String
+webViewIconUri = readAttrFromStringProperty "icon-uri"
+#endif
 
 -- * Signals
 
@@ -1062,10 +1091,12 @@ downloadRequested :: WebViewClass self => Signal self (Download -> IO Bool)
 downloadRequested =
     Signal (connect_OBJECT__BOOL "download-requested")
 
+#if WEBKIT_CHECK_VERSION (1,1,18)
 -- | Emitted after Icon loaded
 iconLoaded :: WebViewClass self => Signal self (IO ())
 iconLoaded =
     Signal (connect_NONE__NONE "icon-loaded")
+#endif
 
 -- | The "redo" signal is a keybinding signal which gets emitted to redo the last editing command.
 --
