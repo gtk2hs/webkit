@@ -338,4 +338,5 @@
         WebKitWebPolicyDecision as WebPolicyDecision, webkit_web_policy_decision_get_type if webkit
         WebKitWebResource as WebResource, webkit_web_resource_get_type if webkit
         WebKitWebWindowFeatures as WebWindowFeatures, webkit_web_window_features_get_type if webkit
+        WebKitGeolocationPolicyDecision as GeolocationPolicyDecision, webkit_geolocation_policy_decision_get_type if webkit
 

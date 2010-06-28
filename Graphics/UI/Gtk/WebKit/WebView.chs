@@ -158,7 +158,6 @@ module Graphics.UI.Gtk.WebKit.WebView (
 #if WEBKIT_CHECK_VERSION (1,1,20)
   webViewImContext,
 #endif
-
  
 -- * Signals
   loadStarted,
@@ -197,6 +196,10 @@ module Graphics.UI.Gtk.WebKit.WebView (
   navigationPolicyDecisionRequested,
   newWindowPolicyDecisionRequested,
   resourceRequestStarting,
+#if WEBKIT_CHECK_VERSION (1,1,23)
+  geolocationPolicyDecisionCancelled,
+  geolocationPolicyDecisionRequested,
+#endif
 ) where
 
 import Control.Monad		(liftM)
@@ -1194,3 +1197,19 @@ newWindowPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__
 -- but the contents may change from inbetween signal emissions.
 resourceRequestStarting :: WebViewClass self => Signal self (WebFrame -> WebResource -> NetworkRequest -> NetworkResponse -> IO ())
 resourceRequestStarting = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__NONE "resource-request-starting")
+
+#if WEBKIT_CHECK_VERSION (1,1,23)
+-- | When a frame wants to cancel geolocation permission it had requested before.
+--
+-- * Since 1.1.23    
+geolocationPolicyDecisionCancelled :: WebViewClass self => Signal self (WebFrame -> IO ())
+geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation-policy-decision-cancelled")
+
+-- | When a frame wants to get its geolocation permission. The receiver must reply with a boolean wether
+-- it handled or not the request. If the request is not handled, default behaviour is to deny
+-- geolocation.
+-- 
+-- * Since 1.1.23    
+geolocationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> GeolocationPolicyDecision -> IO ())
+geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__NONE "geolocation-policy-decision-requested")
+#endif

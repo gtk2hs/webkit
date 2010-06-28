@@ -81,6 +81,9 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
   webSettingsUserStylesheetUri,
   webSettingsZoomStep,
   webSettingsEnableSiteSpecificQuirks,
+#if WEBKIT_CHECK_VERSION (1,1,23)
+  webSettingsEnableSpatialNavigation,
+#endif
 ) where
 
 import Control.Monad		(liftM)
@@ -384,3 +387,16 @@ webSettingsZoomStep = newAttrFromFloatProperty "zoom-step"
 webSettingsEnableSiteSpecificQuirks :: WebSettingsClass self => Attr self Bool
 webSettingsEnableSiteSpecificQuirks = newAttrFromBoolProperty "enable-site-specific-quirks"
 
+#if WEBKIT_CHECK_VERSION (1,1,23)
+-- | Whether to enable the Spatial Navigation. This feature consists in the ability to navigate between
+-- focusable elements in a Web page, such as hyperlinks and form controls, by using Left, Right, Up and
+-- Down arrow keys. For example, if an user presses the Right key, heuristics determine whether there
+-- is an element he might be trying to reach towards the right, and if there are multiple elements,
+-- which element he probably wants.
+-- 
+-- Default value: 'False'
+-- 
+-- * Since 1.1.23
+webSettingsEnableSpatialNavigation :: WebSettingsClass self => Attr self Bool
+webSettingsEnableSpatialNavigation = newAttrFromBoolProperty "enable-spatial-navigation"
+#endif
