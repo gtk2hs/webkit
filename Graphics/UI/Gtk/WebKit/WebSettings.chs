@@ -247,8 +247,8 @@ webSettingsEnforce96Dpi :: (WebSettingsClass self) => Attr self Bool
 webSettingsEnforce96Dpi = newAttrFromBoolProperty "enforce-96-dpi"
 
 -- | The default Fantasy font family used to display text
-webSettingsFantasyFontFamily :: (WebSettingsClass self) => Attr self Bool
-webSettingsFantasyFontFamily = newAttrFromBoolProperty "fantasy-font-family"
+webSettingsFantasyFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsFantasyFontFamily = newAttrFromStringProperty "fantasy-font-family"
 
 -- | Whether JavaScript can open popup windows automatically without user intervention.
 webSettingsJSCanOpenWindowAuto :: (WebSettingsClass self) => Attr self Bool
