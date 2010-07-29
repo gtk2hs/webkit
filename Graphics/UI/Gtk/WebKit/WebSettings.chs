@@ -37,19 +37,27 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
   webSettingsGetUserAgent,
 
 -- * Attributes
-  webSettingsAutoLoadImages,
-  webSettingsAutoShrinkImages,
+-- ** Family
   webSettingsCursiveFontFamily,
-  webSettingsDefaultEncoding,
   webSettingsDefaultFontFamily,
+  webSettingsFantasyFontFamily,
+  webSettingsMonospaceFontFamily,
+  webSettingsSansFontFamily,
+  webSettingsSerifFontFamily,
+-- ** FontSize
   webSettingsDefaultFontSize,
   webSettingsDefaultMonospaceFontSize,
+  webSettingsMinimumFontSize,
+  webSettingsMinimumLogicalFontSize,
+-- ** Image
+  webSettingsAutoLoadImages,
+  webSettingsAutoShrinkImages,
+-- ** Encoding
+  webSettingsDefaultEncoding,
+-- ** Other
   webSettingsEditingBehavior,
   webSettingsEnableCaretBrowsing,
   webSettingsEnableDeveloperExtras,
-#if WEBKIT_CHECK_VERSION (1,1,16)
-  webSettingsEnableDomPaste,
-#endif
   webSettingsEnableHtml5Database,
   webSettingsEnableHtml5LocalStorage,
   webSettingsEnableOfflineWebApplicationCache,
@@ -59,31 +67,28 @@ module Graphics.UI.Gtk.WebKit.WebSettings (
   webSettingsEnableSpellChecking,
   webSettingsEnableUniversalAccessFromFileUris,
   webSettingsEnableXssAuditor,
-  webSettingsEnforce96Dpi,
-  webSettingsFantasyFontFamily,
-  webSettingsJSCanOpenWindowAuto,
-  webSettingsMinimumFontSize,
-  webSettingsMinimumLogicalFontSize,
-  webSettingsMonospaceFontFamily,
-  webSettingsPrintBackgrounds,
-  webSettingsResizableTextAreas,
-  webSettingsSansFontFamily,
-  webSettingsSerifFontFamily,
-  webSettingsSpellCheckingLang,
-#if WEBKIT_CHECK_VERSION (1,1,17)
-  webSettingsTabKeyCyclesThroughElements,
+  webSettingsEnableSiteSpecificQuirks,
+#if WEBKIT_CHECK_VERSION (1,1,16)
+  webSettingsEnableDomPaste,
 #endif
 #if WEBKIT_CHECK_VERSION (1,1,18)
   webSettingsEnableDefaultContextMenu,
   webSettingsEnablePageCache,
 #endif
-  webSettingsUserAgent,
-  webSettingsUserStylesheetUri,
-  webSettingsZoomStep,
-  webSettingsEnableSiteSpecificQuirks,
 #if WEBKIT_CHECK_VERSION (1,1,23)
   webSettingsEnableSpatialNavigation,
 #endif
+  webSettingsEnforce96Dpi,
+  webSettingsJSCanOpenWindowAuto,
+  webSettingsPrintBackgrounds,
+  webSettingsResizableTextAreas,
+  webSettingsSpellCheckingLang,
+#if WEBKIT_CHECK_VERSION (1,1,17)
+  webSettingsTabKeyCyclesThroughElements,
+#endif
+  webSettingsUserAgent,
+  webSettingsUserStylesheetUri,
+  webSettingsZoomStep,
 ) where
 
 import Control.Monad		(liftM)

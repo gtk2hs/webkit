@@ -51,14 +51,16 @@ module Graphics.UI.Gtk.WebKit.WebView (
   webViewNew,
 
 -- * Methods
+-- ** Load
   webViewLoadUri,
   webViewLoadHtmlString,
   webViewLoadRequest,
   webViewLoadString,
-
-  webViewGetTitle,
-  webViewGetUri,
-
+-- ** Reload
+  webViewStopLoading,
+  webViewReload,
+  webViewReloadBypassCache,
+-- ** History
   webViewCanGoBack,
   webViewCanGoForward,
   webViewGoBack,
@@ -68,58 +70,57 @@ module Graphics.UI.Gtk.WebKit.WebView (
   webViewGoToBackForwardItem,
   webViewCanGoBackOrForward,
   webViewGoBackOrForward,
-
-
+-- ** Zoom
   webViewGetZoomLevel,
   webViewSetZoomLevel,
   webViewZoomIn,
   webViewZoomOut,
   webViewGetFullContentZoom,
   webViewSetFullContentZoom,
-
-  webViewStopLoading,
-  webViewReload,
-  webViewReloadBypassCache,
-
-  webViewExecuteScript,
-
+-- ** Clipboard
   webViewCanCutClipboard,
   webViewCanCopyClipboard,
   webViewCanPasteClipboard,
   webViewCutClipboard,
   webViewCopyClipboard,
   webViewPasteClipboard,
-
+-- ** Undo/Redo
   webViewCanRedo,
   webViewCanUndo,
   webViewRedo,
   webViewUndo,
+-- ** Selection
+  webViewDeleteSelection,
+  webViewHasSelection,
+  webViewSelectAll,
+-- ** Encoding
+  webViewGetEncoding,
+  webViewSetCustomEncoding,
+  webViewGetCustomEncoding,
+-- ** Source Mode
+  webViewGetViewSourceMode,
+  webViewSetViewSourceMode,
+-- ** Transparent
+  webViewGetTransparent,
+  webViewSetTransparent,
+-- ** Target List
+  webViewGetCopyTargetList,
+  webViewGetPasteTargetList,
+-- ** Text Match
+  webViewMarkTextMatches,
+  webViewUnMarkTextMatches,
+  webViewSetHighlightTextMatches,
+-- ** Other
+  webViewExecuteScript,
   
   webViewCanShowMimeType,
   webViewGetEditable,
   webViewSetEditable,
   webViewGetInspector,
-  webViewGetTransparent,
-  webViewSetTransparent,
-  webViewGetViewSourceMode,
-  webViewSetViewSourceMode,
 
-  webViewDeleteSelection,
-  webViewHasSelection,
-  webViewSelectAll,
-
-  webViewGetEncoding,
-  webViewSetCustomEncoding,
-  webViewGetCustomEncoding,
   webViewGetProgress,
 
-  webViewGetCopyTargetList,
-  webViewGetPasteTargetList,
-
   webViewSearchText,
-  webViewMarkTextMatches,
-  webViewUnMarkTextMatches,
-  webViewSetHighlightTextMatches,
 
   webViewMoveCursor,
 
@@ -134,6 +135,10 @@ module Graphics.UI.Gtk.WebKit.WebView (
 #if WEBKIT_CHECK_VERSION (1,1,18)
   webViewGetIconUri,
 #endif
+
+  webViewGetTitle,
+  webViewGetUri,
+
 -- * Attributes
   webViewZoomLevel,
   webViewFullContentZoom,
