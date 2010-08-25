@@ -19,7 +19,7 @@ import Graphics.UI.Gtk.WebKit.WebView
 import Graphics.UI.Gtk.WebKit.WebFrame
 
 import System.Process
-import System.Environment 
+import System.Environment
 
 -- | Main entry.
 main :: IO ()
@@ -28,8 +28,8 @@ main = do
   args <- getArgs
   case args of
     -- Display help
-    ["--help"] -> 
-       putStrLn $ "Welcome to Gtk2hs WebKit demo. :)\n\n" ++ 
+    ["--help"] ->
+       putStrLn $ "Welcome to Gtk2hs WebKit demo. :)\n\n" ++
                   "Usage: webkit [uri]\n\n" ++
                   "  -- Gtk2hs Team"
     -- Start program.
@@ -41,7 +41,7 @@ browser :: String -> IO ()
 browser url = do
   -- Init.
   initGUI
-  
+
   -- Create window.
   window <- windowNew
   windowSetDefaultSize window 900 600
@@ -50,10 +50,10 @@ browser url = do
 
   -- Create WebKit view.
   webView <- webViewNew
-  
+
   -- Create window box.
   winBox <- vBoxNew False 0
-  
+
   -- Create address bar.
   addressBar <- entryNew
 
