@@ -1208,8 +1208,8 @@ newWindowPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__
 --
 -- The 'WebResource' object will be the same throughout all the lifetime of the resource, 
 -- but the contents may change from inbetween signal emissions.
-resourceRequestStarting :: WebViewClass self => Signal self (WebFrame -> WebResource -> NetworkRequest -> NetworkResponse -> IO ())
-resourceRequestStarting = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__NONE "resource-request-starting")
+resourceRequestStarting :: WebViewClass self => Signal self (WebFrame -> WebResource -> Maybe NetworkRequest -> Maybe NetworkResponse -> IO ())
+resourceRequestStarting = Signal (connect_OBJECT_OBJECT_MOBJECT_MOBJECT__NONE "resource-request-starting")
 
 #if WEBKIT_CHECK_VERSION (1,1,23)
 -- | When a frame wants to cancel geolocation permission it had requested before.
