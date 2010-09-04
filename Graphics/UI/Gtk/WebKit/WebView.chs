@@ -975,9 +975,9 @@ titleChanged =
 -- title - the link's title or @Nothing@ in case of failure.
 --
 -- uri - the URI the link points to or @Nothing@ in case of failure.
-hoveringOverLink :: WebViewClass self => Signal self (String -> String -> IO())
+hoveringOverLink :: WebViewClass self => Signal self (Maybe String -> Maybe String -> IO())
 hoveringOverLink =
-    Signal (connect_STRING_STRING__NONE "hovering-over-link")
+    Signal (connect_MSTRING_MSTRING__NONE "hovering-over-link")
 
 -- | When a 'WebFrame' begins to load, this signal is emitted
 loadStarted :: WebViewClass self => Signal self (WebFrame -> IO())

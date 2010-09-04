@@ -15,6 +15,7 @@
 #   FLOAT       for single-precision float types (gfloat)
 #   DOUBLE      for double-precision float types (gdouble)
 #   STRING      for string types (gchar*)
+#   MSTRING     for string types (gchar*) that could be NUL
 #   BOXED       for boxed (anonymous but reference counted) types (GBoxed*)
 #   POINTER     for anonymous pointer types (gpointer)
 #   NONE        deprecated alias for VOID
@@ -57,6 +58,7 @@ NONE:TOBJECT,TOBJECT,MTOBJECT,MTOBJECT
 BOOLEAN:ENUM,INT
 BOOLEAN:NONE
 NONE:NONE
+NONE:MSTRING,MSTRING
 NONE:TOBJECT,STRING
 NONE:TOBJECT,TOBJECT
 NONE:STRING,STRING
