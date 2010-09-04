@@ -1127,9 +1127,9 @@ downloadRequested =
 
 #if WEBKIT_CHECK_VERSION (1,1,18)
 -- | Emitted after Icon loaded
-iconLoaded :: WebViewClass self => Signal self (IO ())
+iconLoaded :: WebViewClass self => Signal self (String -> IO ())
 iconLoaded =
-    Signal (connect_NONE__NONE "icon-loaded")
+    Signal (connect_STRING__NONE "icon-loaded")
 #endif
 
 -- | The "redo" signal is a keybinding signal which gets emitted to redo the last editing command.
