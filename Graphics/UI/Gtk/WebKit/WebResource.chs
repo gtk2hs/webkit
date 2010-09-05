@@ -92,9 +92,9 @@ webResourceGetFrameName wr =
 -- | Get mime type.
 webResourceGetMimeType :: 
    WebResourceClass self => self
- -> IO String
+ -> IO (Maybe String)
 webResourceGetMimeType wr =
-  {#call web_resource_get_mime_type#} (toWebResource wr) >>= peekCString
+  {#call web_resource_get_mime_type#} (toWebResource wr) >>= maybePeek peekCString
 
 -- | Get uri.
 webResourceGetUri :: 
