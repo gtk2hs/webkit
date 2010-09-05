@@ -78,9 +78,9 @@ webResourceNew resData size uri mimeType encoding frameName =
 -- | Get encoding.
 webResourceGetEncoding :: 
    WebResourceClass self => self
- -> IO String
+ -> IO (Maybe String)
 webResourceGetEncoding wr =
-  {#call web_resource_get_encoding#} (toWebResource wr) >>= peekCString
+  {#call web_resource_get_encoding#} (toWebResource wr) >>= maybePeek peekCString
 
 -- | Get frame name.
 webResourceGetFrameName :: 
