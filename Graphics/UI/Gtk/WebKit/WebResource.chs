@@ -85,9 +85,9 @@ webResourceGetEncoding wr =
 -- | Get frame name.
 webResourceGetFrameName :: 
    WebResourceClass self => self
- -> IO String
+ -> IO (Maybe String)
 webResourceGetFrameName wr =
-  {#call web_resource_get_frame_name#} (toWebResource wr) >>= peekCString
+  {#call web_resource_get_frame_name#} (toWebResource wr) >>= maybePeek peekCString
 
 -- | Get mime type.
 webResourceGetMimeType :: 
