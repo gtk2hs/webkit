@@ -24,6 +24,26 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebDatabase (
+-- * Description
+-- | WebKitWebDatabase is a representation of a Web Database database. The proposed Web Database standard
+-- introduces support for SQL databases that web sites can create and access on a local computer
+-- through JavaScript.
+-- 
+-- To get access to all databases defined by a security origin, use
+-- 'securityOriginGetDatabases' Each database has a canonical name, as well as a user-friendly
+-- display name.
+-- 
+-- WebKit uses SQLite to create and access the local SQL databases. The location of a WebKitWebDatabase
+-- can be accessed wth 'webDatabaseGetFilename' You can configure the location of all
+-- databases with 'setDatabaseDirectoryPath'.
+-- 
+-- For each database the web site can define an estimated size which can be accessed with
+-- 'webDatabaseGetExpectedSize' The current size of the database in bytes is returned by
+-- 'webDatabaseGetSize'.
+-- 
+-- For more information refer to the Web Database specification proposal at
+-- http://dev.w3.org/html5/webdatabase
+
 -- * Types
   WebDatabase,
   WebDatabaseClass,

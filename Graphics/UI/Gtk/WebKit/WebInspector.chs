@@ -24,6 +24,14 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebInspector (
+-- * Description
+-- | The WebKit Inspector is a graphical tool to inspect and change the content of a WebKitWebView. It
+-- also includes an interactive JavaScriptDebugger. Using this class one can get a 'Widget' which can
+-- be embedded into an application to show the inspector.
+-- 
+-- The inspector is available when the WebKitWebSettings of the WebKitWebView has set the
+-- 'enableDeveloperExtras' to true otherwise no inspector is available.
+
 -- * Types
   WebInspector,
   WebInspectorClass,

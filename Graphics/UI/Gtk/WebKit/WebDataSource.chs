@@ -29,6 +29,18 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebDataSource (
+-- * Description
+-- | Data source encapsulates the content of a WebKitWebFrame. A WebKitWebFrame has a main resource and
+-- subresources and the data source provides access to these resources. When a request gets loaded
+-- initially, it is set to a provisional state. The application can request for the request that
+-- initiated the load by asking for the provisional data source and invoking the
+-- 'webDataSourceGetInitialRequest' method of WebKitWebDataSource. This data source may not
+-- have enough data and some methods may return empty values. To get a "full" data source with the data
+-- and resources loaded, you need to get the non-provisional data source through WebKitWebFrame's
+-- 'webFrameGetDataSource' method. This data source will have the data after everything was
+-- loaded. Make sure that the data source was finished loading before using any of its methods. You can
+-- do this via 'webDataSourceIsLoading'.
+
 -- * Types
   WebDataSource,
   WebDataSourceClass,
@@ -37,6 +49,7 @@ module Graphics.UI.Gtk.WebKit.WebDataSource (
   webDataSourceNew,
 
 -- * Methods  
+  -- webDataSourceGetData,
   webDataSourceGetEncoding,
   webDataSourceGetInitialRequest,
   webDataSourceGetMainResource,
@@ -66,6 +79,19 @@ import Graphics.UI.Gtk.Gdk.Events
 webDataSourceNew :: IO WebDataSource
 webDataSourceNew = 
     constructNewGObject mkWebDataSource $ {#call web_data_source_new#} 
+
+-- | Returns the raw data that represents the the frame's content.The data will be incomplete until the
+-- data has finished loading. Returns 'Nothing' if the web frame hasn't loaded any data. Use
+-- @webkitWebDataSourceIsLoading@ to test if data source is in the process of loading.
+-- 
+-- webDataSourceGetData :: WebDataSourceClass self => self
+--                      -> IO (Maybe String)
+-- webDataSourceGetData ds = do
+--   ptr <- {#call webkit_web_data_source_get_data #}
+--            (toWebDataSource ds)
+--   if strPtr == nullPtr
+--      then return Nothing
+--      else liftM Just $ peekCStringLen (strPtr, strLen)
 
 -- | Returns the text encoding name as set in the 'WebView', or if not, the text encoding of the response.
 webDataSourceGetEncoding ::

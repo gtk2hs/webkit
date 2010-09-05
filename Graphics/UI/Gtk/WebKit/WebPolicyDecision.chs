@@ -24,6 +24,11 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebPolicyDecision (
+-- * Desciption
+-- | 'WebPolicyDecision' objects are given to the application on signal emissions that deal with
+-- policy decisions, such as if a new window should be opened, or if a given navigation should be
+-- allowed. The application uses it to tell the engine what to do.
+
 -- * Types
   WebPolicyDecision,
   WebPolicyDecisionClass,

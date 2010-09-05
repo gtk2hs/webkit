@@ -24,6 +24,17 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.SecurityOrigin (
+-- * Desciption
+-- | WebKitSecurityOrigin is a representation of a security domain defined by web sites. An origin
+-- consists of a host name, a protocol, and a port number. Web sites with the same security origin can
+-- access each other's resources for client-side scripting or database access.
+-- 
+-- Use 'webFrameGetSecurityOrigin' to get the security origin of a WebKitWebFrame.
+-- 
+-- Database quotas and usages are also defined per security origin. The cumulative disk usage of an
+-- origin's databases may be retrieved with 'securityOriginGetWebDatabaseUsage'. An origin's
+-- quota can be adjusted with 'securityOriginSetWebDatabaseQuota'.
+
 -- * Types
   SecurityOrigin,
   SecurityOriginClass,

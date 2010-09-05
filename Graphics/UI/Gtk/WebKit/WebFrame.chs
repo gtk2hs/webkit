@@ -33,6 +33,12 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebFrame (
+-- * Description
+-- | A WebKitWebView contains a main WebKitWebFrame. A WebKitWebFrame contains the content of one
+-- URI. The URI and name of the frame can be retrieved, the load status and progress can be observed
+-- using the signals and can be controlled using the methods of the WebKitWebFrame. A WebKitWebFrame
+-- can have any number of children and one child can be found by using 'webFrameFindFrame'.
+
 -- * Types
   WebFrame,
   WebFrameClass,

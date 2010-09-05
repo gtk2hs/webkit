@@ -24,6 +24,11 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.SoupAuthDialog (
+-- * Description
+-- | WebKitSoupAuthDialog is a SoupSessionFeature that you can attach to your SoupSession to provide a
+-- simple authentication dialog while handling HTTP basic auth. It is built as a simple C-only module
+-- to ease reuse.
+
 -- * Types
   SoupAuthDialog,
   SoupAuthDialogClass,

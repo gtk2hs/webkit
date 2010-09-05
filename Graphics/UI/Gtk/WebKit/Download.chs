@@ -25,6 +25,11 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.Download (
+-- * Description
+-- | WebKitDownload carries information about a download request, including a WebKitNetworkRequest
+-- object. The application may use this object to control the download process, or to simply figure out
+-- what is to be downloaded, and do it itself.
+
 -- * Types
   Download,
   DownloadClass,

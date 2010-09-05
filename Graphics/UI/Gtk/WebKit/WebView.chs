@@ -38,6 +38,14 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebView (
+-- * Description
+-- | WebKitWebView is the central class of the WebKitGTK+ API. It is a 'Widget' implementing the
+-- scrolling interface which means you can embed in a 'ScrolledWindow'. It is responsible for managing
+-- the drawing of the content, forwarding of events. You can load any URI into the WebKitWebView or any
+-- kind of data string. With WebKitWebSettings you can control various aspects of the rendering and
+-- loading of the content. Each WebKitWebView has exactly one WebKitWebFrame as main frame. A
+-- WebKitWebFrame can have n children.
+
 -- * Types
   WebView,
   WebViewClass,

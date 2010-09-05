@@ -24,6 +24,10 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebSettings (
+-- * Desciption
+-- | WebKitWebSettings can be applied to a WebKitWebView to control the to be used text encoding, color,
+-- font sizes, printing mode, script support, loading of images and various other things.
+
 -- * Types
   WebSettings,
   WebSettingsClass,

@@ -29,6 +29,10 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebResource (
+-- * Description
+-- | A web resource encapsulates the data of the download as well as the URI, MIME type and frame name of
+-- the resource.
+
 -- * Types
   WebResource,
   WebResourceClass,

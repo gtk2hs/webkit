@@ -24,6 +24,12 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.NetworkRequest (
+-- * Description
+-- | This class represents the network related aspects of a navigation request. It is used whenever
+-- WebKit wants to provide information about a request that will be sent, or has been sent. Inside it
+-- you can find the URI of the request, and, for valid URIs, a SoupMessage object, which provides
+-- access to further information such as headers.
+
 -- * Types
   NetworkRequest,
   NetworkRequestClass,

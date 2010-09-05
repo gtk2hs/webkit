@@ -24,6 +24,9 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.NetworkResponse (
+-- * Description
+-- | This class represents the network related aspects of a navigation response.
+
 -- * Types
   NetworkResponse,
   NetworkResponseClass,

@@ -24,6 +24,18 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebWindowFeatures (
+-- * Description
+-- | The content of a WebKitWebView can request to change certain properties of a WebKitWebView. This can
+-- include the x, y position of the window, the width and height but also if a toolbar, scrollbar,
+-- statusbar, locationbar should be visible to the user, the request to show the WebKitWebView
+-- fullscreen.
+-- 
+-- In the normal case one will use 'webViewGetWindowFeatures' to get the
+-- WebKitWebWindowFeatures and then monitor the property changes. Be aware that the
+-- WebKitWebWindowFeatures might change change before 'webViewReady' signal is emitted. To be safe
+-- listen to the 'windowFeatures' signal of the WebKitWebView and reconnect the signals whenever
+-- the WebKitWebWindowFeatures of a WebKitWebView changes.
+
 -- * Types
   WebWindowFeatures,
   WebWindowFeaturesClass,

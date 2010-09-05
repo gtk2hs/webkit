@@ -24,6 +24,12 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.WebHistoryItem (
+-- * Description
+-- | A history item consists out of a title and a uri. It can be part of the WebKitWebBackForwardList and
+-- the global history.  The global history is used for coloring the links of visited
+-- sites. WebKitWebHistoryItem's constructed with 'webHistoryItemNew' and
+-- 'webHistoryItemNewWithData' are automatically added to the global history.
+
 -- * Types
   WebHistoryItem,
   WebHistoryItemClass,

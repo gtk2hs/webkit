@@ -24,6 +24,9 @@
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.HitTestResult (
+-- * Description
+-- | This class holds context information about the coordinates specified by a GDK event.
+
 -- * Types
   HitTestResult,
   HitTestResultClass,
