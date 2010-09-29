@@ -958,34 +958,30 @@ webViewImContext =
 --
 -- It can be used to set the Application 'Window' title.
 --
--- the user function signature is (WebFrame->String->IO())
---
 -- webframe - which 'WebFrame' changes the document title.
 --
 -- title - current title string.
 titleChanged :: WebViewClass self => Signal self ( WebFrame -> String -> IO() )
 titleChanged = 
-    Signal (connect_OBJECT_STRING__NONE "title-changed")
+    Signal (connect_OBJECT_STRING__NONE "title_changed")
 
 
 -- | When the cursor is over a link, this signal is emitted.
--- 
--- the user function signature is (Maybe String -> Maybe String -> IO () )
 -- 
 -- title - the link's title or @Nothing@ in case of failure.
 --
 -- uri - the URI the link points to or @Nothing@ in case of failure.
 hoveringOverLink :: WebViewClass self => Signal self (Maybe String -> Maybe String -> IO())
 hoveringOverLink =
-    Signal (connect_MSTRING_MSTRING__NONE "hovering-over-link")
+    Signal (connect_MSTRING_MSTRING__NONE "hovering_over_link")
 
 -- | When a 'WebFrame' begins to load, this signal is emitted
 loadStarted :: WebViewClass self => Signal self (WebFrame -> IO())
-loadStarted = Signal (connect_OBJECT__NONE "load-started")
+loadStarted = Signal (connect_OBJECT__NONE "load_started")
 
 -- | When a 'WebFrame' loaded the first data, this signal is emitted
 loadCommitted :: WebViewClass self => Signal self (WebFrame -> IO())
-loadCommitted = Signal (connect_OBJECT__NONE "load-committed")
+loadCommitted = Signal (connect_OBJECT__NONE "load_committed")
 
 
 -- | When the global progress changed, this signal is emitted
@@ -993,12 +989,12 @@ loadCommitted = Signal (connect_OBJECT__NONE "load-committed")
 -- the global progress will be passed back to user function
 progressChanged :: WebViewClass self => Signal self (Int-> IO())
 progressChanged = 
-    Signal (connect_INT__NONE "load-progress-changed")
+    Signal (connect_INT__NONE "load_progress_changed")
 
 -- | When loading finished, this signal is emitted
 loadFinished :: WebViewClass self => Signal self (WebFrame -> IO())
 loadFinished = 
-    Signal (connect_OBJECT__NONE "load-finished")
+    Signal (connect_OBJECT__NONE "load_finished")
 
 -- | When An error occurred while loading. 
 --
@@ -1010,10 +1006,10 @@ loadFinished =
 -- 
 -- The URI that triggered the error and the 'GError' will be passed back to user function.
 loadError :: WebViewClass self => Signal self (WebFrame -> String -> GError -> IO Bool)
-loadError = Signal (connect_OBJECT_STRING_BOXED__BOOL "load-error" peek)
+loadError = Signal (connect_OBJECT_STRING_BOXED__BOOL "load_error" peek)
 
 createWebView :: WebViewClass self => Signal self (WebFrame -> IO WebView)
-createWebView = Signal (connect_OBJECT__OBJECTPTR "create-web-view")
+createWebView = Signal (connect_OBJECT__OBJECTPTR "create_web_view")
 
 -- | Emitted when closing a WebView is requested. 
 --
@@ -1025,33 +1021,33 @@ createWebView = Signal (connect_OBJECT__OBJECTPTR "create-web-view")
 -- or False to propagate the event furter
 closeWebView :: WebViewClass self => Signal self (IO Bool)
 closeWebView = 
-    Signal (connect_NONE__BOOL "close-web-view")
+    Signal (connect_NONE__BOOL "close_web_view")
 
 -- | A JavaScript console message was created.
 consoleMessage :: WebViewClass self => Signal self (String -> String -> Int -> String -> IO Bool)
-consoleMessage = Signal (connect_STRING_STRING_INT_STRING__BOOL "console-message")
+consoleMessage = Signal (connect_STRING_STRING_INT_STRING__BOOL "console_message")
 
 -- | The 'copyClipboard' signal is a keybinding signal which gets emitted to copy the selection to the clipboard.
 --
 -- The default bindings for this signal are Ctrl-c and Ctrl-Insert.
 copyClipboard :: WebViewClass self => Signal self (IO ())
-copyClipboard = Signal (connect_NONE__NONE "copy-clipboard")
+copyClipboard = Signal (connect_NONE__NONE "copy_clipboard")
 
 -- | The 'cutClipboard' signal is a keybinding signal which gets emitted to cut the selection to the clipboard.
 --
 -- The default bindings for this signal are Ctrl-x and Shift-Delete.
 cutClipboard :: WebViewClass self => Signal self (IO ())
-cutClipboard = Signal (connect_NONE__NONE "cut-clipboard")
+cutClipboard = Signal (connect_NONE__NONE "cut_clipboard")
 
 -- | The 'pasteClipboard' signal is a keybinding signal which gets emitted to paste the contents of the clipboard into the Web view.
 --
 -- The default bindings for this signal are Ctrl-v and Shift-Insert.
 pasteClipboard :: WebViewClass self => Signal self (IO ())
-pasteClipboard = Signal (connect_NONE__NONE "paste-clipboard")
+pasteClipboard = Signal (connect_NONE__NONE "paste_clipboard")
 
 -- | When a context menu is about to be displayed this signal is emitted.
 populatePopup :: WebViewClass self => Signal self (Menu -> IO ())
-populatePopup = Signal (connect_OBJECT__NONE "populate-popup")
+populatePopup = Signal (connect_OBJECT__NONE "populate_popup")
 
 -- | Emitted when printing is requested by the frame, usually because of a javascript call. 
 -- When handling this signal you should call 'webFramePrintFull' or 'webFramePrint' to do the actual printing.
@@ -1060,7 +1056,7 @@ populatePopup = Signal (connect_OBJECT__NONE "populate-popup")
 -- Notice that this means that if you intend to ignore a print
 -- request you must connect to this signal, and return True.
 printRequested :: WebViewClass self => Signal self (WebFrame -> IO Bool)
-printRequested = Signal (connect_OBJECT__BOOL "print-requested")
+printRequested = Signal (connect_OBJECT__BOOL "print_requested")
 
 -- | A JavaScript alert dialog was created.
 scriptAlert :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
@@ -1068,15 +1064,15 @@ scriptAlert = Signal (connect_OBJECT_STRING__BOOL "scriptAlert")
 
 -- | A JavaScript confirm dialog was created, providing Yes and No buttons.
 scriptConfirm :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
-scriptConfirm = Signal (connect_OBJECT_STRING__BOOL "script-confirm")
+scriptConfirm = Signal (connect_OBJECT_STRING__BOOL "script_confirm")
 
 -- | A JavaScript prompt dialog was created, providing an entry to input text.
 scriptPrompt :: WebViewClass self => Signal self (WebFrame -> String -> String -> IO Bool)
-scriptPrompt = Signal (connect_OBJECT_STRING_STRING__BOOL "script-prompt")
+scriptPrompt = Signal (connect_OBJECT_STRING_STRING__BOOL "script_prompt")
 
 -- | When status-bar text changed, this signal will emitted.
 statusBarTextChanged :: WebViewClass self => Signal self (String -> IO ())
-statusBarTextChanged = Signal (connect_STRING__NONE "status-bar-text-changed")
+statusBarTextChanged = Signal (connect_STRING__NONE "status_bar_text_changed")
 
 
 
@@ -1084,24 +1080,24 @@ statusBarTextChanged = Signal (connect_STRING__NONE "status-bar-text-changed")
 -- 
 -- The default bindings for this signal is Ctrl-a.
 selectAll :: WebViewClass self => Signal self (IO ())
-selectAll = Signal (connect_NONE__NONE "select-all")
+selectAll = Signal (connect_NONE__NONE "select_all")
 
 -- | When selection changed, this signal is emitted.
 selectionChanged :: WebViewClass self => Signal self (IO ())
-selectionChanged = Signal (connect_NONE__NONE "selection-changed")
+selectionChanged = Signal (connect_NONE__NONE "selection_changed")
 
 -- | When set scroll adjustments, this signal is emitted.
 setScrollAdjustments :: WebViewClass self => Signal self (Adjustment -> Adjustment -> IO ())
-setScrollAdjustments = Signal (connect_OBJECT_OBJECT__NONE "set-scroll-adjustments")
+setScrollAdjustments = Signal (connect_OBJECT_OBJECT__NONE "set_scroll_adjustments")
 
 -- | The 'databaseQuotaExceeded' signal will be emitted when a Web Database exceeds the quota of its security origin. 
 -- This signal may be used to increase the size of the quota before the originating operation fails.
 databaseQuotaExceeded :: WebViewClass self => Signal self (WebFrame -> WebDatabase -> IO ())
-databaseQuotaExceeded = Signal (connect_OBJECT_OBJECT__NONE "database-quota-exceeded")
+databaseQuotaExceeded = Signal (connect_OBJECT_OBJECT__NONE "database_quota_exceeded")
 
 -- | When document loading finished, this signal is emitted
 documentLoadFinished :: WebViewClass self => Signal self (WebFrame -> IO ())
-documentLoadFinished = Signal (connect_OBJECT__NONE "document-load-finished")
+documentLoadFinished = Signal (connect_OBJECT__NONE "document_load_finished")
 
 
 -- | Emitted after new 'WebView' instance had been created in 'onCreateWebView' user function
@@ -1112,7 +1108,7 @@ documentLoadFinished = Signal (connect_OBJECT__NONE "document-load-finished")
 -- is ready set.
 webViewReady:: WebViewClass self => Signal self (IO Bool)
 webViewReady =
-    Signal (connect_NONE__BOOL "web-view-ready")
+    Signal (connect_NONE__BOOL "web_view_ready")
 
 -- | Emitted after A new 'Download' is being requested. 
 --
@@ -1123,13 +1119,13 @@ webViewReady =
 -- If you intend to handle downloads yourself, return False in user function.
 downloadRequested :: WebViewClass self => Signal self (Download -> IO Bool)
 downloadRequested =
-    Signal (connect_OBJECT__BOOL "download-requested")
+    Signal (connect_OBJECT__BOOL "download_requested")
 
 #if WEBKIT_CHECK_VERSION (1,1,18)
 -- | Emitted after Icon loaded
 iconLoaded :: WebViewClass self => Signal self (String -> IO ())
 iconLoaded =
-    Signal (connect_STRING__NONE "icon-loaded")
+    Signal (connect_STRING__NONE "icon_loaded")
 #endif
 
 -- | The "redo" signal is a keybinding signal which gets emitted to redo the last editing command.
@@ -1158,11 +1154,11 @@ undo =
 -- And you must call 'webPolicyDecisionIgnore', 'webPolicyDecisionDownload', or 'webPolicyDecisionUse' 
 -- on the 'webPolicyDecision' object.
 mimeTypePolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> NetworkRequest -> String -> WebPolicyDecision -> IO Bool)
-mimeTypePolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_STRING_OBJECT__BOOL "mime-type-policy-decision-requested")
+mimeTypePolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_STRING_OBJECT__BOOL "mime_type_policy_decision_requested")
 
 -- | The 'moveCursor' will be emitted to apply the cursor movement described by its parameters to the view.
 moveCursor :: WebViewClass self => Signal self (MovementStep -> Int -> IO Bool)
-moveCursor = Signal (connect_ENUM_INT__BOOL "move-cursor")
+moveCursor = Signal (connect_ENUM_INT__BOOL "move_cursor")
 
 -- | Emitted when frame requests a navigation to another page. 
 -- If this signal is not handled, the default behavior is to allow the navigation.
@@ -1174,7 +1170,7 @@ moveCursor = Signal (connect_ENUM_INT__BOOL "move-cursor")
 -- And you must call 'webPolicyDecisionIgnore', 'webPolicyDecisionDownload', or 'webPolicyDecisionUse' 
 -- on the 'webPolicyDecision' object.
 navigationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> NetworkRequest -> WebNavigationAction -> WebPolicyDecision -> IO Bool)
-navigationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__BOOL "navigation-policy-decision-requested")
+navigationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__BOOL "navigation_policy_decision_requested")
 
 -- | Emitted when frame requests opening a new window. 
 -- With this signal the browser can use the context of the request to decide about the new window. 
@@ -1192,7 +1188,7 @@ navigationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT_
 -- And you must call 'webPolicyDecisionIgnore', 'webPolicyDecisionDownload', or 'webPolicyDecisionUse' 
 -- on the 'webPolicyDecision' object.
 newWindowPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> NetworkRequest -> WebNavigationAction -> WebPolicyDecision -> IO Bool)
-newWindowPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__BOOL "new-window-policy-decision-requested")
+newWindowPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__BOOL "new_window_policy_decision_requested")
 
 -- | Emitted when a request is about to be sent. 
 -- You can modify the request while handling this signal. 
@@ -1209,14 +1205,14 @@ newWindowPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_OBJECT_OBJECT__
 -- The 'WebResource' object will be the same throughout all the lifetime of the resource, 
 -- but the contents may change from inbetween signal emissions.
 resourceRequestStarting :: WebViewClass self => Signal self (WebFrame -> WebResource -> Maybe NetworkRequest -> Maybe NetworkResponse -> IO ())
-resourceRequestStarting = Signal (connect_OBJECT_OBJECT_MOBJECT_MOBJECT__NONE "resource-request-starting")
+resourceRequestStarting = Signal (connect_OBJECT_OBJECT_MOBJECT_MOBJECT__NONE "resource_request_starting")
 
 #if WEBKIT_CHECK_VERSION (1,1,23)
 -- | When a frame wants to cancel geolocation permission it had requested before.
 --
 -- * Since 1.1.23    
 geolocationPolicyDecisionCancelled :: WebViewClass self => Signal self (WebFrame -> IO ())
-geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation-policy-decision-cancelled")
+geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation_policy_decision_cancelled")
 
 -- | When a frame wants to get its geolocation permission. The receiver must reply with a boolean wether
 -- it handled or not the request. If the request is not handled, default behaviour is to deny
@@ -1224,5 +1220,5 @@ geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation-p
 -- 
 -- * Since 1.1.23    
 geolocationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> GeolocationPolicyDecision -> IO ())
-geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__NONE "geolocation-policy-decision-requested")
+geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__NONE "geolocation_policy_decision_requested")
 #endif

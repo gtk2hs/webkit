@@ -169,26 +169,26 @@ webInspectorWebView =
 --
 -- return True if the signal is handled
 attachWindow :: WebInspectorClass self => Signal self (IO Bool)
-attachWindow = Signal (connect_NONE__BOOL "attach-window")
+attachWindow = Signal (connect_NONE__BOOL "attach_window")
 
 -- | Emitted when the inspector should appear in a separate window.
 --
 -- return True if the signal has been handled                  
 detachWindow :: WebInspectorClass self => Signal self (IO Bool)
-detachWindow = Signal (connect_NONE__BOOL "detach-window")
+detachWindow = Signal (connect_NONE__BOOL "detach_window")
 
 -- | Emitted when the inspector window should be closed. 
 --
 -- return True if the signal is handled.
 closeWindow :: WebInspectorClass self => Signal self (IO Bool)
-closeWindow = Signal (connect_NONE__BOOL "close-window")
+closeWindow = Signal (connect_NONE__BOOL "close_window")
 
 -- | Emitted when the inspector window should be displayed. 
 -- Notice that the window must have been created already by handling 'inspectWebView'.
 --
 -- return True if the signal has been handled                  
 showWindow :: WebInspectorClass self => Signal self (IO Bool)
-showWindow = Signal (connect_NONE__BOOL "show-window")
+showWindow = Signal (connect_NONE__BOOL "show_window")
 
 -- | Emitted when the inspection is done. You should release your references on the inspector at this time. 
 -- The inspected 'WebView' may no longer exist when this signal is emitted.
@@ -202,4 +202,4 @@ finished = Signal (connect_NONE__NONE "finished")
 -- You don't need to handle the reference count of the 'WebView' instance you create; 
 -- the widget to which you add it will do that.
 inspectWebView :: WebInspectorClass self => Signal self (WebView -> IO WebView)
-inspectWebView = Signal (connect_OBJECT__OBJECTPTR "inspect-web-view")
+inspectWebView = Signal (connect_OBJECT__OBJECTPTR "inspect_web_view")
