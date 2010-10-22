@@ -87,7 +87,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- automatically added to the global history.
 webHistoryItemNew :: IO WebHistoryItem
 webHistoryItemNew = 
-    constructNewGObject mkWebHistoryItem $ {#call web_history_item_new#}
+    wrapNewGObject mkWebHistoryItem $ {#call web_history_item_new#}
 
 
 -- | Create a new 'WebHistoryItem' instance with the given @uri@ and @title@.
@@ -101,7 +101,7 @@ webHistoryItemNewWithData ::
 webHistoryItemNewWithData uri title = 
     withCString uri $ \uriPtr ->
     withCString title $ \titlePtr ->
-    constructNewGObject mkWebHistoryItem $
+    wrapNewGObject mkWebHistoryItem $
       {#call web_history_item_new_with_data#} 
         uriPtr 
         titlePtr

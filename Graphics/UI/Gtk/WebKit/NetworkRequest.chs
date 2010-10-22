@@ -70,7 +70,7 @@ networkRequestNew ::
  -> IO NetworkRequest
 networkRequestNew uri = 
     withCString uri $ \uriPtr -> 
-      constructNewGObject mkNetworkRequest $ 
+      wrapNewGObject mkNetworkRequest $ 
         {#call network_request_new#} uriPtr
 
 

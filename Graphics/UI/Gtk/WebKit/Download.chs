@@ -106,7 +106,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- Object used to communicate with the application when downloading.
 downloadNew :: NetworkRequestClass request => request -> IO Download
 downloadNew nr = 
-    makeNewGObject mkDownload $ {#call download_new#} (toNetworkRequest nr)
+    wrapNewGObject mkDownload $ {#call download_new#} (toNetworkRequest nr)
 
 -- | Initiates the 'Download'.
 --

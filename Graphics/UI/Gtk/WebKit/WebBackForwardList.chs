@@ -72,7 +72,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- | Create an WebBackForwardList with a controlling WebView.
 webBackForwardListNewWithWebView :: (WebViewClass webview) => webview -> IO WebBackForwardList
 webBackForwardListNewWithWebView webview = 
-    constructNewGObject mkWebBackForwardList $ 
+    wrapNewGObject mkWebBackForwardList $ 
       {#call web_back_forward_list_new_with_web_view#} 
         (toWebView webview)
 

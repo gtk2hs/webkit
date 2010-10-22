@@ -78,7 +78,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- The URL of the 'WebDataSource' will be set to "about:blank".
 webDataSourceNew :: IO WebDataSource
 webDataSourceNew = 
-    constructNewGObject mkWebDataSource $ {#call web_data_source_new#} 
+    wrapNewGObject mkWebDataSource $ {#call web_data_source_new#} 
 
 -- | Returns the raw data that represents the the frame's content.The data will be incomplete until the
 -- data has finished loading. Returns 'Nothing' if the web frame hasn't loaded any data. Use

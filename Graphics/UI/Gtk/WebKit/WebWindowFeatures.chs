@@ -81,7 +81,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- It must be manually attached to a WebView.
 webWindowFeaturesNew :: IO WebWindowFeatures
 webWindowFeaturesNew = 
-    constructNewGObject mkWebWindowFeatures $ {#call web_window_features_new#}
+    wrapNewGObject mkWebWindowFeatures $ {#call web_window_features_new#}
 
 -- | Decides if a 'WebWindowFeatures' instance equals another, as in has the same values.
 webWindowFeaturesEqual :: 

@@ -102,7 +102,7 @@ webFrameNew ::
     WebViewClass webview => webview  -- ^ @webview@ - the given webview
  -> IO WebFrame
 webFrameNew webview =  
-    constructNewGObject mkWebFrame $ {#call web_frame_new#} (toWebView webview)
+    wrapNewGObject mkWebFrame $ {#call web_frame_new#} (toWebView webview)
 
 -- | Return the 'WebView' that manages the given 'WebFrame'.
 webFrameGetWebView :: 

@@ -123,7 +123,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- printing mode,script support, loading of images and various other things.
 webSettingsNew :: IO WebSettings
 webSettingsNew = 
-    constructNewGObject mkWebSettings $ {#call web_settings_new#}
+    wrapNewGObject mkWebSettings $ {#call web_settings_new#}
 
 
 -- | Copy an existing 'WebSettings' instance.

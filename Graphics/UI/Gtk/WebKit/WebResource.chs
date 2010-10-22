@@ -72,7 +72,7 @@ webResourceNew resData size uri mimeType encoding frameName =
    withCString mimeType $ \mimePtr ->
    withCString encoding $ \encodingPtr ->
    withCString frameName $ \framePtr -> 
-   constructNewGObject mkWebResource $ 
+   wrapNewGObject mkWebResource $ 
      {#call web_resource_new#} dataPtr (fromIntegral size) uriPtr mimePtr encodingPtr framePtr
 
 -- | Get encoding.
