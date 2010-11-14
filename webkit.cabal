@@ -50,7 +50,9 @@ Library
         build-tools:    gtk2hsC2hs, gtk2hsHookGenerator, gtk2hsTypeGen
 		
         exposed-modules:
+          Graphics.UI.Gtk.WebKit.CacheModel
           Graphics.UI.Gtk.WebKit.Download
+          Graphics.UI.Gtk.WebKit.GeolocationPolicyDecision
           Graphics.UI.Gtk.WebKit.HitTestResult
           Graphics.UI.Gtk.WebKit.NetworkRequest
           Graphics.UI.Gtk.WebKit.NetworkResponse
@@ -68,8 +70,6 @@ Library
           Graphics.UI.Gtk.WebKit.WebSettings
           Graphics.UI.Gtk.WebKit.WebView
           Graphics.UI.Gtk.WebKit.WebWindowFeatures
-          Graphics.UI.Gtk.WebKit.CacheModel
-          Graphics.UI.Gtk.WebKit.GeolocationPolicyDecision
         other-modules:
           Graphics.UI.Gtk.WebKit.Internal
           Graphics.UI.Gtk.WebKit.Types		  
