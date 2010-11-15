@@ -49,7 +49,7 @@ module Graphics.UI.Gtk.WebKit.WebDataSource (
   webDataSourceNew,
 
 -- * Methods  
-  -- webDataSourceGetData,
+  webDataSourceGetData,
   webDataSourceGetEncoding,
   webDataSourceGetInitialRequest,
   webDataSourceGetMainResource,
@@ -65,6 +65,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
+import System.Glib.GString
 import System.Glib.GError 
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -83,15 +84,12 @@ webDataSourceNew =
 -- | Returns the raw data that represents the the frame's content.The data will be incomplete until the
 -- data has finished loading. Returns 'Nothing' if the web frame hasn't loaded any data. Use
 -- @webkitWebDataSourceIsLoading@ to test if data source is in the process of loading.
--- 
--- webDataSourceGetData :: WebDataSourceClass self => self
---                      -> IO (Maybe String)
--- webDataSourceGetData ds = do
---   ptr <- {#call webkit_web_data_source_get_data #}
---            (toWebDataSource ds)
---   if strPtr == nullPtr
---      then return Nothing
---      else liftM Just $ peekCStringLen (strPtr, strLen)
+webDataSourceGetData :: WebDataSourceClass self => self
+                     -> IO (Maybe String)
+webDataSourceGetData ds = do
+  gstr <- {#call webkit_web_data_source_get_data #}
+                 (toWebDataSource ds)
+  readGString gstr
 
 -- | Returns the text encoding name as set in the 'WebView', or if not, the text encoding of the response.
 webDataSourceGetEncoding ::
