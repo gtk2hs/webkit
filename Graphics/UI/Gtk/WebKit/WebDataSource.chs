@@ -81,7 +81,7 @@ webDataSourceNew :: IO WebDataSource
 webDataSourceNew = 
     wrapNewGObject mkWebDataSource $ {#call web_data_source_new#} 
 
--- | Returns the raw data that represents the the frame's content.The data will be incomplete until the
+-- | Returns the raw data that represents the the frame's content. The data will be incomplete until the
 -- data has finished loading. Returns 'Nothing' if the web frame hasn't loaded any data. Use
 -- @webkitWebDataSourceIsLoading@ to test if data source is in the process of loading.
 webDataSourceGetData :: WebDataSourceClass self => self
