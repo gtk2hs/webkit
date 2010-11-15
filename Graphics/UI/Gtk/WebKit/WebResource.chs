@@ -41,6 +41,7 @@ module Graphics.UI.Gtk.WebKit.WebResource (
   webResourceNew,
 
 -- * Methods  
+  webResourceGetData,
   webResourceGetEncoding,
   webResourceGetFrameName,
   webResourceGetMimeType,
@@ -52,6 +53,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
+import System.Glib.GString
 import System.Glib.GError 
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -74,6 +76,11 @@ webResourceNew resData size uri mimeType encoding frameName =
    withCString frameName $ \framePtr -> 
    wrapNewGObject mkWebResource $ 
      {#call web_resource_new#} dataPtr (fromIntegral size) uriPtr mimePtr encodingPtr framePtr
+
+-- | Returns the data of the WebResource.
+webResourceGetData :: WebResourceClass self => self -> IO (Maybe String)
+webResourceGetData wr =
+  {#call web_resource_get_data#} (toWebResource wr) >>= readGString
 
 -- | Get encoding.
 webResourceGetEncoding :: 
