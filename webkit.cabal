@@ -19,7 +19,7 @@ Description:    WebKit is a web content engine, derived from KHTML and KJS from 
                 supports DOM, XMLHttpRequest, XSLT, CSS, Javascript/ECMAscript and more.
 
 Category:       Graphics
-Tested-With:    GHC == 6.12.1
+Tested-With:    GHC == 6.10.4, GHC == 6.12.3, GHC == 7.0.4, GHC == 7.2.1
 Extra-Source-Files: hswebkit.h
                     SetupWrapper.hs SetupMain.hs Gtk2HsSetup.hs
                     marshal.list
