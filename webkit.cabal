@@ -6,7 +6,7 @@ Copyright:      (c) 2001-2010 The Gtk2Hs Team
 Author:         Cjacker Huang, Andy Stewart, Axel Simon
 Maintainer:     gtk2hs-users@sourceforge.net
 Build-Type:     Custom
-Cabal-Version:  >= 1.6.0
+Cabal-Version:  >= 1.8
 Stability:      provisional
 homepage:       http://www.haskell.org/gtk2hs/
 bug-reports:    http://hackage.haskell.org/trac/gtk2hs/
@@ -21,7 +21,7 @@ Description:    WebKit is a web content engine, derived from KHTML and KJS from 
 Category:       Graphics
 Tested-With:    GHC == 6.12.1
 Extra-Source-Files: hswebkit.h
-                    Gtk2HsSetup.hs
+                    SetupWrapper.hs SetupMain.hs Gtk2HsSetup.hs
                     marshal.list
 					hierarchy.list
 					
