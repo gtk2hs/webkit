@@ -4,11 +4,11 @@ License:        LGPL-2.1
 License-file:   COPYING
 Copyright:      (c) 2001-2010 The Gtk2Hs Team
 Author:         Cjacker Huang, Andy Stewart, Axel Simon
-Maintainer:     gtk2hs-users@sourceforge.net
+Maintainer:     gtk2hs-users@lists.sourceforge.net
 Build-Type:     Custom
 Cabal-Version:  >= 1.8
 Stability:      provisional
-homepage:       http://www.haskell.org/gtk2hs/
+homepage:       http://projects.haskell.org/gtk2hs/
 bug-reports:    http://hackage.haskell.org/trac/gtk2hs/
 Synopsis:       Binding to the Webkit library.
 Description:    WebKit is a web content engine, derived from KHTML and KJS from KDE, and
