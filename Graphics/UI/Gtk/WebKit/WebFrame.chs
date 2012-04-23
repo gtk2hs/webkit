@@ -153,7 +153,7 @@ webFrameGetParent webframe =
 
 -- | Determines the current status of the load.
 --
--- frame :   a WebKitWebView 
+-- frame :   a WebKitWebView
 --                          
 -- * Since 1.1.7
 webFrameGetLoadStatus ::
