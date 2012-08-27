@@ -24,4 +24,7 @@
 
 /* include webkit headers*/
 #include <webkit/webkit.h>
+#include <webkit/webkitdom.h>
 #endif
+
+#include "events.h"

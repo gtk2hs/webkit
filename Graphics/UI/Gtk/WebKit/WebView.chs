@@ -213,6 +213,7 @@ module Graphics.UI.Gtk.WebKit.WebView (
   geolocationPolicyDecisionCancelled,
   geolocationPolicyDecisionRequested,
 #endif
+  webViewGetDomDocument,
 ) where
 
 import Control.Monad		(liftM)
@@ -1222,3 +1223,8 @@ geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation_p
 geolocationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> GeolocationPolicyDecision -> IO ())
 geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__NONE "geolocation_policy_decision_requested")
 #endif
+
+webViewGetDomDocument :: WebView -> IO Document
+webViewGetDomDocument webview =
+  makeNewGObject mkDocument $ {#call webkit_web_view_get_dom_document#} webview
+
