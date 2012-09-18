@@ -1,12 +1,13 @@
 module Graphics.UI.Gtk.WebKit.DOM.Node
-       (nodeHasChildNodes, nodeCloneNode, nodeNormalize, nodeIsSupported,
-        nodeHasAttributes, nodeIsSameNode, nodeIsEqualNode,
-        nodeLookupPrefix, nodeIsDefaultNamespace, nodeLookupNamespaceURI,
-        nodeCompareDocumentPosition, nodeContains, nodeDispatchEvent,
-        cELEMENT_NODE, cATTRIBUTE_NODE, cTEXT_NODE, cCDATA_SECTION_NODE,
-        cENTITY_REFERENCE_NODE, cENTITY_NODE, cPROCESSING_INSTRUCTION_NODE,
-        cCOMMENT_NODE, cDOCUMENT_NODE, cDOCUMENT_TYPE_NODE,
-        cDOCUMENT_FRAGMENT_NODE, cNOTATION_NODE,
+       (nodeInsertBefore, nodeReplaceChild, nodeRemoveChild,
+        nodeAppendChild, nodeHasChildNodes, nodeCloneNode, nodeNormalize,
+        nodeIsSupported, nodeHasAttributes, nodeIsSameNode,
+        nodeIsEqualNode, nodeLookupPrefix, nodeIsDefaultNamespace,
+        nodeLookupNamespaceURI, nodeCompareDocumentPosition, nodeContains,
+        nodeDispatchEvent, cELEMENT_NODE, cATTRIBUTE_NODE, cTEXT_NODE,
+        cCDATA_SECTION_NODE, cENTITY_REFERENCE_NODE, cENTITY_NODE,
+        cPROCESSING_INSTRUCTION_NODE, cCOMMENT_NODE, cDOCUMENT_NODE,
+        cDOCUMENT_TYPE_NODE, cDOCUMENT_FRAGMENT_NODE, cNOTATION_NODE,
         cDOCUMENT_POSITION_DISCONNECTED, cDOCUMENT_POSITION_PRECEDING,
         cDOCUMENT_POSITION_FOLLOWING, cDOCUMENT_POSITION_CONTAINS,
         cDOCUMENT_POSITION_CONTAINED_BY,
@@ -24,6 +25,52 @@ import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+ 
+nodeInsertBefore ::
+                 (NodeClass self, NodeClass newChild, NodeClass refChild) =>
+                   self -> Maybe newChild -> Maybe refChild -> IO (Maybe Node)
+nodeInsertBefore self newChild refChild
+  = maybeNull (makeNewGObject mkNode)
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_node_insert_before #} (toNode self)
+             (maybe (Node nullForeignPtr) toNode newChild)
+             (maybe (Node nullForeignPtr) toNode refChild)
+             errorPtr_)
+ 
+nodeReplaceChild ::
+                 (NodeClass self, NodeClass newChild, NodeClass oldChild) =>
+                   self -> Maybe newChild -> Maybe oldChild -> IO (Maybe Node)
+nodeReplaceChild self newChild oldChild
+  = maybeNull (makeNewGObject mkNode)
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_node_replace_child #} (toNode self)
+             (maybe (Node nullForeignPtr) toNode newChild)
+             (maybe (Node nullForeignPtr) toNode oldChild)
+             errorPtr_)
+ 
+nodeRemoveChild ::
+                (NodeClass self, NodeClass oldChild) =>
+                  self -> Maybe oldChild -> IO (Maybe Node)
+nodeRemoveChild self oldChild
+  = maybeNull (makeNewGObject mkNode)
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_node_remove_child #} (toNode self)
+             (maybe (Node nullForeignPtr) toNode oldChild)
+             errorPtr_)
+ 
+nodeAppendChild ::
+                (NodeClass self, NodeClass newChild) =>
+                  self -> Maybe newChild -> IO (Maybe Node)
+nodeAppendChild self newChild
+  = maybeNull (makeNewGObject mkNode)
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_node_append_child #} (toNode self)
+             (maybe (Node nullForeignPtr) toNode newChild)
+             errorPtr_)
  
 nodeHasChildNodes :: (NodeClass self) => self -> IO Bool
 nodeHasChildNodes self
