@@ -212,8 +212,9 @@ Library
 
         if flag(gtk3)
           x-Types-Hierarchy:  hierarchy3.list
+          pkgconfig-depends: webkitgtk-3.0 >= 1.1.15
         else
           x-Types-Hierarchy:  hierarchy.list
+          pkgconfig-depends: webkit-1.0 >= 1.1.15
 
         x-c2hs-Header:  hswebkit.h
-        pkgconfig-depends: webkit-1.0 >= 1.1.15
