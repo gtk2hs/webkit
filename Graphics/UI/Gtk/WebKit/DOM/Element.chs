@@ -16,9 +16,10 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
         elementGetClientWidth, elementGetClientHeight,
         elementSetScrollLeft, elementGetScrollLeft, elementSetScrollTop,
         elementGetScrollTop, elementGetScrollWidth, elementGetScrollHeight,
+        elementSetClassName, elementGetClassName, elementGetClassList,
         elementGetFirstElementChild, elementGetLastElementChild,
         elementGetPreviousElementSibling, elementGetNextElementSibling,
-        elementGetChildElementCount, elementGetWebkitRegionOverflow,
+        elementGetChildElementCount, elementGetWebkitRegionOverset,
         elementOnabort, elementOnblur, elementOnchange, elementOnclick,
         elementOncontextmenu, elementOndblclick, elementOndrag,
         elementOndragend, elementOndragenter, elementOndragleave,
@@ -383,6 +384,26 @@ elementGetScrollHeight self
   = fromIntegral <$>
       ({# call webkit_dom_element_get_scroll_height #} (toElement self))
  
+elementSetClassName ::
+                    (ElementClass self) => self -> String -> IO ()
+elementSetClassName self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_element_set_class_name #} (toElement self)
+          valPtr
+ 
+elementGetClassName :: (ElementClass self) => self -> IO String
+elementGetClassName self
+  = ({# call webkit_dom_element_get_class_name #} (toElement self))
+      >>=
+      readUTFString
+ 
+elementGetClassList ::
+                    (ElementClass self) => self -> IO (Maybe DOMTokenList)
+elementGetClassList self
+  = maybeNull (makeNewGObject mkDOMTokenList)
+      ({# call webkit_dom_element_get_class_list #} (toElement self))
+ 
 elementGetFirstElementChild ::
                             (ElementClass self) => self -> IO (Maybe Element)
 elementGetFirstElementChild self
@@ -418,10 +439,10 @@ elementGetChildElementCount self
       ({# call webkit_dom_element_get_child_element_count #}
          (toElement self))
  
-elementGetWebkitRegionOverflow ::
-                               (ElementClass self) => self -> IO String
-elementGetWebkitRegionOverflow self
-  = ({# call webkit_dom_element_get_webkit_region_overflow #}
+elementGetWebkitRegionOverset ::
+                              (ElementClass self) => self -> IO String
+elementGetWebkitRegionOverset self
+  = ({# call webkit_dom_element_get_webkit_region_overset #}
        (toElement self))
       >>=
       readUTFString

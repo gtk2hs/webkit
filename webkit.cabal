@@ -24,6 +24,7 @@ Extra-Source-Files: hswebkit.h
                     SetupWrapper.hs SetupMain.hs Gtk2HsSetup.hs
                     marshal.list
                     hierarchy.list
+                    hierarchy3.list
 
 Data-Dir:       demo
 Data-Files:     Webkit.hs
@@ -39,6 +40,10 @@ x-Types-Hierarchy:  hierarchy.list
 Source-Repository head
   type:         darcs
   location:     http://code.haskell.org/webkit/
+
+Flag gtk3
+  Description: Use GTK3 rather than GTK2
+  Default: False
 
 Library
         build-depends:  base >= 4 && < 5,
@@ -204,6 +209,11 @@ Library
         x-Signals-Modname: Graphics.UI.Gtk.WebKit.Signals
         x-Signals-Types: marshal.list
         x-Signals-Import: Graphics.UI.GtkInternals
+
+        if flag(gtk3)
+          x-Types-Hierarchy:  hierarchy3.list
+        else
+          x-Types-Hierarchy:  hierarchy.list
 
         x-c2hs-Header:  hswebkit.h
         pkgconfig-depends: webkit-1.0 >= 1.1.15

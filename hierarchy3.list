@@ -48,8 +48,7 @@
         GtkTextMark
 	    GtkSourceMarker	if sourceview
             GtkSourceMark       if gtksourceview2
-        GtkObject
-            GtkWidget
+        GtkWidget
                 GtkMisc
                     GtkLabel
                         GtkAccelLabel

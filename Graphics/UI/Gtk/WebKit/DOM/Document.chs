@@ -16,40 +16,41 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentElementFromPoint, documentCaretRangeFromPoint,
         documentCreateCSSStyleDeclaration, documentGetElementsByClassName,
         documentQuerySelector, documentQuerySelectorAll,
-        documentWebkitGetFlowByName, documentGetDoctype,
-        documentGetImplementation, documentGetDocumentElement,
-        documentGetInputEncoding, documentGetXmlEncoding,
-        documentSetXmlVersion, documentGetXmlVersion,
-        documentSetXmlStandalone, documentGetXmlStandalone,
-        documentSetDocumentURI, documentGetDocumentURI,
-        documentGetDefaultView, documentGetStyleSheets, documentSetTitle,
-        documentGetTitle, documentGetReferrer, documentGetDomain,
-        documentSetCookie, documentGetCookie, documentSetBody,
-        documentGetBody, documentGetHead, documentGetImages,
-        documentGetApplets, documentGetLinks, documentGetForms,
-        documentGetAnchors, documentGetLastModified, documentSetCharset,
-        documentGetCharset, documentGetDefaultCharset,
-        documentGetReadyState, documentGetCharacterSet,
-        documentGetPreferredStylesheetSet,
+        documentGetDoctype, documentGetImplementation,
+        documentGetDocumentElement, documentGetInputEncoding,
+        documentGetXmlEncoding, documentSetXmlVersion,
+        documentGetXmlVersion, documentSetXmlStandalone,
+        documentGetXmlStandalone, documentSetDocumentURI,
+        documentGetDocumentURI, documentGetDefaultView,
+        documentGetStyleSheets, documentSetTitle, documentGetTitle,
+        documentGetReferrer, documentGetDomain, documentSetCookie,
+        documentGetCookie, documentSetBody, documentGetBody,
+        documentGetHead, documentGetImages, documentGetApplets,
+        documentGetLinks, documentGetForms, documentGetAnchors,
+        documentGetLastModified, documentSetCharset, documentGetCharset,
+        documentGetDefaultCharset, documentGetReadyState,
+        documentGetCharacterSet, documentGetPreferredStylesheetSet,
         documentSetSelectedStylesheetSet, documentGetSelectedStylesheetSet,
-        documentGetCompatMode, documentOnabort, documentOnblur,
-        documentOnchange, documentOnclick, documentOncontextmenu,
-        documentOndblclick, documentOndrag, documentOndragend,
-        documentOndragenter, documentOndragleave, documentOndragover,
-        documentOndragstart, documentOndrop, documentOnerror,
-        documentOnfocus, documentOninput, documentOninvalid,
-        documentOnkeydown, documentOnkeypress, documentOnkeyup,
-        documentOnload, documentOnmousedown, documentOnmousemove,
-        documentOnmouseout, documentOnmouseover, documentOnmouseup,
-        documentOnmousewheel, documentOnreadystatechange, documentOnscroll,
-        documentOnselect, documentOnsubmit, documentOnbeforecut,
-        documentOncut, documentOnbeforecopy, documentOncopy,
-        documentOnbeforepaste, documentOnpaste, documentOnreset,
-        documentOnsearch, documentOnselectstart, documentOnselectionchange,
+        documentGetCompatMode, documentGetWebkitPointerLockElement,
+        documentOnabort, documentOnblur, documentOnchange, documentOnclick,
+        documentOncontextmenu, documentOndblclick, documentOndrag,
+        documentOndragend, documentOndragenter, documentOndragleave,
+        documentOndragover, documentOndragstart, documentOndrop,
+        documentOnerror, documentOnfocus, documentOninput,
+        documentOninvalid, documentOnkeydown, documentOnkeypress,
+        documentOnkeyup, documentOnload, documentOnmousedown,
+        documentOnmousemove, documentOnmouseout, documentOnmouseover,
+        documentOnmouseup, documentOnmousewheel,
+        documentOnreadystatechange, documentOnscroll, documentOnselect,
+        documentOnsubmit, documentOnbeforecut, documentOncut,
+        documentOnbeforecopy, documentOncopy, documentOnbeforepaste,
+        documentOnpaste, documentOnreset, documentOnsearch,
+        documentOnselectstart, documentOnselectionchange,
         documentOntouchstart, documentOntouchmove, documentOntouchend,
         documentOntouchcancel, documentOnwebkitfullscreenchange,
-        documentOnwebkitfullscreenerror, documentGetWebkitVisibilityState,
-        documentGetWebkitHidden)
+        documentOnwebkitfullscreenerror, documentOnwebkitpointerlockchange,
+        documentOnwebkitpointerlockerror, documentGetWebkitVisibilityState,
+        documentGetWebkitHidden, documentGetSecurityPolicy)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -481,17 +482,6 @@ documentQuerySelectorAll self selectors
                  selectorsPtr
              errorPtr_)
  
-documentWebkitGetFlowByName ::
-                            (DocumentClass self) =>
-                              self -> String -> IO (Maybe WebKitNamedFlow)
-documentWebkitGetFlowByName self name
-  = maybeNull (makeNewGObject mkWebKitNamedFlow)
-      (withUTFString name $
-         \ namePtr ->
-           {# call webkit_dom_document_webkit_get_flow_by_name #}
-             (toDocument self)
-             namePtr)
- 
 documentGetDoctype ::
                    (DocumentClass self) => self -> IO (Maybe DocumentType)
 documentGetDoctype self
@@ -756,6 +746,13 @@ documentGetCompatMode self
       >>=
       readUTFString
  
+documentGetWebkitPointerLockElement ::
+                                    (DocumentClass self) => self -> IO (Maybe Element)
+documentGetWebkitPointerLockElement self
+  = maybeNull (makeNewGObject mkElement)
+      ({# call webkit_dom_document_get_webkit_pointer_lock_element #}
+         (toDocument self))
+ 
 documentOnabort ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnabort = (connect "abort")
@@ -945,6 +942,16 @@ documentOnwebkitfullscreenerror ::
                                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitfullscreenerror = (connect "webkitfullscreenerror")
  
+documentOnwebkitpointerlockchange ::
+                                  (DocumentClass self) => Signal self (EventM UIEvent self ())
+documentOnwebkitpointerlockchange
+  = (connect "webkitpointerlockchange")
+ 
+documentOnwebkitpointerlockerror ::
+                                 (DocumentClass self) => Signal self (EventM UIEvent self ())
+documentOnwebkitpointerlockerror
+  = (connect "webkitpointerlockerror")
+ 
 documentGetWebkitVisibilityState ::
                                  (DocumentClass self) => self -> IO String
 documentGetWebkitVisibilityState self
@@ -957,4 +964,11 @@ documentGetWebkitHidden :: (DocumentClass self) => self -> IO Bool
 documentGetWebkitHidden self
   = toBool <$>
       ({# call webkit_dom_document_get_webkit_hidden #}
+         (toDocument self))
+ 
+documentGetSecurityPolicy ::
+                          (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
+documentGetSecurityPolicy self
+  = maybeNull (makeNewGObject mkDOMSecurityPolicy)
+      ({# call webkit_dom_document_get_security_policy #}
          (toDocument self))

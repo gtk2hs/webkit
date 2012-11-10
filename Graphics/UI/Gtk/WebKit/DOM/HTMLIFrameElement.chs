@@ -7,8 +7,10 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLIFrameElement
         htmliFrameElementSetMarginWidth, htmliFrameElementGetMarginWidth,
         htmliFrameElementSetName, htmliFrameElementGetName,
         htmliFrameElementSetSandbox, htmliFrameElementGetSandbox,
+        htmliFrameElementSetSeamless, htmliFrameElementGetSeamless,
         htmliFrameElementSetScrolling, htmliFrameElementGetScrolling,
         htmliFrameElementSetSrc, htmliFrameElementGetSrc,
+        htmliFrameElementSetSrcdoc, htmliFrameElementGetSrcdoc,
         htmliFrameElementSetWidth, htmliFrameElementGetWidth,
         htmliFrameElementGetContentDocument,
         htmliFrameElementGetContentWindow)
@@ -156,6 +158,20 @@ htmliFrameElementGetSandbox self
       >>=
       readUTFString
  
+htmliFrameElementSetSeamless ::
+                             (HTMLIFrameElementClass self) => self -> Bool -> IO ()
+htmliFrameElementSetSeamless self val
+  = {# call webkit_dom_html_iframe_element_set_seamless #}
+      (toHTMLIFrameElement self)
+      (fromBool val)
+ 
+htmliFrameElementGetSeamless ::
+                             (HTMLIFrameElementClass self) => self -> IO Bool
+htmliFrameElementGetSeamless self
+  = toBool <$>
+      ({# call webkit_dom_html_iframe_element_get_seamless #}
+         (toHTMLIFrameElement self))
+ 
 htmliFrameElementSetScrolling ::
                               (HTMLIFrameElementClass self) => self -> String -> IO ()
 htmliFrameElementSetScrolling self val
@@ -186,6 +202,23 @@ htmliFrameElementGetSrc ::
                         (HTMLIFrameElementClass self) => self -> IO String
 htmliFrameElementGetSrc self
   = ({# call webkit_dom_html_iframe_element_get_src #}
+       (toHTMLIFrameElement self))
+      >>=
+      readUTFString
+ 
+htmliFrameElementSetSrcdoc ::
+                           (HTMLIFrameElementClass self) => self -> String -> IO ()
+htmliFrameElementSetSrcdoc self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_iframe_element_set_srcdoc #}
+          (toHTMLIFrameElement self)
+          valPtr
+ 
+htmliFrameElementGetSrcdoc ::
+                           (HTMLIFrameElementClass self) => self -> IO String
+htmliFrameElementGetSrcdoc self
+  = ({# call webkit_dom_html_iframe_element_get_srcdoc #}
        (toHTMLIFrameElement self))
       >>=
       readUTFString

@@ -1,9 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.CSSRule
        (cUNKNOWN_RULE, cSTYLE_RULE, cCHARSET_RULE, cIMPORT_RULE,
         cMEDIA_RULE, cFONT_FACE_RULE, cPAGE_RULE, cWEBKIT_KEYFRAMES_RULE,
-        cWEBKIT_KEYFRAME_RULE, cWEBKIT_REGION_RULE, cssRuleSetCssText,
-        cssRuleGetCssText, cssRuleGetParentStyleSheet,
-        cssRuleGetParentRule)
+        cWEBKIT_KEYFRAME_RULE, cssRuleSetCssText, cssRuleGetCssText,
+        cssRuleGetParentStyleSheet, cssRuleGetParentRule)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -20,7 +19,6 @@ cFONT_FACE_RULE = 5
 cPAGE_RULE = 6
 cWEBKIT_KEYFRAMES_RULE = 7
 cWEBKIT_KEYFRAME_RULE = 8
-cWEBKIT_REGION_RULE = 10
  
 cssRuleSetCssText :: (CSSRuleClass self) => self -> String -> IO ()
 cssRuleSetCssText self val

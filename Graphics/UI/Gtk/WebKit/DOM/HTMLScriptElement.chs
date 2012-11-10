@@ -5,7 +5,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLScriptElement
         htmlScriptElementSetCharset, htmlScriptElementGetCharset,
         htmlScriptElementSetAsync, htmlScriptElementGetAsync,
         htmlScriptElementSetDefer, htmlScriptElementGetDefer,
-        htmlScriptElementSetSrc, htmlScriptElementGetSrc)
+        htmlScriptElementSetSrc, htmlScriptElementGetSrc,
+        htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
+        htmlScriptElementSetNonce, htmlScriptElementGetNonce)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -123,6 +125,40 @@ htmlScriptElementGetSrc ::
                         (HTMLScriptElementClass self) => self -> IO String
 htmlScriptElementGetSrc self
   = ({# call webkit_dom_html_script_element_get_src #}
+       (toHTMLScriptElement self))
+      >>=
+      readUTFString
+ 
+htmlScriptElementSetCrossOrigin ::
+                                (HTMLScriptElementClass self) => self -> String -> IO ()
+htmlScriptElementSetCrossOrigin self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_script_element_set_cross_origin #}
+          (toHTMLScriptElement self)
+          valPtr
+ 
+htmlScriptElementGetCrossOrigin ::
+                                (HTMLScriptElementClass self) => self -> IO String
+htmlScriptElementGetCrossOrigin self
+  = ({# call webkit_dom_html_script_element_get_cross_origin #}
+       (toHTMLScriptElement self))
+      >>=
+      readUTFString
+ 
+htmlScriptElementSetNonce ::
+                          (HTMLScriptElementClass self) => self -> String -> IO ()
+htmlScriptElementSetNonce self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_script_element_set_nonce #}
+          (toHTMLScriptElement self)
+          valPtr
+ 
+htmlScriptElementGetNonce ::
+                          (HTMLScriptElementClass self) => self -> IO String
+htmlScriptElementGetNonce self
+  = ({# call webkit_dom_html_script_element_get_nonce #}
        (toHTMLScriptElement self))
       >>=
       readUTFString

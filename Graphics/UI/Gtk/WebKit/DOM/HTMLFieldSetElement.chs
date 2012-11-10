@@ -1,7 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLFieldSetElement
        (htmlFieldSetElementCheckValidity,
-        htmlFieldSetElementSetCustomValidity, htmlFieldSetElementGetForm,
-        htmlFieldSetElementGetValidity, htmlFieldSetElementGetWillValidate,
+        htmlFieldSetElementSetCustomValidity,
+        htmlFieldSetElementSetDisabled, htmlFieldSetElementGetDisabled,
+        htmlFieldSetElementGetForm, htmlFieldSetElementSetName,
+        htmlFieldSetElementGetName, htmlFieldSetElementGetElements,
+        htmlFieldSetElementGetWillValidate, htmlFieldSetElementGetValidity,
         htmlFieldSetElementGetValidationMessage)
        where
 import System.Glib.FFI
@@ -27,6 +30,20 @@ htmlFieldSetElementSetCustomValidity self error
           (toHTMLFieldSetElement self)
           errorPtr
  
+htmlFieldSetElementSetDisabled ::
+                               (HTMLFieldSetElementClass self) => self -> Bool -> IO ()
+htmlFieldSetElementSetDisabled self val
+  = {# call webkit_dom_html_field_set_element_set_disabled #}
+      (toHTMLFieldSetElement self)
+      (fromBool val)
+ 
+htmlFieldSetElementGetDisabled ::
+                               (HTMLFieldSetElementClass self) => self -> IO Bool
+htmlFieldSetElementGetDisabled self
+  = toBool <$>
+      ({# call webkit_dom_html_field_set_element_get_disabled #}
+         (toHTMLFieldSetElement self))
+ 
 htmlFieldSetElementGetForm ::
                            (HTMLFieldSetElementClass self) =>
                              self -> IO (Maybe HTMLFormElement)
@@ -35,11 +52,29 @@ htmlFieldSetElementGetForm self
       ({# call webkit_dom_html_field_set_element_get_form #}
          (toHTMLFieldSetElement self))
  
-htmlFieldSetElementGetValidity ::
-                               (HTMLFieldSetElementClass self) => self -> IO (Maybe ValidityState)
-htmlFieldSetElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_field_set_element_get_validity #}
+htmlFieldSetElementSetName ::
+                           (HTMLFieldSetElementClass self) => self -> String -> IO ()
+htmlFieldSetElementSetName self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_field_set_element_set_name #}
+          (toHTMLFieldSetElement self)
+          valPtr
+ 
+htmlFieldSetElementGetName ::
+                           (HTMLFieldSetElementClass self) => self -> IO String
+htmlFieldSetElementGetName self
+  = ({# call webkit_dom_html_field_set_element_get_name #}
+       (toHTMLFieldSetElement self))
+      >>=
+      readUTFString
+ 
+htmlFieldSetElementGetElements ::
+                               (HTMLFieldSetElementClass self) =>
+                                 self -> IO (Maybe HTMLCollection)
+htmlFieldSetElementGetElements self
+  = maybeNull (makeNewGObject mkHTMLCollection)
+      ({# call webkit_dom_html_field_set_element_get_elements #}
          (toHTMLFieldSetElement self))
  
 htmlFieldSetElementGetWillValidate ::
@@ -47,6 +82,13 @@ htmlFieldSetElementGetWillValidate ::
 htmlFieldSetElementGetWillValidate self
   = toBool <$>
       ({# call webkit_dom_html_field_set_element_get_will_validate #}
+         (toHTMLFieldSetElement self))
+ 
+htmlFieldSetElementGetValidity ::
+                               (HTMLFieldSetElementClass self) => self -> IO (Maybe ValidityState)
+htmlFieldSetElementGetValidity self
+  = maybeNull (makeNewGObject mkValidityState)
+      ({# call webkit_dom_html_field_set_element_get_validity #}
          (toHTMLFieldSetElement self))
  
 htmlFieldSetElementGetValidationMessage ::

@@ -1,6 +1,6 @@
 module Graphics.UI.Gtk.WebKit.DOM.Event
        (eventStopPropagation, eventPreventDefault, eventInitEvent,
-        eventStopImmediatePropagation, cCAPTURING_PHASE, cAT_TARGET,
+        eventStopImmediatePropagation, cNONE, cCAPTURING_PHASE, cAT_TARGET,
         cBUBBLING_PHASE, cMOUSEDOWN, cMOUSEUP, cMOUSEOVER, cMOUSEOUT,
         cMOUSEMOVE, cMOUSEDRAG, cCLICK, cDBLCLICK, cKEYDOWN, cKEYUP,
         cKEYPRESS, cDRAGDROP, cFOCUS, cBLUR, cSELECT, cCHANGE,
@@ -37,6 +37,7 @@ eventStopImmediatePropagation :: (EventClass self) => self -> IO ()
 eventStopImmediatePropagation self
   = {# call webkit_dom_event_stop_immediate_propagation #}
       (toEvent self)
+cNONE = 0
 cCAPTURING_PHASE = 1
 cAT_TARGET = 2
 cBUBBLING_PHASE = 3

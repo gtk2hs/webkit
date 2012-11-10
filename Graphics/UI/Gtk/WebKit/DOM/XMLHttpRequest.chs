@@ -7,12 +7,10 @@ module Graphics.UI.Gtk.WebKit.DOM.XMLHttpRequest
         xmlHttpRequestOnload, xmlHttpRequestOnloadend,
         xmlHttpRequestOnloadstart, xmlHttpRequestOnprogress,
         xmlHttpRequestOnreadystatechange, xmlHttpRequestGetReadyState,
-        xmlHttpRequestSetAsBlob, xmlHttpRequestGetAsBlob,
         xmlHttpRequestSetWithCredentials, xmlHttpRequestGetWithCredentials,
         xmlHttpRequestGetUpload, xmlHttpRequestGetResponseXML,
-        xmlHttpRequestGetResponseBlob, xmlHttpRequestSetResponseType,
-        xmlHttpRequestGetResponseType, xmlHttpRequestGetStatus,
-        xmlHttpRequestGetStatusText)
+        xmlHttpRequestSetResponseType, xmlHttpRequestGetResponseType,
+        xmlHttpRequestGetStatus, xmlHttpRequestGetStatusText)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -127,23 +125,6 @@ xmlHttpRequestGetReadyState self
       ({# call webkit_dom_xml_http_request_get_ready_state #}
          (toXMLHttpRequest self))
  
-xmlHttpRequestSetAsBlob ::
-                        (XMLHttpRequestClass self) => self -> Bool -> IO ()
-xmlHttpRequestSetAsBlob self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_xml_http_request_set_as_blob #}
-          (toXMLHttpRequest self)
-          (fromBool val)
-          errorPtr_
- 
-xmlHttpRequestGetAsBlob ::
-                        (XMLHttpRequestClass self) => self -> IO Bool
-xmlHttpRequestGetAsBlob self
-  = toBool <$>
-      ({# call webkit_dom_xml_http_request_get_as_blob #}
-         (toXMLHttpRequest self))
- 
 xmlHttpRequestSetWithCredentials ::
                                  (XMLHttpRequestClass self) => self -> Bool -> IO ()
 xmlHttpRequestSetWithCredentials self val
@@ -176,16 +157,6 @@ xmlHttpRequestGetResponseXML self
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_xml_http_request_get_response_xml #}
-             (toXMLHttpRequest self)
-             errorPtr_)
- 
-xmlHttpRequestGetResponseBlob ::
-                              (XMLHttpRequestClass self) => self -> IO (Maybe Blob)
-xmlHttpRequestGetResponseBlob self
-  = maybeNull (makeNewGObject mkBlob)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_xml_http_request_get_response_blob #}
              (toXMLHttpRequest self)
              errorPtr_)
  

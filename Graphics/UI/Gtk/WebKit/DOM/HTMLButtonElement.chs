@@ -1,17 +1,17 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLButtonElement
        (htmlButtonElementCheckValidity,
-        htmlButtonElementSetCustomValidity, htmlButtonElementGetForm,
+        htmlButtonElementSetCustomValidity, htmlButtonElementSetAutofocus,
+        htmlButtonElementGetAutofocus, htmlButtonElementSetDisabled,
+        htmlButtonElementGetDisabled, htmlButtonElementGetForm,
         htmlButtonElementSetFormAction, htmlButtonElementGetFormAction,
         htmlButtonElementSetFormEnctype, htmlButtonElementGetFormEnctype,
         htmlButtonElementSetFormMethod, htmlButtonElementGetFormMethod,
         htmlButtonElementSetFormNoValidate,
         htmlButtonElementGetFormNoValidate, htmlButtonElementSetFormTarget,
-        htmlButtonElementGetFormTarget, htmlButtonElementGetValidity,
-        htmlButtonElementSetDisabled, htmlButtonElementGetDisabled,
-        htmlButtonElementSetAutofocus, htmlButtonElementGetAutofocus,
-        htmlButtonElementSetName, htmlButtonElementGetName,
-        htmlButtonElementSetValue, htmlButtonElementGetValue,
-        htmlButtonElementGetWillValidate,
+        htmlButtonElementGetFormTarget, htmlButtonElementSetName,
+        htmlButtonElementGetName, htmlButtonElementSetValue,
+        htmlButtonElementGetValue, htmlButtonElementGetWillValidate,
+        htmlButtonElementGetValidity,
         htmlButtonElementGetValidationMessage, htmlButtonElementGetLabels)
        where
 import System.Glib.FFI
@@ -36,6 +36,34 @@ htmlButtonElementSetCustomValidity self error
         {# call webkit_dom_html_button_element_set_custom_validity #}
           (toHTMLButtonElement self)
           errorPtr
+ 
+htmlButtonElementSetAutofocus ::
+                              (HTMLButtonElementClass self) => self -> Bool -> IO ()
+htmlButtonElementSetAutofocus self val
+  = {# call webkit_dom_html_button_element_set_autofocus #}
+      (toHTMLButtonElement self)
+      (fromBool val)
+ 
+htmlButtonElementGetAutofocus ::
+                              (HTMLButtonElementClass self) => self -> IO Bool
+htmlButtonElementGetAutofocus self
+  = toBool <$>
+      ({# call webkit_dom_html_button_element_get_autofocus #}
+         (toHTMLButtonElement self))
+ 
+htmlButtonElementSetDisabled ::
+                             (HTMLButtonElementClass self) => self -> Bool -> IO ()
+htmlButtonElementSetDisabled self val
+  = {# call webkit_dom_html_button_element_set_disabled #}
+      (toHTMLButtonElement self)
+      (fromBool val)
+ 
+htmlButtonElementGetDisabled ::
+                             (HTMLButtonElementClass self) => self -> IO Bool
+htmlButtonElementGetDisabled self
+  = toBool <$>
+      ({# call webkit_dom_html_button_element_get_disabled #}
+         (toHTMLButtonElement self))
  
 htmlButtonElementGetForm ::
                          (HTMLButtonElementClass self) => self -> IO (Maybe HTMLFormElement)
@@ -126,41 +154,6 @@ htmlButtonElementGetFormTarget self
       >>=
       readUTFString
  
-htmlButtonElementGetValidity ::
-                             (HTMLButtonElementClass self) => self -> IO (Maybe ValidityState)
-htmlButtonElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_button_element_get_validity #}
-         (toHTMLButtonElement self))
- 
-htmlButtonElementSetDisabled ::
-                             (HTMLButtonElementClass self) => self -> Bool -> IO ()
-htmlButtonElementSetDisabled self val
-  = {# call webkit_dom_html_button_element_set_disabled #}
-      (toHTMLButtonElement self)
-      (fromBool val)
- 
-htmlButtonElementGetDisabled ::
-                             (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_disabled #}
-         (toHTMLButtonElement self))
- 
-htmlButtonElementSetAutofocus ::
-                              (HTMLButtonElementClass self) => self -> Bool -> IO ()
-htmlButtonElementSetAutofocus self val
-  = {# call webkit_dom_html_button_element_set_autofocus #}
-      (toHTMLButtonElement self)
-      (fromBool val)
- 
-htmlButtonElementGetAutofocus ::
-                              (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_autofocus #}
-         (toHTMLButtonElement self))
- 
 htmlButtonElementSetName ::
                          (HTMLButtonElementClass self) => self -> String -> IO ()
 htmlButtonElementSetName self val
@@ -200,6 +193,13 @@ htmlButtonElementGetWillValidate ::
 htmlButtonElementGetWillValidate self
   = toBool <$>
       ({# call webkit_dom_html_button_element_get_will_validate #}
+         (toHTMLButtonElement self))
+ 
+htmlButtonElementGetValidity ::
+                             (HTMLButtonElementClass self) => self -> IO (Maybe ValidityState)
+htmlButtonElementGetValidity self
+  = maybeNull (makeNewGObject mkValidityState)
+      ({# call webkit_dom_html_button_element_get_validity #}
          (toHTMLButtonElement self))
  
 htmlButtonElementGetValidationMessage ::

@@ -1,11 +1,11 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLOptionElement
-       (htmlOptionElementGetForm, htmlOptionElementSetDefaultSelected,
-        htmlOptionElementGetDefaultSelected, htmlOptionElementGetText,
-        htmlOptionElementGetIndex, htmlOptionElementSetDisabled,
-        htmlOptionElementGetDisabled, htmlOptionElementSetLabel,
-        htmlOptionElementGetLabel, htmlOptionElementSetSelected,
+       (htmlOptionElementSetDisabled, htmlOptionElementGetDisabled,
+        htmlOptionElementGetForm, htmlOptionElementSetLabel,
+        htmlOptionElementGetLabel, htmlOptionElementSetDefaultSelected,
+        htmlOptionElementGetDefaultSelected, htmlOptionElementSetSelected,
         htmlOptionElementGetSelected, htmlOptionElementSetValue,
-        htmlOptionElementGetValue)
+        htmlOptionElementGetValue, htmlOptionElementGetText,
+        htmlOptionElementGetIndex)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -13,42 +13,6 @@ import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
- 
-htmlOptionElementGetForm ::
-                         (HTMLOptionElementClass self) => self -> IO (Maybe HTMLFormElement)
-htmlOptionElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_option_element_get_form #}
-         (toHTMLOptionElement self))
- 
-htmlOptionElementSetDefaultSelected ::
-                                    (HTMLOptionElementClass self) => self -> Bool -> IO ()
-htmlOptionElementSetDefaultSelected self val
-  = {# call webkit_dom_html_option_element_set_default_selected #}
-      (toHTMLOptionElement self)
-      (fromBool val)
- 
-htmlOptionElementGetDefaultSelected ::
-                                    (HTMLOptionElementClass self) => self -> IO Bool
-htmlOptionElementGetDefaultSelected self
-  = toBool <$>
-      ({# call webkit_dom_html_option_element_get_default_selected #}
-         (toHTMLOptionElement self))
- 
-htmlOptionElementGetText ::
-                         (HTMLOptionElementClass self) => self -> IO String
-htmlOptionElementGetText self
-  = ({# call webkit_dom_html_option_element_get_text #}
-       (toHTMLOptionElement self))
-      >>=
-      readUTFString
- 
-htmlOptionElementGetIndex ::
-                          (HTMLOptionElementClass self) => self -> IO Int
-htmlOptionElementGetIndex self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_option_element_get_index #}
-         (toHTMLOptionElement self))
  
 htmlOptionElementSetDisabled ::
                              (HTMLOptionElementClass self) => self -> Bool -> IO ()
@@ -62,6 +26,13 @@ htmlOptionElementGetDisabled ::
 htmlOptionElementGetDisabled self
   = toBool <$>
       ({# call webkit_dom_html_option_element_get_disabled #}
+         (toHTMLOptionElement self))
+ 
+htmlOptionElementGetForm ::
+                         (HTMLOptionElementClass self) => self -> IO (Maybe HTMLFormElement)
+htmlOptionElementGetForm self
+  = maybeNull (makeNewGObject mkHTMLFormElement)
+      ({# call webkit_dom_html_option_element_get_form #}
          (toHTMLOptionElement self))
  
 htmlOptionElementSetLabel ::
@@ -80,6 +51,20 @@ htmlOptionElementGetLabel self
        (toHTMLOptionElement self))
       >>=
       readUTFString
+ 
+htmlOptionElementSetDefaultSelected ::
+                                    (HTMLOptionElementClass self) => self -> Bool -> IO ()
+htmlOptionElementSetDefaultSelected self val
+  = {# call webkit_dom_html_option_element_set_default_selected #}
+      (toHTMLOptionElement self)
+      (fromBool val)
+ 
+htmlOptionElementGetDefaultSelected ::
+                                    (HTMLOptionElementClass self) => self -> IO Bool
+htmlOptionElementGetDefaultSelected self
+  = toBool <$>
+      ({# call webkit_dom_html_option_element_get_default_selected #}
+         (toHTMLOptionElement self))
  
 htmlOptionElementSetSelected ::
                              (HTMLOptionElementClass self) => self -> Bool -> IO ()
@@ -111,3 +96,18 @@ htmlOptionElementGetValue self
        (toHTMLOptionElement self))
       >>=
       readUTFString
+ 
+htmlOptionElementGetText ::
+                         (HTMLOptionElementClass self) => self -> IO String
+htmlOptionElementGetText self
+  = ({# call webkit_dom_html_option_element_get_text #}
+       (toHTMLOptionElement self))
+      >>=
+      readUTFString
+ 
+htmlOptionElementGetIndex ::
+                          (HTMLOptionElementClass self) => self -> IO Int
+htmlOptionElementGetIndex self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_option_element_get_index #}
+         (toHTMLOptionElement self))

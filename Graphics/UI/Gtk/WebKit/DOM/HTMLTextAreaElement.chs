@@ -1,31 +1,29 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement
-       (htmlTextAreaElementSelect, htmlTextAreaElementCheckValidity,
-        htmlTextAreaElementSetCustomValidity,
+       (htmlTextAreaElementCheckValidity,
+        htmlTextAreaElementSetCustomValidity, htmlTextAreaElementSelect,
         htmlTextAreaElementSetSelectionRange,
-        htmlTextAreaElementSetDefaultValue,
-        htmlTextAreaElementGetDefaultValue, htmlTextAreaElementGetForm,
-        htmlTextAreaElementGetValidity, htmlTextAreaElementSetCols,
-        htmlTextAreaElementGetCols, htmlTextAreaElementSetDirName,
-        htmlTextAreaElementGetDirName, htmlTextAreaElementSetDisabled,
-        htmlTextAreaElementGetDisabled, htmlTextAreaElementSetAutofocus,
-        htmlTextAreaElementGetAutofocus, htmlTextAreaElementSetMaxLength,
+        htmlTextAreaElementSetAutofocus, htmlTextAreaElementGetAutofocus,
+        htmlTextAreaElementSetCols, htmlTextAreaElementGetCols,
+        htmlTextAreaElementSetDirName, htmlTextAreaElementGetDirName,
+        htmlTextAreaElementSetDisabled, htmlTextAreaElementGetDisabled,
+        htmlTextAreaElementGetForm, htmlTextAreaElementSetMaxLength,
         htmlTextAreaElementGetMaxLength, htmlTextAreaElementSetName,
         htmlTextAreaElementGetName, htmlTextAreaElementSetPlaceholder,
         htmlTextAreaElementGetPlaceholder, htmlTextAreaElementSetReadOnly,
         htmlTextAreaElementGetReadOnly, htmlTextAreaElementSetRequired,
         htmlTextAreaElementGetRequired, htmlTextAreaElementSetRows,
         htmlTextAreaElementGetRows, htmlTextAreaElementSetWrap,
-        htmlTextAreaElementGetWrap, htmlTextAreaElementSetValue,
+        htmlTextAreaElementGetWrap, htmlTextAreaElementSetDefaultValue,
+        htmlTextAreaElementGetDefaultValue, htmlTextAreaElementSetValue,
         htmlTextAreaElementGetValue, htmlTextAreaElementGetTextLength,
-        htmlTextAreaElementGetWillValidate,
+        htmlTextAreaElementGetWillValidate, htmlTextAreaElementGetValidity,
         htmlTextAreaElementGetValidationMessage,
-        htmlTextAreaElementSetSelectionStart,
+        htmlTextAreaElementGetLabels, htmlTextAreaElementSetSelectionStart,
         htmlTextAreaElementGetSelectionStart,
         htmlTextAreaElementSetSelectionEnd,
         htmlTextAreaElementGetSelectionEnd,
         htmlTextAreaElementSetSelectionDirection,
-        htmlTextAreaElementGetSelectionDirection,
-        htmlTextAreaElementGetLabels)
+        htmlTextAreaElementGetSelectionDirection)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -33,12 +31,6 @@ import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
- 
-htmlTextAreaElementSelect ::
-                          (HTMLTextAreaElementClass self) => self -> IO ()
-htmlTextAreaElementSelect self
-  = {# call webkit_dom_html_text_area_element_select #}
-      (toHTMLTextAreaElement self)
  
 htmlTextAreaElementCheckValidity ::
                                  (HTMLTextAreaElementClass self) => self -> IO Bool
@@ -56,6 +48,12 @@ htmlTextAreaElementSetCustomValidity self error
           (toHTMLTextAreaElement self)
           errorPtr
  
+htmlTextAreaElementSelect ::
+                          (HTMLTextAreaElementClass self) => self -> IO ()
+htmlTextAreaElementSelect self
+  = {# call webkit_dom_html_text_area_element_select #}
+      (toHTMLTextAreaElement self)
+ 
 htmlTextAreaElementSetSelectionRange ::
                                      (HTMLTextAreaElementClass self) =>
                                        self -> Int -> Int -> String -> IO ()
@@ -68,36 +66,18 @@ htmlTextAreaElementSetSelectionRange self start end direction
           (fromIntegral end)
           directionPtr
  
-htmlTextAreaElementSetDefaultValue ::
-                                   (HTMLTextAreaElementClass self) => self -> String -> IO ()
-htmlTextAreaElementSetDefaultValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_default_value #}
-          (toHTMLTextAreaElement self)
-          valPtr
+htmlTextAreaElementSetAutofocus ::
+                                (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
+htmlTextAreaElementSetAutofocus self val
+  = {# call webkit_dom_html_text_area_element_set_autofocus #}
+      (toHTMLTextAreaElement self)
+      (fromBool val)
  
-htmlTextAreaElementGetDefaultValue ::
-                                   (HTMLTextAreaElementClass self) => self -> IO String
-htmlTextAreaElementGetDefaultValue self
-  = ({# call webkit_dom_html_text_area_element_get_default_value #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
- 
-htmlTextAreaElementGetForm ::
-                           (HTMLTextAreaElementClass self) =>
-                             self -> IO (Maybe HTMLFormElement)
-htmlTextAreaElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_text_area_element_get_form #}
-         (toHTMLTextAreaElement self))
- 
-htmlTextAreaElementGetValidity ::
-                               (HTMLTextAreaElementClass self) => self -> IO (Maybe ValidityState)
-htmlTextAreaElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_text_area_element_get_validity #}
+htmlTextAreaElementGetAutofocus ::
+                                (HTMLTextAreaElementClass self) => self -> IO Bool
+htmlTextAreaElementGetAutofocus self
+  = toBool <$>
+      ({# call webkit_dom_html_text_area_element_get_autofocus #}
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetCols ::
@@ -145,18 +125,12 @@ htmlTextAreaElementGetDisabled self
       ({# call webkit_dom_html_text_area_element_get_disabled #}
          (toHTMLTextAreaElement self))
  
-htmlTextAreaElementSetAutofocus ::
-                                (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
-htmlTextAreaElementSetAutofocus self val
-  = {# call webkit_dom_html_text_area_element_set_autofocus #}
-      (toHTMLTextAreaElement self)
-      (fromBool val)
- 
-htmlTextAreaElementGetAutofocus ::
-                                (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_autofocus #}
+htmlTextAreaElementGetForm ::
+                           (HTMLTextAreaElementClass self) =>
+                             self -> IO (Maybe HTMLFormElement)
+htmlTextAreaElementGetForm self
+  = maybeNull (makeNewGObject mkHTMLFormElement)
+      ({# call webkit_dom_html_text_area_element_get_form #}
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetMaxLength ::
@@ -269,6 +243,23 @@ htmlTextAreaElementGetWrap self
       >>=
       readUTFString
  
+htmlTextAreaElementSetDefaultValue ::
+                                   (HTMLTextAreaElementClass self) => self -> String -> IO ()
+htmlTextAreaElementSetDefaultValue self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_text_area_element_set_default_value #}
+          (toHTMLTextAreaElement self)
+          valPtr
+ 
+htmlTextAreaElementGetDefaultValue ::
+                                   (HTMLTextAreaElementClass self) => self -> IO String
+htmlTextAreaElementGetDefaultValue self
+  = ({# call webkit_dom_html_text_area_element_get_default_value #}
+       (toHTMLTextAreaElement self))
+      >>=
+      readUTFString
+ 
 htmlTextAreaElementSetValue ::
                             (HTMLTextAreaElementClass self) => self -> String -> IO ()
 htmlTextAreaElementSetValue self val
@@ -300,6 +291,13 @@ htmlTextAreaElementGetWillValidate self
       ({# call webkit_dom_html_text_area_element_get_will_validate #}
          (toHTMLTextAreaElement self))
  
+htmlTextAreaElementGetValidity ::
+                               (HTMLTextAreaElementClass self) => self -> IO (Maybe ValidityState)
+htmlTextAreaElementGetValidity self
+  = maybeNull (makeNewGObject mkValidityState)
+      ({# call webkit_dom_html_text_area_element_get_validity #}
+         (toHTMLTextAreaElement self))
+ 
 htmlTextAreaElementGetValidationMessage ::
                                         (HTMLTextAreaElementClass self) => self -> IO String
 htmlTextAreaElementGetValidationMessage self
@@ -308,6 +306,13 @@ htmlTextAreaElementGetValidationMessage self
        (toHTMLTextAreaElement self))
       >>=
       readUTFString
+ 
+htmlTextAreaElementGetLabels ::
+                             (HTMLTextAreaElementClass self) => self -> IO (Maybe NodeList)
+htmlTextAreaElementGetLabels self
+  = maybeNull (makeNewGObject mkNodeList)
+      ({# call webkit_dom_html_text_area_element_get_labels #}
+         (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetSelectionStart ::
                                      (HTMLTextAreaElementClass self) => self -> Int -> IO ()
@@ -356,10 +361,3 @@ htmlTextAreaElementGetSelectionDirection self
        (toHTMLTextAreaElement self))
       >>=
       readUTFString
- 
-htmlTextAreaElementGetLabels ::
-                             (HTMLTextAreaElementClass self) => self -> IO (Maybe NodeList)
-htmlTextAreaElementGetLabels self
-  = maybeNull (makeNewGObject mkNodeList)
-      ({# call webkit_dom_html_text_area_element_get_labels #}
-         (toHTMLTextAreaElement self))

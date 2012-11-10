@@ -1,16 +1,16 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLFormElement
        (htmlFormElementSubmit, htmlFormElementReset,
-        htmlFormElementCheckValidity, htmlFormElementGetElements,
-        htmlFormElementGetLength, htmlFormElementSetName,
-        htmlFormElementGetName, htmlFormElementSetNoValidate,
-        htmlFormElementGetNoValidate, htmlFormElementSetAcceptCharset,
+        htmlFormElementCheckValidity, htmlFormElementSetAcceptCharset,
         htmlFormElementGetAcceptCharset, htmlFormElementSetAction,
-        htmlFormElementGetAction, htmlFormElementSetEncoding,
-        htmlFormElementGetEncoding, htmlFormElementSetEnctype,
-        htmlFormElementGetEnctype, htmlFormElementSetMethod,
-        htmlFormElementGetMethod, htmlFormElementSetTarget,
-        htmlFormElementGetTarget, htmlFormElementSetAutocomplete,
-        htmlFormElementGetAutocomplete)
+        htmlFormElementGetAction, htmlFormElementSetAutocomplete,
+        htmlFormElementGetAutocomplete, htmlFormElementSetEnctype,
+        htmlFormElementGetEnctype, htmlFormElementSetEncoding,
+        htmlFormElementGetEncoding, htmlFormElementSetMethod,
+        htmlFormElementGetMethod, htmlFormElementSetName,
+        htmlFormElementGetName, htmlFormElementSetNoValidate,
+        htmlFormElementGetNoValidate, htmlFormElementSetTarget,
+        htmlFormElementGetTarget, htmlFormElementGetElements,
+        htmlFormElementGetLength)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -36,51 +36,6 @@ htmlFormElementCheckValidity ::
 htmlFormElementCheckValidity self
   = toBool <$>
       ({# call webkit_dom_html_form_element_check_validity #}
-         (toHTMLFormElement self))
- 
-htmlFormElementGetElements ::
-                           (HTMLFormElementClass self) => self -> IO (Maybe HTMLCollection)
-htmlFormElementGetElements self
-  = maybeNull (makeNewGObject mkHTMLCollection)
-      ({# call webkit_dom_html_form_element_get_elements #}
-         (toHTMLFormElement self))
- 
-htmlFormElementGetLength ::
-                         (HTMLFormElementClass self) => self -> IO Int
-htmlFormElementGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_form_element_get_length #}
-         (toHTMLFormElement self))
- 
-htmlFormElementSetName ::
-                       (HTMLFormElementClass self) => self -> String -> IO ()
-htmlFormElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_form_element_set_name #}
-          (toHTMLFormElement self)
-          valPtr
- 
-htmlFormElementGetName ::
-                       (HTMLFormElementClass self) => self -> IO String
-htmlFormElementGetName self
-  = ({# call webkit_dom_html_form_element_get_name #}
-       (toHTMLFormElement self))
-      >>=
-      readUTFString
- 
-htmlFormElementSetNoValidate ::
-                             (HTMLFormElementClass self) => self -> Bool -> IO ()
-htmlFormElementSetNoValidate self val
-  = {# call webkit_dom_html_form_element_set_no_validate #}
-      (toHTMLFormElement self)
-      (fromBool val)
- 
-htmlFormElementGetNoValidate ::
-                             (HTMLFormElementClass self) => self -> IO Bool
-htmlFormElementGetNoValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_form_element_get_no_validate #}
          (toHTMLFormElement self))
  
 htmlFormElementSetAcceptCharset ::
@@ -117,19 +72,19 @@ htmlFormElementGetAction self
       >>=
       readUTFString
  
-htmlFormElementSetEncoding ::
-                           (HTMLFormElementClass self) => self -> String -> IO ()
-htmlFormElementSetEncoding self val
+htmlFormElementSetAutocomplete ::
+                               (HTMLFormElementClass self) => self -> String -> IO ()
+htmlFormElementSetAutocomplete self val
   = withUTFString val $
       \ valPtr ->
-        {# call webkit_dom_html_form_element_set_encoding #}
+        {# call webkit_dom_html_form_element_set_autocomplete #}
           (toHTMLFormElement self)
           valPtr
  
-htmlFormElementGetEncoding ::
-                           (HTMLFormElementClass self) => self -> IO String
-htmlFormElementGetEncoding self
-  = ({# call webkit_dom_html_form_element_get_encoding #}
+htmlFormElementGetAutocomplete ::
+                               (HTMLFormElementClass self) => self -> IO String
+htmlFormElementGetAutocomplete self
+  = ({# call webkit_dom_html_form_element_get_autocomplete #}
        (toHTMLFormElement self))
       >>=
       readUTFString
@@ -151,6 +106,23 @@ htmlFormElementGetEnctype self
       >>=
       readUTFString
  
+htmlFormElementSetEncoding ::
+                           (HTMLFormElementClass self) => self -> String -> IO ()
+htmlFormElementSetEncoding self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_form_element_set_encoding #}
+          (toHTMLFormElement self)
+          valPtr
+ 
+htmlFormElementGetEncoding ::
+                           (HTMLFormElementClass self) => self -> IO String
+htmlFormElementGetEncoding self
+  = ({# call webkit_dom_html_form_element_get_encoding #}
+       (toHTMLFormElement self))
+      >>=
+      readUTFString
+ 
 htmlFormElementSetMethod ::
                          (HTMLFormElementClass self) => self -> String -> IO ()
 htmlFormElementSetMethod self val
@@ -167,6 +139,37 @@ htmlFormElementGetMethod self
        (toHTMLFormElement self))
       >>=
       readUTFString
+ 
+htmlFormElementSetName ::
+                       (HTMLFormElementClass self) => self -> String -> IO ()
+htmlFormElementSetName self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_form_element_set_name #}
+          (toHTMLFormElement self)
+          valPtr
+ 
+htmlFormElementGetName ::
+                       (HTMLFormElementClass self) => self -> IO String
+htmlFormElementGetName self
+  = ({# call webkit_dom_html_form_element_get_name #}
+       (toHTMLFormElement self))
+      >>=
+      readUTFString
+ 
+htmlFormElementSetNoValidate ::
+                             (HTMLFormElementClass self) => self -> Bool -> IO ()
+htmlFormElementSetNoValidate self val
+  = {# call webkit_dom_html_form_element_set_no_validate #}
+      (toHTMLFormElement self)
+      (fromBool val)
+ 
+htmlFormElementGetNoValidate ::
+                             (HTMLFormElementClass self) => self -> IO Bool
+htmlFormElementGetNoValidate self
+  = toBool <$>
+      ({# call webkit_dom_html_form_element_get_no_validate #}
+         (toHTMLFormElement self))
  
 htmlFormElementSetTarget ::
                          (HTMLFormElementClass self) => self -> String -> IO ()
@@ -185,19 +188,16 @@ htmlFormElementGetTarget self
       >>=
       readUTFString
  
-htmlFormElementSetAutocomplete ::
-                               (HTMLFormElementClass self) => self -> String -> IO ()
-htmlFormElementSetAutocomplete self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_form_element_set_autocomplete #}
-          (toHTMLFormElement self)
-          valPtr
+htmlFormElementGetElements ::
+                           (HTMLFormElementClass self) => self -> IO (Maybe HTMLCollection)
+htmlFormElementGetElements self
+  = maybeNull (makeNewGObject mkHTMLCollection)
+      ({# call webkit_dom_html_form_element_get_elements #}
+         (toHTMLFormElement self))
  
-htmlFormElementGetAutocomplete ::
-                               (HTMLFormElementClass self) => self -> IO String
-htmlFormElementGetAutocomplete self
-  = ({# call webkit_dom_html_form_element_get_autocomplete #}
-       (toHTMLFormElement self))
-      >>=
-      readUTFString
+htmlFormElementGetLength ::
+                         (HTMLFormElementClass self) => self -> IO Int
+htmlFormElementGetLength self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_form_element_get_length #}
+         (toHTMLFormElement self))

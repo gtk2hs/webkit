@@ -1,10 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
-       (domWindowGetSelection, domWindowFocus, domWindowBlur,
-        domWindowPrint, domWindowStop, domWindowAlert, domWindowConfirm,
-        domWindowPrompt, domWindowFind, domWindowScrollBy,
-        domWindowScrollTo, domWindowScroll, domWindowMoveBy,
-        domWindowMoveTo, domWindowResizeBy, domWindowResizeTo,
-        domWindowMatchMedia, domWindowGetComputedStyle,
+       (domWindowGetSelection, domWindowBlur, domWindowPrint,
+        domWindowStop, domWindowAlert, domWindowConfirm, domWindowPrompt,
+        domWindowFind, domWindowScrollBy, domWindowScrollTo,
+        domWindowScroll, domWindowMoveBy, domWindowMoveTo,
+        domWindowResizeBy, domWindowResizeTo, domWindowMatchMedia,
+        domWindowGetComputedStyle,
         domWindowWebkitConvertPointFromPageToNode,
         domWindowWebkitConvertPointFromNodeToPage, domWindowClearTimeout,
         domWindowClearInterval, domWindowAtob, domWindowBtoa,
@@ -53,7 +53,7 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowOnwebkitanimationstart, domWindowOnwebkittransitionend,
         domWindowOntouchstart, domWindowOntouchmove, domWindowOntouchend,
         domWindowOntouchcancel, domWindowOndevicemotion,
-        domWindowOndeviceorientation)
+        domWindowOndeviceorientation, domWindowOnwebkitdeviceproximity)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -67,10 +67,6 @@ domWindowGetSelection ::
 domWindowGetSelection self
   = maybeNull (makeNewGObject mkDOMSelection)
       ({# call webkit_dom_dom_window_get_selection #} (toDOMWindow self))
- 
-domWindowFocus :: (DOMWindowClass self) => self -> IO ()
-domWindowFocus self
-  = {# call webkit_dom_dom_window_focus #} (toDOMWindow self)
  
 domWindowBlur :: (DOMWindowClass self) => self -> IO ()
 domWindowBlur self
@@ -866,3 +862,8 @@ domWindowOndevicemotion = (connect "devicemotion")
 domWindowOndeviceorientation ::
                              (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOndeviceorientation = (connect "deviceorientation")
+ 
+domWindowOnwebkitdeviceproximity ::
+                                 (DOMWindowClass self) => Signal self (EventM UIEvent self ())
+domWindowOnwebkitdeviceproximity
+  = (connect "webkitdeviceproximity")

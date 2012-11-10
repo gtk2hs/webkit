@@ -1,20 +1,21 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLSelectElement
-       (htmlSelectElementCheckValidity,
-        htmlSelectElementSetCustomValidity, htmlSelectElementAdd,
-        htmlSelectElementRemove, htmlSelectElementItem,
-        htmlSelectElementNamedItem, htmlSelectElementSetSelectedIndex,
-        htmlSelectElementGetSelectedIndex, htmlSelectElementSetValue,
-        htmlSelectElementGetValue, htmlSelectElementSetLength,
-        htmlSelectElementGetLength, htmlSelectElementGetForm,
-        htmlSelectElementGetValidity, htmlSelectElementGetWillValidate,
-        htmlSelectElementGetValidationMessage, htmlSelectElementGetOptions,
-        htmlSelectElementSetDisabled, htmlSelectElementGetDisabled,
+       (htmlSelectElementItem, htmlSelectElementNamedItem,
+        htmlSelectElementAdd, htmlSelectElementRemove,
+        htmlSelectElementCheckValidity, htmlSelectElementSetCustomValidity,
         htmlSelectElementSetAutofocus, htmlSelectElementGetAutofocus,
-        htmlSelectElementSetMultiple, htmlSelectElementGetMultiple,
-        htmlSelectElementSetName, htmlSelectElementGetName,
-        htmlSelectElementSetRequired, htmlSelectElementGetRequired,
-        htmlSelectElementSetSize, htmlSelectElementGetSize,
-        htmlSelectElementGetLabels)
+        htmlSelectElementSetDisabled, htmlSelectElementGetDisabled,
+        htmlSelectElementGetForm, htmlSelectElementSetMultiple,
+        htmlSelectElementGetMultiple, htmlSelectElementSetName,
+        htmlSelectElementGetName, htmlSelectElementSetRequired,
+        htmlSelectElementGetRequired, htmlSelectElementSetSize,
+        htmlSelectElementGetSize, htmlSelectElementGetOptions,
+        htmlSelectElementSetLength, htmlSelectElementGetLength,
+        htmlSelectElementGetSelectedOptions,
+        htmlSelectElementSetSelectedIndex,
+        htmlSelectElementGetSelectedIndex, htmlSelectElementSetValue,
+        htmlSelectElementGetValue, htmlSelectElementGetWillValidate,
+        htmlSelectElementGetValidity,
+        htmlSelectElementGetValidationMessage, htmlSelectElementGetLabels)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -23,21 +24,23 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-htmlSelectElementCheckValidity ::
-                               (HTMLSelectElementClass self) => self -> IO Bool
-htmlSelectElementCheckValidity self
-  = toBool <$>
-      ({# call webkit_dom_html_select_element_check_validity #}
-         (toHTMLSelectElement self))
+htmlSelectElementItem ::
+                      (HTMLSelectElementClass self) => self -> Word -> IO (Maybe Node)
+htmlSelectElementItem self index
+  = maybeNull (makeNewGObject mkNode)
+      ({# call webkit_dom_html_select_element_item #}
+         (toHTMLSelectElement self)
+         (fromIntegral index))
  
-htmlSelectElementSetCustomValidity ::
-                                   (HTMLSelectElementClass self) => self -> String -> IO ()
-htmlSelectElementSetCustomValidity self error
-  = withUTFString error $
-      \ errorPtr ->
-        {# call webkit_dom_html_select_element_set_custom_validity #}
-          (toHTMLSelectElement self)
-          errorPtr
+htmlSelectElementNamedItem ::
+                           (HTMLSelectElementClass self) => self -> String -> IO (Maybe Node)
+htmlSelectElementNamedItem self name
+  = maybeNull (makeNewGObject mkNode)
+      (withUTFString name $
+         \ namePtr ->
+           {# call webkit_dom_html_select_element_named_item #}
+             (toHTMLSelectElement self)
+             namePtr)
  
 htmlSelectElementAdd ::
                      (HTMLSelectElementClass self, HTMLElementClass element,
@@ -59,107 +62,34 @@ htmlSelectElementRemove self index
       (toHTMLSelectElement self)
       (fromIntegral index)
  
-htmlSelectElementItem ::
-                      (HTMLSelectElementClass self) => self -> Word -> IO (Maybe Node)
-htmlSelectElementItem self index
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_html_select_element_item #}
-         (toHTMLSelectElement self)
-         (fromIntegral index))
- 
-htmlSelectElementNamedItem ::
-                           (HTMLSelectElementClass self) => self -> String -> IO (Maybe Node)
-htmlSelectElementNamedItem self name
-  = maybeNull (makeNewGObject mkNode)
-      (withUTFString name $
-         \ namePtr ->
-           {# call webkit_dom_html_select_element_named_item #}
-             (toHTMLSelectElement self)
-             namePtr)
- 
-htmlSelectElementSetSelectedIndex ::
-                                  (HTMLSelectElementClass self) => self -> Int -> IO ()
-htmlSelectElementSetSelectedIndex self val
-  = {# call webkit_dom_html_select_element_set_selected_index #}
-      (toHTMLSelectElement self)
-      (fromIntegral val)
- 
-htmlSelectElementGetSelectedIndex ::
-                                  (HTMLSelectElementClass self) => self -> IO Int
-htmlSelectElementGetSelectedIndex self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_select_element_get_selected_index #}
-         (toHTMLSelectElement self))
- 
-htmlSelectElementSetValue ::
-                          (HTMLSelectElementClass self) => self -> String -> IO ()
-htmlSelectElementSetValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_select_element_set_value #}
-          (toHTMLSelectElement self)
-          valPtr
- 
-htmlSelectElementGetValue ::
-                          (HTMLSelectElementClass self) => self -> IO String
-htmlSelectElementGetValue self
-  = ({# call webkit_dom_html_select_element_get_value #}
-       (toHTMLSelectElement self))
-      >>=
-      readUTFString
- 
-htmlSelectElementSetLength ::
-                           (HTMLSelectElementClass self) => self -> Word -> IO ()
-htmlSelectElementSetLength self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_select_element_set_length #}
-          (toHTMLSelectElement self)
-          (fromIntegral val)
-          errorPtr_
- 
-htmlSelectElementGetLength ::
-                           (HTMLSelectElementClass self) => self -> IO Word
-htmlSelectElementGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_select_element_get_length #}
-         (toHTMLSelectElement self))
- 
-htmlSelectElementGetForm ::
-                         (HTMLSelectElementClass self) => self -> IO (Maybe HTMLFormElement)
-htmlSelectElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_select_element_get_form #}
-         (toHTMLSelectElement self))
- 
-htmlSelectElementGetValidity ::
-                             (HTMLSelectElementClass self) => self -> IO (Maybe ValidityState)
-htmlSelectElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_select_element_get_validity #}
-         (toHTMLSelectElement self))
- 
-htmlSelectElementGetWillValidate ::
-                                 (HTMLSelectElementClass self) => self -> IO Bool
-htmlSelectElementGetWillValidate self
+htmlSelectElementCheckValidity ::
+                               (HTMLSelectElementClass self) => self -> IO Bool
+htmlSelectElementCheckValidity self
   = toBool <$>
-      ({# call webkit_dom_html_select_element_get_will_validate #}
+      ({# call webkit_dom_html_select_element_check_validity #}
          (toHTMLSelectElement self))
  
-htmlSelectElementGetValidationMessage ::
-                                      (HTMLSelectElementClass self) => self -> IO String
-htmlSelectElementGetValidationMessage self
-  = ({# call webkit_dom_html_select_element_get_validation_message #}
-       (toHTMLSelectElement self))
-      >>=
-      readUTFString
+htmlSelectElementSetCustomValidity ::
+                                   (HTMLSelectElementClass self) => self -> String -> IO ()
+htmlSelectElementSetCustomValidity self error
+  = withUTFString error $
+      \ errorPtr ->
+        {# call webkit_dom_html_select_element_set_custom_validity #}
+          (toHTMLSelectElement self)
+          errorPtr
  
-htmlSelectElementGetOptions ::
-                            (HTMLSelectElementClass self) =>
-                              self -> IO (Maybe HTMLOptionsCollection)
-htmlSelectElementGetOptions self
-  = maybeNull (makeNewGObject mkHTMLOptionsCollection)
-      ({# call webkit_dom_html_select_element_get_options #}
+htmlSelectElementSetAutofocus ::
+                              (HTMLSelectElementClass self) => self -> Bool -> IO ()
+htmlSelectElementSetAutofocus self val
+  = {# call webkit_dom_html_select_element_set_autofocus #}
+      (toHTMLSelectElement self)
+      (fromBool val)
+ 
+htmlSelectElementGetAutofocus ::
+                              (HTMLSelectElementClass self) => self -> IO Bool
+htmlSelectElementGetAutofocus self
+  = toBool <$>
+      ({# call webkit_dom_html_select_element_get_autofocus #}
          (toHTMLSelectElement self))
  
 htmlSelectElementSetDisabled ::
@@ -176,18 +106,11 @@ htmlSelectElementGetDisabled self
       ({# call webkit_dom_html_select_element_get_disabled #}
          (toHTMLSelectElement self))
  
-htmlSelectElementSetAutofocus ::
-                              (HTMLSelectElementClass self) => self -> Bool -> IO ()
-htmlSelectElementSetAutofocus self val
-  = {# call webkit_dom_html_select_element_set_autofocus #}
-      (toHTMLSelectElement self)
-      (fromBool val)
- 
-htmlSelectElementGetAutofocus ::
-                              (HTMLSelectElementClass self) => self -> IO Bool
-htmlSelectElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_select_element_get_autofocus #}
+htmlSelectElementGetForm ::
+                         (HTMLSelectElementClass self) => self -> IO (Maybe HTMLFormElement)
+htmlSelectElementGetForm self
+  = maybeNull (makeNewGObject mkHTMLFormElement)
+      ({# call webkit_dom_html_select_element_get_form #}
          (toHTMLSelectElement self))
  
 htmlSelectElementSetMultiple ::
@@ -248,6 +171,92 @@ htmlSelectElementGetSize self
   = fromIntegral <$>
       ({# call webkit_dom_html_select_element_get_size #}
          (toHTMLSelectElement self))
+ 
+htmlSelectElementGetOptions ::
+                            (HTMLSelectElementClass self) =>
+                              self -> IO (Maybe HTMLOptionsCollection)
+htmlSelectElementGetOptions self
+  = maybeNull (makeNewGObject mkHTMLOptionsCollection)
+      ({# call webkit_dom_html_select_element_get_options #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementSetLength ::
+                           (HTMLSelectElementClass self) => self -> Word -> IO ()
+htmlSelectElementSetLength self val
+  = propagateGError $
+      \ errorPtr_ ->
+        {# call webkit_dom_html_select_element_set_length #}
+          (toHTMLSelectElement self)
+          (fromIntegral val)
+          errorPtr_
+ 
+htmlSelectElementGetLength ::
+                           (HTMLSelectElementClass self) => self -> IO Word
+htmlSelectElementGetLength self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_select_element_get_length #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementGetSelectedOptions ::
+                                    (HTMLSelectElementClass self) =>
+                                      self -> IO (Maybe HTMLCollection)
+htmlSelectElementGetSelectedOptions self
+  = maybeNull (makeNewGObject mkHTMLCollection)
+      ({# call webkit_dom_html_select_element_get_selected_options #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementSetSelectedIndex ::
+                                  (HTMLSelectElementClass self) => self -> Int -> IO ()
+htmlSelectElementSetSelectedIndex self val
+  = {# call webkit_dom_html_select_element_set_selected_index #}
+      (toHTMLSelectElement self)
+      (fromIntegral val)
+ 
+htmlSelectElementGetSelectedIndex ::
+                                  (HTMLSelectElementClass self) => self -> IO Int
+htmlSelectElementGetSelectedIndex self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_select_element_get_selected_index #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementSetValue ::
+                          (HTMLSelectElementClass self) => self -> String -> IO ()
+htmlSelectElementSetValue self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_select_element_set_value #}
+          (toHTMLSelectElement self)
+          valPtr
+ 
+htmlSelectElementGetValue ::
+                          (HTMLSelectElementClass self) => self -> IO String
+htmlSelectElementGetValue self
+  = ({# call webkit_dom_html_select_element_get_value #}
+       (toHTMLSelectElement self))
+      >>=
+      readUTFString
+ 
+htmlSelectElementGetWillValidate ::
+                                 (HTMLSelectElementClass self) => self -> IO Bool
+htmlSelectElementGetWillValidate self
+  = toBool <$>
+      ({# call webkit_dom_html_select_element_get_will_validate #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementGetValidity ::
+                             (HTMLSelectElementClass self) => self -> IO (Maybe ValidityState)
+htmlSelectElementGetValidity self
+  = maybeNull (makeNewGObject mkValidityState)
+      ({# call webkit_dom_html_select_element_get_validity #}
+         (toHTMLSelectElement self))
+ 
+htmlSelectElementGetValidationMessage ::
+                                      (HTMLSelectElementClass self) => self -> IO String
+htmlSelectElementGetValidationMessage self
+  = ({# call webkit_dom_html_select_element_get_validation_message #}
+       (toHTMLSelectElement self))
+      >>=
+      readUTFString
  
 htmlSelectElementGetLabels ::
                            (HTMLSelectElementClass self) => self -> IO (Maybe NodeList)

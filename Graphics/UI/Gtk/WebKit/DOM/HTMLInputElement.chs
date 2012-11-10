@@ -2,48 +2,51 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
        (htmlInputElementStepUp, htmlInputElementStepDown,
         htmlInputElementCheckValidity, htmlInputElementSetCustomValidity,
         htmlInputElementSelect, htmlInputElementSetValueForUser,
-        htmlInputElementSetDefaultValue, htmlInputElementGetDefaultValue,
+        htmlInputElementSetAccept, htmlInputElementGetAccept,
+        htmlInputElementSetAlt, htmlInputElementGetAlt,
+        htmlInputElementSetAutocomplete, htmlInputElementGetAutocomplete,
+        htmlInputElementSetAutofocus, htmlInputElementGetAutofocus,
         htmlInputElementSetDefaultChecked,
-        htmlInputElementGetDefaultChecked, htmlInputElementSetDirName,
-        htmlInputElementGetDirName, htmlInputElementGetForm,
+        htmlInputElementGetDefaultChecked, htmlInputElementSetChecked,
+        htmlInputElementGetChecked, htmlInputElementSetDirName,
+        htmlInputElementGetDirName, htmlInputElementSetDisabled,
+        htmlInputElementGetDisabled, htmlInputElementGetForm,
+        htmlInputElementSetFiles, htmlInputElementGetFiles,
         htmlInputElementSetFormAction, htmlInputElementGetFormAction,
         htmlInputElementSetFormEnctype, htmlInputElementGetFormEnctype,
         htmlInputElementSetFormMethod, htmlInputElementGetFormMethod,
         htmlInputElementSetFormNoValidate,
         htmlInputElementGetFormNoValidate, htmlInputElementSetFormTarget,
-        htmlInputElementGetFormTarget, htmlInputElementGetValidity,
-        htmlInputElementSetAccept, htmlInputElementGetAccept,
+        htmlInputElementGetFormTarget, htmlInputElementSetHeight,
+        htmlInputElementGetHeight, htmlInputElementSetIndeterminate,
+        htmlInputElementGetIndeterminate, htmlInputElementGetList,
+        htmlInputElementSetMax, htmlInputElementGetMax,
+        htmlInputElementSetMaxLength, htmlInputElementGetMaxLength,
+        htmlInputElementSetMin, htmlInputElementGetMin,
+        htmlInputElementSetMultiple, htmlInputElementGetMultiple,
+        htmlInputElementSetName, htmlInputElementGetName,
+        htmlInputElementSetPattern, htmlInputElementGetPattern,
+        htmlInputElementSetPlaceholder, htmlInputElementGetPlaceholder,
+        htmlInputElementSetReadOnly, htmlInputElementGetReadOnly,
+        htmlInputElementSetRequired, htmlInputElementGetRequired,
+        htmlInputElementSetSize, htmlInputElementGetSize,
+        htmlInputElementSetSrc, htmlInputElementGetSrc,
+        htmlInputElementSetStep, htmlInputElementGetStep,
+        htmlInputElementSetDefaultValue, htmlInputElementGetDefaultValue,
+        htmlInputElementSetValue, htmlInputElementGetValue,
+        htmlInputElementSetValueAsNumber, htmlInputElementGetValueAsNumber,
+        htmlInputElementSetWidth, htmlInputElementGetWidth,
+        htmlInputElementGetWillValidate, htmlInputElementGetValidity,
+        htmlInputElementGetValidationMessage, htmlInputElementGetLabels,
         htmlInputElementSetAlign, htmlInputElementGetAlign,
-        htmlInputElementSetAlt, htmlInputElementGetAlt,
-        htmlInputElementSetChecked, htmlInputElementGetChecked,
-        htmlInputElementSetDisabled, htmlInputElementGetDisabled,
-        htmlInputElementSetAutofocus, htmlInputElementGetAutofocus,
-        htmlInputElementSetAutocomplete, htmlInputElementGetAutocomplete,
-        htmlInputElementGetList, htmlInputElementSetMax,
-        htmlInputElementGetMax, htmlInputElementSetMaxLength,
-        htmlInputElementGetMaxLength, htmlInputElementSetMin,
-        htmlInputElementGetMin, htmlInputElementSetMultiple,
-        htmlInputElementGetMultiple, htmlInputElementSetWebkitdirectory,
-        htmlInputElementGetWebkitdirectory, htmlInputElementSetName,
-        htmlInputElementGetName, htmlInputElementSetPattern,
-        htmlInputElementGetPattern, htmlInputElementSetPlaceholder,
-        htmlInputElementGetPlaceholder, htmlInputElementSetReadOnly,
-        htmlInputElementGetReadOnly, htmlInputElementSetRequired,
-        htmlInputElementGetRequired, htmlInputElementSetSize,
-        htmlInputElementGetSize, htmlInputElementSetSrc,
-        htmlInputElementGetSrc, htmlInputElementSetStep,
-        htmlInputElementGetStep, htmlInputElementSetUseMap,
-        htmlInputElementGetUseMap, htmlInputElementSetValue,
-        htmlInputElementGetValue, htmlInputElementSetValueAsNumber,
-        htmlInputElementGetValueAsNumber,
-        htmlInputElementGetSelectedOption, htmlInputElementSetIncremental,
-        htmlInputElementGetIncremental, htmlInputElementGetWillValidate,
-        htmlInputElementGetValidationMessage,
-        htmlInputElementSetIndeterminate, htmlInputElementGetIndeterminate,
-        htmlInputElementGetFiles, htmlInputElementGetLabels,
-        htmlInputElementSetWebkitSpeech, htmlInputElementGetWebkitSpeech,
-        htmlInputElementSetWebkitGrammar, htmlInputElementGetWebkitGrammar,
-        htmlInputElementOnwebkitspeechchange)
+        htmlInputElementSetWebkitdirectory,
+        htmlInputElementGetWebkitdirectory, htmlInputElementSetUseMap,
+        htmlInputElementGetUseMap, htmlInputElementSetIncremental,
+        htmlInputElementGetIncremental, htmlInputElementSetWebkitSpeech,
+        htmlInputElementGetWebkitSpeech, htmlInputElementSetWebkitGrammar,
+        htmlInputElementGetWebkitGrammar,
+        htmlInputElementOnwebkitspeechchange, htmlInputElementSetCapture,
+        htmlInputElementGetCapture)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -103,22 +106,70 @@ htmlInputElementSetValueForUser self value
           (toHTMLInputElement self)
           valuePtr
  
-htmlInputElementSetDefaultValue ::
-                                (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetDefaultValue self val
+htmlInputElementSetAccept ::
+                          (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetAccept self val
   = withUTFString val $
       \ valPtr ->
-        {# call webkit_dom_html_input_element_set_default_value #}
+        {# call webkit_dom_html_input_element_set_accept #}
           (toHTMLInputElement self)
           valPtr
  
-htmlInputElementGetDefaultValue ::
-                                (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetDefaultValue self
-  = ({# call webkit_dom_html_input_element_get_default_value #}
+htmlInputElementGetAccept ::
+                          (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetAccept self
+  = ({# call webkit_dom_html_input_element_get_accept #}
        (toHTMLInputElement self))
       >>=
       readUTFString
+ 
+htmlInputElementSetAlt ::
+                       (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetAlt self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_input_element_set_alt #}
+          (toHTMLInputElement self)
+          valPtr
+ 
+htmlInputElementGetAlt ::
+                       (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetAlt self
+  = ({# call webkit_dom_html_input_element_get_alt #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString
+ 
+htmlInputElementSetAutocomplete ::
+                                (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetAutocomplete self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_input_element_set_autocomplete #}
+          (toHTMLInputElement self)
+          valPtr
+ 
+htmlInputElementGetAutocomplete ::
+                                (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetAutocomplete self
+  = ({# call webkit_dom_html_input_element_get_autocomplete #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString
+ 
+htmlInputElementSetAutofocus ::
+                             (HTMLInputElementClass self) => self -> Bool -> IO ()
+htmlInputElementSetAutofocus self val
+  = {# call webkit_dom_html_input_element_set_autofocus #}
+      (toHTMLInputElement self)
+      (fromBool val)
+ 
+htmlInputElementGetAutofocus ::
+                             (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetAutofocus self
+  = toBool <$>
+      ({# call webkit_dom_html_input_element_get_autofocus #}
+         (toHTMLInputElement self))
  
 htmlInputElementSetDefaultChecked ::
                                   (HTMLInputElementClass self) => self -> Bool -> IO ()
@@ -132,6 +183,20 @@ htmlInputElementGetDefaultChecked ::
 htmlInputElementGetDefaultChecked self
   = toBool <$>
       ({# call webkit_dom_html_input_element_get_default_checked #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementSetChecked ::
+                           (HTMLInputElementClass self) => self -> Bool -> IO ()
+htmlInputElementSetChecked self val
+  = {# call webkit_dom_html_input_element_set_checked #}
+      (toHTMLInputElement self)
+      (fromBool val)
+ 
+htmlInputElementGetChecked ::
+                           (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetChecked self
+  = toBool <$>
+      ({# call webkit_dom_html_input_element_get_checked #}
          (toHTMLInputElement self))
  
 htmlInputElementSetDirName ::
@@ -151,11 +216,40 @@ htmlInputElementGetDirName self
       >>=
       readUTFString
  
+htmlInputElementSetDisabled ::
+                            (HTMLInputElementClass self) => self -> Bool -> IO ()
+htmlInputElementSetDisabled self val
+  = {# call webkit_dom_html_input_element_set_disabled #}
+      (toHTMLInputElement self)
+      (fromBool val)
+ 
+htmlInputElementGetDisabled ::
+                            (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetDisabled self
+  = toBool <$>
+      ({# call webkit_dom_html_input_element_get_disabled #}
+         (toHTMLInputElement self))
+ 
 htmlInputElementGetForm ::
                         (HTMLInputElementClass self) => self -> IO (Maybe HTMLFormElement)
 htmlInputElementGetForm self
   = maybeNull (makeNewGObject mkHTMLFormElement)
       ({# call webkit_dom_html_input_element_get_form #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementSetFiles ::
+                         (FileListClass val, HTMLInputElementClass self) =>
+                           self -> Maybe val -> IO ()
+htmlInputElementSetFiles self val
+  = {# call webkit_dom_html_input_element_set_files #}
+      (toHTMLInputElement self)
+      (maybe (FileList nullForeignPtr) toFileList val)
+ 
+htmlInputElementGetFiles ::
+                         (HTMLInputElementClass self) => self -> IO (Maybe FileList)
+htmlInputElementGetFiles self
+  = maybeNull (makeNewGObject mkFileList)
+      ({# call webkit_dom_html_input_element_get_files #}
          (toHTMLInputElement self))
  
 htmlInputElementSetFormAction ::
@@ -240,122 +334,33 @@ htmlInputElementGetFormTarget self
       >>=
       readUTFString
  
-htmlInputElementGetValidity ::
-                            (HTMLInputElementClass self) => self -> IO (Maybe ValidityState)
-htmlInputElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_input_element_get_validity #}
+htmlInputElementSetHeight ::
+                          (HTMLInputElementClass self) => self -> Word -> IO ()
+htmlInputElementSetHeight self val
+  = {# call webkit_dom_html_input_element_set_height #}
+      (toHTMLInputElement self)
+      (fromIntegral val)
+ 
+htmlInputElementGetHeight ::
+                          (HTMLInputElementClass self) => self -> IO Word
+htmlInputElementGetHeight self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_input_element_get_height #}
          (toHTMLInputElement self))
  
-htmlInputElementSetAccept ::
-                          (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetAccept self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_input_element_set_accept #}
-          (toHTMLInputElement self)
-          valPtr
- 
-htmlInputElementGetAccept ::
-                          (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetAccept self
-  = ({# call webkit_dom_html_input_element_get_accept #}
-       (toHTMLInputElement self))
-      >>=
-      readUTFString
- 
-htmlInputElementSetAlign ::
-                         (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_input_element_set_align #}
-          (toHTMLInputElement self)
-          valPtr
- 
-htmlInputElementGetAlign ::
-                         (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetAlign self
-  = ({# call webkit_dom_html_input_element_get_align #}
-       (toHTMLInputElement self))
-      >>=
-      readUTFString
- 
-htmlInputElementSetAlt ::
-                       (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetAlt self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_input_element_set_alt #}
-          (toHTMLInputElement self)
-          valPtr
- 
-htmlInputElementGetAlt ::
-                       (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetAlt self
-  = ({# call webkit_dom_html_input_element_get_alt #}
-       (toHTMLInputElement self))
-      >>=
-      readUTFString
- 
-htmlInputElementSetChecked ::
-                           (HTMLInputElementClass self) => self -> Bool -> IO ()
-htmlInputElementSetChecked self val
-  = {# call webkit_dom_html_input_element_set_checked #}
+htmlInputElementSetIndeterminate ::
+                                 (HTMLInputElementClass self) => self -> Bool -> IO ()
+htmlInputElementSetIndeterminate self val
+  = {# call webkit_dom_html_input_element_set_indeterminate #}
       (toHTMLInputElement self)
       (fromBool val)
  
-htmlInputElementGetChecked ::
-                           (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetChecked self
+htmlInputElementGetIndeterminate ::
+                                 (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetIndeterminate self
   = toBool <$>
-      ({# call webkit_dom_html_input_element_get_checked #}
+      ({# call webkit_dom_html_input_element_get_indeterminate #}
          (toHTMLInputElement self))
- 
-htmlInputElementSetDisabled ::
-                            (HTMLInputElementClass self) => self -> Bool -> IO ()
-htmlInputElementSetDisabled self val
-  = {# call webkit_dom_html_input_element_set_disabled #}
-      (toHTMLInputElement self)
-      (fromBool val)
- 
-htmlInputElementGetDisabled ::
-                            (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_input_element_get_disabled #}
-         (toHTMLInputElement self))
- 
-htmlInputElementSetAutofocus ::
-                             (HTMLInputElementClass self) => self -> Bool -> IO ()
-htmlInputElementSetAutofocus self val
-  = {# call webkit_dom_html_input_element_set_autofocus #}
-      (toHTMLInputElement self)
-      (fromBool val)
- 
-htmlInputElementGetAutofocus ::
-                             (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_input_element_get_autofocus #}
-         (toHTMLInputElement self))
- 
-htmlInputElementSetAutocomplete ::
-                                (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetAutocomplete self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_input_element_set_autocomplete #}
-          (toHTMLInputElement self)
-          valPtr
- 
-htmlInputElementGetAutocomplete ::
-                                (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetAutocomplete self
-  = ({# call webkit_dom_html_input_element_get_autocomplete #}
-       (toHTMLInputElement self))
-      >>=
-      readUTFString
  
 htmlInputElementGetList ::
                         (HTMLInputElementClass self) => self -> IO (Maybe HTMLElement)
@@ -427,20 +432,6 @@ htmlInputElementGetMultiple ::
 htmlInputElementGetMultiple self
   = toBool <$>
       ({# call webkit_dom_html_input_element_get_multiple #}
-         (toHTMLInputElement self))
- 
-htmlInputElementSetWebkitdirectory ::
-                                   (HTMLInputElementClass self) => self -> Bool -> IO ()
-htmlInputElementSetWebkitdirectory self val
-  = {# call webkit_dom_html_input_element_set_webkitdirectory #}
-      (toHTMLInputElement self)
-      (fromBool val)
- 
-htmlInputElementGetWebkitdirectory ::
-                                   (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetWebkitdirectory self
-  = toBool <$>
-      ({# call webkit_dom_html_input_element_get_webkitdirectory #}
          (toHTMLInputElement self))
  
 htmlInputElementSetName ::
@@ -570,19 +561,19 @@ htmlInputElementGetStep self
       >>=
       readUTFString
  
-htmlInputElementSetUseMap ::
-                          (HTMLInputElementClass self) => self -> String -> IO ()
-htmlInputElementSetUseMap self val
+htmlInputElementSetDefaultValue ::
+                                (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetDefaultValue self val
   = withUTFString val $
       \ valPtr ->
-        {# call webkit_dom_html_input_element_set_use_map #}
+        {# call webkit_dom_html_input_element_set_default_value #}
           (toHTMLInputElement self)
           valPtr
  
-htmlInputElementGetUseMap ::
-                          (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetUseMap self
-  = ({# call webkit_dom_html_input_element_get_use_map #}
+htmlInputElementGetDefaultValue ::
+                                (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetDefaultValue self
+  = ({# call webkit_dom_html_input_element_get_default_value #}
        (toHTMLInputElement self))
       >>=
       readUTFString
@@ -621,13 +612,96 @@ htmlInputElementGetValueAsNumber self
       ({# call webkit_dom_html_input_element_get_value_as_number #}
          (toHTMLInputElement self))
  
-htmlInputElementGetSelectedOption ::
-                                  (HTMLInputElementClass self) =>
-                                    self -> IO (Maybe HTMLOptionElement)
-htmlInputElementGetSelectedOption self
-  = maybeNull (makeNewGObject mkHTMLOptionElement)
-      ({# call webkit_dom_html_input_element_get_selected_option #}
+htmlInputElementSetWidth ::
+                         (HTMLInputElementClass self) => self -> Word -> IO ()
+htmlInputElementSetWidth self val
+  = {# call webkit_dom_html_input_element_set_width #}
+      (toHTMLInputElement self)
+      (fromIntegral val)
+ 
+htmlInputElementGetWidth ::
+                         (HTMLInputElementClass self) => self -> IO Word
+htmlInputElementGetWidth self
+  = fromIntegral <$>
+      ({# call webkit_dom_html_input_element_get_width #}
          (toHTMLInputElement self))
+ 
+htmlInputElementGetWillValidate ::
+                                (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetWillValidate self
+  = toBool <$>
+      ({# call webkit_dom_html_input_element_get_will_validate #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementGetValidity ::
+                            (HTMLInputElementClass self) => self -> IO (Maybe ValidityState)
+htmlInputElementGetValidity self
+  = maybeNull (makeNewGObject mkValidityState)
+      ({# call webkit_dom_html_input_element_get_validity #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementGetValidationMessage ::
+                                     (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetValidationMessage self
+  = ({# call webkit_dom_html_input_element_get_validation_message #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString
+ 
+htmlInputElementGetLabels ::
+                          (HTMLInputElementClass self) => self -> IO (Maybe NodeList)
+htmlInputElementGetLabels self
+  = maybeNull (makeNewGObject mkNodeList)
+      ({# call webkit_dom_html_input_element_get_labels #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementSetAlign ::
+                         (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetAlign self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_input_element_set_align #}
+          (toHTMLInputElement self)
+          valPtr
+ 
+htmlInputElementGetAlign ::
+                         (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetAlign self
+  = ({# call webkit_dom_html_input_element_get_align #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString
+ 
+htmlInputElementSetWebkitdirectory ::
+                                   (HTMLInputElementClass self) => self -> Bool -> IO ()
+htmlInputElementSetWebkitdirectory self val
+  = {# call webkit_dom_html_input_element_set_webkitdirectory #}
+      (toHTMLInputElement self)
+      (fromBool val)
+ 
+htmlInputElementGetWebkitdirectory ::
+                                   (HTMLInputElementClass self) => self -> IO Bool
+htmlInputElementGetWebkitdirectory self
+  = toBool <$>
+      ({# call webkit_dom_html_input_element_get_webkitdirectory #}
+         (toHTMLInputElement self))
+ 
+htmlInputElementSetUseMap ::
+                          (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetUseMap self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_input_element_set_use_map #}
+          (toHTMLInputElement self)
+          valPtr
+ 
+htmlInputElementGetUseMap ::
+                          (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetUseMap self
+  = ({# call webkit_dom_html_input_element_get_use_map #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString
  
 htmlInputElementSetIncremental ::
                                (HTMLInputElementClass self) => self -> Bool -> IO ()
@@ -641,49 +715,6 @@ htmlInputElementGetIncremental ::
 htmlInputElementGetIncremental self
   = toBool <$>
       ({# call webkit_dom_html_input_element_get_incremental #}
-         (toHTMLInputElement self))
- 
-htmlInputElementGetWillValidate ::
-                                (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetWillValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_input_element_get_will_validate #}
-         (toHTMLInputElement self))
- 
-htmlInputElementGetValidationMessage ::
-                                     (HTMLInputElementClass self) => self -> IO String
-htmlInputElementGetValidationMessage self
-  = ({# call webkit_dom_html_input_element_get_validation_message #}
-       (toHTMLInputElement self))
-      >>=
-      readUTFString
- 
-htmlInputElementSetIndeterminate ::
-                                 (HTMLInputElementClass self) => self -> Bool -> IO ()
-htmlInputElementSetIndeterminate self val
-  = {# call webkit_dom_html_input_element_set_indeterminate #}
-      (toHTMLInputElement self)
-      (fromBool val)
- 
-htmlInputElementGetIndeterminate ::
-                                 (HTMLInputElementClass self) => self -> IO Bool
-htmlInputElementGetIndeterminate self
-  = toBool <$>
-      ({# call webkit_dom_html_input_element_get_indeterminate #}
-         (toHTMLInputElement self))
- 
-htmlInputElementGetFiles ::
-                         (HTMLInputElementClass self) => self -> IO (Maybe FileList)
-htmlInputElementGetFiles self
-  = maybeNull (makeNewGObject mkFileList)
-      ({# call webkit_dom_html_input_element_get_files #}
-         (toHTMLInputElement self))
- 
-htmlInputElementGetLabels ::
-                          (HTMLInputElementClass self) => self -> IO (Maybe NodeList)
-htmlInputElementGetLabels self
-  = maybeNull (makeNewGObject mkNodeList)
-      ({# call webkit_dom_html_input_element_get_labels #}
          (toHTMLInputElement self))
  
 htmlInputElementSetWebkitSpeech ::
@@ -719,3 +750,20 @@ htmlInputElementOnwebkitspeechchange ::
                                        Signal self (EventM UIEvent self ())
 htmlInputElementOnwebkitspeechchange
   = (connect "webkitspeechchange")
+ 
+htmlInputElementSetCapture ::
+                           (HTMLInputElementClass self) => self -> String -> IO ()
+htmlInputElementSetCapture self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_input_element_set_capture #}
+          (toHTMLInputElement self)
+          valPtr
+ 
+htmlInputElementGetCapture ::
+                           (HTMLInputElementClass self) => self -> IO String
+htmlInputElementGetCapture self
+  = ({# call webkit_dom_html_input_element_get_capture #}
+       (toHTMLInputElement self))
+      >>=
+      readUTFString

@@ -1,21 +1,22 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTableElement
        (htmlTableElementCreateTHead, htmlTableElementDeleteTHead,
         htmlTableElementCreateTFoot, htmlTableElementDeleteTFoot,
-        htmlTableElementCreateCaption, htmlTableElementDeleteCaption,
-        htmlTableElementInsertRow, htmlTableElementDeleteRow,
-        htmlTableElementSetCaption, htmlTableElementGetCaption,
-        htmlTableElementSetTHead, htmlTableElementGetTHead,
-        htmlTableElementSetTFoot, htmlTableElementGetTFoot,
-        htmlTableElementGetRows, htmlTableElementGetTBodies,
-        htmlTableElementSetAlign, htmlTableElementGetAlign,
-        htmlTableElementSetBgColor, htmlTableElementGetBgColor,
-        htmlTableElementSetBorder, htmlTableElementGetBorder,
-        htmlTableElementSetCellPadding, htmlTableElementGetCellPadding,
-        htmlTableElementSetCellSpacing, htmlTableElementGetCellSpacing,
-        htmlTableElementSetFrame, htmlTableElementGetFrame,
-        htmlTableElementSetRules, htmlTableElementGetRules,
-        htmlTableElementSetSummary, htmlTableElementGetSummary,
-        htmlTableElementSetWidth, htmlTableElementGetWidth)
+        htmlTableElementCreateTBody, htmlTableElementCreateCaption,
+        htmlTableElementDeleteCaption, htmlTableElementInsertRow,
+        htmlTableElementDeleteRow, htmlTableElementSetCaption,
+        htmlTableElementGetCaption, htmlTableElementSetTHead,
+        htmlTableElementGetTHead, htmlTableElementSetTFoot,
+        htmlTableElementGetTFoot, htmlTableElementGetRows,
+        htmlTableElementGetTBodies, htmlTableElementSetAlign,
+        htmlTableElementGetAlign, htmlTableElementSetBgColor,
+        htmlTableElementGetBgColor, htmlTableElementSetBorder,
+        htmlTableElementGetBorder, htmlTableElementSetCellPadding,
+        htmlTableElementGetCellPadding, htmlTableElementSetCellSpacing,
+        htmlTableElementGetCellSpacing, htmlTableElementSetFrame,
+        htmlTableElementGetFrame, htmlTableElementSetRules,
+        htmlTableElementGetRules, htmlTableElementSetSummary,
+        htmlTableElementGetSummary, htmlTableElementSetWidth,
+        htmlTableElementGetWidth)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -49,6 +50,13 @@ htmlTableElementDeleteTFoot ::
 htmlTableElementDeleteTFoot self
   = {# call webkit_dom_html_table_element_delete_t_foot #}
       (toHTMLTableElement self)
+ 
+htmlTableElementCreateTBody ::
+                            (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
+htmlTableElementCreateTBody self
+  = maybeNull (makeNewGObject mkHTMLElement)
+      ({# call webkit_dom_html_table_element_create_t_body #}
+         (toHTMLTableElement self))
  
 htmlTableElementCreateCaption ::
                               (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)

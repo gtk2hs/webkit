@@ -4,23 +4,21 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLElement
         htmlElementGetId, htmlElementSetTitle, htmlElementGetTitle,
         htmlElementSetLang, htmlElementGetLang, htmlElementSetTranslate,
         htmlElementGetTranslate, htmlElementSetDir, htmlElementGetDir,
-        htmlElementSetClassName, htmlElementGetClassName,
-        htmlElementGetClassList, htmlElementSetTabIndex,
-        htmlElementGetTabIndex, htmlElementSetDraggable,
-        htmlElementGetDraggable, htmlElementSetWebkitdropzone,
-        htmlElementGetWebkitdropzone, htmlElementSetHidden,
-        htmlElementGetHidden, htmlElementSetAccessKey,
-        htmlElementGetAccessKey, htmlElementSetInnerHTML,
-        htmlElementGetInnerHTML, htmlElementSetInnerText,
-        htmlElementGetInnerText, htmlElementSetOuterHTML,
-        htmlElementGetOuterHTML, htmlElementSetOuterText,
-        htmlElementGetOuterText, htmlElementGetChildren,
-        htmlElementSetContentEditable, htmlElementGetContentEditable,
-        htmlElementGetIsContentEditable, htmlElementSetSpellcheck,
-        htmlElementGetSpellcheck, htmlElementSetItemScope,
-        htmlElementGetItemScope, htmlElementGetItemType,
-        htmlElementSetItemId, htmlElementGetItemId, htmlElementGetItemRef,
-        htmlElementGetItemProp)
+        htmlElementSetTabIndex, htmlElementGetTabIndex,
+        htmlElementSetDraggable, htmlElementGetDraggable,
+        htmlElementSetWebkitdropzone, htmlElementGetWebkitdropzone,
+        htmlElementSetHidden, htmlElementGetHidden,
+        htmlElementSetAccessKey, htmlElementGetAccessKey,
+        htmlElementSetInnerHTML, htmlElementGetInnerHTML,
+        htmlElementSetInnerText, htmlElementGetInnerText,
+        htmlElementSetOuterHTML, htmlElementGetOuterHTML,
+        htmlElementSetOuterText, htmlElementGetOuterText,
+        htmlElementGetChildren, htmlElementSetContentEditable,
+        htmlElementGetContentEditable, htmlElementGetIsContentEditable,
+        htmlElementSetSpellcheck, htmlElementGetSpellcheck,
+        htmlElementSetItemScope, htmlElementGetItemScope,
+        htmlElementGetItemType, htmlElementSetItemId, htmlElementGetItemId,
+        htmlElementGetItemRef, htmlElementGetItemProp)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -149,30 +147,6 @@ htmlElementGetDir self
   = ({# call webkit_dom_html_element_get_dir #} (toHTMLElement self))
       >>=
       readUTFString
- 
-htmlElementSetClassName ::
-                        (HTMLElementClass self) => self -> String -> IO ()
-htmlElementSetClassName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_element_set_class_name #}
-          (toHTMLElement self)
-          valPtr
- 
-htmlElementGetClassName ::
-                        (HTMLElementClass self) => self -> IO String
-htmlElementGetClassName self
-  = ({# call webkit_dom_html_element_get_class_name #}
-       (toHTMLElement self))
-      >>=
-      readUTFString
- 
-htmlElementGetClassList ::
-                        (HTMLElementClass self) => self -> IO (Maybe DOMTokenList)
-htmlElementGetClassList self
-  = maybeNull (makeNewGObject mkDOMTokenList)
-      ({# call webkit_dom_html_element_get_class_list #}
-         (toHTMLElement self))
  
 htmlElementSetTabIndex ::
                        (HTMLElementClass self) => self -> Int -> IO ()
