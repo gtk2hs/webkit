@@ -1,0 +1,456 @@
+# This list is the result of a copy-and-paste from the GtkObject hierarchy
+# html documentation. Deprecated widgets are uncommented. Some additional
+# object have been defined at the end of the copied list.
+
+# The Gtk prefix of every object is removed, the other prefixes are
+# kept.  The indentation implies the object hierarchy. In case the
+# type query function cannot be derived from the name or the type name
+# is different, an alternative name and type query function can be
+# specified by appending 'as typename, <query_func>'.  In case this
+# function is not specified, the <name> is converted to
+# gtk_<name'>_get_type where <name'> is <name> where each upperscore
+# letter is converted to an underscore and lowerletter. The underscore
+# is omitted if an upperscore letter preceeded: GtkHButtonBox ->
+# gtk_hbutton_box_get_type. The generation of a type can be
+# conditional by appending 'if <tag>'. Such types are only produces if
+# --tag=<tag> is given on the command line of TypeGenerator.
+
+
+    GObject 
+        GdkDrawable 
+            GdkWindow		as DrawWindow, gdk_window_object_get_type
+#            GdkDrawableImplX11
+#                GdkWindowImplX11
+            GdkPixmap
+            GdkGLPixmap		if gtkglext
+            GdkGLWindow		if gtkglext
+        GdkColormap
+	GdkScreen		if gtk-2.2
+	GdkDisplay		if gtk-2.2
+	GdkVisual
+	GdkDevice
+        GtkSettings
+        GtkTextBuffer
+            GtkSourceBuffer	if sourceview
+            GtkSourceBuffer	if gtksourceview2
+        GtkTextTag
+            GtkSourceTag	if sourceview
+        GtkTextTagTable
+            GtkSourceTagTable	if sourceview
+        GtkStyle
+	GtkRcStyle
+        GdkDragContext
+        GdkPixbuf
+	GdkPixbufAnimation
+	    GdkPixbufSimpleAnim
+	GdkPixbufAnimationIter
+        GtkTextChildAnchor
+        GtkTextMark
+	    GtkSourceMarker	if sourceview
+            GtkSourceMark       if gtksourceview2
+        GtkWidget
+                GtkMisc
+                    GtkLabel
+                        GtkAccelLabel
+                        GtkTipsQuery	if deprecated
+                    GtkArrow
+                    GtkImage
+                GtkContainer
+                    WebKitWebView as WebView, webkit_web_view_get_type            if webkit 
+                    GtkBin
+                        GtkAlignment
+                        GtkFrame
+                            GtkAspectFrame
+                        GtkButton
+                            GtkToggleButton
+                                GtkCheckButton
+                                    GtkRadioButton
+                            GtkColorButton		if gtk-2.4
+                            GtkFontButton		if gtk-2.4
+                            GtkOptionMenu		if deprecated
+                        GtkItem
+                            GtkMenuItem
+                                GtkCheckMenuItem
+                                    GtkRadioMenuItem
+                                GtkTearoffMenuItem
+                                GtkImageMenuItem
+                                GtkSeparatorMenuItem
+                            GtkListItem			if deprecated
+#			    GtkTreeItem
+                        GtkWindow
+                            GtkDialog
+			    	GtkAboutDialog		if gtk-2.6
+                                GtkColorSelectionDialog
+                                GtkFileSelection
+				GtkFileChooserDialog	if gtk-2.4
+                                GtkFontSelectionDialog
+                                GtkInputDialog
+                                GtkMessageDialog
+                            GtkPlug	if plugNsocket
+                        GtkEventBox
+                        GtkHandleBox
+                        GtkScrolledWindow
+                        GtkViewport
+			GtkExpander			if gtk-2.4
+			GtkComboBox			if gtk-2.4
+			    GtkComboBoxEntry		if gtk-2.4
+			GtkToolItem			if gtk-2.4
+			    GtkToolButton		if gtk-2.4
+				GtkMenuToolButton	if gtk-2.6
+				GtkToggleToolButton	if gtk-2.4
+				    GtkRadioToolButton	if gtk-2.4
+			    GtkSeparatorToolItem	if gtk-2.4
+			GtkMozEmbed		if mozembed
+			VteTerminal as Terminal if vte
+                    GtkBox
+                        GtkButtonBox
+                            GtkHButtonBox
+                            GtkVButtonBox
+                        GtkVBox
+                            GtkColorSelection
+                            GtkFontSelection
+			    GtkFileChooserWidget	if gtk-2.4
+                        GtkHBox
+                            GtkCombo	if deprecated
+                            GtkFileChooserButton	if gtk-2.6
+                            GtkStatusbar
+                    GtkCList		if deprecated
+                        GtkCTree	if deprecated
+                    GtkFixed
+                    GtkPaned
+                        GtkHPaned
+                        GtkVPaned
+                    GtkIconView		if gtk-2.6
+                    GtkLayout
+                    GtkList		if deprecated
+                    GtkMenuShell
+                        GtkMenu
+                        GtkMenuBar
+                    GtkNotebook
+#                    GtkPacker
+                    GtkSocket		if plugNsocket
+                    GtkTable
+                    GtkTextView
+                        GtkSourceView	if sourceview
+                        GtkSourceView	if gtksourceview2
+                    GtkToolbar
+                    GtkTreeView
+                GtkCalendar
+                GtkCellView		if gtk-2.6
+		GtkDrawingArea
+                GtkEntry
+                    GtkSpinButton
+                GtkRuler
+                    GtkHRuler
+                    GtkVRuler
+                GtkRange
+                    GtkScale
+                        GtkHScale
+                        GtkVScale
+                    GtkScrollbar
+                        GtkHScrollbar
+                        GtkVScrollbar
+                GtkSeparator
+                    GtkHSeparator
+                    GtkVSeparator
+                GtkInvisible
+#                GtkOldEditable
+#                    GtkText
+                GtkPreview		if deprecated
+# Progress is deprecated, ProgressBar contains everything necessary
+#                GtkProgress
+                GtkProgressBar
+            GtkAdjustment
+            GtkIMContext
+                GtkIMMulticontext
+            GtkItemFactory		if deprecated
+            GtkTooltips
+			
+# These object were added by hand because they do not show up in the hierarchy
+# chart.
+# These are derived from GtkObject:
+	    GtkTreeViewColumn
+	    GtkCellRenderer
+		GtkCellRendererPixbuf
+		GtkCellRendererText
+		    GtkCellRendererCombo	if gtk-2.6
+		GtkCellRendererToggle
+		GtkCellRendererProgress	if gtk-2.6
+	    GtkFileFilter		if gtk-2.4
+            GtkBuilder if gtk-2.12
+# These are actually interfaces, but all objects that implement it are at
+# least GObjects.
+	GtkCellLayout			if gtk-2.4
+	GtkTreeSortable			if gtk-2.4
+	GtkTooltip				if gtk-2.12
+# These are derived from GObject:
+  	GtkStatusIcon                   if gtk-2.10
+        GtkTreeSelection
+        GtkTreeModel
+            GtkTreeStore
+            GtkListStore
+	GtkTreeModelSort
+	GtkTreeModelFilter		if gtk-2.4
+	GtkIconFactory
+	GtkIconTheme
+	GtkSizeGroup
+	GtkClipboard			if gtk-2.2
+	GtkAccelGroup
+	GtkAccelMap			if gtk-2.4
+	GtkEntryCompletion		if gtk-2.4
+	GtkAction			if gtk-2.4
+	    GtkToggleAction		if gtk-2.4
+		GtkRadioAction		if gtk-2.4
+	GtkActionGroup			if gtk-2.4
+	GtkUIManager			if gtk-2.4
+	GtkWindowGroup
+        GtkSourceLanguage		if sourceview
+        GtkSourceLanguage		if gtksourceview2
+        GtkSourceLanguagesManager	if sourceview
+        GtkSourceLanguageManager	if gtksourceview2
+	GladeXML			as GladeXML, glade_xml_get_type if libglade
+	GConfClient			as GConf if gconf
+# These ones are actualy interfaces, but interface implementations are GObjects
+	GtkEditable
+	GtkSourceStyle			as SourceStyleObject if gtksourceview2
+	GtkSourceStyleScheme		if sourceview
+	GtkSourceStyleScheme		if gtksourceview2
+	GtkSourceStyleSchemeManager	if gtksourceview2
+	GtkFileChooser			if gtk-2.4
+## This now became a GObject in version 2:
+	GdkGC				as GC, gdk_gc_get_type
+## These are Pango structures
+	PangoContext		as PangoContext, pango_context_get_type if pango
+	PangoLayout		as PangoLayoutRaw, pango_layout_get_type if pango
+	PangoFont		as Font, pango_font_get_type if pango
+	PangoFontFamily		as FontFamily, pango_font_family_get_type if pango
+	PangoFontFace		as FontFace, pango_font_face_get_type if pango
+	PangoFontMap		as FontMap, pango_font_face_get_type if pango
+	PangoFontset		as FontSet, pango_fontset_get_type if pango
+## This type is only available for PANGO_ENABLE_BACKEND compiled source
+##	    PangoFontsetSimple	as FontSetSimple, pango_fontset_simple_get_type
+
+## GtkGlExt classes
+	GdkGLContext		if gtkglext
+	GdkGLConfig		if gtkglext
+	GdkGLDrawable		if gtkglext
+
+## GnomeVFS classes
+	GnomeVFSVolume		as Volume, gnome_vfs_volume_get_type if gnomevfs
+	GnomeVFSDrive		as Drive, gnome_vfs_drive_get_type if gnomevfs
+	GnomeVFSVolumeMonitor	as VolumeMonitor, gnome_vfs_volume_monitor_get_type if gnomevfs
+
+## GIO classes
+# Note on all the "as" clauses: the prefix G is unfortunate since it leads
+# to two consecutive upper case letters which are not translated with an
+# underscore each (e.g. GConf -> gconf, GtkHButtonBox -> gtk_hbutton_box).
+#        GUnixMountMonitor		as UnixMountMonitor, g_unix_mount_monitor_get_type if gio
+        GOutputStream			as OutputStream, g_output_stream_get_type if gio
+            GFilterOutputStream		as FilterOutputStream, g_filter_output_stream_get_type if gio
+                GDataOutputStream	as DataOutputStream, g_data_output_stream_get_type if gio
+                GBufferedOutputStream   as BufferedOutputStream, g_buffered_output_stream_get_type if gio
+#            GUnixOutputStream		as UnixOutputStream, g_unix_output_stream_get_type if gio
+            GFileOutputStream           as FileOutputStream, g_file_output_stream_get_type if gio
+            GMemoryOutputStream		as MemoryOutputStream, g_memory_output_stream_get_type if gio
+        GInputStream			as InputStream, g_input_stream_get_type if gio
+#            GUnixInputStream		as UnixInputStream, g_unix_input_stream_get_type if gio
+            GMemoryInputStream		as MemoryInputStream, g_memory_input_stream_get_type if gio
+            GFilterInputStream		as FilterInputStream, g_filter_input_stream_get_type if gio
+                GBufferedInputStream	as BufferedInputStream, g_buffered_input_stream_get_type if gio
+                    GDataInputStream	as DataInputStream, g_data_input_stream_get_type if gio
+            GFileInputStream		as FileInputStream, g_file_input_stream_get_type if gio
+#        GDesktopAppInfo			as DesktopAppInfo, g_desktop_app_info_get_type if gio
+        GFileMonitor			as FileMonitor, g_file_monitor_get_type if gio
+        GVfs				as Vfs, g_vfs_get_type if gio
+        GMountOperation			as MountOperation, g_mount_operation_get_type if gio
+        GThemedIcon			as ThemedIcon, g_themed_icon_get_type if gio
+        GEmblem			as Emblem, g_emblem_get_type if gio
+        GEmblemedIcon			as EmblemedIcon, g_emblemed_icon_get_type if gio
+        GFileEnumerator			as FileEnumerator, g_file_enumerator_get_type if gio
+        GFilenameCompleter		as FilenameCompleter, g_filename_completer_get_type if gio
+        GFileIcon			as FileIcon, g_file_icon_get_type if gio
+        GVolumeMonitor			as VolumeMonitor, g_volume_monitor_get_type if gio
+        GCancellable			as Cancellable, g_cancellable_get_type if gio
+        GSimpleAsyncResult		as SimpleAsyncResult, g_async_result_get_type if gio
+        GFileInfo			as FileInfo, g_file_info_get_type if gio
+		GAppLaunchContext   as AppLaunchContext, g_app_launch_context_get_type if gio
+## these are actually GInterfaces
+        GIcon				as Icon, g_icon_get_type if gio
+        GSeekable			as Seekable, g_seekable_get_type if gio
+        GAppInfo			as AppInfo, g_app_info_get_type if gio
+        GVolume				as Volume, g_volume_get_type if gio
+        GAsyncResult			as AsyncResult, g_async_result_get_type if gio
+        GLoadableIcon			as LoadableIcon, g_loadable_icon_get_type if gio
+        GDrive				as Drive, g_drive_get_type if gio
+        GFile				noEq as File, g_file_get_type if gio
+        GMount				as Mount, g_mount_get_type if gio
+
+## GStreamer classes
+	GstObject			as Object,		gst_object_get_type			if gstreamer
+	    GstPad			as Pad,			gst_pad_get_type			if gstreamer
+	        GstGhostPad		as GhostPad,		gst_ghost_pad_get_type			if gstreamer
+	    GstPluginFeature		as PluginFeature,	gst_plugin_feature_get_type		if gstreamer
+	        GstElementFactory	as ElementFactory,	gst_element_factory_get_type		if gstreamer
+	        GstTypeFindFactory	as TypeFindFactory,	gst_type_find_factory_get_type		if gstreamer
+	        GstIndexFactory		as IndexFactory,	gst_index_factory_get_type		if gstreamer
+	    GstElement			as Element,		gst_element_get_type			if gstreamer
+	        GstBin			as Bin,			gst_bin_get_type			if gstreamer
+	            GstPipeline		as Pipeline,		gst_pipeline_get_type			if gstreamer
+	        GstImplementsInterface  as ImplementsInterface, gst_implements_interface_get_type	if gstreamer
+	        GstTagSetter            as TagSetter,           gst_tag_setter_get_type			if gstreamer
+                GstBaseSrc              as BaseSrc,             gst_base_src_get_type			if gstreamer
+                    GstPushSrc          as PushSrc,             gst_push_src_get_type                   if gstreamer
+                GstBaseSink             as BaseSink,            gst_base_sink_get_type                  if gstreamer
+                GstBaseTransform        as BaseTransform,       gst_base_transform_get_type             if gstreamer
+	    GstPlugin			as Plugin,		gst_plugin_get_type			if gstreamer
+	    GstRegistry			as Registry,		gst_registry_get_type			if gstreamer
+	    GstBus			as Bus,			gst_bus_get_type			if gstreamer
+	    GstClock			as Clock,		gst_clock_get_type			if gstreamer
+	        GstAudioClock		as AudioClock,		gst_audio_clock_get_type		if gstreamer
+	        GstSystemClock		as SystemClock,		gst_system_clock_get_type		if gstreamer
+                GstNetClientClock       as NetClientClock,      gst_net_client_clock_get_type           if gstreamer
+	    GstIndex			as Index,		gst_index_get_type			if gstreamer
+	    GstPadTemplate		as PadTemplate,		gst_pad_template_get_type		if gstreamer
+	    GstTask			as Task,		gst_task_get_type			if gstreamer
+	    GstXML			as XML,			gst_xml_get_type			if gstreamer
+	    GstChildProxy               as ChildProxy,          gst_child_proxy_get_type		if gstreamer
+            GstCollectPads              as CollectPads,         gst_collect_pads_get_type               if gstreamer
+## these are actually GInterfaces
+	GstURIHandler                   as URIHandler,          gst_uri_handler_get_type		if gstreamer
+        GstAdapter                      as Adapter,             gst_adapter_get_type                    if gstreamer
+        GstController                   as Controller,          gst_controller_get_type                 if gstreamer
+
+        WebKitWebFrame as WebFrame, webkit_web_frame_get_type          if webkit 
+        WebKitWebSettings as WebSettings, webkit_web_settings_get_type    if webkit
+        WebKitNetworkRequest as NetworkRequest, webkit_network_request_get_type  if webkit
+        WebKitNetworkResponse as NetworkResponse, webkit_network_response_get_type    if webkit
+        WebKitDownload as Download, webkit_download_get_type  if webkit
+        WebKitWebBackForwardList as WebBackForwardList, webkit_web_back_forward_list_get_type if webkit
+        WebKitWebHistoryItem as WebHistoryItem, webkit_web_history_item_get_type if webkit
+        WebKitWebInspector as WebInspector, webkit_web_inspector_get_type if webkit
+        WebKitHitTestResult as HitTestResult, webkit_hit_test_result_get_type if webkit
+        WebKitSecurityOrigin as SecurityOrigin, webkit_security_origin_get_type if webkit
+        WebKitSoupAuthDialog as SoupAuthDialog, webkit_soup_auth_dialog_get_type if webkit
+        WebKitWebDatabase as WebDatabase, webkit_web_database_get_type if webkit
+        WebKitWebDataSource as WebDataSource, webkit_web_data_source_get_type if webkit
+        WebKitWebNavigationAction as WebNavigationAction, webkit_web_navigation_action_get_type if webkit
+        WebKitWebPolicyDecision as WebPolicyDecision, webkit_web_policy_decision_get_type if webkit
+        WebKitWebResource as WebResource, webkit_web_resource_get_type if webkit
+        WebKitWebWindowFeatures as WebWindowFeatures, webkit_web_window_features_get_type if webkit
+        WebKitGeolocationPolicyDecision as GeolocationPolicyDecision, webkit_geolocation_policy_decision_get_type if webkit
+
+        WebKitDOMBarInfo as BarInfo, webkit_dom_bar_info_get_type if webkit-dom
+        WebKitDOMBlob as Blob, webkit_dom_blob_get_type if webkit-dom
+            WebKitDOMFile as File, webkit_dom_file_get_type if webkit-dom
+        WebKitDOMCSSRule as CSSRule, webkit_dom_css_rule_get_type if webkit-dom
+        WebKitDOMCSSRuleList as CSSRuleList, webkit_dom_css_rule_list_get_type if webkit-dom
+        WebKitDOMCSSStyleDeclaration as CSSStyleDeclaration, webkit_dom_css_style_declaration_get_type if webkit-dom
+        WebKitDOMCSSValue as CSSValue, webkit_dom_css_value_get_type if webkit-dom
+        WebKitDOMConsole as Console, webkit_dom_console_get_type if webkit-dom
+        WebKitDOMDOMApplicationCache as DOMApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
+        WebKitDOMDOMImplementation as DOMImplementation, webkit_dom_dom_implementation_get_type if webkit-dom
+        WebKitDOMDOMMimeType as DOMMimeType, webkit_dom_dom_mime_type_get_type if webkit-dom
+        WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
+        WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
+        WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
+        WebKitDOMDOMSelection as DOMSelection, webkit_dom_dom_selection_get_type if webkit-dom
+        WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
+        WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
+            WebKitDOMDOMSettableTokenList as DOMSettableTokenList, webkit_dom_dom_settable_token_list_get_type if webkit-dom
+        WebKitDOMDOMWindow as DOMWindow, webkit_dom_dom_window_get_type if webkit-dom
+        WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
+            WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
+                WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
+        WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
+        WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
+        WebKitDOMHTMLCollection as HTMLCollection, webkit_dom_html_collection_get_type if webkit-dom
+            WebKitDOMHTMLOptionsCollection as HTMLOptionsCollection, webkit_dom_html_options_collection_get_type if webkit-dom
+        WebKitDOMHistory as History, webkit_dom_history_get_type if webkit-dom
+        WebKitDOMLocation as Location, webkit_dom_location_get_type if webkit-dom
+        WebKitDOMMediaList as MediaList, webkit_dom_media_list_get_type if webkit-dom
+        WebKitDOMMediaQueryList as MediaQueryList, webkit_dom_media_query_list_get_type if webkit-dom
+        WebKitDOMMemoryInfo as MemoryInfo, webkit_dom_memory_info_get_type if webkit-dom
+        WebKitDOMNamedNodeMap as NamedNodeMap, webkit_dom_named_node_map_get_type if webkit-dom
+        WebKitDOMNavigator as Navigator, webkit_dom_navigator_get_type if webkit-dom
+        WebKitDOMNode as Node, webkit_dom_node_get_type if webkit-dom
+            WebKitDOMAttr as DOMAttr, webkit_dom_attr_get_type if webkit-dom
+            WebKitDOMCharacterData as CharacterData, webkit_dom_character_data_get_type if webkit-dom
+                WebKitDOMComment as Comment, webkit_dom_comment_get_type if webkit-dom
+                WebKitDOMText as Text, webkit_dom_text_get_type if webkit-dom
+                    WebKitDOMCDATASection as CDATASection, webkit_dom_cdata_section_get_type if webkit-dom
+            WebKitDOMDocument as Document, webkit_dom_document_get_type if webkit-dom
+                WebKitDOMHTMLDocument as HTMLDocument, webkit_dom_html_document_get_type if webkit-dom
+            WebKitDOMDocumentFragment as DocumentFragment, webkit_dom_document_fragment_get_type if webkit-dom
+            WebKitDOMDocumentType as DocumentType, webkit_dom_document_type_get_type if webkit-dom
+            WebKitDOMElement as Element, webkit_dom_element_get_type if webkit-dom
+                WebKitDOMHTMLElement as HTMLElement, webkit_dom_html_element_get_type if webkit-dom
+                    WebKitDOMHTMLAnchorElement as HTMLAnchorElement, webkit_dom_html_anchor_element_get_type if webkit-dom
+                    WebKitDOMHTMLAppletElement as HTMLAppletElement, webkit_dom_html_applet_element_get_type if webkit-dom
+                    WebKitDOMHTMLAreaElement as HTMLAreaElement, webkit_dom_html_area_element_get_type if webkit-dom
+                    WebKitDOMHTMLBRElement as HTMLBRElement, webkit_dom_htmlbr_element_get_type if webkit-dom
+                    WebKitDOMHTMLBaseElement as HTMLBaseElement, webkit_dom_html_base_element_get_type if webkit-dom
+                    WebKitDOMHTMLBaseFontElement as HTMLBaseFontElement, webkit_dom_html_base_font_element_get_type if webkit-dom
+                    WebKitDOMHTMLBodyElement as HTMLBodyElement, webkit_dom_html_body_element_get_type if webkit-dom
+                    WebKitDOMHTMLButtonElement as HTMLButtonElement, webkit_dom_html_button_element_get_type if webkit-dom
+                    WebKitDOMHTMLDListElement as HTMLDListElement, webkit_dom_htmld_list_element_get_type if webkit-dom
+                    WebKitDOMHTMLDirectoryElement as HTMLDirectoryElement, webkit_dom_html_directory_element_get_type if webkit-dom
+                    WebKitDOMHTMLDivElement as HTMLDivElement, webkit_dom_html_div_element_get_type if webkit-dom
+                    WebKitDOMHTMLFieldSetElement as HTMLFieldSetElement, webkit_dom_html_field_set_element_get_type if webkit-dom
+                    WebKitDOMHTMLFontElement as HTMLFontElement, webkit_dom_html_font_element_get_type if webkit-dom
+                    WebKitDOMHTMLFormElement as HTMLFormElement, webkit_dom_html_form_element_get_type if webkit-dom
+                    WebKitDOMHTMLFrameElement as HTMLFrameElement, webkit_dom_html_frame_element_get_type if webkit-dom
+                    WebKitDOMHTMLFrameSetElement as HTMLFrameSetElement, webkit_dom_html_frame_set_element_get_type if webkit-dom
+                    WebKitDOMHTMLHRElement as HTMLHRElement, webkit_dom_htmlhr_element_get_type if webkit-dom
+                    WebKitDOMHTMLHeadElement as HTMLHeadElement, webkit_dom_html_head_element_get_type if webkit-dom
+                    WebKitDOMHTMLHeadingElement as HTMLHeadingElement, webkit_dom_html_heading_element_get_type if webkit-dom
+                    WebKitDOMHTMLHtmlElement as HTMLHtmlElement, webkit_dom_html_html_element_get_type if webkit-dom
+                    WebKitDOMHTMLIFrameElement as HTMLIFrameElement, webkit_dom_html_iframe_element_get_type if webkit-dom
+                    WebKitDOMHTMLImageElement as HTMLImageElement, webkit_dom_html_image_element_get_type if webkit-dom
+                    WebKitDOMHTMLInputElement as HTMLInputElement, webkit_dom_html_input_element_get_type if webkit-dom
+                    WebKitDOMHTMLLIElement as HTMLLIElement, webkit_dom_htmlli_element_get_type if webkit-dom
+                    WebKitDOMHTMLLabelElement as HTMLLabelElement, webkit_dom_html_label_element_get_type if webkit-dom
+                    WebKitDOMHTMLLegendElement as HTMLLegendElement, webkit_dom_html_legend_element_get_type if webkit-dom
+                    WebKitDOMHTMLLinkElement as HTMLLinkElement, webkit_dom_html_link_element_get_type if webkit-dom
+                    WebKitDOMHTMLMapElement as HTMLMapElement, webkit_dom_html_map_element_get_type if webkit-dom
+                    WebKitDOMHTMLMenuElement as HTMLMenuElement, webkit_dom_html_menu_element_get_type if webkit-dom
+                    WebKitDOMHTMLMetaElement as HTMLMetaElement, webkit_dom_html_meta_element_get_type if webkit-dom
+                    WebKitDOMHTMLModElement as HTMLModElement, webkit_dom_html_mod_element_get_type if webkit-dom
+                    WebKitDOMHTMLOListElement as HTMLOListElement, webkit_dom_htmlo_list_element_get_type if webkit-dom
+                    WebKitDOMHTMLObjectElement as HTMLObjectElement, webkit_dom_html_object_element_get_type if webkit-dom
+                    WebKitDOMHTMLOptGroupElement as HTMLOptGroupElement, webkit_dom_html_opt_group_element_get_type if webkit-dom
+                    WebKitDOMHTMLOptionElement as HTMLOptionElement, webkit_dom_html_option_element_get_type if webkit-dom
+                    WebKitDOMHTMLParagraphElement as HTMLParagraphElement, webkit_dom_html_paragraph_element_get_type if webkit-dom
+                    WebKitDOMHTMLParamElement as HTMLParamElement, webkit_dom_html_param_element_get_type if webkit-dom
+                    WebKitDOMHTMLPreElement as HTMLPreElement, webkit_dom_html_pre_element_get_type if webkit-dom
+                    WebKitDOMHTMLQuoteElement as HTMLQuoteElement, webkit_dom_html_quote_element_get_type if webkit-dom
+                    WebKitDOMHTMLScriptElement as HTMLScriptElement, webkit_dom_html_script_element_get_type if webkit-dom
+                    WebKitDOMHTMLSelectElement as HTMLSelectElement, webkit_dom_html_select_element_get_type if webkit-dom
+                    WebKitDOMHTMLStyleElement as HTMLStyleElement, webkit_dom_html_style_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableCaptionElement as HTMLTableCaptionElement, webkit_dom_html_table_caption_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableCellElement as HTMLTableCellElement, webkit_dom_html_table_cell_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableColElement as HTMLTableColElement, webkit_dom_html_table_col_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableElement as HTMLTableElement, webkit_dom_html_table_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableRowElement as HTMLTableRowElement, webkit_dom_html_table_row_element_get_type if webkit-dom
+                    WebKitDOMHTMLTableSectionElement as HTMLTableSectionElement, webkit_dom_html_table_section_element_get_type if webkit-dom
+                    WebKitDOMHTMLTextAreaElement as HTMLTextAreaElement, webkit_dom_html_text_area_element_get_type if webkit-dom
+                    WebKitDOMHTMLTitleElement as HTMLTitleElement, webkit_dom_html_title_element_get_type if webkit-dom
+                    WebKitDOMHTMLUListElement as HTMLUListElement, webkit_dom_htmlu_list_element_get_type if webkit-dom
+            WebKitDOMEntityReference as EntityReference, webkit_dom_entity_reference_get_type if webkit-dom
+            WebKitDOMProcessingInstruction as ProcessingInstruction, webkit_dom_processing_instruction_get_type if webkit-dom
+        WebKitDOMNodeFilter as NodeFilter, webkit_dom_node_filter_get_type if webkit-dom
+        WebKitDOMNodeIterator as NodeIterator, webkit_dom_node_iterator_get_type if webkit-dom
+        WebKitDOMNodeList as NodeList, webkit_dom_node_list_get_type if webkit-dom
+        WebKitDOMRange as DOMRange, webkit_dom_range_get_type if webkit-dom
+        WebKitDOMScreen as DOMScreen, webkit_dom_screen_get_type if webkit-dom
+        WebKitDOMStorage as Storage, webkit_dom_storage_get_type if webkit-dom
+        WebKitDOMStyleMedia as StyleMedia, webkit_dom_style_media_get_type if webkit-dom
+        WebKitDOMStyleSheet as StyleSheet, webkit_dom_style_sheet_get_type if webkit-dom
+            WebKitDOMCSSStyleSheet as CSSStyleSheet, webkit_dom_css_style_sheet_get_type if webkit-dom
+        WebKitDOMStyleSheetList as StyleSheetList, webkit_dom_style_sheet_list_get_type if webkit-dom
+        WebKitDOMTreeWalker as TreeWalker, webkit_dom_tree_walker_get_type if webkit-dom
+        WebKitDOMValidityState as ValidityState, webkit_dom_validity_state_get_type if webkit-dom
+        WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
+        WebKitDOMWebKitPoint as WebKitPoint, webkit_dom_webkit_point_get_type if webkit-dom
+        WebKitDOMXPathExpression as XPathExpression, webkit_dom_xpath_expression_get_type if webkit-dom
+        WebKitDOMXPathNSResolver as XPathNSResolver, webkit_dom_xpath_ns_resolver_get_type if webkit-dom
+        WebKitDOMXPathResult as XPathResult, webkit_dom_xpath_result_get_type if webkit-dom

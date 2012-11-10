@@ -41,6 +41,10 @@ Source-Repository head
   type:         darcs
   location:     http://code.haskell.org/webkit/
 
+Flag webkit1-8
+  Description: Use webkit 1.8 rather than newer version
+  Default: False
+
 Flag gtk3
   Description: Use GTK3 rather than GTK2
   Default: False
@@ -210,11 +214,21 @@ Library
         x-Signals-Types: marshal.list
         x-Signals-Import: Graphics.UI.GtkInternals
 
-        if flag(gtk3)
-          x-Types-Hierarchy:  hierarchy3.list
-          pkgconfig-depends: webkitgtk-3.0 >= 1.1.15
+        if flag(webkit1-8)
+            hs-source-dirs: webkit1.8, .
+            if flag(gtk3)
+              x-Types-Hierarchy:  webkit1.8/hierarchy3.list
+              pkgconfig-depends: webkitgtk-3.0 >= 1.8
+            else
+              x-Types-Hierarchy:  webkit1.8/hierarchy.list
+              pkgconfig-depends: webkit-1.0 >= 1.8
         else
-          x-Types-Hierarchy:  hierarchy.list
-          pkgconfig-depends: webkit-1.0 >= 1.1.15
+            hs-source-dirs: .
+            if flag(gtk3)
+              x-Types-Hierarchy:  hierarchy3.list
+              pkgconfig-depends: webkitgtk-3.0 >= 1.10
+            else
+              x-Types-Hierarchy:  hierarchy.list
+              pkgconfig-depends: webkit-1.0 >= 1.10
 
         x-c2hs-Header:  hswebkit.h
