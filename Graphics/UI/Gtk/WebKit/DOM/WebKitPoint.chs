@@ -15,7 +15,7 @@ webKitPointSetX self val
   = {# call webkit_dom_webkit_point_set_x #} (toWebKitPoint self)
       (realToFrac val)
  
-webKitPointGetX :: (WebKitPointClass self) => self -> IO Double
+webKitPointGetX :: (WebKitPointClass self) => self -> IO Float
 webKitPointGetX self
   = realToFrac <$>
       ({# call webkit_dom_webkit_point_get_x #} (toWebKitPoint self))
@@ -26,7 +26,7 @@ webKitPointSetY self val
   = {# call webkit_dom_webkit_point_set_y #} (toWebKitPoint self)
       (realToFrac val)
  
-webKitPointGetY :: (WebKitPointClass self) => self -> IO Double
+webKitPointGetY :: (WebKitPointClass self) => self -> IO Float
 webKitPointGetY self
   = realToFrac <$>
       ({# call webkit_dom_webkit_point_get_y #} (toWebKitPoint self))
