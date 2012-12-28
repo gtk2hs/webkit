@@ -202,21 +202,6 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.XPathExpression
           Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
           Graphics.UI.Gtk.WebKit.DOM.XPathResult
-          Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
-          Graphics.UI.Gtk.WebKit.DOM.DOMStringList
-          Graphics.UI.Gtk.WebKit.DOM.Geolocation
-          Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLDetailsElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
-          Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
-          Graphics.UI.Gtk.WebKit.DOM.MediaError
-          Graphics.UI.Gtk.WebKit.DOM.StorageInfo
-          Graphics.UI.Gtk.WebKit.DOM.TimeRanges
-          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
-          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
         other-modules:
           Graphics.UI.Gtk.WebKit.Internal
           Graphics.UI.Gtk.WebKit.Signals
@@ -245,5 +230,21 @@ Library
             else
               x-Types-Hierarchy:  hierarchy.list
               pkgconfig-depends: webkit-1.0 >= 1.10
+            exposed-modules:
+              Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
+              Graphics.UI.Gtk.WebKit.DOM.DOMStringList
+              Graphics.UI.Gtk.WebKit.DOM.Geolocation
+              Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLDetailsElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
+              Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
+              Graphics.UI.Gtk.WebKit.DOM.MediaError
+              Graphics.UI.Gtk.WebKit.DOM.StorageInfo
+              Graphics.UI.Gtk.WebKit.DOM.TimeRanges
+              Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
+              Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
 
         x-c2hs-Header:  hswebkit.h
