@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
-       (domSecurityPolicyIsActive, domSecurityPolicyAllowsConnectionTo,
+       (
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        domSecurityPolicyIsActive, domSecurityPolicyAllowsConnectionTo,
         domSecurityPolicyAllowsFontFrom, domSecurityPolicyAllowsFormAction,
         domSecurityPolicyAllowsFrameFrom, domSecurityPolicyAllowsImageFrom,
         domSecurityPolicyAllowsMediaFrom,
@@ -8,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
         domSecurityPolicyAllowsScriptFrom,
         domSecurityPolicyAllowsStyleFrom, domSecurityPolicyAllowsEval,
         domSecurityPolicyAllowsInlineScript,
-        domSecurityPolicyAllowsInlineStyle, domSecurityPolicyGetReportURIs)
+        domSecurityPolicyAllowsInlineStyle, domSecurityPolicyGetReportURIs
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -17,6 +21,7 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 domSecurityPolicyIsActive ::
                           (DOMSecurityPolicyClass self) => self -> IO Bool
 domSecurityPolicyIsActive self
@@ -151,3 +156,4 @@ domSecurityPolicyGetReportURIs self
   = maybeNull (makeNewGObject mkDOMStringList)
       ({# call webkit_dom_dom_security_policy_get_report_ur_is #}
          (toDOMSecurityPolicy self))
+#endif

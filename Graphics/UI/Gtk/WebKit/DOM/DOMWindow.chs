@@ -53,7 +53,11 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowOnwebkitanimationstart, domWindowOnwebkittransitionend,
         domWindowOntouchstart, domWindowOntouchmove, domWindowOntouchend,
         domWindowOntouchcancel, domWindowOndevicemotion,
-        domWindowOndeviceorientation, domWindowOnwebkitdeviceproximity)
+        domWindowOndeviceorientation
+#if WEBKIT_CHECK_VERSION(1,10,0)
+      , domWindowOnwebkitdeviceproximity
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -863,7 +867,9 @@ domWindowOndeviceorientation ::
                              (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOndeviceorientation = (connect "deviceorientation")
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 domWindowOnwebkitdeviceproximity ::
                                  (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOnwebkitdeviceproximity
   = (connect "webkitdeviceproximity")
+#endif

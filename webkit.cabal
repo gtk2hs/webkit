@@ -41,10 +41,6 @@ Source-Repository head
   type:         darcs
   location:     http://code.haskell.org/webkit/
 
-Flag webkit1-8
-  Description: Use webkit 1.8 rather than newer version
-  Default: False
-
 Flag gtk3
   Description: Use GTK3 rather than GTK2
   Default: True
@@ -202,6 +198,22 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.XPathExpression
           Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
           Graphics.UI.Gtk.WebKit.DOM.XPathResult
+          Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
+          Graphics.UI.Gtk.WebKit.DOM.DOMStringList
+          Graphics.UI.Gtk.WebKit.DOM.Geolocation
+          Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLDetailsElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
+          Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
+          Graphics.UI.Gtk.WebKit.DOM.MediaError
+          Graphics.UI.Gtk.WebKit.DOM.StorageInfo
+          Graphics.UI.Gtk.WebKit.DOM.TimeRanges
+          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
+          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
+
         other-modules:
           Graphics.UI.Gtk.WebKit.Internal
           Graphics.UI.Gtk.WebKit.Signals
@@ -214,37 +226,11 @@ Library
         x-Signals-Types: marshal.list
         x-Signals-Import: Graphics.UI.GtkInternals
 
-        if flag(webkit1-8)
-            hs-source-dirs: webkit1.8, .
-            if flag(gtk3)
-              x-Types-Hierarchy:  webkit1.8/hierarchy3.list
-              pkgconfig-depends: webkitgtk-3.0 >= 1.8
-            else
-              x-Types-Hierarchy:  webkit1.8/hierarchy.list
-              pkgconfig-depends: webkit-1.0 >= 1.8
+        hs-source-dirs: .
+        if flag(gtk3)
+          x-Types-Hierarchy:  hierarchy3.list
+          pkgconfig-depends: webkitgtk-3.0 >= 1.8
         else
-            hs-source-dirs: .
-            if flag(gtk3)
-              x-Types-Hierarchy:  hierarchy3.list
-              pkgconfig-depends: webkitgtk-3.0 >= 1.10
-            else
-              x-Types-Hierarchy:  hierarchy.list
-              pkgconfig-depends: webkit-1.0 >= 1.10
-            exposed-modules:
-              Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
-              Graphics.UI.Gtk.WebKit.DOM.DOMStringList
-              Graphics.UI.Gtk.WebKit.DOM.Geolocation
-              Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLDetailsElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
-              Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
-              Graphics.UI.Gtk.WebKit.DOM.MediaError
-              Graphics.UI.Gtk.WebKit.DOM.StorageInfo
-              Graphics.UI.Gtk.WebKit.DOM.TimeRanges
-              Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
-              Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
-
+          x-Types-Hierarchy:  hierarchy.list
+          pkgconfig-depends: webkit-1.0 >= 1.8
         x-c2hs-Header:  hswebkit.h

@@ -1,9 +1,14 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLFieldSetElement
        (htmlFieldSetElementCheckValidity,
         htmlFieldSetElementSetCustomValidity,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         htmlFieldSetElementSetDisabled, htmlFieldSetElementGetDisabled,
-        htmlFieldSetElementGetForm, htmlFieldSetElementSetName,
-        htmlFieldSetElementGetName, htmlFieldSetElementGetElements,
+#endif
+        htmlFieldSetElementGetForm,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        htmlFieldSetElementSetName, htmlFieldSetElementGetName,
+        htmlFieldSetElementGetElements,
+#endif
         htmlFieldSetElementGetWillValidate, htmlFieldSetElementGetValidity,
         htmlFieldSetElementGetValidationMessage)
        where
@@ -30,6 +35,7 @@ htmlFieldSetElementSetCustomValidity self error
           (toHTMLFieldSetElement self)
           errorPtr
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlFieldSetElementSetDisabled ::
                                (HTMLFieldSetElementClass self) => self -> Bool -> IO ()
 htmlFieldSetElementSetDisabled self val
@@ -43,6 +49,7 @@ htmlFieldSetElementGetDisabled self
   = toBool <$>
       ({# call webkit_dom_html_field_set_element_get_disabled #}
          (toHTMLFieldSetElement self))
+#endif
  
 htmlFieldSetElementGetForm ::
                            (HTMLFieldSetElementClass self) =>
@@ -52,6 +59,7 @@ htmlFieldSetElementGetForm self
       ({# call webkit_dom_html_field_set_element_get_form #}
          (toHTMLFieldSetElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlFieldSetElementSetName ::
                            (HTMLFieldSetElementClass self) => self -> String -> IO ()
 htmlFieldSetElementSetName self val
@@ -76,6 +84,7 @@ htmlFieldSetElementGetElements self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_html_field_set_element_get_elements #}
          (toHTMLFieldSetElement self))
+#endif
  
 htmlFieldSetElementGetWillValidate ::
                                    (HTMLFieldSetElementClass self) => self -> IO Bool

@@ -353,7 +353,7 @@
         WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
         WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
         WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
-        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-dom
+        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
         WebKitDOMDOMSelection as DOMSelection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
@@ -455,7 +455,7 @@
         WebKitDOMRange as DOMRange, webkit_dom_range_get_type if webkit-dom
         WebKitDOMScreen as DOMScreen, webkit_dom_screen_get_type if webkit-dom
         WebKitDOMStorage as Storage, webkit_dom_storage_get_type if webkit-dom
-        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkit-dom
+        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkitgtk-1.10
         WebKitDOMStyleMedia as StyleMedia, webkit_dom_style_media_get_type if webkit-dom
         WebKitDOMStyleSheet as StyleSheet, webkit_dom_style_sheet_get_type if webkit-dom
             WebKitDOMCSSStyleSheet as CSSStyleSheet, webkit_dom_css_style_sheet_get_type if webkit-dom

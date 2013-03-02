@@ -1,7 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTableElement
        (htmlTableElementCreateTHead, htmlTableElementDeleteTHead,
         htmlTableElementCreateTFoot, htmlTableElementDeleteTFoot,
-        htmlTableElementCreateTBody, htmlTableElementCreateCaption,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        htmlTableElementCreateTBody,
+#endif
+        htmlTableElementCreateCaption,
         htmlTableElementDeleteCaption, htmlTableElementInsertRow,
         htmlTableElementDeleteRow, htmlTableElementSetCaption,
         htmlTableElementGetCaption, htmlTableElementSetTHead,
@@ -51,12 +54,14 @@ htmlTableElementDeleteTFoot self
   = {# call webkit_dom_html_table_element_delete_t_foot #}
       (toHTMLTableElement self)
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlTableElementCreateTBody ::
                             (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
 htmlTableElementCreateTBody self
   = maybeNull (makeNewGObject mkHTMLElement)
       ({# call webkit_dom_html_table_element_create_t_body #}
          (toHTMLTableElement self))
+#endif
  
 htmlTableElementCreateCaption ::
                               (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)

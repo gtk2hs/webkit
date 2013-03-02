@@ -16,10 +16,15 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
         elementGetClientWidth, elementGetClientHeight,
         elementSetScrollLeft, elementGetScrollLeft, elementSetScrollTop,
         elementGetScrollTop, elementGetScrollWidth, elementGetScrollHeight,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         elementSetClassName, elementGetClassName, elementGetClassList,
+#endif
         elementGetFirstElementChild, elementGetLastElementChild,
         elementGetPreviousElementSibling, elementGetNextElementSibling,
-        elementGetChildElementCount, elementGetWebkitRegionOverset,
+        elementGetChildElementCount,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        elementGetWebkitRegionOverset,
+#endif
         elementOnabort, elementOnblur, elementOnchange, elementOnclick,
         elementOncontextmenu, elementOndblclick, elementOndrag,
         elementOndragend, elementOndragenter, elementOndragleave,
@@ -384,6 +389,7 @@ elementGetScrollHeight self
   = fromIntegral <$>
       ({# call webkit_dom_element_get_scroll_height #} (toElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 elementSetClassName ::
                     (ElementClass self) => self -> String -> IO ()
 elementSetClassName self val
@@ -403,6 +409,7 @@ elementGetClassList ::
 elementGetClassList self
   = maybeNull (makeNewGObject mkDOMTokenList)
       ({# call webkit_dom_element_get_class_list #} (toElement self))
+#endif
  
 elementGetFirstElementChild ::
                             (ElementClass self) => self -> IO (Maybe Element)
@@ -439,6 +446,7 @@ elementGetChildElementCount self
       ({# call webkit_dom_element_get_child_element_count #}
          (toElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 elementGetWebkitRegionOverset ::
                               (ElementClass self) => self -> IO String
 elementGetWebkitRegionOverset self
@@ -446,6 +454,7 @@ elementGetWebkitRegionOverset self
        (toElement self))
       >>=
       readUTFString
+#endif
  
 elementOnabort ::
                (ElementClass self) => Signal self (EventM UIEvent self ())

@@ -7,10 +7,14 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLIFrameElement
         htmliFrameElementSetMarginWidth, htmliFrameElementGetMarginWidth,
         htmliFrameElementSetName, htmliFrameElementGetName,
         htmliFrameElementSetSandbox, htmliFrameElementGetSandbox,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         htmliFrameElementSetSeamless, htmliFrameElementGetSeamless,
+#endif
         htmliFrameElementSetScrolling, htmliFrameElementGetScrolling,
         htmliFrameElementSetSrc, htmliFrameElementGetSrc,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         htmliFrameElementSetSrcdoc, htmliFrameElementGetSrcdoc,
+#endif
         htmliFrameElementSetWidth, htmliFrameElementGetWidth,
         htmliFrameElementGetContentDocument,
         htmliFrameElementGetContentWindow)
@@ -158,6 +162,7 @@ htmliFrameElementGetSandbox self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmliFrameElementSetSeamless ::
                              (HTMLIFrameElementClass self) => self -> Bool -> IO ()
 htmliFrameElementSetSeamless self val
@@ -171,6 +176,7 @@ htmliFrameElementGetSeamless self
   = toBool <$>
       ({# call webkit_dom_html_iframe_element_get_seamless #}
          (toHTMLIFrameElement self))
+#endif
  
 htmliFrameElementSetScrolling ::
                               (HTMLIFrameElementClass self) => self -> String -> IO ()
@@ -206,6 +212,7 @@ htmliFrameElementGetSrc self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmliFrameElementSetSrcdoc ::
                            (HTMLIFrameElementClass self) => self -> String -> IO ()
 htmliFrameElementSetSrcdoc self val
@@ -222,6 +229,7 @@ htmliFrameElementGetSrcdoc self
        (toHTMLIFrameElement self))
       >>=
       readUTFString
+#endif
  
 htmliFrameElementSetWidth ::
                           (HTMLIFrameElementClass self) => self -> String -> IO ()

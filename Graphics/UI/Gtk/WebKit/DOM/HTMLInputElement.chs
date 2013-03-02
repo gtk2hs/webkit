@@ -11,14 +11,20 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
         htmlInputElementGetChecked, htmlInputElementSetDirName,
         htmlInputElementGetDirName, htmlInputElementSetDisabled,
         htmlInputElementGetDisabled, htmlInputElementGetForm,
-        htmlInputElementSetFiles, htmlInputElementGetFiles,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        htmlInputElementSetFiles,
+#endif
+        htmlInputElementGetFiles,
         htmlInputElementSetFormAction, htmlInputElementGetFormAction,
         htmlInputElementSetFormEnctype, htmlInputElementGetFormEnctype,
         htmlInputElementSetFormMethod, htmlInputElementGetFormMethod,
         htmlInputElementSetFormNoValidate,
         htmlInputElementGetFormNoValidate, htmlInputElementSetFormTarget,
-        htmlInputElementGetFormTarget, htmlInputElementSetHeight,
-        htmlInputElementGetHeight, htmlInputElementSetIndeterminate,
+        htmlInputElementGetFormTarget,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        htmlInputElementSetHeight, htmlInputElementGetHeight,
+#endif
+        htmlInputElementSetIndeterminate,
         htmlInputElementGetIndeterminate, htmlInputElementGetList,
         htmlInputElementSetMax, htmlInputElementGetMax,
         htmlInputElementSetMaxLength, htmlInputElementGetMaxLength,
@@ -35,7 +41,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
         htmlInputElementSetDefaultValue, htmlInputElementGetDefaultValue,
         htmlInputElementSetValue, htmlInputElementGetValue,
         htmlInputElementSetValueAsNumber, htmlInputElementGetValueAsNumber,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         htmlInputElementSetWidth, htmlInputElementGetWidth,
+#endif
         htmlInputElementGetWillValidate, htmlInputElementGetValidity,
         htmlInputElementGetValidationMessage, htmlInputElementGetLabels,
         htmlInputElementSetAlign, htmlInputElementGetAlign,
@@ -45,8 +53,11 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
         htmlInputElementGetIncremental, htmlInputElementSetWebkitSpeech,
         htmlInputElementGetWebkitSpeech, htmlInputElementSetWebkitGrammar,
         htmlInputElementGetWebkitGrammar,
-        htmlInputElementOnwebkitspeechchange, htmlInputElementSetCapture,
-        htmlInputElementGetCapture)
+        htmlInputElementOnwebkitspeechchange
+#if WEBKIT_CHECK_VERSION(1,10,0)
+      , htmlInputElementSetCapture, htmlInputElementGetCapture
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -237,6 +248,7 @@ htmlInputElementGetForm self
       ({# call webkit_dom_html_input_element_get_form #}
          (toHTMLInputElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlInputElementSetFiles ::
                          (FileListClass val, HTMLInputElementClass self) =>
                            self -> Maybe val -> IO ()
@@ -244,6 +256,7 @@ htmlInputElementSetFiles self val
   = {# call webkit_dom_html_input_element_set_files #}
       (toHTMLInputElement self)
       (maybe (FileList nullForeignPtr) toFileList val)
+#endif
  
 htmlInputElementGetFiles ::
                          (HTMLInputElementClass self) => self -> IO (Maybe FileList)
@@ -334,6 +347,7 @@ htmlInputElementGetFormTarget self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlInputElementSetHeight ::
                           (HTMLInputElementClass self) => self -> Word -> IO ()
 htmlInputElementSetHeight self val
@@ -347,6 +361,7 @@ htmlInputElementGetHeight self
   = fromIntegral <$>
       ({# call webkit_dom_html_input_element_get_height #}
          (toHTMLInputElement self))
+#endif
  
 htmlInputElementSetIndeterminate ::
                                  (HTMLInputElementClass self) => self -> Bool -> IO ()
@@ -612,6 +627,7 @@ htmlInputElementGetValueAsNumber self
       ({# call webkit_dom_html_input_element_get_value_as_number #}
          (toHTMLInputElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlInputElementSetWidth ::
                          (HTMLInputElementClass self) => self -> Word -> IO ()
 htmlInputElementSetWidth self val
@@ -625,6 +641,7 @@ htmlInputElementGetWidth self
   = fromIntegral <$>
       ({# call webkit_dom_html_input_element_get_width #}
          (toHTMLInputElement self))
+#endif
  
 htmlInputElementGetWillValidate ::
                                 (HTMLInputElementClass self) => self -> IO Bool
@@ -751,6 +768,7 @@ htmlInputElementOnwebkitspeechchange ::
 htmlInputElementOnwebkitspeechchange
   = (connect "webkitspeechchange")
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlInputElementSetCapture ::
                            (HTMLInputElementClass self) => self -> String -> IO ()
 htmlInputElementSetCapture self val
@@ -767,3 +785,4 @@ htmlInputElementGetCapture self
        (toHTMLInputElement self))
       >>=
       readUTFString
+#endif

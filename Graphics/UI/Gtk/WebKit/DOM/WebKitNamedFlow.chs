@@ -1,8 +1,12 @@
 module Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow
-       (webKitNamedFlowGetRegionsByContent, webKitNamedFlowGetRegions,
+       (
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        webKitNamedFlowGetRegionsByContent, webKitNamedFlowGetRegions,
         webKitNamedFlowGetContent, webKitNamedFlowDispatchEvent,
         webKitNamedFlowGetName, webKitNamedFlowGetOverset,
-        webKitNamedFlowGetFirstEmptyRegionIndex)
+        webKitNamedFlowGetFirstEmptyRegionIndex
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -11,6 +15,7 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 webKitNamedFlowGetRegionsByContent ::
                                    (WebKitNamedFlowClass self, NodeClass contentNode) =>
                                      self -> Maybe contentNode -> IO (Maybe NodeList)
@@ -68,3 +73,4 @@ webKitNamedFlowGetFirstEmptyRegionIndex self
       ({# call webkit_dom_webkit_named_flow_get_first_empty_region_index
          #}
          (toWebKitNamedFlow self))
+#endif

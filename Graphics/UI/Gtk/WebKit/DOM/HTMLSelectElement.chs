@@ -10,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLSelectElement
         htmlSelectElementGetRequired, htmlSelectElementSetSize,
         htmlSelectElementGetSize, htmlSelectElementGetOptions,
         htmlSelectElementSetLength, htmlSelectElementGetLength,
+#if WEBKIT_CHECK_VERSION(1,10,0)
         htmlSelectElementGetSelectedOptions,
+#endif
         htmlSelectElementSetSelectedIndex,
         htmlSelectElementGetSelectedIndex, htmlSelectElementSetValue,
         htmlSelectElementGetValue, htmlSelectElementGetWillValidate,
@@ -197,6 +199,7 @@ htmlSelectElementGetLength self
       ({# call webkit_dom_html_select_element_get_length #}
          (toHTMLSelectElement self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlSelectElementGetSelectedOptions ::
                                     (HTMLSelectElementClass self) =>
                                       self -> IO (Maybe HTMLCollection)
@@ -204,6 +207,7 @@ htmlSelectElementGetSelectedOptions self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_html_select_element_get_selected_options #}
          (toHTMLSelectElement self))
+#endif
  
 htmlSelectElementSetSelectedIndex ::
                                   (HTMLSelectElementClass self) => self -> Int -> IO ()

@@ -1,5 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.Location
-       (locationGetOrigin, locationGetAncestorOrigins) where
+       (locationGetOrigin
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        , locationGetAncestorOrigins
+#endif
+        ) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative
@@ -12,9 +16,11 @@ locationGetOrigin self
   = ({# call webkit_dom_location_get_origin #} (toLocation self)) >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 locationGetAncestorOrigins ::
                            (LocationClass self) => self -> IO (Maybe DOMStringList)
 locationGetAncestorOrigins self
   = maybeNull (makeNewGObject mkDOMStringList)
       ({# call webkit_dom_location_get_ancestor_origins #}
          (toLocation self))
+#endif

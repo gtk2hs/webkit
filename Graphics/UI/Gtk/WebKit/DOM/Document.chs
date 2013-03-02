@@ -31,7 +31,10 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentGetDefaultCharset, documentGetReadyState,
         documentGetCharacterSet, documentGetPreferredStylesheetSet,
         documentSetSelectedStylesheetSet, documentGetSelectedStylesheetSet,
-        documentGetCompatMode, documentGetWebkitPointerLockElement,
+        documentGetCompatMode,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        documentGetWebkitPointerLockElement,
+#endif
         documentOnabort, documentOnblur, documentOnchange, documentOnclick,
         documentOncontextmenu, documentOndblclick, documentOndrag,
         documentOndragend, documentOndragenter, documentOndragleave,
@@ -48,9 +51,16 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentOnselectstart, documentOnselectionchange,
         documentOntouchstart, documentOntouchmove, documentOntouchend,
         documentOntouchcancel, documentOnwebkitfullscreenchange,
-        documentOnwebkitfullscreenerror, documentOnwebkitpointerlockchange,
-        documentOnwebkitpointerlockerror, documentGetWebkitVisibilityState,
-        documentGetWebkitHidden, documentGetSecurityPolicy)
+        documentOnwebkitfullscreenerror,
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        documentOnwebkitpointerlockchange, documentOnwebkitpointerlockerror,
+#endif
+        documentGetWebkitVisibilityState,
+        documentGetWebkitHidden
+#if WEBKIT_CHECK_VERSION(1,10,0)
+      , documentGetSecurityPolicy
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -746,12 +756,14 @@ documentGetCompatMode self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 documentGetWebkitPointerLockElement ::
                                     (DocumentClass self) => self -> IO (Maybe Element)
 documentGetWebkitPointerLockElement self
   = maybeNull (makeNewGObject mkElement)
       ({# call webkit_dom_document_get_webkit_pointer_lock_element #}
          (toDocument self))
+#endif
  
 documentOnabort ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
@@ -942,6 +954,7 @@ documentOnwebkitfullscreenerror ::
                                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitfullscreenerror = (connect "webkitfullscreenerror")
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 documentOnwebkitpointerlockchange ::
                                   (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitpointerlockchange
@@ -951,6 +964,7 @@ documentOnwebkitpointerlockerror ::
                                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitpointerlockerror
   = (connect "webkitpointerlockerror")
+#endif
  
 documentGetWebkitVisibilityState ::
                                  (DocumentClass self) => self -> IO String
@@ -966,9 +980,11 @@ documentGetWebkitHidden self
       ({# call webkit_dom_document_get_webkit_hidden #}
          (toDocument self))
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 documentGetSecurityPolicy ::
                           (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
 documentGetSecurityPolicy self
   = maybeNull (makeNewGObject mkDOMSecurityPolicy)
       ({# call webkit_dom_document_get_security_policy #}
          (toDocument self))
+#endif

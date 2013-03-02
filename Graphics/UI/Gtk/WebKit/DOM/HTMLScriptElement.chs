@@ -5,9 +5,12 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLScriptElement
         htmlScriptElementSetCharset, htmlScriptElementGetCharset,
         htmlScriptElementSetAsync, htmlScriptElementGetAsync,
         htmlScriptElementSetDefer, htmlScriptElementGetDefer,
-        htmlScriptElementSetSrc, htmlScriptElementGetSrc,
-        htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
-        htmlScriptElementSetNonce, htmlScriptElementGetNonce)
+        htmlScriptElementSetSrc, htmlScriptElementGetSrc
+#if WEBKIT_CHECK_VERSION(1,10,0)
+      , htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
+        htmlScriptElementSetNonce, htmlScriptElementGetNonce
+#endif
+        )
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -129,6 +132,7 @@ htmlScriptElementGetSrc self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(1,10,0)
 htmlScriptElementSetCrossOrigin ::
                                 (HTMLScriptElementClass self) => self -> String -> IO ()
 htmlScriptElementSetCrossOrigin self val
@@ -162,3 +166,4 @@ htmlScriptElementGetNonce self
        (toHTMLScriptElement self))
       >>=
       readUTFString
+#endif
