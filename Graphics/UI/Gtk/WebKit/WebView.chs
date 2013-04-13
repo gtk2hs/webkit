@@ -1061,7 +1061,7 @@ printRequested = Signal (connect_OBJECT__BOOL "print_requested")
 
 -- | A JavaScript alert dialog was created.
 scriptAlert :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
-scriptAlert = Signal (connect_OBJECT_STRING__BOOL "scriptAlert")
+scriptAlert = Signal (connect_OBJECT_STRING__BOOL "script_alert")
 
 -- | A JavaScript confirm dialog was created, providing Yes and No buttons.
 scriptConfirm :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
