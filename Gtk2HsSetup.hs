@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP, ViewPatterns #-}
 
 #ifndef CABAL_VERSION_CHECK
 #error This module has to be compiled via the Setup.hs program which generates the gtk2hs-macros.h file
@@ -29,7 +29,7 @@ import Distribution.PackageDescription as PD ( PackageDescription(..),
                                                emptyBuildInfo, allBuildInfo,
                                                Library(..),
                                                libModules, hasLibs)
-import Distribution.Simple.LocalBuildInfo (LocalBuildInfo(..),
+import Distribution.Simple.LocalBuildInfo (LocalBuildInfo(withPackageDB, buildDir, localPkgDescr, installedPkgs, withPrograms),
                                            InstallDirs(..),
                                            componentPackageDeps,
                                            absoluteInstallDirs)
@@ -56,12 +56,21 @@ import Distribution.Version (Version(..))
 import Distribution.Verbosity
 import Control.Monad (when, unless, filterM, liftM, forM, forM_)
 import Data.Maybe ( isJust, isNothing, fromMaybe, maybeToList )
-import Data.List (isPrefixOf, isSuffixOf, nub)
-import Data.Char (isAlpha)
+import Data.List (isPrefixOf, isSuffixOf, stripPrefix, nub)
+import Data.Char (isAlpha, isNumber)
 import qualified Data.Map as M
 import qualified Data.Set as S
+import qualified Distribution.Simple.LocalBuildInfo as LBI
 
 import Control.Applicative ((<$>))
+
+#if CABAL_VERSION_CHECK(1,17,0)
+libraryConfig lbi = case [clbi | (LBI.CLibName, clbi, _) <- LBI.componentsConfigs lbi] of
+  [clbi] -> Just clbi
+  _ -> Nothing
+#else
+libraryConfig = LBI.libraryConfig
+#endif
 
 -- the name of the c2hs pre-compiled header file
 precompFile = "precompchs.bin"
@@ -99,10 +108,16 @@ getDlls dirs = filter ((== ".dll") . takeExtension) . concat <$>
 
 fixLibs :: [FilePath] -> [String] -> [String]
 fixLibs dlls = concatMap $ \ lib ->
-    case filter (("lib" ++ lib) `isPrefixOf`) dlls of
+    case filter (isLib lib) dlls of
                 dll:_ -> [dropExtension dll]
                 _     -> if lib == "z" then [] else [lib]
-
+  where
+    isLib lib dll =
+        case stripPrefix ("lib"++lib) dll of
+            Just ('.':_)                -> True
+            Just ('-':n:_) | isNumber n -> True
+            _                           -> False
+        
 -- The following code is a big copy-and-paste job from the sources of
 -- Cabal 1.8 just to be able to fix a field in the package file. Yuck.
 
@@ -135,8 +150,8 @@ registerHook pkg_descr localbuildinfo _ flags =
 register :: PackageDescription -> LocalBuildInfo
          -> RegisterFlags -- ^Install in the user's database?; verbose
          -> IO ()
-register pkg@PackageDescription { library       = Just lib  }
-         lbi@LocalBuildInfo     { libraryConfig = Just clbi } regFlags
+register pkg@(library       -> Just lib )
+         lbi@(libraryConfig -> Just clbi) regFlags
   = do
 
     installedPkgInfoRaw <- generateRegistrationInfo
@@ -228,6 +243,7 @@ getCppOptions bi lbi
     = nub $
       ["-I" ++ dir | dir <- PD.includeDirs bi]
    ++ [opt | opt@('-':c:_) <- PD.cppOptions bi ++ PD.ccOptions bi, c `elem` "DIU"]
+   ++ ["-D__GLASGOW_HASKELL__="++show __GLASGOW_HASKELL__]
 
 installCHI :: PackageDescription -- ^information from the .cabal file
         -> LocalBuildInfo -- ^information from the configure step
