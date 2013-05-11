@@ -47,7 +47,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -60,39 +60,37 @@ import Graphics.UI.Gtk.Gdk.Events
 -- Constructors
 
 
-
 -- | Create a new NetworkRequest with the given @uri@.
--- 
--- It is used whenever WebKit wants to provide information 
+--
+-- It is used whenever WebKit wants to provide information
 -- about a request that will be sent, or has been sent.
-networkRequestNew :: 
+networkRequestNew ::
     String  -- ^ @uri@ - the uri of the request
  -> IO NetworkRequest
-networkRequestNew uri = 
-    withCString uri $ \uriPtr -> 
-      wrapNewGObject mkNetworkRequest $ 
+networkRequestNew uri =
+    withCString uri $ \uriPtr ->
+      wrapNewGObject mkNetworkRequest $
         {#call network_request_new#} uriPtr
 
 
 -- | Set the URI of 'NetworkRequest'.
 --
-networkRequestSetUri :: 
-    NetworkRequestClass self => self 
+networkRequestSetUri ::
+    NetworkRequestClass self => self
  -> String  -- ^ @uri@ - the uri will be set to the request.
  -> IO()
 networkRequestSetUri networkrequest uri =
-    withCString uri $ \uriPtr -> 
-      {#call network_request_set_uri#} 
+    withCString uri $ \uriPtr ->
+      {#call network_request_set_uri#}
         (toNetworkRequest networkrequest)
         uriPtr
 
 
 -- | Return the uri of 'NetworkRequest'.
-networkRequestGetUri :: 
-    NetworkRequestClass self => self 
+networkRequestGetUri ::
+    NetworkRequestClass self => self
  -> IO (Maybe String) -- ^ the URI or @Nothing@ in case failed.
-networkRequestGetUri networkrequest = 
-    {#call network_request_get_uri#} 
-      (toNetworkRequest networkrequest) >>= 
+networkRequestGetUri networkrequest =
+    {#call network_request_get_uri#}
+      (toNetworkRequest networkrequest) >>=
       maybePeek peekCString
-

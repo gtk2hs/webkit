@@ -68,7 +68,7 @@ import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
- 
+
 documentCreateElement ::
                       (DocumentClass self) => self -> String -> IO (Maybe Element)
 documentCreateElement self tagName
@@ -80,14 +80,14 @@ documentCreateElement self tagName
                {# call webkit_dom_document_create_element #} (toDocument self)
                  tagNamePtr
              errorPtr_)
- 
+
 documentCreateDocumentFragment ::
                                (DocumentClass self) => self -> IO (Maybe DocumentFragment)
 documentCreateDocumentFragment self
   = maybeNull (makeNewGObject mkDocumentFragment)
       ({# call webkit_dom_document_create_document_fragment #}
          (toDocument self))
- 
+
 documentCreateTextNode ::
                        (DocumentClass self) => self -> String -> IO (Maybe Text)
 documentCreateTextNode self data'
@@ -96,7 +96,7 @@ documentCreateTextNode self data'
          \ dataPtr ->
            {# call webkit_dom_document_create_text_node #} (toDocument self)
              dataPtr)
- 
+
 documentCreateComment ::
                       (DocumentClass self) => self -> String -> IO (Maybe Comment)
 documentCreateComment self data'
@@ -105,7 +105,7 @@ documentCreateComment self data'
          \ dataPtr ->
            {# call webkit_dom_document_create_comment #} (toDocument self)
              dataPtr)
- 
+
 documentCreateCDATASection ::
                            (DocumentClass self) => self -> String -> IO (Maybe CDATASection)
 documentCreateCDATASection self data'
@@ -118,7 +118,7 @@ documentCreateCDATASection self data'
                  (toDocument self)
                  dataPtr
              errorPtr_)
- 
+
 documentCreateProcessingInstruction ::
                                     (DocumentClass self) =>
                                       self -> String -> String -> IO (Maybe ProcessingInstruction)
@@ -135,7 +135,7 @@ documentCreateProcessingInstruction self target data'
                      targetPtr
                  dataPtr
              errorPtr_)
- 
+
 documentCreateAttribute ::
                         (DocumentClass self) => self -> String -> IO (Maybe DOMAttr)
 documentCreateAttribute self name
@@ -147,7 +147,7 @@ documentCreateAttribute self name
                {# call webkit_dom_document_create_attribute #} (toDocument self)
                  namePtr
              errorPtr_)
- 
+
 documentCreateEntityReference ::
                               (DocumentClass self) =>
                                 self -> String -> IO (Maybe EntityReference)
@@ -161,7 +161,7 @@ documentCreateEntityReference self name
                  (toDocument self)
                  namePtr
              errorPtr_)
- 
+
 documentGetElementsByTagName ::
                              (DocumentClass self) => self -> String -> IO (Maybe NodeList)
 documentGetElementsByTagName self tagname
@@ -171,7 +171,7 @@ documentGetElementsByTagName self tagname
            {# call webkit_dom_document_get_elements_by_tag_name #}
              (toDocument self)
              tagnamePtr)
- 
+
 documentImportNode ::
                    (DocumentClass self, NodeClass importedNode) =>
                      self -> Maybe importedNode -> Bool -> IO (Maybe Node)
@@ -183,7 +183,7 @@ documentImportNode self importedNode deep
              (maybe (Node nullForeignPtr) toNode importedNode)
              (fromBool deep)
              errorPtr_)
- 
+
 documentCreateElementNS ::
                         (DocumentClass self) =>
                           self -> String -> String -> IO (Maybe Element)
@@ -199,7 +199,7 @@ documentCreateElementNS self namespaceURI qualifiedName
                      namespaceURIPtr
                  qualifiedNamePtr
              errorPtr_)
- 
+
 documentCreateAttributeNS ::
                           (DocumentClass self) =>
                             self -> String -> String -> IO (Maybe DOMAttr)
@@ -216,7 +216,7 @@ documentCreateAttributeNS self namespaceURI qualifiedName
                      namespaceURIPtr
                  qualifiedNamePtr
              errorPtr_)
- 
+
 documentGetElementsByTagNameNS ::
                                (DocumentClass self) =>
                                  self -> String -> String -> IO (Maybe NodeList)
@@ -230,7 +230,7 @@ documentGetElementsByTagNameNS self namespaceURI localName
                  (toDocument self)
                  namespaceURIPtr
              localNamePtr)
- 
+
 documentGetElementById ::
                        (DocumentClass self) => self -> String -> IO (Maybe Element)
 documentGetElementById self elementId
@@ -239,7 +239,7 @@ documentGetElementById self elementId
          \ elementIdPtr ->
            {# call webkit_dom_document_get_element_by_id #} (toDocument self)
              elementIdPtr)
- 
+
 documentAdoptNode ::
                   (DocumentClass self, NodeClass source) =>
                     self -> Maybe source -> IO (Maybe Node)
@@ -250,7 +250,7 @@ documentAdoptNode self source
            {# call webkit_dom_document_adopt_node #} (toDocument self)
              (maybe (Node nullForeignPtr) toNode source)
              errorPtr_)
- 
+
 documentCreateEvent ::
                     (DocumentClass self) => self -> String -> IO (Maybe Event)
 documentCreateEvent self eventType
@@ -262,13 +262,13 @@ documentCreateEvent self eventType
                {# call webkit_dom_document_create_event #} (toDocument self)
                  eventTypePtr
              errorPtr_)
- 
+
 documentCreateRange ::
                     (DocumentClass self) => self -> IO (Maybe DOMRange)
 documentCreateRange self
   = maybeNull (makeNewGObject mkDOMRange)
       ({# call webkit_dom_document_create_range #} (toDocument self))
- 
+
 documentCreateNodeIterator ::
                            (DocumentClass self, NodeClass root, NodeFilterClass filter) =>
                              self ->
@@ -286,7 +286,7 @@ documentCreateNodeIterator self root whatToShow filter
              (maybe (NodeFilter nullForeignPtr) toNodeFilter filter)
              (fromBool expandEntityReferences)
              errorPtr_)
- 
+
 documentCreateTreeWalker ::
                          (DocumentClass self, NodeClass root, NodeFilterClass filter) =>
                            self ->
@@ -302,7 +302,7 @@ documentCreateTreeWalker self root whatToShow filter
              (maybe (NodeFilter nullForeignPtr) toNodeFilter filter)
              (fromBool expandEntityReferences)
              errorPtr_)
- 
+
 documentGetOverrideStyle ::
                          (DocumentClass self, ElementClass element) =>
                            self -> Maybe element -> String -> IO (Maybe CSSStyleDeclaration)
@@ -313,7 +313,7 @@ documentGetOverrideStyle self element pseudoElement
            {# call webkit_dom_document_get_override_style #} (toDocument self)
              (maybe (Element nullForeignPtr) toElement element)
              pseudoElementPtr)
- 
+
 documentCreateExpression ::
                          (DocumentClass self, XPathNSResolverClass resolver) =>
                            self -> String -> Maybe resolver -> IO (Maybe XPathExpression)
@@ -327,7 +327,7 @@ documentCreateExpression self expression resolver
                  expressionPtr
              (maybe (XPathNSResolver nullForeignPtr) toXPathNSResolver resolver)
              errorPtr_)
- 
+
 documentCreateNSResolver ::
                          (DocumentClass self, NodeClass nodeResolver) =>
                            self -> Maybe nodeResolver -> IO (Maybe XPathNSResolver)
@@ -336,7 +336,7 @@ documentCreateNSResolver self nodeResolver
       ({# call webkit_dom_document_create_ns_resolver #}
          (toDocument self)
          (maybe (Node nullForeignPtr) toNode nodeResolver))
- 
+
 documentEvaluate ::
                  (DocumentClass self, NodeClass contextNode,
                   XPathNSResolverClass resolver, XPathResultClass inResult) =>
@@ -358,7 +358,7 @@ documentEvaluate self expression contextNode resolver type'
              (fromIntegral type')
              (maybe (XPathResult nullForeignPtr) toXPathResult inResult)
              errorPtr_)
- 
+
 documentExecCommand ::
                     (DocumentClass self) => self -> String -> Bool -> String -> IO Bool
 documentExecCommand self command userInterface value
@@ -371,7 +371,7 @@ documentExecCommand self command userInterface value
                  commandPtr
              (fromBool userInterface)
              valuePtr)
- 
+
 documentQueryCommandEnabled ::
                             (DocumentClass self) => self -> String -> IO Bool
 documentQueryCommandEnabled self command
@@ -381,7 +381,7 @@ documentQueryCommandEnabled self command
            {# call webkit_dom_document_query_command_enabled #}
              (toDocument self)
              commandPtr)
- 
+
 documentQueryCommandIndeterm ::
                              (DocumentClass self) => self -> String -> IO Bool
 documentQueryCommandIndeterm self command
@@ -391,7 +391,7 @@ documentQueryCommandIndeterm self command
            {# call webkit_dom_document_query_command_indeterm #}
              (toDocument self)
              commandPtr)
- 
+
 documentQueryCommandState ::
                           (DocumentClass self) => self -> String -> IO Bool
 documentQueryCommandState self command
@@ -401,7 +401,7 @@ documentQueryCommandState self command
            {# call webkit_dom_document_query_command_state #}
              (toDocument self)
              commandPtr)
- 
+
 documentQueryCommandSupported ::
                               (DocumentClass self) => self -> String -> IO Bool
 documentQueryCommandSupported self command
@@ -411,7 +411,7 @@ documentQueryCommandSupported self command
            {# call webkit_dom_document_query_command_supported #}
              (toDocument self)
              commandPtr)
- 
+
 documentQueryCommandValue ::
                           (DocumentClass self) => self -> String -> IO String
 documentQueryCommandValue self command
@@ -422,7 +422,7 @@ documentQueryCommandValue self command
            commandPtr)
       >>=
       readUTFString
- 
+
 documentGetElementsByName ::
                           (DocumentClass self) => self -> String -> IO (Maybe NodeList)
 documentGetElementsByName self elementName
@@ -432,7 +432,7 @@ documentGetElementsByName self elementName
            {# call webkit_dom_document_get_elements_by_name #}
              (toDocument self)
              elementNamePtr)
- 
+
 documentElementFromPoint ::
                          (DocumentClass self) => self -> Int -> Int -> IO (Maybe Element)
 documentElementFromPoint self x y
@@ -441,7 +441,7 @@ documentElementFromPoint self x y
          (toDocument self)
          (fromIntegral x)
          (fromIntegral y))
- 
+
 documentCaretRangeFromPoint ::
                             (DocumentClass self) => self -> Int -> Int -> IO (Maybe DOMRange)
 documentCaretRangeFromPoint self x y
@@ -450,14 +450,14 @@ documentCaretRangeFromPoint self x y
          (toDocument self)
          (fromIntegral x)
          (fromIntegral y))
- 
+
 documentCreateCSSStyleDeclaration ::
                                   (DocumentClass self) => self -> IO (Maybe CSSStyleDeclaration)
 documentCreateCSSStyleDeclaration self
   = maybeNull (makeNewGObject mkCSSStyleDeclaration)
       ({# call webkit_dom_document_create_css_style_declaration #}
          (toDocument self))
- 
+
 documentGetElementsByClassName ::
                                (DocumentClass self) => self -> String -> IO (Maybe NodeList)
 documentGetElementsByClassName self tagname
@@ -467,7 +467,7 @@ documentGetElementsByClassName self tagname
            {# call webkit_dom_document_get_elements_by_class_name #}
              (toDocument self)
              tagnamePtr)
- 
+
 documentQuerySelector ::
                       (DocumentClass self) => self -> String -> IO (Maybe Element)
 documentQuerySelector self selectors
@@ -479,7 +479,7 @@ documentQuerySelector self selectors
                {# call webkit_dom_document_query_selector #} (toDocument self)
                  selectorsPtr
              errorPtr_)
- 
+
 documentQuerySelectorAll ::
                          (DocumentClass self) => self -> String -> IO (Maybe NodeList)
 documentQuerySelectorAll self selectors
@@ -491,27 +491,27 @@ documentQuerySelectorAll self selectors
                {# call webkit_dom_document_query_selector_all #} (toDocument self)
                  selectorsPtr
              errorPtr_)
- 
+
 documentGetDoctype ::
                    (DocumentClass self) => self -> IO (Maybe DocumentType)
 documentGetDoctype self
   = maybeNull (makeNewGObject mkDocumentType)
       ({# call webkit_dom_document_get_doctype #} (toDocument self))
- 
+
 documentGetImplementation ::
                           (DocumentClass self) => self -> IO (Maybe DOMImplementation)
 documentGetImplementation self
   = maybeNull (makeNewGObject mkDOMImplementation)
       ({# call webkit_dom_document_get_implementation #}
          (toDocument self))
- 
+
 documentGetDocumentElement ::
                            (DocumentClass self) => self -> IO (Maybe Element)
 documentGetDocumentElement self
   = maybeNull (makeNewGObject mkElement)
       ({# call webkit_dom_document_get_document_element #}
          (toDocument self))
- 
+
 documentGetInputEncoding ::
                          (DocumentClass self) => self -> IO String
 documentGetInputEncoding self
@@ -519,14 +519,14 @@ documentGetInputEncoding self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetXmlEncoding :: (DocumentClass self) => self -> IO String
 documentGetXmlEncoding self
   = ({# call webkit_dom_document_get_xml_encoding #}
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentSetXmlVersion ::
                       (DocumentClass self) => self -> String -> IO ()
 documentSetXmlVersion self val
@@ -537,14 +537,14 @@ documentSetXmlVersion self val
             {# call webkit_dom_document_set_xml_version #} (toDocument self)
               valPtr
           errorPtr_
- 
+
 documentGetXmlVersion :: (DocumentClass self) => self -> IO String
 documentGetXmlVersion self
   = ({# call webkit_dom_document_get_xml_version #}
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentSetXmlStandalone ::
                          (DocumentClass self) => self -> Bool -> IO ()
 documentSetXmlStandalone self val
@@ -553,13 +553,13 @@ documentSetXmlStandalone self val
         {# call webkit_dom_document_set_xml_standalone #} (toDocument self)
           (fromBool val)
           errorPtr_
- 
+
 documentGetXmlStandalone :: (DocumentClass self) => self -> IO Bool
 documentGetXmlStandalone self
   = toBool <$>
       ({# call webkit_dom_document_get_xml_standalone #}
          (toDocument self))
- 
+
 documentSetDocumentURI ::
                        (DocumentClass self) => self -> String -> IO ()
 documentSetDocumentURI self val
@@ -567,48 +567,48 @@ documentSetDocumentURI self val
       \ valPtr ->
         {# call webkit_dom_document_set_document_uri #} (toDocument self)
           valPtr
- 
+
 documentGetDocumentURI :: (DocumentClass self) => self -> IO String
 documentGetDocumentURI self
   = ({# call webkit_dom_document_get_document_uri #}
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetDefaultView ::
                        (DocumentClass self) => self -> IO (Maybe DOMWindow)
 documentGetDefaultView self
   = maybeNull (makeNewGObject mkDOMWindow)
       ({# call webkit_dom_document_get_default_view #} (toDocument self))
- 
+
 documentGetStyleSheets ::
                        (DocumentClass self) => self -> IO (Maybe StyleSheetList)
 documentGetStyleSheets self
   = maybeNull (makeNewGObject mkStyleSheetList)
       ({# call webkit_dom_document_get_style_sheets #} (toDocument self))
- 
+
 documentSetTitle :: (DocumentClass self) => self -> String -> IO ()
 documentSetTitle self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_document_set_title #} (toDocument self) valPtr
- 
+
 documentGetTitle :: (DocumentClass self) => self -> IO String
 documentGetTitle self
   = ({# call webkit_dom_document_get_title #} (toDocument self)) >>=
       readUTFString
- 
+
 documentGetReferrer :: (DocumentClass self) => self -> IO String
 documentGetReferrer self
   = ({# call webkit_dom_document_get_referrer #} (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetDomain :: (DocumentClass self) => self -> IO String
 documentGetDomain self
   = ({# call webkit_dom_document_get_domain #} (toDocument self)) >>=
       readUTFString
- 
+
 documentSetCookie ::
                   (DocumentClass self) => self -> String -> IO ()
 documentSetCookie self val
@@ -618,7 +618,7 @@ documentSetCookie self val
           \ valPtr ->
             {# call webkit_dom_document_set_cookie #} (toDocument self) valPtr
           errorPtr_
- 
+
 documentGetCookie :: (DocumentClass self) => self -> IO String
 documentGetCookie self
   = (propagateGError $
@@ -627,7 +627,7 @@ documentGetCookie self
            errorPtr_)
       >>=
       readUTFString
- 
+
 documentSetBody ::
                 (HTMLElementClass val, DocumentClass self) =>
                   self -> Maybe val -> IO ()
@@ -637,49 +637,49 @@ documentSetBody self val
         {# call webkit_dom_document_set_body #} (toDocument self)
           (maybe (HTMLElement nullForeignPtr) toHTMLElement val)
           errorPtr_
- 
+
 documentGetBody ::
                 (DocumentClass self) => self -> IO (Maybe HTMLElement)
 documentGetBody self
   = maybeNull (makeNewGObject mkHTMLElement)
       ({# call webkit_dom_document_get_body #} (toDocument self))
- 
+
 documentGetHead ::
                 (DocumentClass self) => self -> IO (Maybe HTMLHeadElement)
 documentGetHead self
   = maybeNull (makeNewGObject mkHTMLHeadElement)
       ({# call webkit_dom_document_get_head #} (toDocument self))
- 
+
 documentGetImages ::
                   (DocumentClass self) => self -> IO (Maybe HTMLCollection)
 documentGetImages self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_document_get_images #} (toDocument self))
- 
+
 documentGetApplets ::
                    (DocumentClass self) => self -> IO (Maybe HTMLCollection)
 documentGetApplets self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_document_get_applets #} (toDocument self))
- 
+
 documentGetLinks ::
                  (DocumentClass self) => self -> IO (Maybe HTMLCollection)
 documentGetLinks self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_document_get_links #} (toDocument self))
- 
+
 documentGetForms ::
                  (DocumentClass self) => self -> IO (Maybe HTMLCollection)
 documentGetForms self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_document_get_forms #} (toDocument self))
- 
+
 documentGetAnchors ::
                    (DocumentClass self) => self -> IO (Maybe HTMLCollection)
 documentGetAnchors self
   = maybeNull (makeNewGObject mkHTMLCollection)
       ({# call webkit_dom_document_get_anchors #} (toDocument self))
- 
+
 documentGetLastModified ::
                         (DocumentClass self) => self -> IO String
 documentGetLastModified self
@@ -687,20 +687,20 @@ documentGetLastModified self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentSetCharset ::
                    (DocumentClass self) => self -> String -> IO ()
 documentSetCharset self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_document_set_charset #} (toDocument self) valPtr
- 
+
 documentGetCharset :: (DocumentClass self) => self -> IO String
 documentGetCharset self
   = ({# call webkit_dom_document_get_charset #} (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetDefaultCharset ::
                           (DocumentClass self) => self -> IO String
 documentGetDefaultCharset self
@@ -708,14 +708,14 @@ documentGetDefaultCharset self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetReadyState :: (DocumentClass self) => self -> IO String
 documentGetReadyState self
   = ({# call webkit_dom_document_get_ready_state #}
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetCharacterSet ::
                         (DocumentClass self) => self -> IO String
 documentGetCharacterSet self
@@ -723,7 +723,7 @@ documentGetCharacterSet self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetPreferredStylesheetSet ::
                                   (DocumentClass self) => self -> IO String
 documentGetPreferredStylesheetSet self
@@ -731,7 +731,7 @@ documentGetPreferredStylesheetSet self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentSetSelectedStylesheetSet ::
                                  (DocumentClass self) => self -> String -> IO ()
 documentSetSelectedStylesheetSet self val
@@ -740,7 +740,7 @@ documentSetSelectedStylesheetSet self val
         {# call webkit_dom_document_set_selected_stylesheet_set #}
           (toDocument self)
           valPtr
- 
+
 documentGetSelectedStylesheetSet ::
                                  (DocumentClass self) => self -> IO String
 documentGetSelectedStylesheetSet self
@@ -748,14 +748,14 @@ documentGetSelectedStylesheetSet self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetCompatMode :: (DocumentClass self) => self -> IO String
 documentGetCompatMode self
   = ({# call webkit_dom_document_get_compat_mode #}
        (toDocument self))
       >>=
       readUTFString
- 
+
 #if WEBKIT_CHECK_VERSION(1,10,0)
 documentGetWebkitPointerLockElement ::
                                     (DocumentClass self) => self -> IO (Maybe Element)
@@ -764,208 +764,208 @@ documentGetWebkitPointerLockElement self
       ({# call webkit_dom_document_get_webkit_pointer_lock_element #}
          (toDocument self))
 #endif
- 
+
 documentOnabort ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnabort = (connect "abort")
- 
+
 documentOnblur ::
                (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnblur = (connect "blur")
- 
+
 documentOnchange ::
                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnchange = (connect "change")
- 
+
 documentOnclick ::
                 (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnclick = (connect "click")
- 
+
 documentOncontextmenu ::
                       (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOncontextmenu = (connect "contextmenu")
- 
+
 documentOndblclick ::
                    (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndblclick = (connect "dblclick")
- 
+
 documentOndrag ::
                (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndrag = (connect "drag")
- 
+
 documentOndragend ::
                   (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndragend = (connect "dragend")
- 
+
 documentOndragenter ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndragenter = (connect "dragenter")
- 
+
 documentOndragleave ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndragleave = (connect "dragleave")
- 
+
 documentOndragover ::
                    (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndragover = (connect "dragover")
- 
+
 documentOndragstart ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndragstart = (connect "dragstart")
- 
+
 documentOndrop ::
                (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOndrop = (connect "drop")
- 
+
 documentOnerror ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnerror = (connect "error")
- 
+
 documentOnfocus ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnfocus = (connect "focus")
- 
+
 documentOninput ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOninput = (connect "input")
- 
+
 documentOninvalid ::
                   (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOninvalid = (connect "invalid")
- 
+
 documentOnkeydown ::
                   (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnkeydown = (connect "keydown")
- 
+
 documentOnkeypress ::
                    (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnkeypress = (connect "keypress")
- 
+
 documentOnkeyup ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnkeyup = (connect "keyup")
- 
+
 documentOnload ::
                (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnload = (connect "load")
- 
+
 documentOnmousedown ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmousedown = (connect "mousedown")
- 
+
 documentOnmousemove ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmousemove = (connect "mousemove")
- 
+
 documentOnmouseout ::
                    (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmouseout = (connect "mouseout")
- 
+
 documentOnmouseover ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmouseover = (connect "mouseover")
- 
+
 documentOnmouseup ::
                   (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmouseup = (connect "mouseup")
- 
+
 documentOnmousewheel ::
                      (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmousewheel = (connect "mousewheel")
- 
+
 documentOnreadystatechange ::
                            (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnreadystatechange = (connect "readystatechange")
- 
+
 documentOnscroll ::
                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnscroll = (connect "scroll")
- 
+
 documentOnselect ::
                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnselect = (connect "select")
- 
+
 documentOnsubmit ::
                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnsubmit = (connect "submit")
- 
+
 documentOnbeforecut ::
                     (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnbeforecut = (connect "beforecut")
- 
+
 documentOncut ::
               (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOncut = (connect "cut")
- 
+
 documentOnbeforecopy ::
                      (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnbeforecopy = (connect "beforecopy")
- 
+
 documentOncopy ::
                (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOncopy = (connect "copy")
- 
+
 documentOnbeforepaste ::
                       (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnbeforepaste = (connect "beforepaste")
- 
+
 documentOnpaste ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnpaste = (connect "paste")
- 
+
 documentOnreset ::
                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnreset = (connect "reset")
- 
+
 documentOnsearch ::
                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnsearch = (connect "search")
- 
+
 documentOnselectstart ::
                       (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnselectstart = (connect "selectstart")
- 
+
 documentOnselectionchange ::
                           (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnselectionchange = (connect "selectionchange")
- 
+
 documentOntouchstart ::
                      (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOntouchstart = (connect "touchstart")
- 
+
 documentOntouchmove ::
                     (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOntouchmove = (connect "touchmove")
- 
+
 documentOntouchend ::
                    (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOntouchend = (connect "touchend")
- 
+
 documentOntouchcancel ::
                       (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOntouchcancel = (connect "touchcancel")
- 
+
 documentOnwebkitfullscreenchange ::
                                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitfullscreenchange
   = (connect "webkitfullscreenchange")
- 
+
 documentOnwebkitfullscreenerror ::
                                 (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitfullscreenerror = (connect "webkitfullscreenerror")
- 
+
 #if WEBKIT_CHECK_VERSION(1,10,0)
 documentOnwebkitpointerlockchange ::
                                   (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitpointerlockchange
   = (connect "webkitpointerlockchange")
- 
+
 documentOnwebkitpointerlockerror ::
                                  (DocumentClass self) => Signal self (EventM UIEvent self ())
 documentOnwebkitpointerlockerror
   = (connect "webkitpointerlockerror")
 #endif
- 
+
 documentGetWebkitVisibilityState ::
                                  (DocumentClass self) => self -> IO String
 documentGetWebkitVisibilityState self
@@ -973,18 +973,15 @@ documentGetWebkitVisibilityState self
        (toDocument self))
       >>=
       readUTFString
- 
+
 documentGetWebkitHidden :: (DocumentClass self) => self -> IO Bool
 documentGetWebkitHidden self
   = toBool <$>
       ({# call webkit_dom_document_get_webkit_hidden #}
          (toDocument self))
- 
+
 #if WEBKIT_CHECK_VERSION(1,10,0)
-documentGetSecurityPolicy ::
-                          (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
-documentGetSecurityPolicy self
-  = maybeNull (makeNewGObject mkDOMSecurityPolicy)
-      ({# call webkit_dom_document_get_security_policy #}
-         (toDocument self))
+documentGetSecurityPolicy :: (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
+documentGetSecurityPolicy =
+    maybeNull (makeNewGObject mkDOMSecurityPolicy) . {# call webkit_dom_document_get_security_policy #} . toDocument
 #endif

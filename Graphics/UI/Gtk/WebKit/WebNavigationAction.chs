@@ -36,7 +36,7 @@ module Graphics.UI.Gtk.WebKit.WebNavigationAction (
 -- * Enums
   NavigationReason(..),
 
--- * Methods  
+-- * Methods
   webNavigationActionGetButton,
   webNavigationActionGetModifierState,
   webNavigationActionGetOriginalUri,
@@ -51,7 +51,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -62,57 +62,57 @@ import Graphics.UI.Gtk.Gdk.Events
 
 -- * Enums
 
-{#enum WebNavigationReason as NavigationReason {underscoreToCase}#}
+{#enum WebNavigationReason as NavigationReason {underscoreToCase} deriving(Eq, Show) #}
 
 -- * Methods
 
--- | Returns the DOM identifier for the mouse button used to click. 
--- DOM button values are 0, 1 and 2 for left, middle and right buttons. 
+-- | Returns the DOM identifier for the mouse button used to click.
+-- DOM button values are 1, 2 and 3 for left, middle and right buttons.
 -- If the action was not initiated by a mouse click, returns -1.
-webNavigationActionGetButton :: 
+webNavigationActionGetButton ::
    WebNavigationActionClass self => self
  -> IO Int
-webNavigationActionGetButton action =  
+webNavigationActionGetButton action =
     liftM fromIntegral $ {#call web_navigation_action_get_button#} (toWebNavigationAction action)
 
 -- | Returns a bitmask with the the state of the modifier keys.
-webNavigationActionGetModifierState ::  
+webNavigationActionGetModifierState ::
    WebNavigationActionClass self => self
- -> IO Int   
-webNavigationActionGetModifierState action = 
+ -> IO Int
+webNavigationActionGetModifierState action =
     liftM fromIntegral $ {#call web_navigation_action_get_modifier_state#} (toWebNavigationAction action)
-  
--- | Returns the URI that was originally requested. 
+
+-- | Returns the URI that was originally requested.
 -- This may differ from the navigation target, for instance because of a redirect.
-webNavigationActionGetOriginalUri ::   
+webNavigationActionGetOriginalUri ::
    WebNavigationActionClass self => self
  -> IO String
-webNavigationActionGetOriginalUri action = 
+webNavigationActionGetOriginalUri action =
     {#call web_navigation_action_get_original_uri#} (toWebNavigationAction action) >>= peekCString
-  
+
 -- | Returns the reason why WebKit is requesting a navigation.
 webNavigationActionGetReason ::
    WebNavigationActionClass self => self
- -> IO NavigationReason  
-webNavigationActionGetReason action = 
+ -> IO NavigationReason
+webNavigationActionGetReason action =
     liftM (toEnum . fromIntegral) $ {#call web_navigation_action_get_reason#} (toWebNavigationAction action)
 
 -- | Returns the target frame of the action.
-webNavigationActionGetTargetFrame ::  
+webNavigationActionGetTargetFrame ::
    WebNavigationActionClass self => self
  -> IO String
-webNavigationActionGetTargetFrame action = 
+webNavigationActionGetTargetFrame action =
     {#call web_navigation_action_get_target_frame#} (toWebNavigationAction action) >>= peekCString
-  
--- | Sets the URI that was originally requested. 
+
+-- | Sets the URI that was originally requested.
 -- This may differ from the navigation target, for instance because of a redirect.
 webNavigationActionSetOriginalUri ::
    WebNavigationActionClass self => self
  -> String
  -> IO ()
 webNavigationActionSetOriginalUri action uri =
-    withCString uri $ \uriPtr -> 
-        {#call web_navigation_action_set_original_uri#} 
+    withCString uri $ \uriPtr ->
+        {#call web_navigation_action_set_original_uri#}
         (toWebNavigationAction action)
         uriPtr
 
@@ -123,4 +123,3 @@ webNavigationActionSetReason ::
  -> IO ()
 webNavigationActionSetReason action reason =
     {#call web_navigation_action_set_reason#} (toWebNavigationAction action) (fromIntegral (fromEnum reason))
-  

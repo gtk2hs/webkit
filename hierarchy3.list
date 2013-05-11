@@ -353,7 +353,7 @@
         WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
         WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
         WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
-        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
+        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-dom
         WebKitDOMDOMSelection as DOMSelection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
@@ -463,8 +463,8 @@
         WebKitDOMTimeRanges as TimeRanges, webkit_dom_time_ranges_get_type if webkit-dom
         WebKitDOMTreeWalker as TreeWalker, webkit_dom_tree_walker_get_type if webkit-dom
         WebKitDOMValidityState as ValidityState, webkit_dom_validity_state_get_type if webkit-dom
-        WebKitDOMWebKitAnimation as WebKitAnimation, webkit_dom_webkit_animation_get_type if webkit-dom
-        WebKitDOMWebKitAnimationList as WebKitAnimationList, webkit_dom_webkit_animation_list_get_type if webkit-dom
+        WebKitDOMWebKitAnimation as WebKitAnimation, webkit_dom_webkit_animation_get_type if webkitgtk-1.0
+        WebKitDOMWebKitAnimationList as WebKitAnimationList, webkit_dom_webkit_animation_list_get_type if webkitgtk-1.0
         WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
         WebKitDOMWebKitPoint as WebKitPoint, webkit_dom_webkit_point_get_type if webkit-dom
         WebKitDOMXPathExpression as XPathExpression, webkit_dom_xpath_expression_get_type if webkit-dom

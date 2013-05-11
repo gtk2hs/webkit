@@ -2,7 +2,7 @@ Name:           webkit
 Version:        0.12.5
 License:        LGPL-2.1
 License-file:   COPYING
-Copyright:      (c) 2001-2010 The Gtk2Hs Team
+Copyright:      (c) 2001-2013 The Gtk2Hs Team
 Author:         Cjacker Huang, Andy Stewart, Axel Simon
 Maintainer:     gtk2hs-users@lists.sourceforge.net
 Build-Type:     Custom
@@ -19,7 +19,7 @@ Description:    WebKit is a web content engine, derived from KHTML and KJS from 
                 supports DOM, XMLHttpRequest, XSLT, CSS, Javascript/ECMAscript and more.
 
 Category:       Graphics
-Tested-With:    GHC == 6.10.4, GHC == 6.12.3, GHC == 7.0.4, GHC == 7.2.1
+Tested-With:    GHC == 6.10.4, GHC == 6.12.3, GHC == 7.0.4, GHC == 7.2.1, GHC == 7.6.3
 Extra-Source-Files: hswebkit.h
                     SetupWrapper.hs SetupMain.hs Gtk2HsSetup.hs
                     marshal.list
@@ -211,8 +211,8 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.MediaError
           Graphics.UI.Gtk.WebKit.DOM.StorageInfo
           Graphics.UI.Gtk.WebKit.DOM.TimeRanges
-          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
-          Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
+          -- Graphics.UI.Gtk.WebKit.DOM.WebKitAnimation
+          -- Graphics.UI.Gtk.WebKit.DOM.WebKitAnimationList
 
         other-modules:
           Graphics.UI.Gtk.WebKit.Internal
