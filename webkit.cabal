@@ -55,7 +55,7 @@ Library
 
         build-tools:    gtk2hsC2hs >= 0.13.5,
                         gtk2hsHookGenerator, gtk2hsTypeGen
-        c-sources:      Graphics/UI/Gtk/WebKit/DOM/events.c
+        c-sources:      Graphics/UI/Gtk/WebKit/DOM/hsevents.c
         include-dirs:   cbits
 
         exposed-modules:
