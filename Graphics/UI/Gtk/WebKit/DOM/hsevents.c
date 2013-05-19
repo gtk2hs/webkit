@@ -22,13 +22,19 @@
 
 #include "hsgclosure.h"
 #include "events.h"
-#include <webkit/WebKitDOMEvent.h>
-#include <webkit/WebKitDOMHTMLInputElement.h>
+#include <webkit/webkitversion.h>
+
+#if WEBKIT_CHECK_VERSION(2,0,0)
+  #include <webkitdom/webkitdom.h>
+#else
+  #include <webkit/WebKitDOMEvent.h>
+  #include <webkit/WebKitDOMHTMLInputElement.h>
+#endif
 
 #ifdef DEBUG
-#define WHEN_DEBUG(a) a
+  #define WHEN_DEBUG(a) a
 #else
-#define WHEN_DEBUG(a)
+  #define WHEN_DEBUG(a)
 #endif
 
 // Once the following bug is fixed we should revist this
@@ -59,4 +65,3 @@ gboolean webkit_dom_event_target_add_event_listener_closure(
     return webkit_dom_event_target_add_event_listener(
         WEBKIT_DOM_EVENT_TARGET (target), eventName, G_CALLBACK(webkit_gtk2hs_closure_callback), bubble, closure);
 }
-

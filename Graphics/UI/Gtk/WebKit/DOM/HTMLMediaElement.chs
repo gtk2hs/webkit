@@ -38,10 +38,19 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
 
-
+#if WEBKIT_CHECK_VERSION(2,0,0)
 htmlMediaElementLoad :: (HTMLMediaElementClass self) => self -> IO ()
 htmlMediaElementLoad = {# call webkit_dom_html_media_element_load #} . toHTMLMediaElement
-
+#else
+htmlMediaElementLoad ::
+                     (HTMLMediaElementClass self) => self -> IO ()
+htmlMediaElementLoad self
+  = propagateGError $
+      \ errorPtr_ ->
+        {# call webkit_dom_html_media_element_load #}
+          (toHTMLMediaElement self)
+          errorPtr_
+#endif
 
 htmlMediaElementCanPlayType ::
                             (HTMLMediaElementClass self) => self -> String -> IO String

@@ -29,7 +29,7 @@ storageGetItem self key = propagateGError $ \errorPtr -> (
 storageGetItem self key =
   (withUTFString key $ \keyPtr ->
     {# call webkit_dom_storage_get_item #} (toStorage self) keyPtr)
-  >>= readUTFString)
+  >>= readUTFString
 #endif
 
 
