@@ -298,8 +298,9 @@ genSynthezisedFiles verb pd lbi = do
                  | PackageIdentifier name (Version (major:minor:_) _) <- cPkgs
                  , let name' = filter isAlpha (display name)
                  , tag <- name'
-                        : [ name' ++ "-" ++ show major ++ "." ++ show digit
-                          | digit <- [0,2..minor] ]
+                        :[ name' ++ "-" ++ show maj ++ "." ++ show d2
+                          | (maj, d2) <- [(maj,   d2) | maj <- [0..(major-1)], d2 <- [0,2..20]]
+                                      ++ [(major, d2) | d2 <- [0,2..minor]] ]
                  ]
 
       signalsOpts :: [ProgArg]
