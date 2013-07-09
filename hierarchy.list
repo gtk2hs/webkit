@@ -464,8 +464,6 @@
         WebKitDOMTimeRanges as TimeRanges, webkit_dom_time_ranges_get_type if webkit-dom
         WebKitDOMTreeWalker as TreeWalker, webkit_dom_tree_walker_get_type if webkit-dom
         WebKitDOMValidityState as ValidityState, webkit_dom_validity_state_get_type if webkit-dom
-        WebKitDOMWebKitAnimation as WebKitAnimation, webkit_dom_webkit_animation_get_type if webkit-dom
-        WebKitDOMWebKitAnimationList as WebKitAnimationList, webkit_dom_webkit_animation_list_get_type if webkit-dom
         WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
         WebKitDOMWebKitPoint as WebKitPoint, webkit_dom_webkit_point_get_type if webkit-dom
         WebKitDOMXPathExpression as XPathExpression, webkit_dom_xpath_expression_get_type if webkit-dom
