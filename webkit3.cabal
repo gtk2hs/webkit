@@ -24,6 +24,8 @@ Extra-Source-Files: hswebkit.h
                     SetupWrapper.hs SetupMain.hs Gtk2HsSetup.hs
                     marshal.list
                     hierarchy3.list
+                    cbits/events.h
+                    cbits/hsgclosure.h
 
 Data-Dir:       demo
 Data-Files:     Webkit.hs
