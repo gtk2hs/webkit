@@ -2,11 +2,11 @@
 
 cabal clean
 mv webkit.cabal-renamed webkit.cabal || true
-mv webkit3.cabal webkit3.cabal-renamed || true
+mv webkitgtk3.cabal webkitgtk3.cabal-renamed || true
 cabal-src-install "$@"
 
 cabal clean
-mv webkit3.cabal-renamed webkit3.cabal || true
+mv webkitgtk3.cabal-renamed webkitgtk3.cabal || true
 mv webkit.cabal webkit.cabal-renamed || true
 cabal-src-install "$@"
 
