@@ -1,0 +1,14 @@
+language: haskell
+before_install:
+  - travis_retry sudo apt-get update -qq
+  - travis_retry sudo apt-get --no-install-recommends install libwebkitgtk-3.0-dev alex happy
+  - travis_retry cabal install Cabal
+  - travis_retry cabal install cabal-install
+install:
+  - travis_retry cabal install gtk2hs-buildtools
+script:
+  - cabal install
+notifications:
+  irc:
+    channels: "irc.freenode.net#gtk2hs"
+  email: true
