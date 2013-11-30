@@ -39,8 +39,8 @@ x-Types-Destructor: objectUnrefFromMainloop
 x-Types-Hierarchy:  hierarchy3.list
 
 Source-Repository head
-  type:         darcs
-  location:     http://code.haskell.org/webkit/
+  type:         git
+  location:     https://github.com/gtk2hs/webkit
 
 Library
         build-depends:  base >= 4 && < 5,
