@@ -364,7 +364,7 @@
         WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
             WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
                 WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
-                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-dom
+                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkitgtk-2.2
         WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
         WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
         WebKitDOMGeolocation as Geolocation, webkit_dom_geolocation_get_type if webkit-dom

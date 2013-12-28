@@ -1,11 +1,17 @@
 module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent
-       (keyboardEventGetModifierState, keyboardEventInitKeyboardEvent,
+       (
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        keyboardEventGetModifierState, keyboardEventInitKeyboardEvent,
         cKEY_LOCATION_STANDARD, cKEY_LOCATION_LEFT, cKEY_LOCATION_RIGHT,
         cKEY_LOCATION_NUMPAD, keyboardEventGetKeyIdentifier,
         keyboardEventGetKeyLocation, keyboardEventGetCtrlKey,
         keyboardEventGetShiftKey, keyboardEventGetAltKey,
-        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey)
+        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey
+#endif
+       )
        where
+
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative
@@ -105,3 +111,4 @@ keyboardEventGetAltGraphKey self
   = toBool <$>
       ({# call webkit_dom_keyboard_event_get_alt_graph_key #}
          (toKeyboardEvent self))
+#endif
