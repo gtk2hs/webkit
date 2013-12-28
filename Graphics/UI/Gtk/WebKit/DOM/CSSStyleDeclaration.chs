@@ -1,6 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.CSSStyleDeclaration
        (cssStyleDeclarationGetPropertyValue,
-        cssStyleDeclarationGetPropertyCSSValue,
         cssStyleDeclarationRemoveProperty,
         cssStyleDeclarationGetPropertyPriority,
         cssStyleDeclarationSetProperty, cssStyleDeclarationItem,
@@ -26,17 +25,6 @@ cssStyleDeclarationGetPropertyValue self propertyName
            propertyNamePtr)
       >>=
       readUTFString
- 
-cssStyleDeclarationGetPropertyCSSValue ::
-                                       (CSSStyleDeclarationClass self) =>
-                                         self -> String -> IO (Maybe CSSValue)
-cssStyleDeclarationGetPropertyCSSValue self propertyName
-  = maybeNull (makeNewGObject mkCSSValue)
-      (withUTFString propertyName $
-         \ propertyNamePtr ->
-           {# call webkit_dom_css_style_declaration_get_property_css_value #}
-             (toCSSStyleDeclaration self)
-             propertyNamePtr)
  
 cssStyleDeclarationRemoveProperty ::
                                   (CSSStyleDeclarationClass self) => self -> String -> IO String

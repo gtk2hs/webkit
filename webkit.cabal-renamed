@@ -77,7 +77,7 @@ Library
           Graphics.UI.Gtk.WebKit.WebView
           Graphics.UI.Gtk.WebKit.WebWindowFeatures
           Graphics.UI.Gtk.WebKit.DOM.Attr
-          Graphics.UI.Gtk.WebKit.DOM.BarInfo
+          Graphics.UI.Gtk.WebKit.DOM.BarProp
           Graphics.UI.Gtk.WebKit.DOM.Blob
           Graphics.UI.Gtk.WebKit.DOM.CharacterData
           Graphics.UI.Gtk.WebKit.DOM.Console
@@ -93,12 +93,14 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.DOMImplementation
           Graphics.UI.Gtk.WebKit.DOM.DOMMimeType
           Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray
+          Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection
           Graphics.UI.Gtk.WebKit.DOM.DOMPlugin
           Graphics.UI.Gtk.WebKit.DOM.DOMPluginArray
           Graphics.UI.Gtk.WebKit.DOM.DOMSelection
           Graphics.UI.Gtk.WebKit.DOM.DOMSettableTokenList
           Graphics.UI.Gtk.WebKit.DOM.DOMTokenList
           Graphics.UI.Gtk.WebKit.DOM.DOMWindow
+          Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS
           Graphics.UI.Gtk.WebKit.DOM.Element
           Graphics.UI.Gtk.WebKit.DOM.Event
           Graphics.UI.Gtk.WebKit.DOM.EventM
@@ -163,10 +165,10 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement
           Graphics.UI.Gtk.WebKit.DOM.HTMLTitleElement
           Graphics.UI.Gtk.WebKit.DOM.HTMLUListElement
+          Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent
           Graphics.UI.Gtk.WebKit.DOM.Location
           Graphics.UI.Gtk.WebKit.DOM.MediaList
           Graphics.UI.Gtk.WebKit.DOM.MediaQueryList
-          Graphics.UI.Gtk.WebKit.DOM.MemoryInfo
           Graphics.UI.Gtk.WebKit.DOM.MouseEvent
           Graphics.UI.Gtk.WebKit.DOM.NamedNodeMap
           Graphics.UI.Gtk.WebKit.DOM.Navigator
@@ -190,7 +192,6 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.ValidityState
           Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow
           Graphics.UI.Gtk.WebKit.DOM.WebKitPoint
-          Graphics.UI.Gtk.WebKit.DOM.Window
           Graphics.UI.Gtk.WebKit.DOM.XPathExpression
           Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
           Graphics.UI.Gtk.WebKit.DOM.XPathResult

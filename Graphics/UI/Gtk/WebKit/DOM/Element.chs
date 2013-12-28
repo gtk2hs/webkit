@@ -2,6 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
        (elementGetAttribute, elementSetAttribute, elementRemoveAttribute,
         elementGetAttributeNode, elementSetAttributeNode,
         elementRemoveAttributeNode, elementGetElementsByTagName,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        elementHasAttributes,
+#endif
         elementGetAttributeNS, elementSetAttributeNS,
         elementRemoveAttributeNS, elementGetElementsByTagNameNS,
         elementGetAttributeNodeNS, elementSetAttributeNodeNS,
@@ -10,7 +13,18 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
         elementScrollByLines, elementScrollByPages,
         elementGetElementsByClassName, elementQuerySelector,
         elementQuerySelectorAll, elementWebkitMatchesSelector,
-        elementGetTagName, elementGetStyle, elementGetOffsetLeft,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        elementWebkitRequestPointerLock,
+#endif
+        elementGetTagName,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        elementGetAttributes,
+#endif
+        elementGetStyle,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        elementSetId, elementGetId,
+#endif
+        elementGetOffsetLeft,
         elementGetOffsetTop, elementGetOffsetWidth, elementGetOffsetHeight,
         elementGetOffsetParent, elementGetClientLeft, elementGetClientTop,
         elementGetClientWidth, elementGetClientHeight,
@@ -31,7 +45,11 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
         elementOndragover, elementOndragstart, elementOndrop,
         elementOnerror, elementOnfocus, elementOninput, elementOninvalid,
         elementOnkeydown, elementOnkeypress, elementOnkeyup, elementOnload,
-        elementOnmousedown, elementOnmousemove, elementOnmouseout,
+        elementOnmousedown,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        elementOnmouseenter, elementOnmouseleave,
+#endif
+        elementOnmousemove, elementOnmouseout,
         elementOnmouseover, elementOnmouseup, elementOnmousewheel,
         elementOnscroll, elementOnselect, elementOnsubmit,
         elementOnbeforecut, elementOncut, elementOnbeforecopy,
@@ -122,6 +140,13 @@ elementGetElementsByTagName self name
              (toElement self)
              namePtr)
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+elementHasAttributes :: (ElementClass self) => self -> IO Bool
+elementHasAttributes self
+  = toBool <$>
+      ({# call webkit_dom_element_has_attributes #} (toElement self))
+#endif
+
 elementGetAttributeNS ::
                       (ElementClass self) => self -> String -> String -> IO String
 elementGetAttributeNS self namespaceURI localName
@@ -302,17 +327,46 @@ elementWebkitMatchesSelector self selectors
                  selectorsPtr
              errorPtr_)
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+elementWebkitRequestPointerLock ::
+                                (ElementClass self) => self -> IO ()
+elementWebkitRequestPointerLock self
+  = {# call webkit_dom_element_webkit_request_pointer_lock #}
+      (toElement self)
+#endif
+
 elementGetTagName :: (ElementClass self) => self -> IO String
 elementGetTagName self
   = ({# call webkit_dom_element_get_tag_name #} (toElement self)) >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+elementGetAttributes ::
+                     (ElementClass self) => self -> IO (Maybe NamedNodeMap)
+elementGetAttributes self
+  = maybeNull (makeNewGObject mkNamedNodeMap)
+      ({# call webkit_dom_element_get_attributes #} (toElement self))
+#endif
+
 elementGetStyle ::
                 (ElementClass self) => self -> IO (Maybe CSSStyleDeclaration)
 elementGetStyle self
   = maybeNull (makeNewGObject mkCSSStyleDeclaration)
       ({# call webkit_dom_element_get_style #} (toElement self))
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+elementSetId :: (ElementClass self) => self -> String -> IO ()
+elementSetId self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_element_set_id #} (toElement self) valPtr
+ 
+elementGetId :: (ElementClass self) => self -> IO String
+elementGetId self
+  = ({# call webkit_dom_element_get_id #} (toElement self)) >>=
+      readUTFString
+#endif
+
 elementGetOffsetLeft :: (ElementClass self) => self -> IO Int
 elementGetOffsetLeft self
   = fromIntegral <$>
@@ -544,6 +598,16 @@ elementOnmousedown ::
                    (ElementClass self) => Signal self (EventM MouseEvent self ())
 elementOnmousedown = (connect "mousedown")
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+elementOnmouseenter ::
+                    (ElementClass self) => Signal self (EventM UIEvent self ())
+elementOnmouseenter = (connect "mouseenter")
+ 
+elementOnmouseleave ::
+                    (ElementClass self) => Signal self (EventM UIEvent self ())
+elementOnmouseleave = (connect "mouseleave")
+#endif
+
 elementOnmousemove ::
                    (ElementClass self) => Signal self (EventM MouseEvent self ())
 elementOnmousemove = (connect "mousemove")

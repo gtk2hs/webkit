@@ -9,6 +9,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLImageElement
         htmlImageElementSetIsMap, htmlImageElementGetIsMap,
         htmlImageElementSetLongDesc, htmlImageElementGetLongDesc,
         htmlImageElementSetSrc, htmlImageElementGetSrc,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        htmlImageElementSetSrcset, htmlImageElementGetSrcset,
+#endif
         htmlImageElementSetUseMap, htmlImageElementGetUseMap,
         htmlImageElementSetVspace, htmlImageElementGetVspace,
         htmlImageElementSetWidth, htmlImageElementGetWidth,
@@ -185,6 +188,25 @@ htmlImageElementGetSrc self
       >>=
       readUTFString
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+htmlImageElementSetSrcset ::
+                          (HTMLImageElementClass self) => self -> String -> IO ()
+htmlImageElementSetSrcset self val
+  = withUTFString val $
+      \ valPtr ->
+        {# call webkit_dom_html_image_element_set_srcset #}
+          (toHTMLImageElement self)
+          valPtr
+ 
+htmlImageElementGetSrcset ::
+                          (HTMLImageElementClass self) => self -> IO String
+htmlImageElementGetSrcset self
+  = ({# call webkit_dom_html_image_element_get_srcset #}
+       (toHTMLImageElement self))
+      >>=
+      readUTFString
+#endif
+
 htmlImageElementSetUseMap ::
                           (HTMLImageElementClass self) => self -> String -> IO ()
 htmlImageElementSetUseMap self val

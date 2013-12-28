@@ -1,6 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement
        (htmlTextAreaElementCheckValidity,
         htmlTextAreaElementSetCustomValidity, htmlTextAreaElementSelect,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        htmlTextAreaElementSetRangeText,
+#endif
         htmlTextAreaElementSetSelectionRange,
         htmlTextAreaElementSetAutofocus, htmlTextAreaElementGetAutofocus,
         htmlTextAreaElementSetCols, htmlTextAreaElementGetCols,
@@ -54,6 +57,27 @@ htmlTextAreaElementSelect self
   = {# call webkit_dom_html_text_area_element_select #}
       (toHTMLTextAreaElement self)
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+htmlTextAreaElementSetRangeText ::
+                                (HTMLTextAreaElementClass self) =>
+                                  self -> String -> Word -> Word -> String -> IO ()
+htmlTextAreaElementSetRangeText self replacement start end
+  selectionMode
+  = propagateGError $
+      \ errorPtr_ ->
+        withUTFString selectionMode $
+          \ selectionModePtr ->
+            withUTFString replacement $
+              \ replacementPtr ->
+                {# call webkit_dom_html_text_area_element_set_range_text #}
+                  (toHTMLTextAreaElement self)
+                  replacementPtr
+              (fromIntegral start)
+              (fromIntegral end)
+              selectionModePtr
+          errorPtr_
+#endif
+
 htmlTextAreaElementSetSelectionRange ::
                                      (HTMLTextAreaElementClass self) =>
                                        self -> Int -> Int -> String -> IO ()

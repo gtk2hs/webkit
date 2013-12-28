@@ -10,9 +10,12 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowClearInterval, domWindowAtob, domWindowBtoa,
         domWindowDispatchEvent, domWindowCaptureEvents,
         domWindowReleaseEvents, domWindowGetScreen, domWindowGetHistory,
+#if WEBKIT_CHECK_VERSION(2,2,2)
         domWindowGetLocationbar, domWindowGetMenubar,
         domWindowGetPersonalbar, domWindowGetScrollbars,
-        domWindowGetStatusbar, domWindowGetToolbar, domWindowGetNavigator,
+        domWindowGetStatusbar, domWindowGetToolbar,
+#endif
+        domWindowGetNavigator,
         domWindowGetClientInformation, domWindowGetFrameElement,
         domWindowGetOffscreenBuffering, domWindowGetOuterHeight,
         domWindowGetOuterWidth, domWindowGetInnerHeight,
@@ -27,7 +30,11 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowGetTop, domWindowGetDocument, domWindowGetStyleMedia,
         domWindowGetDevicePixelRatio, domWindowGetApplicationCache,
         domWindowGetSessionStorage, domWindowGetLocalStorage,
-        domWindowGetConsole, domWindowOnabort, domWindowOnbeforeunload,
+        domWindowGetConsole,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        domWindowGetCSS,
+#endif
+        domWindowOnabort, domWindowOnbeforeunload,
         domWindowOnblur, domWindowOncanplay, domWindowOncanplaythrough,
         domWindowOnchange, domWindowOnclick, domWindowOncontextmenu,
         domWindowOndblclick, domWindowOndrag, domWindowOndragend,
@@ -38,7 +45,11 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowOninvalid, domWindowOnkeydown, domWindowOnkeypress,
         domWindowOnkeyup, domWindowOnload, domWindowOnloadeddata,
         domWindowOnloadedmetadata, domWindowOnloadstart,
-        domWindowOnmessage, domWindowOnmousedown, domWindowOnmousemove,
+        domWindowOnmessage, domWindowOnmousedown,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        domWindowOnmouseenter, domWindowOnmouseleave,
+#endif
+        domWindowOnmousemove,
         domWindowOnmouseout, domWindowOnmouseover, domWindowOnmouseup,
         domWindowOnmousewheel, domWindowOnoffline, domWindowOnonline,
         domWindowOnpagehide, domWindowOnpageshow, domWindowOnpause,
@@ -51,6 +62,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
         domWindowOnreset, domWindowOnsearch, domWindowOnwebkitanimationend,
         domWindowOnwebkitanimationiteration,
         domWindowOnwebkitanimationstart, domWindowOnwebkittransitionend,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        domWindowOntransitionend,
+#endif
         domWindowOntouchstart, domWindowOntouchmove, domWindowOntouchend,
         domWindowOntouchcancel, domWindowOndevicemotion,
         domWindowOndeviceorientation
@@ -297,45 +311,47 @@ domWindowGetHistory self
   = maybeNull (makeNewGObject mkHistory)
       ({# call webkit_dom_dom_window_get_history #} (toDOMWindow self))
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
 domWindowGetLocationbar ::
-                        (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                        (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetLocationbar self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_locationbar #}
          (toDOMWindow self))
  
 domWindowGetMenubar ::
-                    (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                    (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetMenubar self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_menubar #} (toDOMWindow self))
  
 domWindowGetPersonalbar ::
-                        (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                        (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetPersonalbar self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_personalbar #}
          (toDOMWindow self))
  
 domWindowGetScrollbars ::
-                       (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                       (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetScrollbars self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_scrollbars #}
          (toDOMWindow self))
  
 domWindowGetStatusbar ::
-                      (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                      (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetStatusbar self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_statusbar #} (toDOMWindow self))
  
 domWindowGetToolbar ::
-                    (DOMWindowClass self) => self -> IO (Maybe BarInfo)
+                    (DOMWindowClass self) => self -> IO (Maybe BarProp)
 domWindowGetToolbar self
-  = maybeNull (makeNewGObject mkBarInfo)
+  = maybeNull (makeNewGObject mkBarProp)
       ({# call webkit_dom_dom_window_get_toolbar #} (toDOMWindow self))
- 
+#endif
+
 domWindowGetNavigator ::
                       (DOMWindowClass self) => self -> IO (Maybe Navigator)
 domWindowGetNavigator self
@@ -574,6 +590,14 @@ domWindowGetConsole self
   = maybeNull (makeNewGObject mkConsole)
       ({# call webkit_dom_dom_window_get_console #} (toDOMWindow self))
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+domWindowGetCSS ::
+                (DOMWindowClass self) => self -> IO (Maybe DOMWindowCSS)
+domWindowGetCSS self
+  = maybeNull (makeNewGObject mkDOMWindowCSS)
+      ({# call webkit_dom_dom_window_get_css #} (toDOMWindow self))
+#endif
+
 domWindowOnabort ::
                  (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOnabort = (connect "abort")
@@ -706,6 +730,16 @@ domWindowOnmousedown ::
                      (DOMWindowClass self) => Signal self (EventM MouseEvent self ())
 domWindowOnmousedown = (connect "mousedown")
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+domWindowOnmouseenter ::
+                      (DOMWindowClass self) => Signal self (EventM UIEvent self ())
+domWindowOnmouseenter = (connect "mouseenter")
+ 
+domWindowOnmouseleave ::
+                      (DOMWindowClass self) => Signal self (EventM UIEvent self ())
+domWindowOnmouseleave = (connect "mouseleave")
+#endif
+
 domWindowOnmousemove ::
                      (DOMWindowClass self) => Signal self (EventM MouseEvent self ())
 domWindowOnmousemove = (connect "mousemove")
@@ -843,6 +877,12 @@ domWindowOnwebkittransitionend ::
                                (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOnwebkittransitionend = (connect "webkittransitionend")
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+domWindowOntransitionend ::
+                         (DOMWindowClass self) => Signal self (EventM UIEvent self ())
+domWindowOntransitionend = (connect "transitionend")
+#endif
+
 domWindowOntouchstart ::
                       (DOMWindowClass self) => Signal self (EventM UIEvent self ())
 domWindowOntouchstart = (connect "touchstart")

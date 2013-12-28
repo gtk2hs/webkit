@@ -8,7 +8,7 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 timeRangesStart ::
-                (TimeRangesClass self) => self -> Word -> IO Float
+                (TimeRangesClass self) => self -> Word -> IO Double
 timeRangesStart self index
   = realToFrac <$>
       (propagateGError $
@@ -17,7 +17,8 @@ timeRangesStart self index
              (fromIntegral index)
              errorPtr_)
  
-timeRangesEnd :: (TimeRangesClass self) => self -> Word -> IO Float
+timeRangesEnd ::
+              (TimeRangesClass self) => self -> Word -> IO Double
 timeRangesEnd self index
   = realToFrac <$>
       (propagateGError $

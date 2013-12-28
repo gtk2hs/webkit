@@ -1,17 +1,16 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLDocument
-       (htmlDocumentOpen, htmlDocumentClose, htmlDocumentClear,
-        htmlDocumentCaptureEvents, htmlDocumentReleaseEvents,
-        htmlDocumentHasFocus, htmlDocumentGetEmbeds,
-        htmlDocumentGetPlugins, htmlDocumentGetScripts,
-        htmlDocumentGetWidth, htmlDocumentGetHeight, htmlDocumentSetDir,
-        htmlDocumentGetDir, htmlDocumentSetDesignMode,
-        htmlDocumentGetDesignMode, htmlDocumentGetCompatMode,
-        htmlDocumentGetActiveElement, htmlDocumentSetBgColor,
-        htmlDocumentGetBgColor, htmlDocumentSetFgColor,
-        htmlDocumentGetFgColor, htmlDocumentSetAlinkColor,
-        htmlDocumentGetAlinkColor, htmlDocumentSetLinkColor,
-        htmlDocumentGetLinkColor, htmlDocumentSetVlinkColor,
-        htmlDocumentGetVlinkColor)
+       (htmlDocumentClose, htmlDocumentClear, htmlDocumentCaptureEvents,
+        htmlDocumentReleaseEvents, htmlDocumentHasFocus,
+        htmlDocumentGetEmbeds, htmlDocumentGetPlugins,
+        htmlDocumentGetScripts, htmlDocumentGetWidth,
+        htmlDocumentGetHeight, htmlDocumentSetDir, htmlDocumentGetDir,
+        htmlDocumentSetDesignMode, htmlDocumentGetDesignMode,
+        htmlDocumentGetCompatMode, htmlDocumentGetActiveElement,
+        htmlDocumentSetBgColor, htmlDocumentGetBgColor,
+        htmlDocumentSetFgColor, htmlDocumentGetFgColor,
+        htmlDocumentSetAlinkColor, htmlDocumentGetAlinkColor,
+        htmlDocumentSetLinkColor, htmlDocumentGetLinkColor,
+        htmlDocumentSetVlinkColor, htmlDocumentGetVlinkColor)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -19,10 +18,6 @@ import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
- 
-htmlDocumentOpen :: (HTMLDocumentClass self) => self -> IO ()
-htmlDocumentOpen self
-  = {# call webkit_dom_html_document_open #} (toHTMLDocument self)
  
 htmlDocumentClose :: (HTMLDocumentClass self) => self -> IO ()
 htmlDocumentClose self

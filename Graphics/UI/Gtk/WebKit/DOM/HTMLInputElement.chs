@@ -1,7 +1,11 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
        (htmlInputElementStepUp, htmlInputElementStepDown,
         htmlInputElementCheckValidity, htmlInputElementSetCustomValidity,
-        htmlInputElementSelect, htmlInputElementSetValueForUser,
+        htmlInputElementSelect,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        htmlInputElementSetRangeText,
+#endif
+        htmlInputElementSetValueForUser,
         htmlInputElementSetAccept, htmlInputElementGetAccept,
         htmlInputElementSetAlt, htmlInputElementGetAlt,
         htmlInputElementSetAutocomplete, htmlInputElementGetAutocomplete,
@@ -107,6 +111,27 @@ htmlInputElementSelect ::
 htmlInputElementSelect self
   = {# call webkit_dom_html_input_element_select #}
       (toHTMLInputElement self)
+ 
+#if WEBKIT_CHECK_VERSION(2,2,2)
+htmlInputElementSetRangeText ::
+                             (HTMLInputElementClass self) =>
+                               self -> String -> Word -> Word -> String -> IO ()
+htmlInputElementSetRangeText self replacement start end
+  selectionMode
+  = propagateGError $
+      \ errorPtr_ ->
+        withUTFString selectionMode $
+          \ selectionModePtr ->
+            withUTFString replacement $
+              \ replacementPtr ->
+                {# call webkit_dom_html_input_element_set_range_text #}
+                  (toHTMLInputElement self)
+                  replacementPtr
+              (fromIntegral start)
+              (fromIntegral end)
+              selectionModePtr
+          errorPtr_
+#endif
 
 htmlInputElementSetValueForUser ::
                                 (HTMLInputElementClass self) => self -> String -> IO ()

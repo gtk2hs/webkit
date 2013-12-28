@@ -2,8 +2,11 @@ module Graphics.UI.Gtk.WebKit.DOM.ValidityState
        (validityStateGetValueMissing, validityStateGetTypeMismatch,
         validityStateGetPatternMismatch, validityStateGetTooLong,
         validityStateGetRangeUnderflow, validityStateGetRangeOverflow,
-        validityStateGetStepMismatch, validityStateGetCustomError,
-        validityStateGetValid)
+        validityStateGetStepMismatch,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        validityStateGetBadInput,
+#endif
+        validityStateGetCustomError, validityStateGetValid)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -60,6 +63,15 @@ validityStateGetStepMismatch self
   = toBool <$>
       ({# call webkit_dom_validity_state_get_step_mismatch #}
          (toValidityState self))
+ 
+#if WEBKIT_CHECK_VERSION(2,2,2)
+validityStateGetBadInput ::
+                         (ValidityStateClass self) => self -> IO Bool
+validityStateGetBadInput self
+  = toBool <$>
+      ({# call webkit_dom_validity_state_get_bad_input #}
+         (toValidityState self))
+#endif
  
 validityStateGetCustomError ::
                             (ValidityStateClass self) => self -> IO Bool

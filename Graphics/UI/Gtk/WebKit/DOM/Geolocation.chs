@@ -9,7 +9,7 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 geolocationClearWatch ::
                       (GeolocationClass self) => self -> Int -> IO ()
-geolocationClearWatch self watchId
+geolocationClearWatch self watchID
   = {# call webkit_dom_geolocation_clear_watch #}
       (toGeolocation self)
-      (fromIntegral watchId)
+      (fromIntegral watchID)

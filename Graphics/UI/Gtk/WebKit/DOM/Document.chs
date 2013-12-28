@@ -16,6 +16,9 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentElementFromPoint, documentCaretRangeFromPoint,
         documentCreateCSSStyleDeclaration, documentGetElementsByClassName,
         documentQuerySelector, documentQuerySelectorAll,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        documentWebkitExitPointerLock, documentWebkitGetNamedFlows,
+#endif
         documentGetDoctype, documentGetImplementation,
         documentGetDocumentElement, documentGetInputEncoding,
         documentGetXmlEncoding, documentSetXmlVersion,
@@ -42,6 +45,9 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentOnerror, documentOnfocus, documentOninput,
         documentOninvalid, documentOnkeydown, documentOnkeypress,
         documentOnkeyup, documentOnload, documentOnmousedown,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        documentOnmouseenter, documentOnmouseleave,
+#endif
         documentOnmousemove, documentOnmouseout, documentOnmouseover,
         documentOnmouseup, documentOnmousewheel,
         documentOnreadystatechange, documentOnscroll, documentOnselect,
@@ -55,10 +61,16 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
 #if WEBKIT_CHECK_VERSION(1,10,0)
         documentOnwebkitpointerlockchange, documentOnwebkitpointerlockerror,
 #endif
-        documentGetWebkitVisibilityState,
-        documentGetWebkitHidden
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        documentOnsecuritypolicyviolation,
+#endif
+        documentGetVisibilityState,
+        documentGetHidden
 #if WEBKIT_CHECK_VERSION(1,10,0)
       , documentGetSecurityPolicy
+#endif
+#if WEBKIT_CHECK_VERSION(2,2,2)
+      , documentGetCurrentScript
 #endif
         )
        where
@@ -492,6 +504,21 @@ documentQuerySelectorAll self selectors
                  selectorsPtr
              errorPtr_)
 
+#if WEBKIT_CHECK_VERSION(2,2,2)
+documentWebkitExitPointerLock ::
+                              (DocumentClass self) => self -> IO ()
+documentWebkitExitPointerLock self
+  = {# call webkit_dom_document_webkit_exit_pointer_lock #}
+      (toDocument self)
+ 
+documentWebkitGetNamedFlows ::
+                            (DocumentClass self) => self -> IO (Maybe DOMNamedFlowCollection)
+documentWebkitGetNamedFlows self
+  = maybeNull (makeNewGObject mkDOMNamedFlowCollection)
+      ({# call webkit_dom_document_webkit_get_named_flows #}
+         (toDocument self))
+#endif
+
 documentGetDoctype ::
                    (DocumentClass self) => self -> IO (Maybe DocumentType)
 documentGetDoctype self
@@ -853,6 +880,16 @@ documentOnmousedown ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmousedown = (connect "mousedown")
 
+#if WEBKIT_CHECK_VERSION(2,2,2)
+documentOnmouseenter ::
+                     (DocumentClass self) => Signal self (EventM UIEvent self ())
+documentOnmouseenter = (connect "mouseenter")
+
+documentOnmouseleave ::
+                     (DocumentClass self) => Signal self (EventM UIEvent self ())
+documentOnmouseleave = (connect "mouseleave")
+#endif
+
 documentOnmousemove ::
                     (DocumentClass self) => Signal self (EventM MouseEvent self ())
 documentOnmousemove = (connect "mousemove")
@@ -966,22 +1003,48 @@ documentOnwebkitpointerlockerror
   = (connect "webkitpointerlockerror")
 #endif
 
-documentGetWebkitVisibilityState ::
-                                 (DocumentClass self) => self -> IO String
-documentGetWebkitVisibilityState self
+#if WEBKIT_CHECK_VERSION(2,2,2)
+documentOnsecuritypolicyviolation ::
+                                  (DocumentClass self) => Signal self (EventM UIEvent self ())
+documentOnsecuritypolicyviolation
+  = (connect "securitypolicyviolation")
+#endif
+
+documentGetVisibilityState ::
+                           (DocumentClass self) => self -> IO String
+documentGetVisibilityState self
+#if WEBKIT_CHECK_VERSION(2,2,2)
+  = ({# call webkit_dom_document_get_visibility_state #}
+#else
   = ({# call webkit_dom_document_get_webkit_visibility_state #}
+#endif
        (toDocument self))
       >>=
       readUTFString
 
-documentGetWebkitHidden :: (DocumentClass self) => self -> IO Bool
-documentGetWebkitHidden self
+documentGetHidden :: (DocumentClass self) => self -> IO Bool
+documentGetHidden self
   = toBool <$>
-      ({# call webkit_dom_document_get_webkit_hidden #}
-         (toDocument self))
-
+#if WEBKIT_CHECK_VERSION(2,2,2)
+      ({# call webkit_dom_document_get_hidden #} (toDocument self))
+#else
+      ({# call webkit_dom_document_get_webkit_hidden #} (toDocument self))
+#endif
+ 
 #if WEBKIT_CHECK_VERSION(1,10,0)
-documentGetSecurityPolicy :: (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
-documentGetSecurityPolicy =
-    maybeNull (makeNewGObject mkDOMSecurityPolicy) . {# call webkit_dom_document_get_security_policy #} . toDocument
+documentGetSecurityPolicy ::
+                          (DocumentClass self) => self -> IO (Maybe DOMSecurityPolicy)
+documentGetSecurityPolicy self
+  = maybeNull (makeNewGObject mkDOMSecurityPolicy)
+      ({# call webkit_dom_document_get_security_policy #}
+         (toDocument self))
+#endif
+
+#if WEBKIT_CHECK_VERSION(2,2,2)
+documentGetCurrentScript ::
+                         (DocumentClass self) => self -> IO (Maybe HTMLScriptElement)
+documentGetCurrentScript self
+  = maybeNull (makeNewGObject mkHTMLScriptElement)
+      ({# call webkit_dom_document_get_current_script #}
+         (toDocument self))
 #endif

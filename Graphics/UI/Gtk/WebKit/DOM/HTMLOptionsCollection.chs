@@ -1,5 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLOptionsCollection
-       (htmlOptionsCollectionSetSelectedIndex,
+       (
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        htmlOptionsCollectionNamedItem,
+#endif
+        htmlOptionsCollectionSetSelectedIndex,
         htmlOptionsCollectionGetSelectedIndex)
        where
 import System.Glib.FFI
@@ -9,6 +13,19 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+htmlOptionsCollectionNamedItem ::
+                               (HTMLOptionsCollectionClass self) =>
+                                 self -> String -> IO (Maybe Node)
+htmlOptionsCollectionNamedItem self name
+  = maybeNull (makeNewGObject mkNode)
+      (withUTFString name $
+         \ namePtr ->
+           {# call webkit_dom_html_options_collection_named_item #}
+             (toHTMLOptionsCollection self)
+             namePtr)
+#endif
+
 htmlOptionsCollectionSetSelectedIndex ::
                                       (HTMLOptionsCollectionClass self) => self -> Int -> IO ()
 htmlOptionsCollectionSetSelectedIndex self val

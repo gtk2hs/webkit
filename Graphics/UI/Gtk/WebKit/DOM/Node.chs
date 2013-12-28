@@ -1,13 +1,13 @@
 module Graphics.UI.Gtk.WebKit.DOM.Node
        (nodeInsertBefore, nodeReplaceChild, nodeRemoveChild,
         nodeAppendChild, nodeHasChildNodes, nodeCloneNode, nodeNormalize,
-        nodeIsSupported, nodeHasAttributes, nodeIsSameNode,
-        nodeIsEqualNode, nodeLookupPrefix, nodeIsDefaultNamespace,
-        nodeLookupNamespaceURI, nodeCompareDocumentPosition, nodeContains,
-        nodeDispatchEvent, cELEMENT_NODE, cATTRIBUTE_NODE, cTEXT_NODE,
-        cCDATA_SECTION_NODE, cENTITY_REFERENCE_NODE, cENTITY_NODE,
-        cPROCESSING_INSTRUCTION_NODE, cCOMMENT_NODE, cDOCUMENT_NODE,
-        cDOCUMENT_TYPE_NODE, cDOCUMENT_FRAGMENT_NODE, cNOTATION_NODE,
+        nodeIsSupported, nodeIsSameNode, nodeIsEqualNode, nodeLookupPrefix,
+        nodeIsDefaultNamespace, nodeLookupNamespaceURI,
+        nodeCompareDocumentPosition, nodeContains, nodeDispatchEvent,
+        cELEMENT_NODE, cATTRIBUTE_NODE, cTEXT_NODE, cCDATA_SECTION_NODE,
+        cENTITY_REFERENCE_NODE, cENTITY_NODE, cPROCESSING_INSTRUCTION_NODE,
+        cCOMMENT_NODE, cDOCUMENT_NODE, cDOCUMENT_TYPE_NODE,
+        cDOCUMENT_FRAGMENT_NODE, cNOTATION_NODE,
         cDOCUMENT_POSITION_DISCONNECTED, cDOCUMENT_POSITION_PRECEDING,
         cDOCUMENT_POSITION_FOLLOWING, cDOCUMENT_POSITION_CONTAINS,
         cDOCUMENT_POSITION_CONTAINED_BY,
@@ -15,8 +15,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Node
         nodeSetNodeValue, nodeGetNodeValue, nodeGetNodeType,
         nodeGetParentNode, nodeGetChildNodes, nodeGetFirstChild,
         nodeGetLastChild, nodeGetPreviousSibling, nodeGetNextSibling,
-        nodeGetAttributes, nodeGetOwnerDocument, nodeGetNamespaceURI,
-        nodeSetPrefix, nodeGetPrefix, nodeGetLocalName, nodeGetBaseURI,
+        nodeGetOwnerDocument, nodeGetNamespaceURI, nodeSetPrefix,
+        nodeGetPrefix, nodeGetLocalName, nodeGetBaseURI,
         nodeSetTextContent, nodeGetTextContent, nodeGetParentElement)
        where
 import System.Glib.FFI
@@ -98,11 +98,6 @@ nodeIsSupported self feature version
              \ featurePtr ->
                {# call webkit_dom_node_is_supported #} (toNode self) featurePtr
              versionPtr)
- 
-nodeHasAttributes :: (NodeClass self) => self -> IO Bool
-nodeHasAttributes self
-  = toBool <$>
-      ({# call webkit_dom_node_has_attributes #} (toNode self))
  
 nodeIsSameNode ::
                (NodeClass self, NodeClass other) => self -> Maybe other -> IO Bool
@@ -244,12 +239,6 @@ nodeGetNextSibling :: (NodeClass self) => self -> IO (Maybe Node)
 nodeGetNextSibling self
   = maybeNull (makeNewGObject mkNode)
       ({# call webkit_dom_node_get_next_sibling #} (toNode self))
- 
-nodeGetAttributes ::
-                  (NodeClass self) => self -> IO (Maybe NamedNodeMap)
-nodeGetAttributes self
-  = maybeNull (makeNewGObject mkNamedNodeMap)
-      ({# call webkit_dom_node_get_attributes #} (toNode self))
  
 nodeGetOwnerDocument ::
                      (NodeClass self) => self -> IO (Maybe Document)

@@ -1,5 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.Console
-       (consoleTime, consoleGroupEnd, consoleGetMemory) where
+       (consoleTime, consoleGroupEnd) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative
@@ -16,9 +16,3 @@ consoleTime self title
 consoleGroupEnd :: (ConsoleClass self) => self -> IO ()
 consoleGroupEnd self
   = {# call webkit_dom_console_group_end #} (toConsole self)
- 
-consoleGetMemory ::
-                 (ConsoleClass self) => self -> IO (Maybe MemoryInfo)
-consoleGetMemory self
-  = maybeNull (makeNewGObject mkMemoryInfo)
-      ({# call webkit_dom_console_get_memory #} (toConsole self))

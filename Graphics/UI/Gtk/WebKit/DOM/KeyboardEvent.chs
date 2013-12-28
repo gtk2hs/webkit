@@ -4,8 +4,7 @@ module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent
         cKEY_LOCATION_NUMPAD, keyboardEventGetKeyIdentifier,
         keyboardEventGetKeyLocation, keyboardEventGetCtrlKey,
         keyboardEventGetShiftKey, keyboardEventGetAltKey,
-        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey,
-        keyboardEventGetKeyCode, keyboardEventGetCharCode)
+        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -34,8 +33,7 @@ keyboardEventInitKeyboardEvent ::
                                            String ->
                                              Word -> Bool -> Bool -> Bool -> Bool -> Bool -> IO ()
 keyboardEventInitKeyboardEvent self type' canBubble cancelable view
-  keyIdentifier keyLocation ctrlKey altKey shiftKey metaKey
-  altGraphKey
+  keyIdentifier location ctrlKey altKey shiftKey metaKey altGraphKey
   = withUTFString keyIdentifier $
       \ keyIdentifierPtr ->
         withUTFString type' $
@@ -47,39 +45,12 @@ keyboardEventInitKeyboardEvent self type' canBubble cancelable view
           (fromBool cancelable)
           (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
           keyIdentifierPtr
-      (fromIntegral keyLocation)
+      (fromIntegral location)
       (fromBool ctrlKey)
       (fromBool altKey)
       (fromBool shiftKey)
       (fromBool metaKey)
       (fromBool altGraphKey)
- 
-keyboardEventInitKeyboardEvent ::
-                               (KeyboardEventClass self, DOMWindowClass view) =>
-                                 self ->
-                                   String ->
-                                     Bool ->
-                                       Bool ->
-                                         Maybe view ->
-                                           String -> Word -> Bool -> Bool -> Bool -> Bool -> IO ()
-keyboardEventInitKeyboardEvent self type' canBubble cancelable view
-  keyIdentifier keyLocation ctrlKey altKey shiftKey metaKey
-  = withUTFString keyIdentifier $
-      \ keyIdentifierPtr ->
-        withUTFString type' $
-          \ typePtr ->
-            {# call webkit_dom_keyboard_event_init_keyboard_event #}
-              (toKeyboardEvent self)
-              typePtr
-          (fromBool canBubble)
-          (fromBool cancelable)
-          (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
-          keyIdentifierPtr
-      (fromIntegral keyLocation)
-      (fromBool ctrlKey)
-      (fromBool altKey)
-      (fromBool shiftKey)
-      (fromBool metaKey)
 cKEY_LOCATION_STANDARD = 0
 cKEY_LOCATION_LEFT = 1
 cKEY_LOCATION_RIGHT = 2
@@ -133,18 +104,4 @@ keyboardEventGetAltGraphKey ::
 keyboardEventGetAltGraphKey self
   = toBool <$>
       ({# call webkit_dom_keyboard_event_get_alt_graph_key #}
-         (toKeyboardEvent self))
- 
-keyboardEventGetKeyCode ::
-                        (KeyboardEventClass self) => self -> IO Int
-keyboardEventGetKeyCode self
-  = fromIntegral <$>
-      ({# call webkit_dom_keyboard_event_get_key_code #}
-         (toKeyboardEvent self))
- 
-keyboardEventGetCharCode ::
-                         (KeyboardEventClass self) => self -> IO Int
-keyboardEventGetCharCode self
-  = fromIntegral <$>
-      ({# call webkit_dom_keyboard_event_get_char_code #}
          (toKeyboardEvent self))

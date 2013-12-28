@@ -6,7 +6,14 @@ module Graphics.UI.Gtk.WebKit.DOM.XMLHttpRequest
         cLOADING, cDONE, xmlHttpRequestOnabort, xmlHttpRequestOnerror,
         xmlHttpRequestOnload, xmlHttpRequestOnloadend,
         xmlHttpRequestOnloadstart, xmlHttpRequestOnprogress,
-        xmlHttpRequestOnreadystatechange, xmlHttpRequestGetReadyState,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        xmlHttpRequestOntimeout,
+#endif
+        xmlHttpRequestOnreadystatechange,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        xmlHttpRequestSetTimeout, xmlHttpRequestGetTimeout,
+#endif
+        xmlHttpRequestGetReadyState,
         xmlHttpRequestSetWithCredentials, xmlHttpRequestGetWithCredentials,
         xmlHttpRequestGetUpload, xmlHttpRequestGetResponseXML,
         xmlHttpRequestSetResponseType, xmlHttpRequestGetResponseType,
@@ -114,10 +121,35 @@ xmlHttpRequestOnprogress ::
                          (XMLHttpRequestClass self) => Signal self (EventM UIEvent self ())
 xmlHttpRequestOnprogress = (connect "progress")
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+xmlHttpRequestOntimeout ::
+                        (XMLHttpRequestClass self) => Signal self (EventM UIEvent self ())
+xmlHttpRequestOntimeout = (connect "timeout")
+#endif
+
 xmlHttpRequestOnreadystatechange ::
                                  (XMLHttpRequestClass self) => Signal self (EventM UIEvent self ())
 xmlHttpRequestOnreadystatechange = (connect "readystatechange")
  
+#if WEBKIT_CHECK_VERSION(2,2,2)
+xmlHttpRequestSetTimeout ::
+                         (XMLHttpRequestClass self) => self -> Word -> IO ()
+xmlHttpRequestSetTimeout self val
+  = propagateGError $
+      \ errorPtr_ ->
+        {# call webkit_dom_xml_http_request_set_timeout #}
+          (toXMLHttpRequest self)
+          (fromIntegral val)
+          errorPtr_
+ 
+xmlHttpRequestGetTimeout ::
+                         (XMLHttpRequestClass self) => self -> IO Word
+xmlHttpRequestGetTimeout self
+  = fromIntegral <$>
+      ({# call webkit_dom_xml_http_request_get_timeout #}
+         (toXMLHttpRequest self))
+#endif
+
 xmlHttpRequestGetReadyState ::
                             (XMLHttpRequestClass self) => self -> IO Word
 xmlHttpRequestGetReadyState self
@@ -143,12 +175,12 @@ xmlHttpRequestGetWithCredentials self
          (toXMLHttpRequest self))
  
 xmlHttpRequestGetUpload ::
-                        (XMLHttpRequestClass self) =>
-                          self -> IO (Maybe XMLHttpRequestUpload)
+                        (XMLHttpRequestClass self) => self -> IO String
 xmlHttpRequestGetUpload self
-  = maybeNull (makeNewGObject mkXMLHttpRequestUpload)
-      ({# call webkit_dom_xml_http_request_get_upload #}
-         (toXMLHttpRequest self))
+  = ({# call webkit_dom_xml_http_request_get_upload #}
+       (toXMLHttpRequest self))
+      >>=
+      readUTFString
  
 xmlHttpRequestGetResponseXML ::
                              (XMLHttpRequestClass self) => self -> IO (Maybe Document)
@@ -161,24 +193,25 @@ xmlHttpRequestGetResponseXML self
              errorPtr_)
  
 xmlHttpRequestSetResponseType ::
-                              (XMLHttpRequestClass self) => self -> String -> IO ()
+                              (XMLHttpRequestResponseTypeClass val, XMLHttpRequestClass self) =>
+                                self -> Maybe val -> IO ()
 xmlHttpRequestSetResponseType self val
   = propagateGError $
       \ errorPtr_ ->
-        withUTFString val $
-          \ valPtr ->
-            {# call webkit_dom_xml_http_request_set_response_type #}
-              (toXMLHttpRequest self)
-              valPtr
+        {# call webkit_dom_xml_http_request_set_response_type #}
+          (toXMLHttpRequest self)
+          (maybe (XMLHttpRequestResponseType nullForeignPtr)
+             toXMLHttpRequestResponseType
+             val)
           errorPtr_
  
 xmlHttpRequestGetResponseType ::
-                              (XMLHttpRequestClass self) => self -> IO String
+                              (XMLHttpRequestClass self) =>
+                                self -> IO (Maybe XMLHttpRequestResponseType)
 xmlHttpRequestGetResponseType self
-  = ({# call webkit_dom_xml_http_request_get_response_type #}
-       (toXMLHttpRequest self))
-      >>=
-      readUTFString
+  = maybeNull (makeNewGObject mkXMLHttpRequestResponseType)
+      ({# call webkit_dom_xml_http_request_get_response_type #}
+         (toXMLHttpRequest self))
  
 xmlHttpRequestGetStatus ::
                         (XMLHttpRequestClass self) => self -> IO Word

@@ -1,8 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLElement
        (htmlElementInsertAdjacentElement, htmlElementInsertAdjacentHTML,
-        htmlElementInsertAdjacentText, htmlElementClick, htmlElementSetId,
-        htmlElementGetId, htmlElementSetTitle, htmlElementGetTitle,
-        htmlElementSetLang, htmlElementGetLang, htmlElementSetTranslate,
+        htmlElementInsertAdjacentText, htmlElementClick,
+        htmlElementSetTitle, htmlElementGetTitle, htmlElementSetLang,
+        htmlElementGetLang, htmlElementSetTranslate,
         htmlElementGetTranslate, htmlElementSetDir, htmlElementGetDir,
         htmlElementSetTabIndex, htmlElementGetTabIndex,
         htmlElementSetDraggable, htmlElementGetDraggable,
@@ -15,10 +15,7 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLElement
         htmlElementSetOuterText, htmlElementGetOuterText,
         htmlElementGetChildren, htmlElementSetContentEditable,
         htmlElementGetContentEditable, htmlElementGetIsContentEditable,
-        htmlElementSetSpellcheck, htmlElementGetSpellcheck,
-        htmlElementSetItemScope, htmlElementGetItemScope,
-        htmlElementGetItemType, htmlElementSetItemId, htmlElementGetItemId,
-        htmlElementGetItemRef, htmlElementGetItemProp)
+        htmlElementSetSpellcheck, htmlElementGetSpellcheck)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -75,20 +72,6 @@ htmlElementInsertAdjacentText self where' text
 htmlElementClick :: (HTMLElementClass self) => self -> IO ()
 htmlElementClick self
   = {# call webkit_dom_html_element_click #} (toHTMLElement self)
- 
-htmlElementSetId ::
-                 (HTMLElementClass self) => self -> String -> IO ()
-htmlElementSetId self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_element_set_id #} (toHTMLElement self)
-          valPtr
- 
-htmlElementGetId :: (HTMLElementClass self) => self -> IO String
-htmlElementGetId self
-  = ({# call webkit_dom_html_element_get_id #} (toHTMLElement self))
-      >>=
-      readUTFString
  
 htmlElementSetTitle ::
                     (HTMLElementClass self) => self -> String -> IO ()
@@ -348,55 +331,4 @@ htmlElementGetSpellcheck ::
 htmlElementGetSpellcheck self
   = toBool <$>
       ({# call webkit_dom_html_element_get_spellcheck #}
-         (toHTMLElement self))
- 
-htmlElementSetItemScope ::
-                        (HTMLElementClass self) => self -> Bool -> IO ()
-htmlElementSetItemScope self val
-  = {# call webkit_dom_html_element_set_item_scope #}
-      (toHTMLElement self)
-      (fromBool val)
- 
-htmlElementGetItemScope ::
-                        (HTMLElementClass self) => self -> IO Bool
-htmlElementGetItemScope self
-  = toBool <$>
-      ({# call webkit_dom_html_element_get_item_scope #}
-         (toHTMLElement self))
- 
-htmlElementGetItemType ::
-                       (HTMLElementClass self) => self -> IO (Maybe DOMSettableTokenList)
-htmlElementGetItemType self
-  = maybeNull (makeNewGObject mkDOMSettableTokenList)
-      ({# call webkit_dom_html_element_get_item_type #}
-         (toHTMLElement self))
- 
-htmlElementSetItemId ::
-                     (HTMLElementClass self) => self -> String -> IO ()
-htmlElementSetItemId self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_element_set_item_id #} (toHTMLElement self)
-          valPtr
- 
-htmlElementGetItemId ::
-                     (HTMLElementClass self) => self -> IO String
-htmlElementGetItemId self
-  = ({# call webkit_dom_html_element_get_item_id #}
-       (toHTMLElement self))
-      >>=
-      readUTFString
- 
-htmlElementGetItemRef ::
-                      (HTMLElementClass self) => self -> IO (Maybe DOMSettableTokenList)
-htmlElementGetItemRef self
-  = maybeNull (makeNewGObject mkDOMSettableTokenList)
-      ({# call webkit_dom_html_element_get_item_ref #}
-         (toHTMLElement self))
- 
-htmlElementGetItemProp ::
-                       (HTMLElementClass self) => self -> IO (Maybe DOMSettableTokenList)
-htmlElementGetItemProp self
-  = maybeNull (makeNewGObject mkDOMSettableTokenList)
-      ({# call webkit_dom_html_element_get_item_prop #}
          (toHTMLElement self))

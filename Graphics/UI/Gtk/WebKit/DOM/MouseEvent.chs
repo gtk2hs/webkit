@@ -1,10 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.MouseEvent
        (mouseEventInitMouseEvent, mouseEventGetScreenX,
         mouseEventGetScreenY, mouseEventGetClientX, mouseEventGetClientY,
-        mouseEventGetWebkitMovementX, mouseEventGetWebkitMovementY,
         mouseEventGetCtrlKey, mouseEventGetShiftKey, mouseEventGetAltKey,
         mouseEventGetMetaKey, mouseEventGetButton,
-        mouseEventGetRelatedTarget, mouseEventGetOffsetX,
+        mouseEventGetRelatedTarget, mouseEventGetWebkitMovementX,
+        mouseEventGetWebkitMovementY, mouseEventGetOffsetX,
         mouseEventGetOffsetY, mouseEventGetX, mouseEventGetY,
         mouseEventGetFromElement, mouseEventGetToElement)
        where
@@ -78,20 +78,6 @@ mouseEventGetClientY self
       ({# call webkit_dom_mouse_event_get_client_y #}
          (toMouseEvent self))
  
-mouseEventGetWebkitMovementX ::
-                             (MouseEventClass self) => self -> IO Int
-mouseEventGetWebkitMovementX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_webkit_movement_x #}
-         (toMouseEvent self))
- 
-mouseEventGetWebkitMovementY ::
-                             (MouseEventClass self) => self -> IO Int
-mouseEventGetWebkitMovementY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_webkit_movement_y #}
-         (toMouseEvent self))
- 
 mouseEventGetCtrlKey :: (MouseEventClass self) => self -> IO Bool
 mouseEventGetCtrlKey self
   = toBool <$>
@@ -125,6 +111,20 @@ mouseEventGetRelatedTarget ::
 mouseEventGetRelatedTarget self
   = maybeNull (makeNewGObject mkEventTarget)
       ({# call webkit_dom_mouse_event_get_related_target #}
+         (toMouseEvent self))
+ 
+mouseEventGetWebkitMovementX ::
+                             (MouseEventClass self) => self -> IO Int
+mouseEventGetWebkitMovementX self
+  = fromIntegral <$>
+      ({# call webkit_dom_mouse_event_get_webkit_movement_x #}
+         (toMouseEvent self))
+ 
+mouseEventGetWebkitMovementY ::
+                             (MouseEventClass self) => self -> IO Int
+mouseEventGetWebkitMovementY self
+  = fromIntegral <$>
+      ({# call webkit_dom_mouse_event_get_webkit_movement_y #}
          (toMouseEvent self))
  
 mouseEventGetOffsetX :: (MouseEventClass self) => self -> IO Int

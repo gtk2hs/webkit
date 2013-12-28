@@ -339,7 +339,7 @@
         WebKitWebWindowFeatures as WebWindowFeatures, webkit_web_window_features_get_type if webkit
         WebKitGeolocationPolicyDecision as GeolocationPolicyDecision, webkit_geolocation_policy_decision_get_type if webkit
 
-        WebKitDOMBarInfo as BarInfo, webkit_dom_bar_info_get_type if webkit-dom
+        WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkitgtk-2.2
         WebKitDOMBlob as Blob, webkit_dom_blob_get_type if webkit-dom
             WebKitDOMFile as File, webkit_dom_file_get_type if webkit-dom
         WebKitDOMCSSRule as CSSRule, webkit_dom_css_rule_get_type if webkit-dom
@@ -351,6 +351,7 @@
         WebKitDOMDOMImplementation as DOMImplementation, webkit_dom_dom_implementation_get_type if webkit-dom
         WebKitDOMDOMMimeType as DOMMimeType, webkit_dom_dom_mime_type_get_type if webkit-dom
         WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
+        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkitgtk-2.2
         WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
         WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
         WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
@@ -359,9 +360,11 @@
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
             WebKitDOMDOMSettableTokenList as DOMSettableTokenList, webkit_dom_dom_settable_token_list_get_type if webkit-dom
         WebKitDOMDOMWindow as DOMWindow, webkit_dom_dom_window_get_type if webkit-dom
+        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkitgtk-2.2
         WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
             WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
                 WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
+                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-dom
         WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
         WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
         WebKitDOMGeolocation as Geolocation, webkit_dom_geolocation_get_type if webkit-dom
@@ -372,7 +375,6 @@
         WebKitDOMMediaError as MediaError, webkit_dom_media_error_get_type if webkit-dom
         WebKitDOMMediaList as MediaList, webkit_dom_media_list_get_type if webkit-dom
         WebKitDOMMediaQueryList as MediaQueryList, webkit_dom_media_query_list_get_type if webkit-dom
-        WebKitDOMMemoryInfo as MemoryInfo, webkit_dom_memory_info_get_type if webkit-dom
         WebKitDOMMessagePort as MessagePort, webkit_dom_message_port_get_type if webkit-dom
         WebKitDOMNamedNodeMap as NamedNodeMap, webkit_dom_named_node_map_get_type if webkit-dom
         WebKitDOMNavigator as Navigator, webkit_dom_navigator_get_type if webkit-dom

@@ -29,6 +29,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
         htmlMediaElementGetWebkitClosedCaptionsVisible,
         htmlMediaElementGetWebkitAudioDecodedByteCount,
         htmlMediaElementGetWebkitVideoDecodedByteCount,
+#if WEBKIT_CHECK_VERSION(2,2,2)
+        htmlMediaElementOnwebkitneedkey,
+#endif
         htmlMediaElementSetMediaGroup, htmlMediaElementGetMediaGroup)
        where
 import System.Glib.FFI
@@ -162,7 +165,7 @@ htmlMediaElementGetSeeking self
          (toHTMLMediaElement self))
 
 htmlMediaElementSetCurrentTime ::
-                               (HTMLMediaElementClass self) => self -> Float -> IO ()
+                               (HTMLMediaElementClass self) => self -> Double -> IO ()
 htmlMediaElementSetCurrentTime self val
   = propagateGError $
       \ errorPtr_ ->
@@ -172,7 +175,7 @@ htmlMediaElementSetCurrentTime self val
           errorPtr_
 
 htmlMediaElementGetCurrentTime ::
-                               (HTMLMediaElementClass self) => self -> IO Float
+                               (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetCurrentTime self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_current_time #}
@@ -186,14 +189,14 @@ htmlMediaElementGetInitialTime self
          (toHTMLMediaElement self))
 
 htmlMediaElementGetStartTime ::
-                             (HTMLMediaElementClass self) => self -> IO Float
+                             (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetStartTime self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_start_time #}
          (toHTMLMediaElement self))
 
 htmlMediaElementGetDuration ::
-                            (HTMLMediaElementClass self) => self -> IO Float
+                            (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetDuration self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_duration #}
@@ -207,7 +210,7 @@ htmlMediaElementGetPaused self
          (toHTMLMediaElement self))
 
 htmlMediaElementSetDefaultPlaybackRate ::
-                                       (HTMLMediaElementClass self) => self -> Float -> IO ()
+                                       (HTMLMediaElementClass self) => self -> Double -> IO ()
 htmlMediaElementSetDefaultPlaybackRate self val
   = {# call webkit_dom_html_media_element_set_default_playback_rate
       #}
@@ -215,21 +218,21 @@ htmlMediaElementSetDefaultPlaybackRate self val
       (realToFrac val)
 
 htmlMediaElementGetDefaultPlaybackRate ::
-                                       (HTMLMediaElementClass self) => self -> IO Float
+                                       (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetDefaultPlaybackRate self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_default_playback_rate #}
          (toHTMLMediaElement self))
 
 htmlMediaElementSetPlaybackRate ::
-                                (HTMLMediaElementClass self) => self -> Float -> IO ()
+                                (HTMLMediaElementClass self) => self -> Double -> IO ()
 htmlMediaElementSetPlaybackRate self val
   = {# call webkit_dom_html_media_element_set_playback_rate #}
       (toHTMLMediaElement self)
       (realToFrac val)
 
 htmlMediaElementGetPlaybackRate ::
-                                (HTMLMediaElementClass self) => self -> IO Float
+                                (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetPlaybackRate self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_playback_rate #}
@@ -299,7 +302,7 @@ htmlMediaElementGetControls self
          (toHTMLMediaElement self))
 
 htmlMediaElementSetVolume ::
-                          (HTMLMediaElementClass self) => self -> Float -> IO ()
+                          (HTMLMediaElementClass self) => self -> Double -> IO ()
 htmlMediaElementSetVolume self val
   = propagateGError $
       \ errorPtr_ ->
@@ -309,7 +312,7 @@ htmlMediaElementSetVolume self val
           errorPtr_
 
 htmlMediaElementGetVolume ::
-                          (HTMLMediaElementClass self) => self -> IO Float
+                          (HTMLMediaElementClass self) => self -> IO Double
 htmlMediaElementGetVolume self
   = realToFrac <$>
       ({# call webkit_dom_html_media_element_get_volume #}
@@ -403,6 +406,13 @@ htmlMediaElementGetWebkitVideoDecodedByteCount self
          webkit_dom_html_media_element_get_webkit_video_decoded_byte_count
          #}
          (toHTMLMediaElement self))
+
+#if WEBKIT_CHECK_VERSION(2,2,2)
+htmlMediaElementOnwebkitneedkey ::
+                                (HTMLMediaElementClass self) =>
+                                  Signal self (EventM UIEvent self ())
+htmlMediaElementOnwebkitneedkey = (connect "webkitneedkey")
+#endif
 
 htmlMediaElementSetMediaGroup ::
                               (HTMLMediaElementClass self) => self -> String -> IO ()
