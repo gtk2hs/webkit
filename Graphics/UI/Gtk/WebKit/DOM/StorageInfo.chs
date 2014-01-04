@@ -1,7 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.StorageInfo
-       (cTEMPORARY, cPERSISTENT, StorageInfo, StorageInfoClass,
-        castToStorageInfo, gTypeStorageInfo, toStorageInfo)
-       where
+       (
+#if WEBKIT_CHECK_VERSION(1,10,0)
+        cTEMPORARY, cPERSISTENT, StorageInfo, StorageInfoClass,
+        castToStorageInfo, gTypeStorageInfo, toStorageInfo
+#endif
+       ) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative
