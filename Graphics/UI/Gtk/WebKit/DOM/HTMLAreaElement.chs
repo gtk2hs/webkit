@@ -9,7 +9,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLAreaElement
         htmlAreaElementGetHash, htmlAreaElementGetHost,
         htmlAreaElementGetHostname, htmlAreaElementGetPathname,
         htmlAreaElementGetPort, htmlAreaElementGetProtocol,
-        htmlAreaElementGetSearch)
+        htmlAreaElementGetSearch, HTMLAreaElement, HTMLAreaElementClass,
+        castToHTMLAreaElement, gTypeHTMLAreaElement, toHTMLAreaElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

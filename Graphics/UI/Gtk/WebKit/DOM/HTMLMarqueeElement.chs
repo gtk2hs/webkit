@@ -11,7 +11,10 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
         htmlMarqueeElementSetScrollDelay, htmlMarqueeElementGetScrollDelay,
         htmlMarqueeElementSetTrueSpeed, htmlMarqueeElementGetTrueSpeed,
         htmlMarqueeElementSetVspace, htmlMarqueeElementGetVspace,
-        htmlMarqueeElementSetWidth, htmlMarqueeElementGetWidth)
+        htmlMarqueeElementSetWidth, htmlMarqueeElementGetWidth,
+        HTMLMarqueeElement, HTMLMarqueeElementClass,
+        castToHTMLMarqueeElement, gTypeHTMLMarqueeElement,
+        toHTMLMarqueeElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

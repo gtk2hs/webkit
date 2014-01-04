@@ -6,7 +6,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMApplicationCache
         domApplicationCacheOnerror, domApplicationCacheOnnoupdate,
         domApplicationCacheOndownloading, domApplicationCacheOnprogress,
         domApplicationCacheOnupdateready, domApplicationCacheOncached,
-        domApplicationCacheOnobsolete)
+        domApplicationCacheOnobsolete, DOMApplicationCache,
+        DOMApplicationCacheClass, castToDOMApplicationCache,
+        gTypeDOMApplicationCache, toDOMApplicationCache)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

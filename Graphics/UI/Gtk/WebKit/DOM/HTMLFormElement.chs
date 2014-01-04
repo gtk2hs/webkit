@@ -10,7 +10,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLFormElement
         htmlFormElementGetName, htmlFormElementSetNoValidate,
         htmlFormElementGetNoValidate, htmlFormElementSetTarget,
         htmlFormElementGetTarget, htmlFormElementGetElements,
-        htmlFormElementGetLength)
+        htmlFormElementGetLength, HTMLFormElement, HTMLFormElementClass,
+        castToHTMLFormElement, gTypeHTMLFormElement, toHTMLFormElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

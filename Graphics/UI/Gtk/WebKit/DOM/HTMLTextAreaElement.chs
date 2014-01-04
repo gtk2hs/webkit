@@ -26,7 +26,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement
         htmlTextAreaElementSetSelectionEnd,
         htmlTextAreaElementGetSelectionEnd,
         htmlTextAreaElementSetSelectionDirection,
-        htmlTextAreaElementGetSelectionDirection)
+        htmlTextAreaElementGetSelectionDirection, HTMLTextAreaElement,
+        HTMLTextAreaElementClass, castToHTMLTextAreaElement,
+        gTypeHTMLTextAreaElement, toHTMLTextAreaElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

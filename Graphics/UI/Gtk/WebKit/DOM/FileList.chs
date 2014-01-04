@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.FileList
-       (fileListItem, fileListGetLength) where
+       (fileListItem, fileListGetLength, FileList, FileListClass,
+        castToFileList, gTypeFileList, toFileList)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

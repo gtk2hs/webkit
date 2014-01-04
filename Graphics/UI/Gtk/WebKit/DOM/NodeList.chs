@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.NodeList
-       (nodeListItem, nodeListGetLength) where
+       (nodeListItem, nodeListGetLength, NodeList, NodeListClass,
+        castToNodeList, gTypeNodeList, toNodeList)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

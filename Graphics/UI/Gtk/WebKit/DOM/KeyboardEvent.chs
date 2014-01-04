@@ -6,7 +6,9 @@ module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent
         cKEY_LOCATION_NUMPAD, keyboardEventGetKeyIdentifier,
         keyboardEventGetKeyLocation, keyboardEventGetCtrlKey,
         keyboardEventGetShiftKey, keyboardEventGetAltKey,
-        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey
+        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey,
+        KeyboardEvent, KeyboardEventClass, castToKeyboardEvent,
+        gTypeKeyboardEvent, toKeyboardEvent
 #endif
        )
        where

@@ -4,7 +4,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLOptionsCollection
         htmlOptionsCollectionNamedItem,
 #endif
         htmlOptionsCollectionSetSelectedIndex,
-        htmlOptionsCollectionGetSelectedIndex)
+        htmlOptionsCollectionGetSelectedIndex, HTMLOptionsCollection,
+        HTMLOptionsCollectionClass, castToHTMLOptionsCollection,
+        gTypeHTMLOptionsCollection, toHTMLOptionsCollection)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

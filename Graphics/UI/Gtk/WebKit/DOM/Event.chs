@@ -7,7 +7,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Event
         eventGetTarget, eventGetCurrentTarget, eventGetEventPhase,
         eventGetBubbles, eventGetCancelable, eventGetTimeStamp,
         eventGetDefaultPrevented, eventGetSrcElement, eventSetReturnValue,
-        eventGetReturnValue, eventSetCancelBubble, eventGetCancelBubble)
+        eventGetReturnValue, eventSetCancelBubble, eventGetCancelBubble,
+        Event, EventClass, castToEvent, gTypeEvent, toEvent)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

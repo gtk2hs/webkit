@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLDListElement
-       (htmldListElementSetCompact, htmldListElementGetCompact) where
+       (htmldListElementSetCompact, htmldListElementGetCompact,
+        HTMLDListElement, HTMLDListElementClass, castToHTMLDListElement,
+        gTypeHTMLDListElement, toHTMLDListElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

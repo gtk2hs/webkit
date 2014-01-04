@@ -7,7 +7,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLLinkElement
         htmlLinkElementSetRel, htmlLinkElementGetRel,
         htmlLinkElementSetRev, htmlLinkElementGetRev,
         htmlLinkElementSetTarget, htmlLinkElementGetTarget,
-        htmlLinkElementGetSheet)
+        htmlLinkElementGetSheet, HTMLLinkElement, HTMLLinkElementClass,
+        castToHTMLLinkElement, gTypeHTMLLinkElement, toHTMLLinkElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

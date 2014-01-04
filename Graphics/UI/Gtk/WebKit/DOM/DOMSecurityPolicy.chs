@@ -12,7 +12,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy (
     domSecurityPolicyAllowsScriptFrom,
     domSecurityPolicyAllowsStyleFrom, domSecurityPolicyAllowsEval,
     domSecurityPolicyAllowsInlineScript,
-    domSecurityPolicyAllowsInlineStyle, domSecurityPolicyGetReportURIs
+    domSecurityPolicyAllowsInlineStyle, domSecurityPolicyGetReportURIs,
+    DOMSecurityPolicy, DOMSecurityPolicyClass, castToDOMSecurityPolicy,
+    gTypeDOMSecurityPolicy, toDOMSecurityPolicy
 #endif
 ) where
 

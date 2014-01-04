@@ -1,5 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLHeadingElement
-       (htmlHeadingElementSetAlign, htmlHeadingElementGetAlign) where
+       (htmlHeadingElementSetAlign, htmlHeadingElementGetAlign,
+        HTMLHeadingElement, HTMLHeadingElementClass,
+        castToHTMLHeadingElement, gTypeHTMLHeadingElement,
+        toHTMLHeadingElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

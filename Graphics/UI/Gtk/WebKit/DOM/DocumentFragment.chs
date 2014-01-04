@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.DocumentFragment
-       (documentFragmentQuerySelector, documentFragmentQuerySelectorAll)
+       (documentFragmentQuerySelector, documentFragmentQuerySelectorAll,
+        DocumentFragment, DocumentFragmentClass, castToDocumentFragment,
+        gTypeDocumentFragment, toDocumentFragment)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

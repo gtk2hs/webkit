@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTitleElement
-       (htmlTitleElementSetText, htmlTitleElementGetText) where
+       (htmlTitleElementSetText, htmlTitleElementGetText,
+        HTMLTitleElement, HTMLTitleElementClass, castToHTMLTitleElement,
+        gTypeHTMLTitleElement, toHTMLTitleElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

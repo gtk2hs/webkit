@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLStyleElement
        (htmlStyleElementSetDisabled, htmlStyleElementGetDisabled,
         htmlStyleElementSetScoped, htmlStyleElementGetScoped,
         htmlStyleElementSetMedia, htmlStyleElementGetMedia,
-        htmlStyleElementGetSheet)
+        htmlStyleElementGetSheet, HTMLStyleElement, HTMLStyleElementClass,
+        castToHTMLStyleElement, gTypeHTMLStyleElement, toHTMLStyleElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

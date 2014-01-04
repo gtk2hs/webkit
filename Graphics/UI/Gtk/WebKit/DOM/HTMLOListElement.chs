@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLOListElement
        (htmloListElementSetCompact, htmloListElementGetCompact,
         htmloListElementSetStart, htmloListElementGetStart,
-        htmloListElementSetReversed, htmloListElementGetReversed)
+        htmloListElementSetReversed, htmloListElementGetReversed,
+        HTMLOListElement, HTMLOListElementClass, castToHTMLOListElement,
+        gTypeHTMLOListElement, toHTMLOListElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

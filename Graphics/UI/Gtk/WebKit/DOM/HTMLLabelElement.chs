@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLLabelElement
        (htmlLabelElementGetForm, htmlLabelElementSetHtmlFor,
-        htmlLabelElementGetHtmlFor, htmlLabelElementGetControl)
+        htmlLabelElementGetHtmlFor, htmlLabelElementGetControl,
+        HTMLLabelElement, HTMLLabelElementClass, castToHTMLLabelElement,
+        gTypeHTMLLabelElement, toHTMLLabelElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

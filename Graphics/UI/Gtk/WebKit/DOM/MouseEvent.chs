@@ -6,7 +6,8 @@ module Graphics.UI.Gtk.WebKit.DOM.MouseEvent
         mouseEventGetRelatedTarget, mouseEventGetWebkitMovementX,
         mouseEventGetWebkitMovementY, mouseEventGetOffsetX,
         mouseEventGetOffsetY, mouseEventGetX, mouseEventGetY,
-        mouseEventGetFromElement, mouseEventGetToElement)
+        mouseEventGetFromElement, mouseEventGetToElement, MouseEvent,
+        MouseEventClass, castToMouseEvent, gTypeMouseEvent, toMouseEvent)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

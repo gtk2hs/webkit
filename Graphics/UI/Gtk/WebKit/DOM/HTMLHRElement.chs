@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLHRElement
        (htmlhrElementSetAlign, htmlhrElementGetAlign,
         htmlhrElementSetNoShade, htmlhrElementGetNoShade,
         htmlhrElementSetSize, htmlhrElementGetSize, htmlhrElementSetWidth,
-        htmlhrElementGetWidth)
+        htmlhrElementGetWidth, HTMLHRElement, HTMLHRElementClass,
+        castToHTMLHRElement, gTypeHTMLHRElement, toHTMLHRElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

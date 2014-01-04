@@ -10,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
         htmlVideoElementGetWebkitSupportsFullscreen,
         htmlVideoElementGetWebkitDisplayingFullscreen,
         htmlVideoElementGetWebkitDecodedFrameCount,
-        htmlVideoElementGetWebkitDroppedFrameCount)
+        htmlVideoElementGetWebkitDroppedFrameCount, HTMLVideoElement,
+        HTMLVideoElementClass, castToHTMLVideoElement,
+        gTypeHTMLVideoElement, toHTMLVideoElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.XPathExpression
-       (xPathExpressionEvaluate) where
+       (xPathExpressionEvaluate, XPathExpression, XPathExpressionClass,
+        castToXPathExpression, gTypeXPathExpression, toXPathExpression)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

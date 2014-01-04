@@ -6,7 +6,10 @@ module Graphics.UI.Gtk.WebKit.DOM.CSSStyleDeclaration
         cssStyleDeclarationGetPropertyShorthand,
         cssStyleDeclarationIsPropertyImplicit,
         cssStyleDeclarationSetCssText, cssStyleDeclarationGetCssText,
-        cssStyleDeclarationGetLength, cssStyleDeclarationGetParentRule)
+        cssStyleDeclarationGetLength, cssStyleDeclarationGetParentRule,
+        CSSStyleDeclaration, CSSStyleDeclarationClass,
+        castToCSSStyleDeclaration, gTypeCSSStyleDeclaration,
+        toCSSStyleDeclaration)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

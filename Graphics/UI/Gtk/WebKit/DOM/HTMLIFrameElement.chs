@@ -17,7 +17,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLIFrameElement
 #endif
         htmliFrameElementSetWidth, htmliFrameElementGetWidth,
         htmliFrameElementGetContentDocument,
-        htmliFrameElementGetContentWindow)
+        htmliFrameElementGetContentWindow, HTMLIFrameElement,
+        HTMLIFrameElementClass, castToHTMLIFrameElement,
+        gTypeHTMLIFrameElement, toHTMLIFrameElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -18,7 +18,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLObjectElement
         htmlObjectElementSetWidth, htmlObjectElementGetWidth,
         htmlObjectElementGetWillValidate, htmlObjectElementGetValidity,
         htmlObjectElementGetValidationMessage,
-        htmlObjectElementGetContentDocument)
+        htmlObjectElementGetContentDocument, HTMLObjectElement,
+        HTMLObjectElementClass, castToHTMLObjectElement,
+        gTypeHTMLObjectElement, toHTMLObjectElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

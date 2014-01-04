@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMTokenList
        (domTokenListItem, domTokenListContains, domTokenListAdd,
-        domTokenListRemove, domTokenListToggle, domTokenListGetLength)
+        domTokenListRemove, domTokenListToggle, domTokenListGetLength,
+        DOMTokenList, DOMTokenListClass, castToDOMTokenList,
+        gTypeDOMTokenList, toDOMTokenList)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

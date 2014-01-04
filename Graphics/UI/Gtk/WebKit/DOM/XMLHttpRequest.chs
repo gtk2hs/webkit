@@ -17,7 +17,9 @@ module Graphics.UI.Gtk.WebKit.DOM.XMLHttpRequest
         xmlHttpRequestSetWithCredentials, xmlHttpRequestGetWithCredentials,
         xmlHttpRequestGetUpload, xmlHttpRequestGetResponseXML,
         xmlHttpRequestSetResponseType, xmlHttpRequestGetResponseType,
-        xmlHttpRequestGetStatus, xmlHttpRequestGetStatusText)
+        xmlHttpRequestGetStatus, xmlHttpRequestGetStatusText,
+        XMLHttpRequest, XMLHttpRequestClass,
+        castToXMLHttpRequest, gTypeXMLHttpRequest, toXMLHttpRequest)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

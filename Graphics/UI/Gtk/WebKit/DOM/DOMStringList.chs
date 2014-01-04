@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMStringList
-       (domStringListItem, domStringListContains, domStringListGetLength)
+       (domStringListItem, domStringListContains, domStringListGetLength,
+        DOMStringList, DOMStringListClass, castToDOMStringList,
+        gTypeDOMStringList, toDOMStringList)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

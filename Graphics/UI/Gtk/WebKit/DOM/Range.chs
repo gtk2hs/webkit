@@ -11,7 +11,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Range
         cEND_TO_START, cNODE_BEFORE, cNODE_AFTER, cNODE_BEFORE_AND_AFTER,
         cNODE_INSIDE, rangeGetStartContainer, rangeGetStartOffset,
         rangeGetEndContainer, rangeGetEndOffset, rangeGetCollapsed,
-        rangeGetCommonAncestorContainer, rangeGetText)
+        rangeGetCommonAncestorContainer, rangeGetText, DOMRange,
+        DOMRangeClass, castToDOMRange, gTypeDOMRange, toDOMRange)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

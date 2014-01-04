@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.TimeRanges
-       (timeRangesStart, timeRangesEnd, timeRangesGetLength) where
+       (timeRangesStart, timeRangesEnd, timeRangesGetLength,
+        TimeRanges(..), TimeRangesClass(..), castToTimeRanges,
+        gTypeTimeRanges, toTimeRanges)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

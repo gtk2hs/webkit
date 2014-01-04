@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLTableCaptionElement
-       (htmlTableCaptionElementSetAlign, htmlTableCaptionElementGetAlign)
+       (htmlTableCaptionElementSetAlign, htmlTableCaptionElementGetAlign,
+        HTMLTableCaptionElement, HTMLTableCaptionElementClass,
+        castToHTMLTableCaptionElement, gTypeHTMLTableCaptionElement,
+        toHTMLTableCaptionElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

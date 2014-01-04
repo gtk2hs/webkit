@@ -57,11 +57,12 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLInputElement
         htmlInputElementGetIncremental, htmlInputElementSetWebkitSpeech,
         htmlInputElementGetWebkitSpeech, htmlInputElementSetWebkitGrammar,
         htmlInputElementGetWebkitGrammar,
-        htmlInputElementOnwebkitspeechchange
+        htmlInputElementOnwebkitspeechchange,
 #if WEBKIT_CHECK_VERSION(1,10,0)
-      , htmlInputElementSetCapture, htmlInputElementGetCapture
+        htmlInputElementSetCapture, htmlInputElementGetCapture,
 #endif
-        )
+        HTMLInputElement, HTMLInputElementClass, castToHTMLInputElement,
+        gTypeHTMLInputElement, toHTMLInputElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

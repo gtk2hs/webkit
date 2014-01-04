@@ -4,7 +4,10 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTableColElement
         htmlTableColElementSetChOff, htmlTableColElementGetChOff,
         htmlTableColElementSetSpan, htmlTableColElementGetSpan,
         htmlTableColElementSetVAlign, htmlTableColElementGetVAlign,
-        htmlTableColElementSetWidth, htmlTableColElementGetWidth)
+        htmlTableColElementSetWidth, htmlTableColElementGetWidth,
+        HTMLTableColElement, HTMLTableColElementClass,
+        castToHTMLTableColElement, gTypeHTMLTableColElement,
+        toHTMLTableColElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

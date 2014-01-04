@@ -3,7 +3,9 @@ module Graphics.UI.Gtk.WebKit.DOM.NodeIterator
         nodeIteratorGetWhatToShow, nodeIteratorGetFilter,
         nodeIteratorGetExpandEntityReferences,
         nodeIteratorGetReferenceNode,
-        nodeIteratorGetPointerBeforeReferenceNode)
+        nodeIteratorGetPointerBeforeReferenceNode, NodeIterator,
+        NodeIteratorClass, castToNodeIterator, gTypeNodeIterator,
+        toNodeIterator)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

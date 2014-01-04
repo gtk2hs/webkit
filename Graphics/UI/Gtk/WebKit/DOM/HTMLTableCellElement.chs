@@ -13,7 +13,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTableCellElement
         htmlTableCellElementGetRowSpan, htmlTableCellElementSetScope,
         htmlTableCellElementGetScope, htmlTableCellElementSetVAlign,
         htmlTableCellElementGetVAlign, htmlTableCellElementSetWidth,
-        htmlTableCellElementGetWidth)
+        htmlTableCellElementGetWidth, HTMLTableCellElement,
+        HTMLTableCellElementClass, castToHTMLTableCellElement,
+        gTypeHTMLTableCellElement, toHTMLTableCellElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

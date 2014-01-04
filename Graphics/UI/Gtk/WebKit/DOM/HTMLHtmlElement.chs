@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLHtmlElement
        (htmlHtmlElementSetVersion, htmlHtmlElementGetVersion,
-        htmlHtmlElementSetManifest, htmlHtmlElementGetManifest)
+        htmlHtmlElementSetManifest, htmlHtmlElementGetManifest,
+        HTMLHtmlElement, HTMLHtmlElementClass, castToHTMLHtmlElement,
+        gTypeHTMLHtmlElement, toHTMLHtmlElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

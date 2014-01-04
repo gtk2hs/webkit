@@ -5,7 +5,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Navigator
         navigatorGetUserAgent, navigatorGetPlatform, navigatorGetPlugins,
         navigatorGetMimeTypes, navigatorGetProduct, navigatorGetProductSub,
         navigatorGetVendor, navigatorGetVendorSub,
-        navigatorGetCookieEnabled, navigatorGetOnLine)
+        navigatorGetCookieEnabled, navigatorGetOnLine, Navigator,
+        NavigatorClass, castToNavigator, gTypeNavigator, toNavigator)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,7 +1,10 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseFontElement
        (htmlBaseFontElementSetColor, htmlBaseFontElementGetColor,
         htmlBaseFontElementSetFace, htmlBaseFontElementGetFace,
-        htmlBaseFontElementSetSize, htmlBaseFontElementGetSize)
+        htmlBaseFontElementSetSize, htmlBaseFontElementGetSize,
+        HTMLBaseFontElement, HTMLBaseFontElementClass,
+        castToHTMLBaseFontElement, gTypeHTMLBaseFontElement,
+        toHTMLBaseFontElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

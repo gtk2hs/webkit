@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLMapElement
        (htmlMapElementGetAreas, htmlMapElementSetName,
-        htmlMapElementGetName)
+        htmlMapElementGetName, HTMLMapElement, HTMLMapElementClass,
+        castToHTMLMapElement, gTypeHTMLMapElement, toHTMLMapElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

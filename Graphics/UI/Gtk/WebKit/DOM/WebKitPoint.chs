@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.WebKitPoint
        (webKitPointSetX, webKitPointGetX, webKitPointSetY,
-        webKitPointGetY)
+        webKitPointGetY, WebKitPoint, WebKitPointClass, castToWebKitPoint,
+        gTypeWebKitPoint, toWebKitPoint)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

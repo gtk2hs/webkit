@@ -6,7 +6,10 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTableRowElement
         htmlTableRowElementSetBgColor, htmlTableRowElementGetBgColor,
         htmlTableRowElementSetCh, htmlTableRowElementGetCh,
         htmlTableRowElementSetChOff, htmlTableRowElementGetChOff,
-        htmlTableRowElementSetVAlign, htmlTableRowElementGetVAlign)
+        htmlTableRowElementSetVAlign, htmlTableRowElementGetVAlign,
+        HTMLTableRowElement, HTMLTableRowElementClass,
+        castToHTMLTableRowElement, gTypeHTMLTableRowElement,
+        toHTMLTableRowElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

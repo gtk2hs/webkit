@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLDirectoryElement
-       (htmlDirectoryElementSetCompact, htmlDirectoryElementGetCompact)
+       (htmlDirectoryElementSetCompact, htmlDirectoryElementGetCompact,
+        HTMLDirectoryElement, HTMLDirectoryElementClass,
+        castToHTMLDirectoryElement, gTypeHTMLDirectoryElement,
+        toHTMLDirectoryElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

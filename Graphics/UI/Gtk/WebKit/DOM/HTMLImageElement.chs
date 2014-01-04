@@ -18,7 +18,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLImageElement
         htmlImageElementGetComplete, htmlImageElementSetLowsrc,
         htmlImageElementGetLowsrc, htmlImageElementGetNaturalHeight,
         htmlImageElementGetNaturalWidth, htmlImageElementGetX,
-        htmlImageElementGetY)
+        htmlImageElementGetY, HTMLImageElement, HTMLImageElementClass,
+        castToHTMLImageElement, gTypeHTMLImageElement, toHTMLImageElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

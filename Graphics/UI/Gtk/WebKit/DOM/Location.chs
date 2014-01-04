@@ -1,9 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.Location
-       (locationGetOrigin
+       (locationGetOrigin,
 #if WEBKIT_CHECK_VERSION(1,10,0)
-        , locationGetAncestorOrigins
+        locationGetAncestorOrigins,
 #endif
-        ) where
+        Location, LocationClass, castToLocation, gTypeLocation, toLocation) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

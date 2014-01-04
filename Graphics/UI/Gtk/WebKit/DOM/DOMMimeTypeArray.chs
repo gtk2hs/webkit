@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray
        (domMimeTypeArrayItem, domMimeTypeArrayNamedItem,
-        domMimeTypeArrayGetLength)
+        domMimeTypeArrayGetLength, DOMMimeTypeArray, DOMMimeTypeArrayClass,
+        castToDOMMimeTypeArray, gTypeDOMMimeTypeArray, toDOMMimeTypeArray)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

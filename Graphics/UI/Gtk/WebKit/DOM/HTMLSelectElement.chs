@@ -17,7 +17,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLSelectElement
         htmlSelectElementGetSelectedIndex, htmlSelectElementSetValue,
         htmlSelectElementGetValue, htmlSelectElementGetWillValidate,
         htmlSelectElementGetValidity,
-        htmlSelectElementGetValidationMessage, htmlSelectElementGetLabels)
+        htmlSelectElementGetValidationMessage, htmlSelectElementGetLabels,
+        HTMLSelectElement, HTMLSelectElementClass, castToHTMLSelectElement,
+        gTypeHTMLSelectElement, toHTMLSelectElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

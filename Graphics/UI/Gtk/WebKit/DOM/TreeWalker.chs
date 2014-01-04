@@ -1,7 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.TreeWalker
        (treeWalkerGetRoot, treeWalkerGetWhatToShow, treeWalkerGetFilter,
         treeWalkerGetExpandEntityReferences, treeWalkerSetCurrentNode,
-        treeWalkerGetCurrentNode)
+        treeWalkerGetCurrentNode, TreeWalker(..), TreeWalkerClass(..),
+        castToTreeWalker, gTypeTreeWalker, toTreeWalker)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

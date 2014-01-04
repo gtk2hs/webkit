@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Text
-       (textSplitText, textReplaceWholeText, textGetWholeText) where
+       (textSplitText, textReplaceWholeText, textGetWholeText, Text(..),
+        TextClass(..), castToText, gTypeText, toText)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

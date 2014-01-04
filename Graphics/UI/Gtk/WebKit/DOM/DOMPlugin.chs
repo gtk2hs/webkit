@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMPlugin
        (domPluginItem, domPluginNamedItem, domPluginGetName,
-        domPluginGetFilename, domPluginGetDescription, domPluginGetLength)
+        domPluginGetFilename, domPluginGetDescription, domPluginGetLength,
+        DOMPlugin, DOMPluginClass, castToDOMPlugin, gTypeDOMPlugin,
+        toDOMPlugin)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

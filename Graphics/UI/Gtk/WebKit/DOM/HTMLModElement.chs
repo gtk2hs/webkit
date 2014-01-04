@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLModElement
        (htmlModElementSetCite, htmlModElementGetCite,
-        htmlModElementSetDateTime, htmlModElementGetDateTime)
+        htmlModElementSetDateTime, htmlModElementGetDateTime,
+        HTMLModElement, HTMLModElementClass, castToHTMLModElement,
+        gTypeHTMLModElement, toHTMLModElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

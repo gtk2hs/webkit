@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.CharacterData
        (characterDataSubstringData, characterDataAppendData,
         characterDataInsertData, characterDataDeleteData,
         characterDataReplaceData, characterDataSetData,
-        characterDataGetData, characterDataGetLength)
+        characterDataGetData, characterDataGetLength,
+        CharacterData, CharacterDataClass,
+        castToCharacterData, gTypeCharacterData, toCharacterData)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

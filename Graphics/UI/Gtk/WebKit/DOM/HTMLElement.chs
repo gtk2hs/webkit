@@ -15,7 +15,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLElement
         htmlElementSetOuterText, htmlElementGetOuterText,
         htmlElementGetChildren, htmlElementSetContentEditable,
         htmlElementGetContentEditable, htmlElementGetIsContentEditable,
-        htmlElementSetSpellcheck, htmlElementGetSpellcheck)
+        htmlElementSetSpellcheck, htmlElementGetSpellcheck, HTMLElement,
+        HTMLElementClass, castToHTMLElement, gTypeHTMLElement,
+        toHTMLElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

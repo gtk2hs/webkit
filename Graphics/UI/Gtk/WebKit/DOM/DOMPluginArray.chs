@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMPluginArray
        (domPluginArrayItem, domPluginArrayNamedItem,
-        domPluginArrayRefresh, domPluginArrayGetLength)
+        domPluginArrayRefresh, domPluginArrayGetLength, DOMPluginArray,
+        DOMPluginArrayClass, castToDOMPluginArray, gTypeDOMPluginArray,
+        toDOMPluginArray)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

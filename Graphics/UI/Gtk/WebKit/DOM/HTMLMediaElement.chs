@@ -32,7 +32,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement
 #if WEBKIT_CHECK_VERSION(2,2,2)
         htmlMediaElementOnwebkitneedkey,
 #endif
-        htmlMediaElementSetMediaGroup, htmlMediaElementGetMediaGroup)
+        htmlMediaElementSetMediaGroup, htmlMediaElementGetMediaGroup,
+        HTMLMediaElement, HTMLMediaElementClass, castToHTMLMediaElement,
+        gTypeHTMLMediaElement, toHTMLMediaElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

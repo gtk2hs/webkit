@@ -19,7 +19,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTableElement
         htmlTableElementGetFrame, htmlTableElementSetRules,
         htmlTableElementGetRules, htmlTableElementSetSummary,
         htmlTableElementGetSummary, htmlTableElementSetWidth,
-        htmlTableElementGetWidth)
+        htmlTableElementGetWidth, HTMLTableElement, HTMLTableElementClass,
+        castToHTMLTableElement, gTypeHTMLTableElement, toHTMLTableElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

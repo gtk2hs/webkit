@@ -7,7 +7,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
         htmlKeygenElementSetKeytype, htmlKeygenElementGetKeytype,
         htmlKeygenElementSetName, htmlKeygenElementGetName,
         htmlKeygenElementGetWillValidate, htmlKeygenElementGetValidity,
-        htmlKeygenElementGetValidationMessage, htmlKeygenElementGetLabels)
+        htmlKeygenElementGetValidationMessage, htmlKeygenElementGetLabels,
+        HTMLKeygenElement, HTMLKeygenElementClass, castToHTMLKeygenElement,
+        gTypeHTMLKeygenElement, toHTMLKeygenElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

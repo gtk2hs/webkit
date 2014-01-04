@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
-       (xPathNSResolverLookupNamespaceURI) where
+       (xPathNSResolverLookupNamespaceURI, XPathNSResolver,
+        XPathNSResolverClass, castToXPathNSResolver, gTypeXPathNSResolver,
+        toXPathNSResolver)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

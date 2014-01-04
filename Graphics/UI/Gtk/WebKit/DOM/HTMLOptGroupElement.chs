@@ -1,6 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLOptGroupElement
        (htmlOptGroupElementSetDisabled, htmlOptGroupElementGetDisabled,
-        htmlOptGroupElementSetLabel, htmlOptGroupElementGetLabel)
+        htmlOptGroupElementSetLabel, htmlOptGroupElementGetLabel,
+        HTMLOptGroupElement, HTMLOptGroupElementClass,
+        castToHTMLOptGroupElement, gTypeHTMLOptGroupElement,
+        toHTMLOptGroupElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.NamedNodeMap
        (namedNodeMapGetNamedItem, namedNodeMapSetNamedItem,
         namedNodeMapRemoveNamedItem, namedNodeMapItem,
         namedNodeMapGetNamedItemNS, namedNodeMapSetNamedItemNS,
-        namedNodeMapRemoveNamedItemNS, namedNodeMapGetLength)
+        namedNodeMapRemoveNamedItemNS, namedNodeMapGetLength, NamedNodeMap,
+        NamedNodeMapClass, castToNamedNodeMap, gTypeNamedNodeMap,
+        toNamedNodeMap)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

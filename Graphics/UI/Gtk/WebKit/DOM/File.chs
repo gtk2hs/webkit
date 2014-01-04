@@ -1,9 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.File
        (fileGetName,
 #if WEBKIT_CHECK_VERSION(2,2,2)
-        fileGetWebkitRelativePath
+        fileGetWebkitRelativePath,
 #endif
-       ) where
+        File, FileClass, castToFile, gTypeFile, toFile) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

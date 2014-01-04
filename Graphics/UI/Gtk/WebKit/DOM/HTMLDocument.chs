@@ -10,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLDocument
         htmlDocumentSetFgColor, htmlDocumentGetFgColor,
         htmlDocumentSetAlinkColor, htmlDocumentGetAlinkColor,
         htmlDocumentSetLinkColor, htmlDocumentGetLinkColor,
-        htmlDocumentSetVlinkColor, htmlDocumentGetVlinkColor)
+        htmlDocumentSetVlinkColor, htmlDocumentGetVlinkColor, HTMLDocument,
+        HTMLDocumentClass, castToHTMLDocument, gTypeHTMLDocument,
+        toHTMLDocument)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.StyleMedia
-       (styleMediaMatchMedium) where
+       (styleMediaMatchMedium, StyleMedia, StyleMediaClass,
+        castToStyleMedia, gTypeStyleMedia, toStyleMedia)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

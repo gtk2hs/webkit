@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLQuoteElement
-       (htmlQuoteElementSetCite, htmlQuoteElementGetCite) where
+       (htmlQuoteElementSetCite, htmlQuoteElementGetCite,
+        HTMLQuoteElement, HTMLQuoteElementClass, castToHTMLQuoteElement,
+        gTypeHTMLQuoteElement, toHTMLQuoteElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

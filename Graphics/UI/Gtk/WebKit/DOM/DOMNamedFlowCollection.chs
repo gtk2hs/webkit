@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection
        (
 #if WEBKIT_CHECK_VERSION(2,2,2)
         domNamedFlowCollectionItem, domNamedFlowCollectionNamedItem,
-        domNamedFlowCollectionGetLength
+        domNamedFlowCollectionGetLength, DOMNamedFlowCollection,
+        DOMNamedFlowCollectionClass, castToDOMNamedFlowCollection,
+        gTypeDOMNamedFlowCollection, toDOMNamedFlowCollection
 #endif
        )
        where

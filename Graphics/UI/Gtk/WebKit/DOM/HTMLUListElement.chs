@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLUListElement
-       (htmluListElementSetCompact, htmluListElementGetCompact) where
+       (htmluListElementSetCompact, htmluListElementGetCompact,
+        HTMLUListElement, HTMLUListElementClass, castToHTMLUListElement,
+        gTypeHTMLUListElement, toHTMLUListElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

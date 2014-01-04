@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.CSSStyleSheet
        (cssStyleSheetInsertRule, cssStyleSheetDeleteRule,
         cssStyleSheetAddRule, cssStyleSheetRemoveRule,
         cssStyleSheetGetOwnerRule, cssStyleSheetGetCssRules,
-        cssStyleSheetGetRules)
+        cssStyleSheetGetRules, CSSStyleSheet, CSSStyleSheetClass,
+        castToCSSStyleSheet, gTypeCSSStyleSheet, toCSSStyleSheet)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

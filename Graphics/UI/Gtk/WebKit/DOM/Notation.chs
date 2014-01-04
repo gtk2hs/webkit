@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Notation
-       (notationGetPublicId, notationGetSystemId) where
+       (notationGetPublicId, notationGetSystemId, Notation, NotationClass,
+        castToNotation, gTypeNotation, toNotation)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

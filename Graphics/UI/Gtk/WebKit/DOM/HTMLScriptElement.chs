@@ -5,12 +5,13 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLScriptElement
         htmlScriptElementSetCharset, htmlScriptElementGetCharset,
         htmlScriptElementSetAsync, htmlScriptElementGetAsync,
         htmlScriptElementSetDefer, htmlScriptElementGetDefer,
-        htmlScriptElementSetSrc, htmlScriptElementGetSrc
+        htmlScriptElementSetSrc, htmlScriptElementGetSrc,
 #if WEBKIT_CHECK_VERSION(1,10,0)
-      , htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
-        htmlScriptElementSetNonce, htmlScriptElementGetNonce
+        htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
+        htmlScriptElementSetNonce, htmlScriptElementGetNonce,
 #endif
-        )
+        HTMLScriptElement, HTMLScriptElementClass, castToHTMLScriptElement,
+        gTypeHTMLScriptElement, toHTMLScriptElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

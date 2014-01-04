@@ -6,7 +6,9 @@ module Graphics.UI.Gtk.WebKit.DOM.ValidityState
 #if WEBKIT_CHECK_VERSION(2,2,2)
         validityStateGetBadInput,
 #endif
-        validityStateGetCustomError, validityStateGetValid)
+        validityStateGetCustomError, validityStateGetValid, ValidityState,
+        ValidityStateClass, castToValidityState, gTypeValidityState,
+        toValidityState)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

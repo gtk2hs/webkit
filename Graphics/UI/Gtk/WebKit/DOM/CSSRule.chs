@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.CSSRule
        (cUNKNOWN_RULE, cSTYLE_RULE, cCHARSET_RULE, cIMPORT_RULE,
         cMEDIA_RULE, cFONT_FACE_RULE, cPAGE_RULE, cWEBKIT_KEYFRAMES_RULE,
         cWEBKIT_KEYFRAME_RULE, cssRuleSetCssText, cssRuleGetCssText,
-        cssRuleGetParentStyleSheet, cssRuleGetParentRule)
+        cssRuleGetParentStyleSheet, cssRuleGetParentRule, CSSRule,
+        CSSRuleClass, castToCSSRule, gTypeCSSRule, toCSSRule)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

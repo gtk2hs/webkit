@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.MutationEvent
        (mutationEventInitMutationEvent, cMODIFICATION, cADDITION,
         cREMOVAL, mutationEventGetRelatedNode, mutationEventGetPrevValue,
         mutationEventGetNewValue, mutationEventGetAttrName,
-        mutationEventGetAttrChange)
+        mutationEventGetAttrChange, MutationEvent, MutationEventClass,
+        castToMutationEvent, gTypeMutationEvent, toMutationEvent)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

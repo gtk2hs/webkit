@@ -3,7 +3,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
         htmlEmbedElementSetHeight, htmlEmbedElementGetHeight,
         htmlEmbedElementSetName, htmlEmbedElementGetName,
         htmlEmbedElementSetSrc, htmlEmbedElementGetSrc,
-        htmlEmbedElementSetWidth, htmlEmbedElementGetWidth)
+        htmlEmbedElementSetWidth, htmlEmbedElementGetWidth,
+        HTMLEmbedElement, HTMLEmbedElementClass, castToHTMLEmbedElement,
+        gTypeHTMLEmbedElement, toHTMLEmbedElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

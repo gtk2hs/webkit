@@ -1,4 +1,5 @@
-module Graphics.UI.Gtk.WebKit.DOM.Blob (blobGetSize) where
+module Graphics.UI.Gtk.WebKit.DOM.Blob
+       (blobGetSize, Blob, BlobClass, castToBlob, gTypeBlob, toBlob) where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

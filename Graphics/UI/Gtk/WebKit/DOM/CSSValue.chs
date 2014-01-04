@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.CSSValue
        (cCSS_INHERIT, cCSS_PRIMITIVE_VALUE, cCSS_VALUE_LIST, cCSS_CUSTOM,
-        cssValueSetCssText, cssValueGetCssText, cssValueGetCssValueType)
+        cssValueSetCssText, cssValueGetCssText, cssValueGetCssValueType,
+        CSSValue, CSSValueClass, castToCSSValue, gTypeCSSValue, toCSSValue)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

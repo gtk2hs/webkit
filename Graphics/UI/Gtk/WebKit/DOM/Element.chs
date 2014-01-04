@@ -57,7 +57,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Element
         elementOnreset, elementOnsearch, elementOnselectstart,
         elementOntouchstart, elementOntouchmove, elementOntouchend,
         elementOntouchcancel, elementOnwebkitfullscreenchange,
-        elementOnwebkitfullscreenerror)
+        elementOnwebkitfullscreenerror,
+        Element, ElementClass, castToElement, gTypeElement, toElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Attr
        (attrGetName, attrGetSpecified, attrSetValue, attrGetValue,
-        attrGetOwnerElement, attrGetIsId)
+        attrGetOwnerElement, attrGetIsId, DOMAttr, DOMAttrClass,
+        castToDOMAttr, gTypeDOMAttr, toDOMAttr)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

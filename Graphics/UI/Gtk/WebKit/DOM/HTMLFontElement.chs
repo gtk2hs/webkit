@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLFontElement
        (htmlFontElementSetColor, htmlFontElementGetColor,
         htmlFontElementSetFace, htmlFontElementGetFace,
-        htmlFontElementSetSize, htmlFontElementGetSize)
+        htmlFontElementSetSize, htmlFontElementGetSize, HTMLFontElement,
+        HTMLFontElementClass, castToHTMLFontElement, gTypeHTMLFontElement,
+        toHTMLFontElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

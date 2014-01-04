@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLHeadElement
-       (htmlHeadElementSetProfile, htmlHeadElementGetProfile) where
+       (htmlHeadElementSetProfile, htmlHeadElementGetProfile,
+        HTMLHeadElement, HTMLHeadElementClass, castToHTMLHeadElement,
+        gTypeHTMLHeadElement, toHTMLHeadElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

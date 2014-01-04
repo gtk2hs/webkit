@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.StorageInfo
-       (cTEMPORARY, cPERSISTENT) where
+       (cTEMPORARY, cPERSISTENT, StorageInfo, StorageInfoClass,
+        castToStorageInfo, gTypeStorageInfo, toStorageInfo)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

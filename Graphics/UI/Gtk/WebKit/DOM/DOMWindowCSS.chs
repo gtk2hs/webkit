@@ -1,7 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS
        (
 #if WEBKIT_CHECK_VERSION(2,2,2)
-       domWindowCSSSupports
+        domWindowCSSSupports, DOMWindowCSS, DOMWindowCSSClass,
+        castToDOMWindowCSS, gTypeDOMWindowCSS, toDOMWindowCSS
 #endif
        ) where
 import System.Glib.FFI

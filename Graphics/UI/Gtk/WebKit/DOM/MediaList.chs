@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.MediaList
        (mediaListItem, mediaListDeleteMedium, mediaListAppendMedium,
-        mediaListSetMediaText, mediaListGetMediaText, mediaListGetLength)
+        mediaListSetMediaText, mediaListGetMediaText, mediaListGetLength,
+        MediaList, MediaListClass, castToMediaList, gTypeMediaList,
+        toMediaList)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

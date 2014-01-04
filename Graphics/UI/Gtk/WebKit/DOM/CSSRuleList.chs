@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.CSSRuleList
-       (cssRuleListItem, cssRuleListGetLength) where
+       (cssRuleListItem, cssRuleListGetLength, CSSRuleList,
+        CSSRuleListClass, castToCSSRuleList, gTypeCSSRuleList,
+        toCSSRuleList)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

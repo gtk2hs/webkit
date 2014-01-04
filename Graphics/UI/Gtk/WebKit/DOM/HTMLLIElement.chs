@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLLIElement
-       (htmlliElementSetValue, htmlliElementGetValue) where
+       (htmlliElementSetValue, htmlliElementGetValue, HTMLLIElement,
+        HTMLLIElementClass, castToHTMLLIElement, gTypeHTMLLIElement,
+        toHTMLLIElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

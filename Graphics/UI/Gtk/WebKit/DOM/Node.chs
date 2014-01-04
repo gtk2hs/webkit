@@ -17,7 +17,8 @@ module Graphics.UI.Gtk.WebKit.DOM.Node
         nodeGetLastChild, nodeGetPreviousSibling, nodeGetNextSibling,
         nodeGetOwnerDocument, nodeGetNamespaceURI, nodeSetPrefix,
         nodeGetPrefix, nodeGetLocalName, nodeGetBaseURI,
-        nodeSetTextContent, nodeGetTextContent, nodeGetParentElement)
+        nodeSetTextContent, nodeGetTextContent, nodeGetParentElement, Node,
+        NodeClass, castToNode, gTypeNode, toNode)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

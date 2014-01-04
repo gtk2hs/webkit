@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.BarProp (
 #if WEBKIT_CHECK_VERSION(2,2,2)
-	barPropGetVisible
+        barPropGetVisible, BarProp, BarPropClass, castToBarProp,
+        gTypeBarProp, toBarProp
 #endif
     ) where
 import System.Glib.FFI

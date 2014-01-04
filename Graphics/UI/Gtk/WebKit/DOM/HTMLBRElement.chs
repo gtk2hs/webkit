@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLBRElement
-       (htmlbrElementSetClear, htmlbrElementGetClear) where
+       (htmlbrElementSetClear, htmlbrElementGetClear, HTMLBRElement,
+        HTMLBRElementClass, castToHTMLBRElement, gTypeHTMLBRElement,
+        toHTMLBRElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

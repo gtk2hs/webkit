@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseElement
        (htmlBaseElementSetHref, htmlBaseElementGetHref,
-        htmlBaseElementSetTarget, htmlBaseElementGetTarget)
+        htmlBaseElementSetTarget, htmlBaseElementGetTarget,
+        HTMLBaseElement, HTMLBaseElementClass, castToHTMLBaseElement,
+        gTypeHTMLBaseElement, toHTMLBaseElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

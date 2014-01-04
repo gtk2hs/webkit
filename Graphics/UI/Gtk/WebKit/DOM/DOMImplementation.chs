@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMImplementation
        (domImplementationHasFeature, domImplementationCreateDocumentType,
         domImplementationCreateDocument,
         domImplementationCreateCSSStyleSheet,
-        domImplementationCreateHTMLDocument)
+        domImplementationCreateHTMLDocument, DOMImplementation,
+        DOMImplementationClass, castToDOMImplementation,
+        gTypeDOMImplementation, toDOMImplementation)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -10,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMSelection
         domSelectionGetFocusNode, domSelectionGetFocusOffset,
         domSelectionGetIsCollapsed, domSelectionGetRangeCount,
         domSelectionGetBaseNode, domSelectionGetBaseOffset,
-        domSelectionGetExtentNode, domSelectionGetExtentOffset)
+        domSelectionGetExtentNode, domSelectionGetExtentOffset,
+        DOMSelection, DOMSelectionClass, castToDOMSelection,
+        gTypeDOMSelection, toDOMSelection)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

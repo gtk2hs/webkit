@@ -9,7 +9,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLAppletElement
         htmlAppletElementSetName, htmlAppletElementGetName,
         htmlAppletElementSetObject, htmlAppletElementGetObject,
         htmlAppletElementSetVspace, htmlAppletElementGetVspace,
-        htmlAppletElementSetWidth, htmlAppletElementGetWidth)
+        htmlAppletElementSetWidth, htmlAppletElementGetWidth,
+        HTMLAppletElement, HTMLAppletElementClass, castToHTMLAppletElement,
+        gTypeHTMLAppletElement, toHTMLAppletElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

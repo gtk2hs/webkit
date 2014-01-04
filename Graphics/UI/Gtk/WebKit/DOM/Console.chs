@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Console
-       (consoleTime, consoleGroupEnd) where
+       (consoleTime, consoleGroupEnd, Console, ConsoleClass,
+        castToConsole, gTypeConsole, toConsole)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

@@ -4,7 +4,9 @@ module Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow
         webKitNamedFlowGetRegionsByContent, webKitNamedFlowGetRegions,
         webKitNamedFlowGetContent, webKitNamedFlowDispatchEvent,
         webKitNamedFlowGetName, webKitNamedFlowGetOverset,
-        webKitNamedFlowGetFirstEmptyRegionIndex
+        webKitNamedFlowGetFirstEmptyRegionIndex, WebKitNamedFlow,
+        WebKitNamedFlowClass, castToWebKitNamedFlow, gTypeWebKitNamedFlow,
+        toWebKitNamedFlow
 #endif
         )
        where

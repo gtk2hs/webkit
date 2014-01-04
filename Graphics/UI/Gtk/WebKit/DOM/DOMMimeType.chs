@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMMimeType
        (domMimeTypeGetSuffixes, domMimeTypeGetDescription,
-        domMimeTypeGetEnabledPlugin)
+        domMimeTypeGetEnabledPlugin, DOMMimeType, DOMMimeTypeClass,
+        castToDOMMimeType, gTypeDOMMimeType, toDOMMimeType)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLPreElement
        (htmlPreElementSetWidth, htmlPreElementGetWidth,
-        htmlPreElementSetWrap, htmlPreElementGetWrap)
+        htmlPreElementSetWrap, htmlPreElementGetWrap, HTMLPreElement,
+        HTMLPreElementClass, castToHTMLPreElement, gTypeHTMLPreElement,
+        toHTMLPreElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

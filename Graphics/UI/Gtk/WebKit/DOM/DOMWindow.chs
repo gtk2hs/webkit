@@ -67,11 +67,11 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMWindow
 #endif
         domWindowOntouchstart, domWindowOntouchmove, domWindowOntouchend,
         domWindowOntouchcancel, domWindowOndevicemotion,
-        domWindowOndeviceorientation
+        domWindowOndeviceorientation,
 #if WEBKIT_CHECK_VERSION(1,10,0)
-      , domWindowOnwebkitdeviceproximity
+        domWindowOnwebkitdeviceproximity,
 #endif
-        )
+        DOMWindow, DOMWindowClass, castToDOMWindow, gTypeDOMWindow, toDOMWindow)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

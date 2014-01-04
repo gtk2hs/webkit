@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement
        (htmlCanvasElementSetWidth, htmlCanvasElementGetWidth,
-        htmlCanvasElementSetHeight, htmlCanvasElementGetHeight)
+        htmlCanvasElementSetHeight, htmlCanvasElementGetHeight,
+        HTMLCanvasElement, HTMLCanvasElementClass, castToHTMLCanvasElement,
+        gTypeHTMLCanvasElement, toHTMLCanvasElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

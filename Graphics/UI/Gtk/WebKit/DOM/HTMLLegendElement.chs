@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLLegendElement
        (htmlLegendElementGetForm, htmlLegendElementSetAlign,
-        htmlLegendElementGetAlign)
+        htmlLegendElementGetAlign, HTMLLegendElement,
+        HTMLLegendElementClass, castToHTMLLegendElement,
+        gTypeHTMLLegendElement, toHTMLLegendElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

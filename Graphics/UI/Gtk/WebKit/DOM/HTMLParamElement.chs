@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLParamElement
        (htmlParamElementSetName, htmlParamElementGetName,
         htmlParamElementSetValue, htmlParamElementGetValue,
-        htmlParamElementSetValueType, htmlParamElementGetValueType)
+        htmlParamElementSetValueType, htmlParamElementGetValueType,
+        HTMLParamElement, HTMLParamElementClass, castToHTMLParamElement,
+        gTypeHTMLParamElement, toHTMLParamElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

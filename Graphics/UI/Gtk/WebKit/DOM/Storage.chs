@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Storage
        (storageKey, storageGetItem, storageSetItem, storageRemoveItem,
-        storageClear, storageGetLength)
+        storageClear, storageGetLength, Storage, StorageClass,
+        castToStorage, gTypeStorage, toStorage)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

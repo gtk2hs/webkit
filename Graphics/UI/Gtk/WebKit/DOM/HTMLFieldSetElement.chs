@@ -10,7 +10,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLFieldSetElement
         htmlFieldSetElementGetElements,
 #endif
         htmlFieldSetElementGetWillValidate, htmlFieldSetElementGetValidity,
-        htmlFieldSetElementGetValidationMessage)
+        htmlFieldSetElementGetValidationMessage, HTMLFieldSetElement,
+        HTMLFieldSetElementClass, castToHTMLFieldSetElement,
+        gTypeHTMLFieldSetElement, toHTMLFieldSetElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

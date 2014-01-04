@@ -12,7 +12,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLButtonElement
         htmlButtonElementGetName, htmlButtonElementSetValue,
         htmlButtonElementGetValue, htmlButtonElementGetWillValidate,
         htmlButtonElementGetValidity,
-        htmlButtonElementGetValidationMessage, htmlButtonElementGetLabels)
+        htmlButtonElementGetValidationMessage, htmlButtonElementGetLabels,
+        HTMLButtonElement, HTMLButtonElementClass, castToHTMLButtonElement,
+        gTypeHTMLButtonElement, toHTMLButtonElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

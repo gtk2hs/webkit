@@ -7,7 +7,8 @@ module Graphics.UI.Gtk.WebKit.DOM.XPathResult
         xPathResultGetResultType, xPathResultGetNumberValue,
         xPathResultGetStringValue, xPathResultGetBooleanValue,
         xPathResultGetSingleNodeValue, xPathResultGetInvalidIteratorState,
-        xPathResultGetSnapshotLength)
+        xPathResultGetSnapshotLength, XPathResult, XPathResultClass,
+        castToXPathResult, gTypeXPathResult, toXPathResult)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

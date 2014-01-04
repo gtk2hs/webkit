@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLMetaElement
        (htmlMetaElementSetContent, htmlMetaElementGetContent,
         htmlMetaElementSetHttpEquiv, htmlMetaElementGetHttpEquiv,
         htmlMetaElementSetName, htmlMetaElementGetName,
-        htmlMetaElementSetScheme, htmlMetaElementGetScheme)
+        htmlMetaElementSetScheme, htmlMetaElementGetScheme,
+        HTMLMetaElement, HTMLMetaElementClass, castToHTMLMetaElement,
+        gTypeHTMLMetaElement, toHTMLMetaElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

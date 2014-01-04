@@ -5,7 +5,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLOptionElement
         htmlOptionElementGetDefaultSelected, htmlOptionElementSetSelected,
         htmlOptionElementGetSelected, htmlOptionElementSetValue,
         htmlOptionElementGetValue, htmlOptionElementGetText,
-        htmlOptionElementGetIndex)
+        htmlOptionElementGetIndex, HTMLOptionElement,
+        HTMLOptionElementClass, castToHTMLOptionElement,
+        gTypeHTMLOptionElement, toHTMLOptionElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.StyleSheet
        (styleSheetSetDisabled, styleSheetGetDisabled,
         styleSheetGetOwnerNode, styleSheetGetParentStyleSheet,
-        styleSheetGetHref, styleSheetGetTitle, styleSheetGetMedia)
+        styleSheetGetHref, styleSheetGetTitle, styleSheetGetMedia,
+        StyleSheet, StyleSheetClass, castToStyleSheet, gTypeStyleSheet,
+        toStyleSheet)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

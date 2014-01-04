@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.EventTarget
-       (eventTargetDispatchEvent) where
+       (eventTargetDispatchEvent, EventTarget, EventTargetClass,
+        castToEventTarget, gTypeEventTarget, toEventTarget)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

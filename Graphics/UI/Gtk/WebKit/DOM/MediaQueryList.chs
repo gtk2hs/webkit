@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.MediaQueryList
-       (mediaQueryListGetMedia, mediaQueryListGetMatches) where
+       (mediaQueryListGetMedia, mediaQueryListGetMatches, MediaQueryList,
+        MediaQueryListClass, castToMediaQueryList, gTypeMediaQueryList,
+        toMediaQueryList)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

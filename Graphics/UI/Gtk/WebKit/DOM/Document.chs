@@ -65,14 +65,14 @@ module Graphics.UI.Gtk.WebKit.DOM.Document
         documentOnsecuritypolicyviolation,
 #endif
         documentGetVisibilityState,
-        documentGetHidden
+        documentGetHidden,
 #if WEBKIT_CHECK_VERSION(1,10,0)
-      , documentGetSecurityPolicy
+        documentGetSecurityPolicy,
 #endif
 #if WEBKIT_CHECK_VERSION(2,2,2)
-      , documentGetCurrentScript
+        documentGetCurrentScript,
 #endif
-        )
+        Document, DocumentClass, castToDocument, gTypeDocument, toDocument)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

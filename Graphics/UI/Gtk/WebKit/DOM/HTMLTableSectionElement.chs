@@ -4,7 +4,10 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTableSectionElement
         htmlTableSectionElementGetAlign, htmlTableSectionElementSetCh,
         htmlTableSectionElementGetCh, htmlTableSectionElementSetChOff,
         htmlTableSectionElementGetChOff, htmlTableSectionElementSetVAlign,
-        htmlTableSectionElementGetVAlign, htmlTableSectionElementGetRows)
+        htmlTableSectionElementGetVAlign, htmlTableSectionElementGetRows,
+        HTMLTableSectionElement, HTMLTableSectionElementClass,
+        castToHTMLTableSectionElement, gTypeHTMLTableSectionElement,
+        toHTMLTableSectionElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

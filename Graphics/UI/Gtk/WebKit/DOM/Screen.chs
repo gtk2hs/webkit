@@ -1,7 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.Screen
        (screenGetHeight, screenGetWidth, screenGetColorDepth,
         screenGetPixelDepth, screenGetAvailLeft, screenGetAvailTop,
-        screenGetAvailHeight, screenGetAvailWidth)
+        screenGetAvailHeight, screenGetAvailWidth, DOMScreen,
+        DOMScreenClass, castToDOMScreen, gTypeDOMScreen, toDOMScreen)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,4 +1,7 @@
-module Graphics.UI.Gtk.WebKit.DOM.History (historyGetLength) where
+module Graphics.UI.Gtk.WebKit.DOM.History
+       (historyGetLength, History, HistoryClass, castToHistory,
+        gTypeHistory, toHistory)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

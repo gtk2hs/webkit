@@ -3,7 +3,8 @@ module Graphics.UI.Gtk.WebKit.DOM.NodeFilter
         cSHOW_ELEMENT, cSHOW_ATTRIBUTE, cSHOW_TEXT, cSHOW_CDATA_SECTION,
         cSHOW_ENTITY_REFERENCE, cSHOW_ENTITY, cSHOW_PROCESSING_INSTRUCTION,
         cSHOW_COMMENT, cSHOW_DOCUMENT, cSHOW_DOCUMENT_TYPE,
-        cSHOW_DOCUMENT_FRAGMENT, cSHOW_NOTATION)
+        cSHOW_DOCUMENT_FRAGMENT, cSHOW_NOTATION, NodeFilter,
+        NodeFilterClass, castToNodeFilter, gTypeNodeFilter, toNodeFilter)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

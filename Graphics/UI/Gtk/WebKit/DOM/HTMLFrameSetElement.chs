@@ -8,7 +8,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameSetElement
         htmlFrameSetElementOnunload,
         htmlFrameSetElementOnorientationchange, htmlFrameSetElementOnblur,
         htmlFrameSetElementOnerror, htmlFrameSetElementOnfocus,
-        htmlFrameSetElementOnload)
+        htmlFrameSetElementOnload, HTMLFrameSetElement,
+        HTMLFrameSetElementClass, castToHTMLFrameSetElement,
+        gTypeHTMLFrameSetElement, toHTMLFrameSetElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

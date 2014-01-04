@@ -1,6 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.ProcessingInstruction
        (processingInstructionGetTarget, processingInstructionSetData,
-        processingInstructionGetData, processingInstructionGetSheet)
+        processingInstructionGetData, processingInstructionGetSheet,
+        ProcessingInstruction, ProcessingInstructionClass,
+        castToProcessingInstruction, gTypeProcessingInstruction,
+        toProcessingInstruction)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

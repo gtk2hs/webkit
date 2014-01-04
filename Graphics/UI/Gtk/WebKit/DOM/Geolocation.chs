@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.Geolocation
-       (geolocationClearWatch) where
+       (geolocationClearWatch, Geolocation, GeolocationClass,
+        castToGeolocation, gTypeGeolocation, toGeolocation)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

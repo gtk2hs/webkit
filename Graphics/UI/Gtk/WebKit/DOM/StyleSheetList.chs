@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.StyleSheetList
-       (styleSheetListItem, styleSheetListGetLength) where
+       (styleSheetListItem, styleSheetListGetLength, StyleSheetList,
+        StyleSheetListClass, castToStyleSheetList, gTypeStyleSheetList,
+        toStyleSheetList)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

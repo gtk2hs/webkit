@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLMenuElement
-       (htmlMenuElementSetCompact, htmlMenuElementGetCompact) where
+       (htmlMenuElementSetCompact, htmlMenuElementGetCompact,
+        HTMLMenuElement, HTMLMenuElementClass, castToHTMLMenuElement,
+        gTypeHTMLMenuElement, toHTMLMenuElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

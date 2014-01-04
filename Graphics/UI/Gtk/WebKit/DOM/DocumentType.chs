@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.DocumentType
        (documentTypeGetName, documentTypeGetEntities,
         documentTypeGetNotations, documentTypeGetPublicId,
-        documentTypeGetSystemId, documentTypeGetInternalSubset)
+        documentTypeGetSystemId, documentTypeGetInternalSubset,
+        DocumentType, DocumentTypeClass, castToDocumentType,
+        gTypeDocumentType, toDocumentType)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

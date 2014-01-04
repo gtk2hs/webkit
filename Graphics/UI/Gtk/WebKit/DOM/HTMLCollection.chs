@@ -3,7 +3,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLCollection
 #if WEBKIT_CHECK_VERSION(2,2,2)
         htmlCollectionNamedItem,
 #endif
-        htmlCollectionGetLength)
+        htmlCollectionGetLength, HTMLCollection, HTMLCollectionClass,
+        castToHTMLCollection, gTypeHTMLCollection, toHTMLCollection)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -17,7 +17,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLAnchorElement
         htmlAnchorElementSetPort, htmlAnchorElementGetPort,
         htmlAnchorElementSetProtocol, htmlAnchorElementGetProtocol,
         htmlAnchorElementSetSearch, htmlAnchorElementGetSearch,
-        htmlAnchorElementGetOrigin, htmlAnchorElementGetText)
+        htmlAnchorElementGetOrigin, htmlAnchorElementGetText,
+        HTMLAnchorElement, HTMLAnchorElementClass, castToHTMLAnchorElement,
+        gTypeHTMLAnchorElement, toHTMLAnchorElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -2,7 +2,8 @@ module Graphics.UI.Gtk.WebKit.DOM.UIEvent
        (uiEventInitUIEvent, uiEventGetView, uiEventGetDetail,
         uiEventGetKeyCode, uiEventGetCharCode, uiEventGetLayerX,
         uiEventGetLayerY, uiEventGetPageX, uiEventGetPageY,
-        uiEventGetWhich)
+        uiEventGetWhich, UIEvent, UIEventClass, castToUIEvent,
+        gTypeUIEvent, toUIEvent)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -1,5 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLDivElement
-       (htmlDivElementSetAlign, htmlDivElementGetAlign) where
+       (htmlDivElementSetAlign, htmlDivElementGetAlign, HTMLDivElement,
+        HTMLDivElementClass, castToHTMLDivElement, gTypeHTMLDivElement,
+        toHTMLDivElement)
+       where
 import System.Glib.FFI
 import System.Glib.UTFString
 import Control.Applicative

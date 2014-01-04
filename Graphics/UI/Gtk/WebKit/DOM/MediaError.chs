@@ -1,6 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.MediaError
        (cMEDIA_ERR_ABORTED, cMEDIA_ERR_NETWORK, cMEDIA_ERR_DECODE,
-        cMEDIA_ERR_SRC_NOT_SUPPORTED, mediaErrorGetCode)
+        cMEDIA_ERR_SRC_NOT_SUPPORTED, mediaErrorGetCode, MediaError,
+        MediaErrorClass, castToMediaError, gTypeMediaError, toMediaError)
        where
 import System.Glib.FFI
 import System.Glib.UTFString

@@ -9,7 +9,8 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameElement
         htmlFrameElementSetSrc, htmlFrameElementGetSrc,
         htmlFrameElementGetContentDocument,
         htmlFrameElementGetContentWindow, htmlFrameElementGetWidth,
-        htmlFrameElementGetHeight)
+        htmlFrameElementGetHeight, HTMLFrameElement, HTMLFrameElementClass,
+        castToHTMLFrameElement, gTypeHTMLFrameElement, toHTMLFrameElement)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
