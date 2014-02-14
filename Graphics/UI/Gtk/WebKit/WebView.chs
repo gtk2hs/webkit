@@ -1165,6 +1165,6 @@ geolocationPolicyDecisionCancelled = Signal (connect_OBJECT__NONE "geolocation_p
 -- geolocation.
 --
 -- * Since 1.1.23
-geolocationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> GeolocationPolicyDecision -> IO ())
-geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__NONE "geolocation_policy_decision_requested")
+geolocationPolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> GeolocationPolicyDecision -> IO Bool)
+geolocationPolicyDecisionRequested = Signal (connect_OBJECT_OBJECT__BOOL "geolocation_policy_decision_requested")
 #endif
