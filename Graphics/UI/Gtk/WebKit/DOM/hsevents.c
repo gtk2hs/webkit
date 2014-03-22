@@ -65,3 +65,14 @@ gboolean webkit_dom_event_target_add_event_listener_closure(
     return webkit_dom_event_target_add_event_listener(
         WEBKIT_DOM_EVENT_TARGET (target), eventName, G_CALLBACK(webkit_gtk2hs_closure_callback), bubble, closure);
 }
+
+gboolean webkit_dom_event_target_remove_event_listener_closure(
+    WebKitDOMEventTarget *target,
+    const char           *eventName,
+    GClosure             *closure,
+    gboolean              bubble)
+{
+    WHEN_DEBUG(g_debug("webkit_dom_event_target_remove_event_listener_closure: about to run target %p, eventName=\"%s\", closure=%p (all closures for this target and eventName be removed)", target, eventName, closure));
+    return webkit_dom_event_target_remove_event_listener(
+        WEBKIT_DOM_EVENT_TARGET (target), eventName, G_CALLBACK(webkit_gtk2hs_closure_callback), bubble);
+}

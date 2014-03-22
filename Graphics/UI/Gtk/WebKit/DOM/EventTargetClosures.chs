@@ -2,11 +2,13 @@
 {-# CFILES events.c #-}
 module Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
        (eventTargetAddEventListener) where
-import System.Glib.FFI
+import System.Glib.FFI (newStablePtr, StablePtr, Ptr(..), toBool, CInt(..), CChar,
+        withForeignPtr, fromBool)
 import System.Glib.UTFString
 import Control.Applicative
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Control.Monad (void)
 
 {# pointer *GClosure newtype #}
 
@@ -15,7 +17,7 @@ foreign import ccall unsafe "gtk2hs_closure_new"
 
 eventTargetAddEventListener ::
                          (GObjectClass self, EventClass event) =>
-                           self -> String -> Bool -> (self -> event -> IO ()) -> IO Bool
+                           self -> String -> Bool -> (self -> event -> IO ()) -> IO (IO ())
 eventTargetAddEventListener self eventName bubble user = do
   sptr <- newStablePtr action
   gclosurePtr <- gtk2hs_closure_new sptr
@@ -26,6 +28,13 @@ eventTargetAddEventListener self eventName bubble user = do
         eventNamePtr
         (GClosure gclosurePtr)
         (fromBool bubble))
+  return . void $
+    withUTFString eventName $ \ eventNamePtr ->
+      {# call webkit_dom_event_target_remove_event_listener_closure #}
+        (unsafeCastGObject $ toGObject self)
+        eventNamePtr
+        (GClosure gclosurePtr)
+        (fromBool bubble)
   where action :: Ptr GObject -> Ptr GObject -> IO ()
         action obj1 obj2 =
           failOnGError $
