@@ -80,7 +80,7 @@ webResourceNew resData size uri mimeType encoding frameName =
 -- | Returns the data of the WebResource.
 webResourceGetData :: WebResourceClass self => self -> IO (Maybe String)
 webResourceGetData wr =
-  {#call web_resource_get_data#} (toWebResource wr) >>= readGString
+  {#call web_resource_get_data#} (toWebResource wr) >>= readGStringRaw
 
 -- | Get encoding.
 webResourceGetEncoding :: 
