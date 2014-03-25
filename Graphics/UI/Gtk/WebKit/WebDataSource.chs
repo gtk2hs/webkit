@@ -89,7 +89,7 @@ webDataSourceGetData :: WebDataSourceClass self => self
 webDataSourceGetData ds = do
   gstr <- {#call webkit_web_data_source_get_data #}
                  (toWebDataSource ds)
-  readGString gstr
+  readGStringRaw gstr
 
 -- | Returns the text encoding name as set in the 'WebView', or if not, the text encoding of the response.
 webDataSourceGetEncoding ::
