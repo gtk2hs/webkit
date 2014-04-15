@@ -1,12 +1,12 @@
 #!/bin/sh -ex
 
-cabal clean
+$CABAL clean
 mv webkit.cabal-renamed webkit.cabal || true
 mv webkitgtk3.cabal webkitgtk3.cabal-renamed || true
-cabal install "$@"
+$CABAL install "$@"
 
-cabal clean
+$CABAL clean
 mv webkitgtk3.cabal-renamed webkitgtk3.cabal || true
 mv webkit.cabal webkit.cabal-renamed || true
-cabal install "$@"
+$CABAL install "$@"
 
