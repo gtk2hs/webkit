@@ -1,5 +1,5 @@
 Name:           webkit
-Version:        0.12.6.1
+Version:        0.13.0.0
 License:        LGPL-2.1
 License-file:   COPYING
 Copyright:      (c) 2001-2013 The Gtk2Hs Team
@@ -44,12 +44,12 @@ Source-Repository head
 
 Library
         build-depends:  base >= 4 && < 5,
-                        glib  >= 0.12.1 && < 0.13,
-                        pango >= 0.12 && < 0.13,
-                        cairo >= 0.12 && < 0.13,
+                        glib  >= 0.13.0.0 && < 0.14,
+                        pango >= 0.13.0.0 && < 0.14,
+                        cairo >= 0.13.0.0 && < 0.14,
                         mtl
 
-        build-tools:    gtk2hsC2hs >= 0.13.8,
+        build-tools:    gtk2hsC2hs >= 0.13.10,
                         gtk2hsHookGenerator, gtk2hsTypeGen
         c-sources:      Graphics/UI/Gtk/WebKit/DOM/hsevents.c
         include-dirs:   cbits
@@ -225,5 +225,5 @@ Library
 
         hs-source-dirs:     .
         pkgconfig-depends:  webkit-1.0 >= 1.8
-        build-depends:      gtk >=0.12.5.4 && <0.13
+        build-depends:      gtk >=0.13.0.0 && <0.14
         x-c2hs-Header:      hswebkit.h

@@ -85,10 +85,10 @@ webNavigationActionGetModifierState action =
 -- | Returns the URI that was originally requested.
 -- This may differ from the navigation target, for instance because of a redirect.
 webNavigationActionGetOriginalUri ::
-   WebNavigationActionClass self => self
- -> IO String
+   (WebNavigationActionClass self, GlibString string) => self
+ -> IO string
 webNavigationActionGetOriginalUri action =
-    {#call web_navigation_action_get_original_uri#} (toWebNavigationAction action) >>= peekCString
+    {#call web_navigation_action_get_original_uri#} (toWebNavigationAction action) >>= peekUTFString
 
 -- | Returns the reason why WebKit is requesting a navigation.
 webNavigationActionGetReason ::
@@ -99,19 +99,19 @@ webNavigationActionGetReason action =
 
 -- | Returns the target frame of the action.
 webNavigationActionGetTargetFrame ::
-   WebNavigationActionClass self => self
- -> IO String
+   (WebNavigationActionClass self, GlibString string) => self
+ -> IO string
 webNavigationActionGetTargetFrame action =
-    {#call web_navigation_action_get_target_frame#} (toWebNavigationAction action) >>= peekCString
+    {#call web_navigation_action_get_target_frame#} (toWebNavigationAction action) >>= peekUTFString
 
 -- | Sets the URI that was originally requested.
 -- This may differ from the navigation target, for instance because of a redirect.
 webNavigationActionSetOriginalUri ::
-   WebNavigationActionClass self => self
- -> String
+   (WebNavigationActionClass self, GlibString string) => self
+ -> string
  -> IO ()
 webNavigationActionSetOriginalUri action uri =
-    withCString uri $ \uriPtr ->
+    withUTFString uri $ \uriPtr ->
         {#call web_navigation_action_set_original_uri#}
         (toWebNavigationAction action)
         uriPtr

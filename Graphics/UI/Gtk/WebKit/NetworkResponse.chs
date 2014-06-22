@@ -41,7 +41,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -55,23 +55,23 @@ import Graphics.UI.Gtk.Gdk.Events
 
 -- | Set the URI of 'NetworkResponse'.
 --
-networkResponseSetUri :: 
-    NetworkResponseClass self => self 
- -> String  -- ^ @uri@ - the uri will be set to the response.
+networkResponseSetUri ::
+    (NetworkResponseClass self, GlibString string) => self
+ -> string  -- ^ @uri@ - the uri will be set to the response.
  -> IO()
 networkResponseSetUri response uri =
-    withCString uri $ \uriPtr -> 
-      {#call network_response_set_uri#} 
+    withUTFString uri $ \uriPtr ->
+      {#call network_response_set_uri#}
         (toNetworkResponse response)
         uriPtr
 
 
 -- | Return the uri of 'NetworkResponse'.
-networkResponseGetUri :: 
-    NetworkResponseClass self => self 
- -> IO (Maybe String) -- ^ the URI or @Nothing@ in case failed.
-networkResponseGetUri response = 
-    {#call network_response_get_uri#} 
-      (toNetworkResponse response) >>= 
-      maybePeek peekCString
+networkResponseGetUri ::
+    (NetworkResponseClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the URI or @Nothing@ in case failed.
+networkResponseGetUri response =
+    {#call network_response_get_uri#}
+      (toNetworkResponse response) >>=
+      maybePeek peekUTFString
 

@@ -261,7 +261,8 @@ module Graphics.UI.Gtk.WebKit.WebView (
   undo,
 ) where
 
-import Control.Monad		(liftM, (<=<))
+import Control.Monad            (liftM, (<=<))
+import Data.ByteString          (ByteString, useAsCString)
 
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -330,7 +331,7 @@ webViewGetWindowFeatures = makeNewGObject mkWebWindowFeatures . {#call web_view_
 -- | Obtains the URI for the favicon for the given WebKitWebView, or 'Nothing' if there is none.
 --
 -- * Since 1.1.18
-webViewGetIconUri :: WebViewClass self => self -> IO (Maybe String)
+webViewGetIconUri :: (WebViewClass self, GlibString string) => self -> IO (Maybe string)
 webViewGetIconUri webview =
   {#call webkit_web_view_get_icon_uri #} (toWebView webview)
   >>= maybePeek peekUTFString
@@ -368,8 +369,8 @@ webViewGetFocusedFrame webView = do
 
 #if WEBKIT_CHECK_VERSION(1,1,1)
 -- | Requests loading of the specified URI string in a 'WebView'
-webViewLoadUri :: WebViewClass self => self -> String -> IO ()
-webViewLoadUri webview url = withCString url $ {#call web_view_load_uri#} (toWebView webview)
+webViewLoadUri :: (WebViewClass self, GlibString string) => self -> string -> IO ()
+webViewLoadUri webview url = withUTFString url $ {#call web_view_load_uri#} (toWebView webview)
 #endif
 
 -- | Determine whether 'WebView' has a previous history item.
@@ -455,10 +456,10 @@ webViewUndo = {#call web_view_undo#} . toWebView
 
 #if WEBKIT_CHECK_VERSION (1,0,3)
 -- | Returns whether or not a @mimetype@ can be displayed using this view.
-webViewCanShowMimeType :: WebViewClass self => self
-    -> String  -- ^ @mimetype@ - a MIME type
+webViewCanShowMimeType :: (WebViewClass self, GlibString string) => self
+    -> string  -- ^ @mimetype@ - a MIME type
     -> IO Bool -- ^ True if the @mimetype@ can be displayed, otherwise False
-webViewCanShowMimeType webview mime = withCString mime $ liftM toBool . {#call web_view_can_show_mime_type#} (toWebView webview)
+webViewCanShowMimeType webview mime = withUTFString mime $ liftM toBool . {#call web_view_can_show_mime_type#} (toWebView webview)
 #endif
 
 -- | Returns whether the user is allowed to edit the document.
@@ -534,27 +535,46 @@ webViewSetZoomLevel webview zlevel =
 
 -- | Loading the @content@ string as html. The URI passed in base_uri has to be an absolute URI.
 -- Deprecated since webkit v1.1.1, use 'webViewLoadString' instead.
-webViewLoadHtmlString :: WebViewClass self => self
-    -> String  -- ^ @content@ - the html string
-    -> String  -- ^ @base_uri@ - the base URI
+webViewLoadHtmlString :: (WebViewClass self, GlibString string) => self
+    -> string  -- ^ @content@ - the html string
+    -> string  -- ^ @base_uri@ - the base URI
     -> IO()
-webViewLoadHtmlString webview htmlstr url = withCString htmlstr $ \htmlPtr -> withCString url $ \urlPtr ->
+webViewLoadHtmlString webview htmlstr url = withUTFString htmlstr $ \htmlPtr -> withUTFString url $ \urlPtr ->
     {#call web_view_load_html_string#} (toWebView webview) htmlPtr urlPtr
+
+-- | Requests loading of the given @content@ with the specified @mime_type@ and @base_uri@.
+-- If @mime_type@ is @Nothing@, "text/html" is assumed.
+-- If want control over the encoding use `webViewLoadByteString`
+webViewLoadString :: (WebViewClass self, GlibString string) => self
+    -> string         -- ^ @content@ - the content string to be loaded.
+    -> (Maybe string) -- ^ @mime_type@ - the MIME type or @Nothing@.
+    -> string         -- ^ @base_uri@ - the base URI for relative locations.
+    -> IO ()
+webViewLoadString webview content mimetype baseuri =
+    withUTFString content $ \contentPtr ->
+    maybeWith withUTFString mimetype $ \mimetypePtr ->
+    withUTFString baseuri  $ \baseuriPtr ->
+        {#call web_view_load_string#}
+          (toWebView webview)
+          contentPtr
+          mimetypePtr
+          nullPtr
+          baseuriPtr
 
 -- | Requests loading of the given @content@ with the specified @mime_type@, @encoding@ and @base_uri@.
 -- If @mime_type@ is @Nothing@, "text/html" is assumed.
 -- If @encoding@ is @Nothing@, "UTF-8" is assumed.
-webViewLoadString :: WebViewClass self => self
-    -> String         -- ^ @content@ - the content string to be loaded.
-    -> (Maybe String) -- ^ @mime_type@ - the MIME type or @Nothing@.
-    -> (Maybe String) -- ^ @encoding@ - the encoding or @Nothing@.
-    -> String         -- ^ @base_uri@ - the base URI for relative locations.
+webViewLoadByteString :: (WebViewClass self, GlibString string) => self
+    -> ByteString         -- ^ @content@ - the content string to be loaded.
+    -> (Maybe string) -- ^ @mime_type@ - the MIME type or @Nothing@.
+    -> (Maybe string) -- ^ @encoding@ - the encoding or @Nothing@.
+    -> string         -- ^ @base_uri@ - the base URI for relative locations.
     -> IO ()
-webViewLoadString webview content mimetype encoding baseuri =
-    withCString content $ \contentPtr ->
-    maybeWith withCString mimetype $ \mimetypePtr ->
-    maybeWith withCString encoding $ \encodingPtr ->
-    withCString baseuri  $ \baseuriPtr ->
+webViewLoadByteString webview content mimetype encoding baseuri =
+    useAsCString content $ \contentPtr ->
+    maybeWith withUTFString mimetype $ \mimetypePtr ->
+    maybeWith withUTFString encoding $ \encodingPtr ->
+    withUTFString baseuri  $ \baseuriPtr ->
         {#call web_view_load_string#}
           (toWebView webview)
           contentPtr
@@ -564,11 +584,11 @@ webViewLoadString webview content mimetype encoding baseuri =
 
 #if WEBKIT_CHECK_VERSION(1,1,4)
 -- | Returns the title of 'WebView' document, or Nothing in case of failure
-webViewGetTitle :: WebViewClass self => self -> IO (Maybe String)
+webViewGetTitle :: (WebViewClass self, GlibString string) => self -> IO (Maybe string)
 webViewGetTitle = maybePeek peekUTFString <=< {#call web_view_get_title#} . toWebView
 
 -- | Returns the current URI of the contents displayed by the 'WebView', or Nothing in case of failure
-webViewGetUri :: WebViewClass self => self -> IO (Maybe String)
+webViewGetUri :: (WebViewClass self, GlibString string) => self -> IO (Maybe string)
 webViewGetUri = maybePeek peekUTFString <=< {#call web_view_get_uri#} . toWebView
 #endif
 
@@ -594,14 +614,14 @@ webViewZoomOut :: WebViewClass self => self -> IO ()
 webViewZoomOut = {#call web_view_zoom_out#} . toWebView
 
 -- | Looks for a specified string inside 'WebView'
-webViewSearchText :: WebViewClass self => self
- -> String -- ^ @text@ - a string to look for
+webViewSearchText :: (WebViewClass self, GlibString string) => self
+ -> string -- ^ @text@ - a string to look for
  -> Bool -- ^ @case_sensitive@ - whether to respect the case of text
  -> Bool -- ^ @forward@ - whether to find forward or not
  -> Bool -- ^ @wrap@ - whether to continue looking at beginning after reaching the end
  -> IO Bool -- ^ True on success or False on failure
 webViewSearchText webview text case_sensitive forward wrap =
-    withCString text $ \textPtr ->
+    withUTFString text $ \textPtr ->
         liftM toBool $
           {#call web_view_search_text#}
             (toWebView webview)
@@ -611,12 +631,12 @@ webViewSearchText webview text case_sensitive forward wrap =
             (fromBool wrap)
 
 -- | Attempts to highlight all occurances of string inside 'WebView'
-webViewMarkTextMatches :: WebViewClass self => self
- -> String -- ^ @string@ - a string to look for
+webViewMarkTextMatches :: (WebViewClass self, GlibString string) => self
+ -> string -- ^ @string@ - a string to look for
  -> Bool  -- ^ @case_sensitive@ - whether to respect the case of text
  -> Int  -- ^ @limit@ - the maximum number of strings to look for or 0 for all
  -> IO Int -- ^ the number of strings highlighted
-webViewMarkTextMatches webview text case_sensitive limit = withCString text $ \textPtr -> liftM fromIntegral $
+webViewMarkTextMatches webview text case_sensitive limit = withUTFString text $ \textPtr -> liftM fromIntegral $
     {#call web_view_mark_text_matches#} (toWebView webview) textPtr (fromBool case_sensitive) (fromIntegral limit)
 
 -- | Move the cursor in view as described by step and count.
@@ -636,10 +656,10 @@ webViewSetHighlightTextMatches webview highlight =
     {#call web_view_set_highlight_text_matches#} (toWebView webview) (fromBool highlight)
 
 -- | Execute the script specified by @script@
-webViewExecuteScript :: WebViewClass self => self
-    -> String  -- ^ @script@ - script to be executed
+webViewExecuteScript :: (WebViewClass self, GlibString string) => self
+    -> string  -- ^ @script@ - script to be executed
     -> IO()
-webViewExecuteScript webview script = withCString script $ {#call web_view_execute_script#} (toWebView webview)
+webViewExecuteScript webview script = withUTFString script $ {#call web_view_execute_script#} (toWebView webview)
 
 -- | Determines whether can cuts the current selection inside 'WebView' to the clipboard
 webViewCanCutClipboard :: WebViewClass self => self -> IO Bool
@@ -700,24 +720,24 @@ webViewSetFullContentZoom webview full =
 #endif
 
 -- | Returns the default encoding of the 'WebView'
-webViewGetEncoding :: WebViewClass self => self
-    -> IO (Maybe String) -- ^ the default encoding or @Nothing@ in case of failed
+webViewGetEncoding :: (WebViewClass self, GlibString string) => self
+    -> IO (Maybe string) -- ^ the default encoding or @Nothing@ in case of failed
 webViewGetEncoding webview = {#call web_view_get_encoding#} (toWebView webview) >>= maybePeek peekUTFString
 
 #if WEBKIT_CHECK_VERSION(1,1,1)
 -- | Sets the current 'WebView' encoding,
 -- without modifying the default one, and reloads the page
-webViewSetCustomEncoding :: WebViewClass self => self
-    -> (Maybe String) -- ^ @encoding@ - the new encoding, or @Nothing@ to restore the default encoding.
+webViewSetCustomEncoding :: (WebViewClass self, GlibString string) => self
+    -> (Maybe string) -- ^ @encoding@ - the new encoding, or @Nothing@ to restore the default encoding.
     -> IO ()
 webViewSetCustomEncoding webview encoding =
-    maybeWith withCString encoding $ \encodingPtr ->
+    maybeWith withUTFString encoding $ \encodingPtr ->
         {#call web_view_set_custom_encoding#} (toWebView webview) encodingPtr
 #endif
 
 -- | Returns the current encoding of 'WebView',not the default encoding.
-webViewGetCustomEncoding :: WebViewClass self => self
-    -> IO (Maybe String) -- ^ the current encoding string or @Nothing@ if there is none set.
+webViewGetCustomEncoding :: (WebViewClass self, GlibString string) => self
+    -> IO (Maybe string) -- ^ the current encoding string or @Nothing@ if there is none set.
 webViewGetCustomEncoding = maybePeek peekUTFString <=< {#call web_view_get_custom_encoding#} . toWebView
 
 #if WEBKIT_CHECK_VERSION(1,1,7)
@@ -764,7 +784,7 @@ webViewFullContentZoom = newAttr
 -- | The default encoding of the 'WebView' instance
 --
 -- Default value: @Nothing@
-webViewEncoding :: WebViewClass self => ReadAttr self (Maybe String)
+webViewEncoding :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
 webViewEncoding = readAttr webViewGetEncoding
 
 -- | Determines the current status of the load.
@@ -788,7 +808,7 @@ webViewWebSettings = newAttr
 
 
 -- | Title of the 'WebView' instance
-webViewTitle :: WebViewClass self => ReadAttr self (Maybe String)
+webViewTitle :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
 webViewTitle = readAttr webViewGetTitle
 
 -- | The associated webInspector instance of the 'WebView'
@@ -799,7 +819,7 @@ webViewInspector = readAttr webViewGetInspector
 -- | The custom encoding of the 'WebView' instance
 --
 -- Default value: @Nothing@
-webViewCustomEncoding :: WebViewClass self => Attr self (Maybe String)
+webViewCustomEncoding :: (WebViewClass self, GlibString string) => Attr self (Maybe string)
 webViewCustomEncoding = newAttr
    webViewGetCustomEncoding
    webViewSetCustomEncoding
@@ -827,7 +847,7 @@ webViewEditable = newAttr
 -- | Returns the current URI of the contents displayed by the @web_view@.
 --
 -- Default value: Nothing
-webViewUri :: WebViewClass self => ReadAttr self (Maybe String)
+webViewUri :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
 webViewUri = readAttr webViewGetUri
 
 -- | The list of targets this web view supports for clipboard copying.
@@ -850,7 +870,7 @@ webViewWindowFeatures =
 -- Default value: 'Nothing'
 --
 -- * Since 1.1.18
-webViewIconUri :: WebViewClass self => ReadAttr self String
+webViewIconUri :: (WebViewClass self, GlibString string) => ReadAttr self string
 webViewIconUri = readAttrFromStringProperty "icon-uri"
 #endif
 
@@ -905,7 +925,7 @@ webViewGetDomDocument webView = do
 -- webframe - which 'WebFrame' changes the document title.
 --
 -- title - current title string.
-titleChanged :: WebViewClass self => Signal self ( WebFrame -> String -> IO() )
+titleChanged :: (WebViewClass self, GlibString string) => Signal self ( WebFrame -> string -> IO() )
 titleChanged = Signal (connect_OBJECT_STRING__NONE "title_changed")
 
 
@@ -914,7 +934,7 @@ titleChanged = Signal (connect_OBJECT_STRING__NONE "title_changed")
 -- title - the link's title or @Nothing@ in case of failure.
 --
 -- uri - the URI the link points to or @Nothing@ in case of failure.
-hoveringOverLink :: WebViewClass self => Signal self (Maybe String -> Maybe String -> IO())
+hoveringOverLink :: (WebViewClass self, GlibString string) => Signal self (Maybe string -> Maybe string -> IO())
 hoveringOverLink = Signal (connect_MSTRING_MSTRING__NONE "hovering_over_link")
 
 -- | When a 'WebFrame' begins to load, this signal is emitted
@@ -945,7 +965,7 @@ loadFinished = Signal (connect_OBJECT__NONE "load_finished")
 -- if you want to provide your own error page.
 --
 -- The URI that triggered the error and the 'GError' will be passed back to user function.
-loadError :: WebViewClass self => Signal self (WebFrame -> String -> GError -> IO Bool)
+loadError :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> GError -> IO Bool)
 loadError = Signal (connect_OBJECT_STRING_BOXED__BOOL "load_error" peek)
 
 createWebView :: WebViewClass self => Signal self (WebFrame -> IO WebView)
@@ -965,7 +985,7 @@ closeWebView = Signal (connect_NONE__BOOL "close_web_view")
 #endif
 
 -- | A JavaScript console message was created.
-consoleMessage :: WebViewClass self => Signal self (String -> String -> Int -> String -> IO Bool)
+consoleMessage :: (WebViewClass self, GlibString string) => Signal self (string -> string -> Int -> string -> IO Bool)
 consoleMessage = Signal (connect_STRING_STRING_INT_STRING__BOOL "console_message")
 
 -- | The 'copyClipboard' signal is a keybinding signal which gets emitted to copy the selection to the clipboard.
@@ -1000,19 +1020,19 @@ printRequested :: WebViewClass self => Signal self (WebFrame -> IO Bool)
 printRequested = Signal (connect_OBJECT__BOOL "print_requested")
 
 -- | A JavaScript alert dialog was created.
-scriptAlert :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
+scriptAlert :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> IO Bool)
 scriptAlert = Signal (connect_OBJECT_STRING__BOOL "script_alert")
 
 -- | A JavaScript confirm dialog was created, providing Yes and No buttons.
-scriptConfirm :: WebViewClass self => Signal self (WebFrame -> String -> IO Bool)
+scriptConfirm :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> IO Bool)
 scriptConfirm = Signal (connect_OBJECT_STRING__BOOL "script_confirm")
 
 -- | A JavaScript prompt dialog was created, providing an entry to input text.
-scriptPrompt :: WebViewClass self => Signal self (WebFrame -> String -> String -> IO Bool)
+scriptPrompt :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> string -> IO Bool)
 scriptPrompt = Signal (connect_OBJECT_STRING_STRING__BOOL "script_prompt")
 
 -- | When status-bar text changed, this signal will emitted.
-statusBarTextChanged :: WebViewClass self => Signal self (String -> IO ())
+statusBarTextChanged :: (WebViewClass self, GlibString string) => Signal self (string -> IO ())
 statusBarTextChanged = Signal (connect_STRING__NONE "status_bar_text_changed")
 
 
@@ -1071,7 +1091,7 @@ downloadRequested =
 
 #if WEBKIT_CHECK_VERSION (1,1,18)
 -- | Emitted after Icon loaded
-iconLoaded :: WebViewClass self => Signal self (String -> IO ())
+iconLoaded :: (WebViewClass self, GlibString string) => Signal self (string -> IO ())
 iconLoaded =
     Signal (connect_STRING__NONE "icon_loaded")
 #endif
@@ -1099,7 +1119,7 @@ undo = Signal (connect_NONE__NONE "undo")
 -- see also soupMessageHeadersGetContentDisposition'
 -- And you must call 'webPolicyDecisionIgnore', 'webPolicyDecisionDownload', or 'webPolicyDecisionUse'
 -- on the 'webPolicyDecision' object.
-mimeTypePolicyDecisionRequested :: WebViewClass self => Signal self (WebFrame -> NetworkRequest -> String -> WebPolicyDecision -> IO Bool)
+mimeTypePolicyDecisionRequested :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> NetworkRequest -> string -> WebPolicyDecision -> IO Bool)
 mimeTypePolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_STRING_OBJECT__BOOL "mime_type_policy_decision_requested")
 
 -- | The 'moveCursor' will be emitted to apply the cursor movement described by its parameters to the view.

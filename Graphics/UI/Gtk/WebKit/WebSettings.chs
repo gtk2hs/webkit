@@ -100,7 +100,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import System.Glib.Properties
 import System.Glib.Attributes
 import Graphics.UI.Gtk.Gdk.Events
@@ -117,28 +117,28 @@ import Graphics.UI.Gtk.Gdk.Events
 
 
 -- | Create a new 'WebSettings' instance.
--- 
+--
 -- A 'WebSettings' can be applied to a 'WebView'
--- to control the to be used text encoding, color, font size, 
+-- to control the to be used text encoding, color, font size,
 -- printing mode,script support, loading of images and various other things.
 webSettingsNew :: IO WebSettings
-webSettingsNew = 
+webSettingsNew =
     wrapNewGObject mkWebSettings $ {#call web_settings_new#}
 
 
 -- | Copy an existing 'WebSettings' instance.
-webSettingsCopy :: 
+webSettingsCopy ::
     WebSettingsClass self => self
  -> IO WebSettings
-webSettingsCopy websettings = 
+webSettingsCopy websettings =
     constructNewGObject mkWebSettings $ {#call web_settings_copy#} (toWebSettings websettings)
 
 -- | Return the User-Agent string currently used.
-webSettingsGetUserAgent :: 
-    WebSettingsClass self => self
- -> IO (Maybe String) -- ^ User-Agent string or @Nothing@ in case failed.
-webSettingsGetUserAgent websettings = 
-    {#call web_settings_get_user_agent#} (toWebSettings websettings) >>= maybePeek peekCString
+webSettingsGetUserAgent ::
+    (WebSettingsClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ User-Agent string or @Nothing@ in case failed.
+webSettingsGetUserAgent websettings =
+    {#call web_settings_get_user_agent#} (toWebSettings websettings) >>= maybePeek peekUTFString
 
 -- | Load images automatically
 --
@@ -155,21 +155,21 @@ webSettingsAutoShrinkImages = newAttrFromBoolProperty "auto-shrink-images"
 -- | The default Cursive font family used to display text
 --
 -- Default value "serif"
-webSettingsCursiveFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsCursiveFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsCursiveFontFamily = newAttrFromStringProperty "cursive-font-family"
 
 -- | The default encoding used to display text
 --
 -- Default value "iso-8859-1"
 
-webSettingsDefaultEncoding :: (WebSettingsClass self) => Attr self String
+webSettingsDefaultEncoding :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsDefaultEncoding = newAttrFromStringProperty "default-encoding"
 
 -- | The default font family used to display text
 --
 -- Default value: "sans-serif"
 
-webSettingsDefaultFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsDefaultFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsDefaultFontFamily = newAttrFromStringProperty "default-font-family"
 
 -- | The default font size used to display text
@@ -182,7 +182,7 @@ webSettingsDefaultFontSize = newAttrFromIntProperty "default-font-size"
 -- | The default font size used to display monospace text
 --
 -- Allowed values: >= 5
--- 
+--
 -- Default value: 10
 
 webSettingsDefaultMonospaceFontSize :: (WebSettingsClass self) => Attr self Int
@@ -205,7 +205,7 @@ webSettingsEnableDeveloperExtras = newAttrFromBoolProperty "enable-developer-ext
 #if WEBKIT_CHECK_VERSION (1,1,16)
 -- | Whether to enable DOM paste. If set to 'True', document.execCommand("Paste") will correctly execute
 -- and paste content of the clipboard.
--- 
+--
 -- Default value: 'False'
 --
 -- * Since 1.1.16
@@ -256,7 +256,7 @@ webSettingsEnforce96Dpi :: (WebSettingsClass self) => Attr self Bool
 webSettingsEnforce96Dpi = newAttrFromBoolProperty "enforce-96-dpi"
 
 -- | The default Fantasy font family used to display text
-webSettingsFantasyFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsFantasyFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsFantasyFontFamily = newAttrFromStringProperty "fantasy-font-family"
 
 -- | Whether JavaScript can open popup windows automatically without user intervention.
@@ -264,7 +264,7 @@ webSettingsJSCanOpenWindowAuto :: (WebSettingsClass self) => Attr self Bool
 webSettingsJSCanOpenWindowAuto = newAttrFromBoolProperty "javascript-can-open-windows-automatically"
 
 -- | The minimum font size used to display text.
--- 
+--
 -- Allowed values: >=1
 --
 -- Default value: 5
@@ -281,9 +281,9 @@ webSettingsMinimumLogicalFontSize = newAttrFromIntProperty "minimum-logical-font
 
 
 -- | The default font family used to display monospace text.
--- 
+--
 -- Default value: "monospace"
-webSettingsMonospaceFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsMonospaceFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsMonospaceFontFamily = newAttrFromStringProperty "monospace-font-family"
 
 -- | Whether background images should be printed
@@ -299,38 +299,38 @@ webSettingsResizableTextAreas :: (WebSettingsClass self) => Attr self Bool
 webSettingsResizableTextAreas =  newAttrFromBoolProperty "resizable-text-areas"
 
 -- | The default Sans Serif font family used to display text
--- 
+--
 -- Default value "sans-serif"
-webSettingsSansFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsSansFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsSansFontFamily = newAttrFromStringProperty "sans-serif-font-family"
 
 
 -- | The default Serif font family used to display text
 --
 -- Default value: "serif"
-webSettingsSerifFontFamily :: (WebSettingsClass self) => Attr self String
+webSettingsSerifFontFamily :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsSerifFontFamily = newAttrFromStringProperty "serif-font-family"
 
 
 -- | The languages to be used for spell checking, separated by commas
--- 
+--
 -- The locale string typically is in the form lang_COUNTRY,
--- where lang is an ISO-639 language code, and COUNTRY is an ISO-3166 country code. 
+-- where lang is an ISO-639 language code, and COUNTRY is an ISO-3166 country code.
 -- For instance, sv_FI for Swedish as written in Finland or pt_BR for Portuguese as written in Brazil.
 --
 -- If no value is specified then the value returned by gtk_get_default_language will be used.
 --
 -- Default value: @Nothing@
-webSettingsSpellCheckingLang :: (WebSettingsClass self) => Attr self (Maybe String)
+webSettingsSpellCheckingLang :: (WebSettingsClass self, GlibString string) => Attr self (Maybe string)
 webSettingsSpellCheckingLang = newAttrFromMaybeStringProperty "spell-checking-languages"
 
 #if WEBKIT_CHECK_VERSION (1,1,17)
 -- | Whether the tab key cycles through elements on the page.
--- 
+--
 -- If flag is 'True', pressing the tab key will focus the next element in the @webView@. If flag is 'False',
 -- the @webView@ will interpret tab key presses as normal key presses. If the selected element is
 -- editable, the tab key will cause the insertion of a tab character.
--- 
+--
 -- Default value: 'True'
 --
 -- * Since 1.1.17
@@ -343,9 +343,9 @@ webSettingsTabKeyCyclesThroughElements = newAttrFromBoolProperty "tab-key-cycles
 -- menu. Turning this off will make WebKitGTK+ not emit the populate-popup signal. Notice that the
 -- default button press event handler may still handle right clicks for other reasons, such as in-page
 -- context menus, or right-clicks that are handled by the page itself.
--- 
+--
 -- Default value: 'True'
--- 
+--
 -- * Since 1.1.18
 webSettingsEnableDefaultContextMenu :: (WebSettingsClass self) => Attr self Bool
 webSettingsEnableDefaultContextMenu = newAttrFromBoolProperty "enable-default-context-menu"
@@ -356,30 +356,30 @@ webSettingsEnableDefaultContextMenu = newAttrFromBoolProperty "enable-default-co
 -- memory-based traditional resource caches, its point is to make going back and forth between pages
 -- much faster. For details about the different types of caches and their purposes see:
 -- http://webkit.org/ blog/427/webkit-page-cache-i-the-basics/
--- 
+--
 -- Default value: 'False'
--- 
+--
 -- * Since 1.1.18
 webSettingsEnablePageCache :: (WebSettingsClass self) => Attr self Bool
 webSettingsEnablePageCache = newAttrFromBoolProperty "enable-page-cache"
 #endif
 
 -- | The User-Agent string used by WebKit
--- 
--- This will return a default User-Agent string if a custom string wasn't provided by the application. 
--- Setting this property to a NULL value or an empty string will result in 
+--
+-- This will return a default User-Agent string if a custom string wasn't provided by the application.
+-- Setting this property to a NULL value or an empty string will result in
 -- the User-Agent string being reset to the default value.
 --
 -- Default value: \"Mozilla/5.0 (X11; U; Linux x86_64; c) AppleWebKit/531.2+ (KHTML, like Gecko) Safari/531.2+\"
 
-webSettingsUserAgent :: (WebSettingsClass self) => Attr self String
+webSettingsUserAgent :: (WebSettingsClass self, GlibString string) => Attr self string
 webSettingsUserAgent = newAttrFromStringProperty "user-agent"
 
 -- | The URI of a stylesheet that is applied to every page.
 --
 -- Default value: @Nothing@
 
-webSettingsUserStylesheetUri :: (WebSettingsClass self) => Attr self (Maybe String)
+webSettingsUserStylesheetUri :: (WebSettingsClass self, GlibString string) => Attr self (Maybe string)
 webSettingsUserStylesheetUri = newAttrFromMaybeStringProperty "user-stylesheet-uri"
 
 -- | The value by which the zoom level is changed when zooming in or out
@@ -389,7 +389,7 @@ webSettingsUserStylesheetUri = newAttrFromMaybeStringProperty "user-stylesheet-u
 -- Default value: 0.1
 webSettingsZoomStep :: (WebSettingsClass self) => Attr self Float
 webSettingsZoomStep = newAttrFromFloatProperty "zoom-step"
-                             
+
 -- | Enables the site-specific compatibility workarounds.
 --
 -- Default value: False
@@ -402,9 +402,9 @@ webSettingsEnableSiteSpecificQuirks = newAttrFromBoolProperty "enable-site-speci
 -- Down arrow keys. For example, if an user presses the Right key, heuristics determine whether there
 -- is an element he might be trying to reach towards the right, and if there are multiple elements,
 -- which element he probably wants.
--- 
+--
 -- Default value: 'False'
--- 
+--
 -- * Since 1.1.23
 webSettingsEnableSpatialNavigation :: WebSettingsClass self => Attr self Bool
 webSettingsEnableSpatialNavigation = newAttrFromBoolProperty "enable-spatial-navigation"

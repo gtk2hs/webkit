@@ -22,7 +22,7 @@
 --
 -- Note
 --
--- Function `webkit_web_data_source_get_data` haven't binding, 
+-- Function `webkit_web_data_source_get_data` haven't binding,
 -- no idea how to handle `GString`
 --
 -- Access to the WebKit Web DataSource
@@ -48,7 +48,7 @@ module Graphics.UI.Gtk.WebKit.WebDataSource (
 -- * Constructors
   webDataSourceNew,
 
--- * Methods  
+-- * Methods
   webDataSourceGetData,
   webDataSourceGetEncoding,
   webDataSourceGetInitialRequest,
@@ -60,13 +60,14 @@ module Graphics.UI.Gtk.WebKit.WebDataSource (
   webDataSourceIsLoading,
 ) where
 
-import Control.Monad		(liftM)
+import Control.Monad            (liftM)
+import Data.ByteString          (ByteString)
 
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
 import System.Glib.GString
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -75,32 +76,32 @@ import Graphics.UI.Gtk.Gdk.Events
 
 {#context lib="webkit" prefix ="webkit"#}
 
--- | Creates a new 'WebDataSource' instance. 
+-- | Creates a new 'WebDataSource' instance.
 -- The URL of the 'WebDataSource' will be set to "about:blank".
 webDataSourceNew :: IO WebDataSource
-webDataSourceNew = 
-    wrapNewGObject mkWebDataSource $ {#call web_data_source_new#} 
+webDataSourceNew =
+    wrapNewGObject mkWebDataSource $ {#call web_data_source_new#}
 
 -- | Returns the raw data that represents the the frame's content. The data will be incomplete until the
 -- data has finished loading. Returns 'Nothing' if the web frame hasn't loaded any data. Use
 -- @webkitWebDataSourceIsLoading@ to test if data source is in the process of loading.
 webDataSourceGetData :: WebDataSourceClass self => self
-                     -> IO (Maybe String)
+                     -> IO (Maybe ByteString)
 webDataSourceGetData ds = do
   gstr <- {#call webkit_web_data_source_get_data #}
                  (toWebDataSource ds)
-  readGString gstr
+  readGStringByteString gstr
 
 -- | Returns the text encoding name as set in the 'WebView', or if not, the text encoding of the response.
 webDataSourceGetEncoding ::
-   WebDataSourceClass self => self
- -> IO String
-webDataSourceGetEncoding ds = 
-  {#call web_data_source_get_encoding#} (toWebDataSource ds) >>= peekCString
-  
--- | Returns a reference to the original request that was used to load the web content. 
+   (WebDataSourceClass self, GlibString string) => self
+ -> IO string
+webDataSourceGetEncoding ds =
+  {#call web_data_source_get_encoding#} (toWebDataSource ds) >>= peekUTFString
+
+-- | Returns a reference to the original request that was used to load the web content.
 -- The NetworkRequest returned by this method is the
--- request prior to the "committed" load state. 
+-- request prior to the "committed" load state.
 -- See 'webDataSourceGetRequest' for getting the "committed" request.
 webDataSourceGetInitialRequest ::
    WebDataSourceClass self => self
@@ -111,12 +112,12 @@ webDataSourceGetInitialRequest ds =
 -- | Returns the main resource of the data_source
 webDataSourceGetMainResource ::
    WebDataSourceClass self => self
- -> IO WebResource   
+ -> IO WebResource
 webDataSourceGetMainResource ds =
   makeNewGObject mkWebResource $ {#call web_data_source_get_main_resource#} (toWebDataSource ds)
-  
--- | Returns a NetworkRequest that was used to create this 'WebDataSource'. 
--- The NetworkRequest returned by this method is the request that was "committed", 
+
+-- | Returns a NetworkRequest that was used to create this 'WebDataSource'.
+-- The NetworkRequest returned by this method is the request that was "committed",
 -- and hence, different from the request you get from the 'webDataSourceGetInitialRequest' method.
 webDataSourceGetRequest ::
    WebDataSourceClass self => self
@@ -127,21 +128,21 @@ webDataSourceGetRequest ds =
 -- | Gives you a List of 'WebResource' objects that compose the 'WebView' to which this 'WebDataSource' is attached.
 webDataSourceGetSubresources ::
    WebDataSourceClass self => self
- -> IO [WebResource]   
+ -> IO [WebResource]
 webDataSourceGetSubresources ds = do
   glist <- {#call web_data_source_get_subresources#} (toWebDataSource ds)
   resourcePtr <- fromGList glist
   mapM (makeNewGObject mkWebResource . return) resourcePtr
 
--- | Return the unreachable URI of data_source. 
--- The 'dataSource' will have an unreachable URL 
--- if it was created using 'WebFrame''s  
+-- | Return the unreachable URI of data_source.
+-- The 'dataSource' will have an unreachable URL
+-- if it was created using 'WebFrame''s
 -- 'webFrameLoadAlternateHtmlString' method.
 webDataSourceGetUnreachableUri ::
-   WebDataSourceClass self => self
- -> IO String
+   (WebDataSourceClass self, GlibString string) => self
+ -> IO string
 webDataSourceGetUnreachableUri ds =
-  {#call web_data_source_get_unreachable_uri#} (toWebDataSource ds) >>= peekCString
+  {#call web_data_source_get_unreachable_uri#} (toWebDataSource ds) >>= peekUTFString
 
 -- | Returns the 'WebFrame' that represents this data source
 webDataSourceGetWebFrame ::

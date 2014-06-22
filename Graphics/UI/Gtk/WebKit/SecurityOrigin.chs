@@ -28,9 +28,9 @@ module Graphics.UI.Gtk.WebKit.SecurityOrigin (
 -- | WebKitSecurityOrigin is a representation of a security domain defined by web sites. An origin
 -- consists of a host name, a protocol, and a port number. Web sites with the same security origin can
 -- access each other's resources for client-side scripting or database access.
--- 
+--
 -- Use 'webFrameGetSecurityOrigin' to get the security origin of a WebKitWebFrame.
--- 
+--
 -- Database quotas and usages are also defined per security origin. The cumulative disk usage of an
 -- origin's databases may be retrieved with 'securityOriginGetWebDatabaseUsage'. An origin's
 -- quota can be adjusted with 'securityOriginSetWebDatabaseQuota'.
@@ -39,7 +39,7 @@ module Graphics.UI.Gtk.WebKit.SecurityOrigin (
   SecurityOrigin,
   SecurityOriginClass,
 
--- * Methods  
+-- * Methods
   securityOriginGetAllWebDatabases,
   securityOriginGetHost,
   securityOriginGetPort,
@@ -54,7 +54,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -68,7 +68,7 @@ import Graphics.UI.Gtk.Gdk.Events
 -- | Returns the frame's security origin.
 securityOriginGetAllWebDatabases ::
    SecurityOriginClass self => self
- -> IO [WebDatabase]   
+ -> IO [WebDatabase]
 securityOriginGetAllWebDatabases so = do
   glist <- {#call security_origin_get_all_web_databases#} (toSecurityOrigin so)
   databasePtr <- fromGList glist
@@ -76,10 +76,10 @@ securityOriginGetAllWebDatabases so = do
 
 -- | Returns the hostname for the security origin.
 securityOriginGetHost ::
-   SecurityOriginClass self => self
- -> IO String
+   (SecurityOriginClass self, GlibString string) => self
+ -> IO string
 securityOriginGetHost so =
-  {#call security_origin_get_host#} (toSecurityOrigin so) >>= peekCString
+  {#call security_origin_get_host#} (toSecurityOrigin so) >>= peekUTFString
 
 -- | Returns the port for the security origin.
 securityOriginGetPort ::
@@ -90,10 +90,10 @@ securityOriginGetPort so =
 
 -- | Returns the protocol for the security origin.
 securityOriginGetProtocol ::
-   SecurityOriginClass self => self
- -> IO String
+   (SecurityOriginClass self, GlibString string) => self
+ -> IO string
 securityOriginGetProtocol so =
-  {#call security_origin_get_protocol#} (toSecurityOrigin so) >>= peekCString
+  {#call security_origin_get_protocol#} (toSecurityOrigin so) >>= peekUTFString
 
 -- | Returns the quota for Web Database storage of the security origin in bytes.
 securityOriginGetWebDatabaseQuota ::
@@ -101,14 +101,14 @@ securityOriginGetWebDatabaseQuota ::
  -> IO Int
 securityOriginGetWebDatabaseQuota so =
     liftM fromIntegral $ {#call security_origin_get_web_database_quota#} (toSecurityOrigin so)
-  
+
 -- | Returns the usage for Web Database storage of the security origin in bytes.
 securityOriginGetWebDatabaseUsage ::
    SecurityOriginClass self => self
  -> IO Int
 securityOriginGetWebDatabaseUsage so =
     liftM fromIntegral $ {#call security_origin_get_web_database_usage#} (toSecurityOrigin so)
-  
+
 -- | Adjust the quota for Web Database storage of the security origin
 securityOriginSetWebDatabaseQuota ::
    SecurityOriginClass self => self

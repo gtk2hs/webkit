@@ -40,7 +40,7 @@ module Graphics.UI.Gtk.WebKit.WebResource (
 -- * Constructors
   webResourceNew,
 
--- * Methods  
+-- * Methods
   webResourceGetData,
   webResourceGetEncoding,
   webResourceGetFrameName,
@@ -48,13 +48,14 @@ module Graphics.UI.Gtk.WebKit.WebResource (
   webResourceGetUri,
 ) where
 
-import Control.Monad		(liftM)
+import Control.Monad            (liftM)
+import Data.ByteString          (ByteString, useAsCStringLen)
 
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
 import System.Glib.GString
-import System.Glib.GError 
+import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -63,49 +64,49 @@ import Graphics.UI.Gtk.Gdk.Events
 
 {#context lib="webkit" prefix ="webkit"#}
 
--- | Returns a new WebKitWebResource. 
--- The @encoding@ can be empty. 
+-- | Returns a new WebKitWebResource.
+-- The @encoding@ can be empty.
 -- The @frameName@ can be used if the resource represents contents of an
 -- entire HTML frame, otherwise pass empty.
-webResourceNew :: String -> Int -> String -> String -> String -> String -> IO WebResource
-webResourceNew resData size uri mimeType encoding frameName =
-   withCString resData $ \dataPtr -> 
-   withCString uri $ \uriPtr ->
-   withCString mimeType $ \mimePtr ->
-   withCString encoding $ \encodingPtr ->
-   withCString frameName $ \framePtr -> 
-   wrapNewGObject mkWebResource $ 
+webResourceNew :: GlibString string => ByteString -> string -> string -> string -> string -> IO WebResource
+webResourceNew resData uri mimeType encoding frameName =
+   useAsCStringLen resData $ \(dataPtr, size) ->
+   withUTFString uri $ \uriPtr ->
+   withUTFString mimeType $ \mimePtr ->
+   withUTFString encoding $ \encodingPtr ->
+   withUTFString frameName $ \framePtr ->
+   wrapNewGObject mkWebResource $
      {#call web_resource_new#} dataPtr (fromIntegral size) uriPtr mimePtr encodingPtr framePtr
 
 -- | Returns the data of the WebResource.
-webResourceGetData :: WebResourceClass self => self -> IO (Maybe String)
+webResourceGetData :: WebResourceClass self => self -> IO (Maybe ByteString)
 webResourceGetData wr =
-  {#call web_resource_get_data#} (toWebResource wr) >>= readGString
+  {#call web_resource_get_data#} (toWebResource wr) >>= readGStringByteString
 
 -- | Get encoding.
-webResourceGetEncoding :: 
-   WebResourceClass self => self
- -> IO (Maybe String)
+webResourceGetEncoding ::
+   (WebResourceClass self, GlibString string) => self
+ -> IO (Maybe string)
 webResourceGetEncoding wr =
-  {#call web_resource_get_encoding#} (toWebResource wr) >>= maybePeek peekCString
+  {#call web_resource_get_encoding#} (toWebResource wr) >>= maybePeek peekUTFString
 
 -- | Get frame name.
-webResourceGetFrameName :: 
-   WebResourceClass self => self
- -> IO (Maybe String)
+webResourceGetFrameName ::
+   (WebResourceClass self, GlibString string) => self
+ -> IO (Maybe string)
 webResourceGetFrameName wr =
-  {#call web_resource_get_frame_name#} (toWebResource wr) >>= maybePeek peekCString
+  {#call web_resource_get_frame_name#} (toWebResource wr) >>= maybePeek peekUTFString
 
 -- | Get mime type.
-webResourceGetMimeType :: 
-   WebResourceClass self => self
- -> IO (Maybe String)
+webResourceGetMimeType ::
+   (WebResourceClass self, GlibString string) => self
+ -> IO (Maybe string)
 webResourceGetMimeType wr =
-  {#call web_resource_get_mime_type#} (toWebResource wr) >>= maybePeek peekCString
+  {#call web_resource_get_mime_type#} (toWebResource wr) >>= maybePeek peekUTFString
 
 -- | Get uri.
-webResourceGetUri :: 
-   WebResourceClass self => self
- -> IO String
+webResourceGetUri ::
+   (WebResourceClass self, GlibString string) => self
+ -> IO string
 webResourceGetUri wr =
-  {#call web_resource_get_uri#} (toWebResource wr) >>= peekCString
+  {#call web_resource_get_uri#} (toWebResource wr) >>= peekUTFString

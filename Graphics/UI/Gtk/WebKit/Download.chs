@@ -5,7 +5,7 @@
 --  Author 		:  Cjacker Huang
 --  Copyright   :  (c) 2009 Cjacker Huang <jzhuang@redflag-linux.com>
 --  Copyright   :  (c) 2010 Andy Stewart <lazycat.manatee@gmail.com>
--- 
+--
 --  This library is free software; you can redistribute it and/or
 --  modify it under the terms of the GNU Lesser General Public
 --  License as published by the Free Software Foundation; either
@@ -21,7 +21,7 @@
 -- Stability   : provisional
 -- Portability : portable (depends on GHC)
 --
--- Object used to communicate with the application when downloading 
+-- Object used to communicate with the application when downloading
 -----------------------------------------------------------------------------
 
 module Graphics.UI.Gtk.WebKit.Download (
@@ -79,7 +79,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import System.Glib.Attributes
 import System.Glib.Properties
 import Graphics.UI.Gtk.Gdk.Events
@@ -105,7 +105,7 @@ import Graphics.UI.Gtk.Gdk.Events
 --
 -- Object used to communicate with the application when downloading.
 downloadNew :: NetworkRequestClass request => request -> IO Download
-downloadNew nr = 
+downloadNew nr =
     wrapNewGObject mkDownload $ {#call download_new#} (toNetworkRequest nr)
 
 -- | Initiates the 'Download'.
@@ -127,14 +127,14 @@ downloadCancel dl =
 
 -- | Retrieves the URI from 'Download' which is being downloaded.
 downloadGetUri::
-    DownloadClass self => self
- -> IO (Maybe String) -- ^ the uri or @Nothing@ in case of failed
-downloadGetUri dl = 
+    (DownloadClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the uri or @Nothing@ in case of failed
+downloadGetUri dl =
     {#call download_get_uri#} (toDownload dl)
-    >>= maybePeek peekCString
+    >>= maybePeek peekUTFString
 
 -- | Retrieves the 'NetworkRequest' that backs the download process.
-downloadGetNetworkRequest :: 
+downloadGetNetworkRequest ::
     DownloadClass self => self
  -> IO NetworkRequest
 downloadGetNetworkRequest dl =
@@ -146,39 +146,39 @@ downloadGetNetworkRequest dl =
 -- * Since 1.1.16
 downloadGetNetworkResponse ::
     DownloadClass self => self
- -> IO NetworkResponse    
-downloadGetNetworkResponse dl = 
+ -> IO NetworkResponse
+downloadGetNetworkResponse dl =
     makeNewGObject mkNetworkResponse $ {#call download_get_network_response#} (toDownload dl)
 #endif
 
 -- | Retrieves the filename that was suggested by the server,
 -- or the one derived from the URI.
-downloadGetSuggestedFilename :: 
-    DownloadClass self => self
- -> IO (Maybe String) -- ^ the suggested filename or @Nothing@ in case of failed
+downloadGetSuggestedFilename ::
+    (DownloadClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the suggested filename or @Nothing@ in case of failed
 downloadGetSuggestedFilename dl =
-    {#call download_get_suggested_filename#} (toDownload dl) >>= maybePeek peekCString
+    {#call download_get_suggested_filename#} (toDownload dl) >>= maybePeek peekUTFString
 
 -- | Obtains the URI to which the downloaded file will be written.
 --
--- It is set by Application before call 'downloadStart' 
-downloadGetDestinationUri :: 
-    DownloadClass self => self
- -> IO (Maybe String)
+-- It is set by Application before call 'downloadStart'
+downloadGetDestinationUri ::
+    (DownloadClass self, GlibString string) => self
+ -> IO (Maybe string)
 downloadGetDestinationUri dl =
-    {#call download_get_destination_uri#} (toDownload dl) >>= maybePeek peekCString
+    {#call download_get_destination_uri#} (toDownload dl) >>= maybePeek peekUTFString
 
 -- | Defines the URI that should be used to save the downloaded file to.
-downloadSetDestinationUri :: 
-    DownloadClass self => self
- -> String  -- ^ @destination_uri@ - the destination URI
+downloadSetDestinationUri ::
+    (DownloadClass self, GlibString string) => self
+ -> string  -- ^ @destination_uri@ - the destination URI
  -> IO()
 downloadSetDestinationUri dl dest =
-    withCString dest $ \destPtr ->
+    withUTFString dest $ \destPtr ->
         {#call download_set_destination_uri#} (toDownload dl) destPtr
 
 -- |Determines the current progress of the 'Download'
-downloadGetProgress :: 
+downloadGetProgress ::
     DownloadClass self => self
  -> IO Double -- ^ a 'Double' ranging from 0.0 to 1.0
 downloadGetProgress dl =
@@ -198,27 +198,27 @@ downloadGetElapsedTime dl =
 -- |Returns the excepted total size of the download.
 --
 -- This is expected because the server may provide incorrect or missing
--- Content-Length. 
+-- Content-Length.
 --
 -- Notice that this may grow over time.
-downloadGetTotalSize :: 
+downloadGetTotalSize ::
     DownloadClass self => self
  -> IO Int -- ^ the expected total size of the downloaded file.
 downloadGetTotalSize dl =
     liftM fromIntegral $ {#call download_get_total_size#} (toDownload dl)
 
 -- | Returns the current already downleaded size
-downloadGetCurrentSize :: 
+downloadGetCurrentSize ::
     DownloadClass self => self
  -> IO Int -- ^ the already downloaded size.
 downloadGetCurrentSize dl =
     liftM fromIntegral $ {#call download_get_current_size#} (toDownload dl)
 
 -- | Obtains the current status of the 'Download' as 'DownloadStatus'
-downloadGetStatus :: 
+downloadGetStatus ::
     DownloadClass self => self
  -> IO DownloadStatus -- ^ the current 'DownloadStatus'
-downloadGetStatus dl = 
+downloadGetStatus dl =
     liftM (toEnum . fromIntegral) $ {#call download_get_status#} (toDownload dl)
 
 -- * Attibutes
@@ -226,8 +226,8 @@ downloadGetStatus dl =
 -- | The length of the data already downloaded
 --
 -- Default value: 0
--- 
--- * Since 1.1.2 
+--
+-- * Since 1.1.2
 --
 currentSize :: DownloadClass self => ReadAttr self Int
 currentSize = readAttr downloadGetCurrentSize
@@ -237,14 +237,14 @@ currentSize = readAttr downloadGetCurrentSize
 -- Default value: \"\"
 --
 -- * Since 1.1.2
-destinationUri :: DownloadClass self => Attr self (Maybe String) 
+destinationUri :: (DownloadClass self, GlibString string) => Attr self (Maybe string)
 destinationUri = newAttrFromMaybeStringProperty "destination-uri"
 
 -- | The NetworkRequest instance associated with the download.
 --
 -- * Since 1.1.2
 networkRequest :: DownloadClass self => Attr self NetworkRequest
-networkRequest = 
+networkRequest =
   newAttrFromObjectProperty "network-request"
   {#call pure webkit_network_request_get_type#}
 
@@ -253,14 +253,14 @@ networkRequest =
 --
 -- * Since 1.1.16
 networkResponse :: DownloadClass self => Attr self NetworkResponse
-networkResponse = 
+networkResponse =
   newAttrFromObjectProperty "network-response"
   {#call pure webkit_network_response_get_type#}
 #endif
 
--- | Determines the current progress of the download. 
--- Notice that, although the progress changes are reported as soon as possible, 
--- the emission of the notify signal for this property is throttled, for the benefit of download managers. 
+-- | Determines the current progress of the download.
+-- Notice that, although the progress changes are reported as soon as possible,
+-- the emission of the notify signal for this property is throttled, for the benefit of download managers.
 -- If you care about every update, use 'Download' : currentSize.
 --
 -- Allowed values: [0,1]
@@ -284,7 +284,7 @@ status = readAttr downloadGetStatus
 -- Default value: \"\"
 --
 -- * Since 1.1.2
-suggestedFilename :: DownloadClass self => ReadAttr self (Maybe String)
+suggestedFilename :: (DownloadClass self, GlibString string) => ReadAttr self (Maybe string)
 suggestedFilename = readAttr downloadGetSuggestedFilename
 
 -- | The total size of the file
@@ -297,14 +297,14 @@ totalSize = readAttr downloadGetTotalSize
 
 -- * Signals
 
--- | Emitted when download is interrupted either by user action or by network errors, 
+-- | Emitted when download is interrupted either by user action or by network errors,
 -- errorDetail will take any value of 'DownloadError'.
 --
--- 'download':    the object on which the signal is emitted                  
--- 'errorCode':   the corresponding error code                               
--- 'errorDetail': detailed error code for the error, see 'DownloadError' 
--- 'reason':       a string describing the error                              
---                                                                          
+-- 'download':    the object on which the signal is emitted
+-- 'errorCode':   the corresponding error code
+-- 'errorDetail': detailed error code for the error, see 'DownloadError'
+-- 'reason':       a string describing the error
+--
 -- Since 1.1.2
-downloadError :: DownloadClass self => Signal self (Int -> Int -> String -> IO Bool)
+downloadError :: (DownloadClass self, GlibString string) => Signal self (Int -> Int -> string -> IO Bool)
 downloadError = Signal (connect_INT_INT_STRING__BOOL "error")

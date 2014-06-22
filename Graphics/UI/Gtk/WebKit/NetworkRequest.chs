@@ -65,10 +65,11 @@ import Graphics.UI.Gtk.Gdk.Events
 -- It is used whenever WebKit wants to provide information
 -- about a request that will be sent, or has been sent.
 networkRequestNew ::
-    String  -- ^ @uri@ - the uri of the request
+    GlibString string
+ => string  -- ^ @uri@ - the uri of the request
  -> IO NetworkRequest
 networkRequestNew uri =
-    withCString uri $ \uriPtr ->
+    withUTFString uri $ \uriPtr ->
       wrapNewGObject mkNetworkRequest $
         {#call network_request_new#} uriPtr
 
@@ -76,11 +77,12 @@ networkRequestNew uri =
 -- | Set the URI of 'NetworkRequest'.
 --
 networkRequestSetUri ::
-    NetworkRequestClass self => self
- -> String  -- ^ @uri@ - the uri will be set to the request.
+    GlibString string
+ => NetworkRequestClass self => self
+ -> string  -- ^ @uri@ - the uri will be set to the request.
  -> IO()
 networkRequestSetUri networkrequest uri =
-    withCString uri $ \uriPtr ->
+    withUTFString uri $ \uriPtr ->
       {#call network_request_set_uri#}
         (toNetworkRequest networkrequest)
         uriPtr
@@ -88,9 +90,10 @@ networkRequestSetUri networkrequest uri =
 
 -- | Return the uri of 'NetworkRequest'.
 networkRequestGetUri ::
-    NetworkRequestClass self => self
- -> IO (Maybe String) -- ^ the URI or @Nothing@ in case failed.
+    GlibString string
+ => NetworkRequestClass self => self
+ -> IO (Maybe string) -- ^ the URI or @Nothing@ in case failed.
 networkRequestGetUri networkrequest =
     {#call network_request_get_uri#}
       (toNetworkRequest networkrequest) >>=
-      maybePeek peekCString
+      maybePeek peekUTFString

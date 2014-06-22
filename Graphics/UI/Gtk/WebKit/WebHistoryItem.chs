@@ -62,7 +62,7 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
+import System.Glib.GError
 import System.Glib.Attributes
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -79,123 +79,124 @@ import Graphics.UI.Gtk.Gdk.Events
 
 -- | Create a new 'WebHistoryItem' instance.
 --
--- A history item consists out of a title and a uri, 
+-- A history item consists out of a title and a uri,
 -- it can be part of the WebBackForwardList and the global history.
 --
 -- The global history is used for coloring the links of visited sites.
--- 'WebHistoryItem' constructed with 'webHistoryItemNew' are 
+-- 'WebHistoryItem' constructed with 'webHistoryItemNew' are
 -- automatically added to the global history.
 webHistoryItemNew :: IO WebHistoryItem
-webHistoryItemNew = 
+webHistoryItemNew =
     wrapNewGObject mkWebHistoryItem $ {#call web_history_item_new#}
 
 
 -- | Create a new 'WebHistoryItem' instance with the given @uri@ and @title@.
--- 
--- 'WebHistoryItem' constructed with 'webHistoryItemNewWithData' are 
+--
+-- 'WebHistoryItem' constructed with 'webHistoryItemNewWithData' are
 -- automatically added to the global history.
-webHistoryItemNewWithData :: 
-    String -- ^ @uri@ - the uri of the item
- -> String -- ^ @title@ - the title of the item
+webHistoryItemNewWithData ::
+    GlibString string
+ => string -- ^ @uri@ - the uri of the item
+ -> string -- ^ @title@ - the title of the item
  -> IO WebHistoryItem
-webHistoryItemNewWithData uri title = 
-    withCString uri $ \uriPtr ->
-    withCString title $ \titlePtr ->
+webHistoryItemNewWithData uri title =
+    withUTFString uri $ \uriPtr ->
+    withUTFString title $ \titlePtr ->
     wrapNewGObject mkWebHistoryItem $
-      {#call web_history_item_new_with_data#} 
-        uriPtr 
+      {#call web_history_item_new_with_data#}
+        uriPtr
         titlePtr
 
 
 -- | Return the title of 'WebHistoryItem'.
-webHistoryItemGetTitle :: 
-    WebHistoryItemClass self => self
- -> IO (Maybe String) -- ^ the title or @Nothing@ in case failed.
-webHistoryItemGetTitle webhistoryitem = 
-    {#call web_history_item_get_title#} 
-      (toWebHistoryItem webhistoryitem) >>= 
-      maybePeek peekCString
+webHistoryItemGetTitle ::
+    (WebHistoryItemClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the title or @Nothing@ in case failed.
+webHistoryItemGetTitle webhistoryitem =
+    {#call web_history_item_get_title#}
+      (toWebHistoryItem webhistoryitem) >>=
+      maybePeek peekUTFString
 
 -- | Return the alternate title of WebHistoryItem.
-webHistoryItemGetAlternateTitle :: 
-    WebHistoryItemClass self => self 
- -> IO (Maybe String) -- ^ the alternate title or @Nothing@ in case failed.
-webHistoryItemGetAlternateTitle webhistoryitem = 
-    {#call web_history_item_get_alternate_title#} 
-      (toWebHistoryItem webhistoryitem) >>= 
-      maybePeek peekCString
+webHistoryItemGetAlternateTitle ::
+    (WebHistoryItemClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the alternate title or @Nothing@ in case failed.
+webHistoryItemGetAlternateTitle webhistoryitem =
+    {#call web_history_item_get_alternate_title#}
+      (toWebHistoryItem webhistoryitem) >>=
+      maybePeek peekUTFString
 
 -- | Set an alternate title for WebHistoryItem.
-webHistoryItemSetAlternateTitle :: 
-    WebHistoryItemClass self => self 
- -> (Maybe String)  -- ^ @title@ - the alternate title for this history item.
+webHistoryItemSetAlternateTitle ::
+    (WebHistoryItemClass self, GlibString string) => self
+ -> (Maybe string)  -- ^ @title@ - the alternate title for this history item.
  -> IO()
 webHistoryItemSetAlternateTitle webhistoryitem title =
-    maybeWith withCString title $ \titlePtr -> 
-    {#call web_history_item_set_alternate_title#} 
+    maybeWith withUTFString title $ \titlePtr ->
+    {#call web_history_item_set_alternate_title#}
       (toWebHistoryItem webhistoryitem)
       titlePtr
 
 -- | Return the URI of WebHistoryItem.
-webHistoryItemGetUri :: 
-    WebHistoryItemClass self => self 
- -> IO (Maybe String) -- ^ the URI or @Nothing@ in case failed.
-webHistoryItemGetUri webhistoryitem = 
-    {#call web_history_item_get_uri#} 
-      (toWebHistoryItem webhistoryitem) >>= 
-      maybePeek peekCString
+webHistoryItemGetUri ::
+    (WebHistoryItemClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the URI or @Nothing@ in case failed.
+webHistoryItemGetUri webhistoryitem =
+    {#call web_history_item_get_uri#}
+      (toWebHistoryItem webhistoryitem) >>=
+      maybePeek peekUTFString
 
 -- | Return the original URI of WebHistoryItem.
-webHistoryItemGetOriginalUri :: 
-    WebHistoryItemClass self => self 
- -> IO (Maybe String) -- ^ the URI or @Nothing@ in case failed
-webHistoryItemGetOriginalUri webhistoryitem = 
-    {#call web_history_item_get_original_uri#} 
-      (toWebHistoryItem webhistoryitem) >>= 
-      maybePeek peekCString
+webHistoryItemGetOriginalUri ::
+    (WebHistoryItemClass self, GlibString string) => self
+ -> IO (Maybe string) -- ^ the URI or @Nothing@ in case failed
+webHistoryItemGetOriginalUri webhistoryitem =
+    {#call web_history_item_get_original_uri#}
+      (toWebHistoryItem webhistoryitem) >>=
+      maybePeek peekUTFString
 
 -- | Return the last visited time of WebHistoryItem.
-webHistoryItemGetLastVisitedTime :: 
-    WebHistoryItemClass self => self 
+webHistoryItemGetLastVisitedTime ::
+    WebHistoryItemClass self => self
  -> IO Double  -- ^ the last visited time of this history item.
-webHistoryItemGetLastVisitedTime webhistoryitem = 
-    liftM realToFrac $ 
-      {#call web_history_item_get_last_visited_time#} 
+webHistoryItemGetLastVisitedTime webhistoryitem =
+    liftM realToFrac $
+      {#call web_history_item_get_last_visited_time#}
         (toWebHistoryItem webhistoryitem)
 
 #if WEBKIT_CHECK_VERSION (1,1,18)
 -- | Makes a copy of the item for use with other WebView objects.
 --
--- * Since 1.1.18    
+-- * Since 1.1.18
 webHistoryItemCopy :: WebHistoryItemClass self => self
  -> IO WebHistoryItem
 webHistoryItemCopy webhistoryitem =
-    makeNewGObject mkWebHistoryItem $ 
+    makeNewGObject mkWebHistoryItem $
     {#call webkit_web_history_item_copy#} (toWebHistoryItem webhistoryitem)
 #endif
 
 -- | The title of the 'WebHistoryItem'
 --
 -- Default value: @Nothing@
-webHistoryItemTitle :: (WebHistoryItemClass self) => ReadAttr self (Maybe String)
+webHistoryItemTitle :: (WebHistoryItemClass self, GlibString string) => ReadAttr self (Maybe string)
 webHistoryItemTitle = readAttr webHistoryItemGetTitle
 
 -- | The alternate title of the history item.
 --
 -- Default value: @Nothing@
-webHistoryItemAlternateTitle :: (WebHistoryItemClass self) => Attr self (Maybe String)
+webHistoryItemAlternateTitle :: (WebHistoryItemClass self, GlibString string) => Attr self (Maybe string)
 webHistoryItemAlternateTitle = newAttr webHistoryItemGetAlternateTitle webHistoryItemSetAlternateTitle
 
 -- | The URI of the history item.
 --
 -- Default value: @Nothing@
-webHistoryItemUri :: (WebHistoryItemClass self) => ReadAttr self (Maybe String)
+webHistoryItemUri :: (WebHistoryItemClass self, GlibString string) => ReadAttr self (Maybe string)
 webHistoryItemUri = readAttr webHistoryItemGetUri
 
 -- | The original URI of the history item.
 --
 -- Default value: @Nothing@
-webHistoryItemOriginalUri :: (WebHistoryItemClass self) => ReadAttr self (Maybe String)
+webHistoryItemOriginalUri :: (WebHistoryItemClass self, GlibString string) => ReadAttr self (Maybe string)
 webHistoryItemOriginalUri = readAttr webHistoryItemGetOriginalUri
 
 -- | The time at which the history item was last visited.
@@ -205,4 +206,4 @@ webHistoryItemOriginalUri = readAttr webHistoryItemGetOriginalUri
 -- Default value: 0
 webHistoryItemLastVisitedTime :: (WebHistoryItemClass self) => ReadAttr self Double
 webHistoryItemLastVisitedTime = readAttr webHistoryItemGetLastVisitedTime
- 
+
