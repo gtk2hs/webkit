@@ -14,7 +14,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 namedNodeMapGetNamedItem ::
-                         (NamedNodeMapClass self) => self -> String -> IO (Maybe Node)
+                         (NamedNodeMapClass self, GlibString string) =>
+                           self -> string -> IO (Maybe Node)
 namedNodeMapGetNamedItem self name
   = maybeNull (makeNewGObject mkNode)
       (withUTFString name $
@@ -36,7 +37,8 @@ namedNodeMapSetNamedItem self node
              errorPtr_)
  
 namedNodeMapRemoveNamedItem ::
-                            (NamedNodeMapClass self) => self -> String -> IO (Maybe Node)
+                            (NamedNodeMapClass self, GlibString string) =>
+                              self -> string -> IO (Maybe Node)
 namedNodeMapRemoveNamedItem self name
   = maybeNull (makeNewGObject mkNode)
       (propagateGError $
@@ -56,8 +58,8 @@ namedNodeMapItem self index
          (fromIntegral index))
  
 namedNodeMapGetNamedItemNS ::
-                           (NamedNodeMapClass self) =>
-                             self -> String -> String -> IO (Maybe Node)
+                           (NamedNodeMapClass self, GlibString string) =>
+                             self -> string -> string -> IO (Maybe Node)
 namedNodeMapGetNamedItemNS self namespaceURI localName
   = maybeNull (makeNewGObject mkNode)
       (withUTFString localName $
@@ -82,8 +84,8 @@ namedNodeMapSetNamedItemNS self node
              errorPtr_)
  
 namedNodeMapRemoveNamedItemNS ::
-                              (NamedNodeMapClass self) =>
-                                self -> String -> String -> IO (Maybe Node)
+                              (NamedNodeMapClass self, GlibString string) =>
+                                self -> string -> string -> IO (Maybe Node)
 namedNodeMapRemoveNamedItemNS self namespaceURI localName
   = maybeNull (makeNewGObject mkNode)
       (propagateGError $

@@ -11,7 +11,9 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-mediaListItem :: (MediaListClass self) => self -> Word -> IO String
+mediaListItem ::
+              (MediaListClass self, GlibString string) =>
+                self -> Word -> IO string
 mediaListItem self index
   = ({# call webkit_dom_media_list_item #} (toMediaList self)
        (fromIntegral index))
@@ -19,7 +21,7 @@ mediaListItem self index
       readUTFString
  
 mediaListDeleteMedium ::
-                      (MediaListClass self) => self -> String -> IO ()
+                      (MediaListClass self, GlibString string) => self -> string -> IO ()
 mediaListDeleteMedium self oldMedium
   = propagateGError $
       \ errorPtr_ ->
@@ -30,7 +32,7 @@ mediaListDeleteMedium self oldMedium
           errorPtr_
  
 mediaListAppendMedium ::
-                      (MediaListClass self) => self -> String -> IO ()
+                      (MediaListClass self, GlibString string) => self -> string -> IO ()
 mediaListAppendMedium self newMedium
   = propagateGError $
       \ errorPtr_ ->
@@ -41,7 +43,7 @@ mediaListAppendMedium self newMedium
           errorPtr_
  
 mediaListSetMediaText ::
-                      (MediaListClass self) => self -> String -> IO ()
+                      (MediaListClass self, GlibString string) => self -> string -> IO ()
 mediaListSetMediaText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -51,7 +53,8 @@ mediaListSetMediaText self val
               valPtr
           errorPtr_
  
-mediaListGetMediaText :: (MediaListClass self) => self -> IO String
+mediaListGetMediaText ::
+                      (MediaListClass self, GlibString string) => self -> IO string
 mediaListGetMediaText self
   = ({# call webkit_dom_media_list_get_media_text #}
        (toMediaList self))

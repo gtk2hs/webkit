@@ -15,7 +15,7 @@ cCSS_VALUE_LIST = 2
 cCSS_CUSTOM = 3
  
 cssValueSetCssText ::
-                   (CSSValueClass self) => self -> String -> IO ()
+                   (CSSValueClass self, GlibString string) => self -> string -> IO ()
 cssValueSetCssText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -25,7 +25,8 @@ cssValueSetCssText self val
               valPtr
           errorPtr_
  
-cssValueGetCssText :: (CSSValueClass self) => self -> IO String
+cssValueGetCssText ::
+                   (CSSValueClass self, GlibString string) => self -> IO string
 cssValueGetCssText self
   = ({# call webkit_dom_css_value_get_css_text #} (toCSSValue self))
       >>=

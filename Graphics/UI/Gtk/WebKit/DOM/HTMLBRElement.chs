@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlbrElementSetClear ::
-                      (HTMLBRElementClass self) => self -> String -> IO ()
+                      (HTMLBRElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlbrElementSetClear self val
   = withUTFString val $
       \ valPtr ->
@@ -20,7 +21,7 @@ htmlbrElementSetClear self val
           valPtr
  
 htmlbrElementGetClear ::
-                      (HTMLBRElementClass self) => self -> IO String
+                      (HTMLBRElementClass self, GlibString string) => self -> IO string
 htmlbrElementGetClear self
   = ({# call webkit_dom_htmlbr_element_get_clear #}
        (toHTMLBRElement self))

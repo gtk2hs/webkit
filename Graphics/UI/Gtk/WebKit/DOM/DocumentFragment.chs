@@ -11,8 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 documentFragmentQuerySelector ::
-                              (DocumentFragmentClass self) =>
-                                self -> String -> IO (Maybe Element)
+                              (DocumentFragmentClass self, GlibString string) =>
+                                self -> string -> IO (Maybe Element)
 documentFragmentQuerySelector self selectors
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -25,8 +25,8 @@ documentFragmentQuerySelector self selectors
              errorPtr_)
  
 documentFragmentQuerySelectorAll ::
-                                 (DocumentFragmentClass self) =>
-                                   self -> String -> IO (Maybe NodeList)
+                                 (DocumentFragmentClass self, GlibString string) =>
+                                   self -> string -> IO (Maybe NodeList)
 documentFragmentQuerySelectorAll self selectors
   = maybeNull (makeNewGObject mkNodeList)
       (propagateGError $

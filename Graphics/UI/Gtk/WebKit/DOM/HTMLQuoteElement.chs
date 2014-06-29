@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlQuoteElementSetCite ::
-                        (HTMLQuoteElementClass self) => self -> String -> IO ()
+                        (HTMLQuoteElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlQuoteElementSetCite self val
   = withUTFString val $
       \ valPtr ->
@@ -20,7 +21,8 @@ htmlQuoteElementSetCite self val
           valPtr
  
 htmlQuoteElementGetCite ::
-                        (HTMLQuoteElementClass self) => self -> IO String
+                        (HTMLQuoteElementClass self, GlibString string) =>
+                          self -> IO string
 htmlQuoteElementGetCite self
   = ({# call webkit_dom_html_quote_element_get_cite #}
        (toHTMLQuoteElement self))

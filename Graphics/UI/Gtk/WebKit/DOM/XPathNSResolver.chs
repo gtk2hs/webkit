@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 xPathNSResolverLookupNamespaceURI ::
-                                  (XPathNSResolverClass self) => self -> String -> IO String
+                                  (XPathNSResolverClass self, GlibString string) =>
+                                    self -> string -> IO string
 xPathNSResolverLookupNamespaceURI self prefix
   = (withUTFString prefix $
        \ prefixPtr ->

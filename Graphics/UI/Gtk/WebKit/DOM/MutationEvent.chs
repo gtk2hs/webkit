@@ -13,13 +13,14 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 mutationEventInitMutationEvent ::
-                               (MutationEventClass self, NodeClass relatedNode) =>
+                               (MutationEventClass self, NodeClass relatedNode,
+                                GlibString string) =>
                                  self ->
-                                   String ->
+                                   string ->
                                      Bool ->
                                        Bool ->
                                          Maybe relatedNode ->
-                                           String -> String -> String -> Word -> IO ()
+                                           string -> string -> string -> Word -> IO ()
 mutationEventInitMutationEvent self type' canBubble cancelable
   relatedNode prevValue newValue attrName attrChange
   = withUTFString attrName $
@@ -52,7 +53,7 @@ mutationEventGetRelatedNode self
          (toMutationEvent self))
  
 mutationEventGetPrevValue ::
-                          (MutationEventClass self) => self -> IO String
+                          (MutationEventClass self, GlibString string) => self -> IO string
 mutationEventGetPrevValue self
   = ({# call webkit_dom_mutation_event_get_prev_value #}
        (toMutationEvent self))
@@ -60,7 +61,7 @@ mutationEventGetPrevValue self
       readUTFString
  
 mutationEventGetNewValue ::
-                         (MutationEventClass self) => self -> IO String
+                         (MutationEventClass self, GlibString string) => self -> IO string
 mutationEventGetNewValue self
   = ({# call webkit_dom_mutation_event_get_new_value #}
        (toMutationEvent self))
@@ -68,7 +69,7 @@ mutationEventGetNewValue self
       readUTFString
  
 mutationEventGetAttrName ::
-                         (MutationEventClass self) => self -> IO String
+                         (MutationEventClass self, GlibString string) => self -> IO string
 mutationEventGetAttrName self
   = ({# call webkit_dom_mutation_event_get_attr_name #}
        (toMutationEvent self))

@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlDivElementSetAlign ::
-                       (HTMLDivElementClass self) => self -> String -> IO ()
+                       (HTMLDivElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlDivElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -20,7 +21,7 @@ htmlDivElementSetAlign self val
           valPtr
  
 htmlDivElementGetAlign ::
-                       (HTMLDivElementClass self) => self -> IO String
+                       (HTMLDivElementClass self, GlibString string) => self -> IO string
 htmlDivElementGetAlign self
   = ({# call webkit_dom_html_div_element_get_align #}
        (toHTMLDivElement self))

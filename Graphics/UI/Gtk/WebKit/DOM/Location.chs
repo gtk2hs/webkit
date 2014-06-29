@@ -11,7 +11,8 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-locationGetOrigin :: (LocationClass self) => self -> IO String
+locationGetOrigin ::
+                  (LocationClass self, GlibString string) => self -> IO string
 locationGetOrigin self
   = ({# call webkit_dom_location_get_origin #} (toLocation self)) >>=
       readUTFString

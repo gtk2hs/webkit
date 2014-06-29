@@ -11,7 +11,7 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 domMimeTypeGetSuffixes ::
-                       (DOMMimeTypeClass self) => self -> IO String
+                       (DOMMimeTypeClass self, GlibString string) => self -> IO string
 domMimeTypeGetSuffixes self
   = ({# call webkit_dom_dom_mime_type_get_suffixes #}
        (toDOMMimeType self))
@@ -19,7 +19,7 @@ domMimeTypeGetSuffixes self
       readUTFString
  
 domMimeTypeGetDescription ::
-                          (DOMMimeTypeClass self) => self -> IO String
+                          (DOMMimeTypeClass self, GlibString string) => self -> IO string
 domMimeTypeGetDescription self
   = ({# call webkit_dom_dom_mime_type_get_description #}
        (toDOMMimeType self))

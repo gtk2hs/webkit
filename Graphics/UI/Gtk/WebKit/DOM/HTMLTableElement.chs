@@ -177,7 +177,8 @@ htmlTableElementGetTBodies self
          (toHTMLTableElement self))
  
 htmlTableElementSetAlign ::
-                         (HTMLTableElementClass self) => self -> String -> IO ()
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlTableElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -186,7 +187,8 @@ htmlTableElementSetAlign self val
           valPtr
  
 htmlTableElementGetAlign ::
-                         (HTMLTableElementClass self) => self -> IO String
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> IO string
 htmlTableElementGetAlign self
   = ({# call webkit_dom_html_table_element_get_align #}
        (toHTMLTableElement self))
@@ -194,7 +196,8 @@ htmlTableElementGetAlign self
       readUTFString
  
 htmlTableElementSetBgColor ::
-                           (HTMLTableElementClass self) => self -> String -> IO ()
+                           (HTMLTableElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlTableElementSetBgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -203,7 +206,8 @@ htmlTableElementSetBgColor self val
           valPtr
  
 htmlTableElementGetBgColor ::
-                           (HTMLTableElementClass self) => self -> IO String
+                           (HTMLTableElementClass self, GlibString string) =>
+                             self -> IO string
 htmlTableElementGetBgColor self
   = ({# call webkit_dom_html_table_element_get_bg_color #}
        (toHTMLTableElement self))
@@ -211,7 +215,8 @@ htmlTableElementGetBgColor self
       readUTFString
  
 htmlTableElementSetBorder ::
-                          (HTMLTableElementClass self) => self -> String -> IO ()
+                          (HTMLTableElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlTableElementSetBorder self val
   = withUTFString val $
       \ valPtr ->
@@ -220,7 +225,8 @@ htmlTableElementSetBorder self val
           valPtr
  
 htmlTableElementGetBorder ::
-                          (HTMLTableElementClass self) => self -> IO String
+                          (HTMLTableElementClass self, GlibString string) =>
+                            self -> IO string
 htmlTableElementGetBorder self
   = ({# call webkit_dom_html_table_element_get_border #}
        (toHTMLTableElement self))
@@ -228,7 +234,8 @@ htmlTableElementGetBorder self
       readUTFString
  
 htmlTableElementSetCellPadding ::
-                               (HTMLTableElementClass self) => self -> String -> IO ()
+                               (HTMLTableElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlTableElementSetCellPadding self val
   = withUTFString val $
       \ valPtr ->
@@ -237,7 +244,8 @@ htmlTableElementSetCellPadding self val
           valPtr
  
 htmlTableElementGetCellPadding ::
-                               (HTMLTableElementClass self) => self -> IO String
+                               (HTMLTableElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlTableElementGetCellPadding self
   = ({# call webkit_dom_html_table_element_get_cell_padding #}
        (toHTMLTableElement self))
@@ -245,7 +253,8 @@ htmlTableElementGetCellPadding self
       readUTFString
  
 htmlTableElementSetCellSpacing ::
-                               (HTMLTableElementClass self) => self -> String -> IO ()
+                               (HTMLTableElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlTableElementSetCellSpacing self val
   = withUTFString val $
       \ valPtr ->
@@ -254,7 +263,8 @@ htmlTableElementSetCellSpacing self val
           valPtr
  
 htmlTableElementGetCellSpacing ::
-                               (HTMLTableElementClass self) => self -> IO String
+                               (HTMLTableElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlTableElementGetCellSpacing self
   = ({# call webkit_dom_html_table_element_get_cell_spacing #}
        (toHTMLTableElement self))
@@ -262,7 +272,8 @@ htmlTableElementGetCellSpacing self
       readUTFString
  
 htmlTableElementSetFrame ::
-                         (HTMLTableElementClass self) => self -> String -> IO ()
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlTableElementSetFrame self val
   = withUTFString val $
       \ valPtr ->
@@ -271,7 +282,8 @@ htmlTableElementSetFrame self val
           valPtr
  
 htmlTableElementGetFrame ::
-                         (HTMLTableElementClass self) => self -> IO String
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> IO string
 htmlTableElementGetFrame self
   = ({# call webkit_dom_html_table_element_get_frame #}
        (toHTMLTableElement self))
@@ -279,7 +291,8 @@ htmlTableElementGetFrame self
       readUTFString
  
 htmlTableElementSetRules ::
-                         (HTMLTableElementClass self) => self -> String -> IO ()
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlTableElementSetRules self val
   = withUTFString val $
       \ valPtr ->
@@ -288,7 +301,8 @@ htmlTableElementSetRules self val
           valPtr
  
 htmlTableElementGetRules ::
-                         (HTMLTableElementClass self) => self -> IO String
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> IO string
 htmlTableElementGetRules self
   = ({# call webkit_dom_html_table_element_get_rules #}
        (toHTMLTableElement self))
@@ -296,7 +310,8 @@ htmlTableElementGetRules self
       readUTFString
  
 htmlTableElementSetSummary ::
-                           (HTMLTableElementClass self) => self -> String -> IO ()
+                           (HTMLTableElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlTableElementSetSummary self val
   = withUTFString val $
       \ valPtr ->
@@ -305,7 +320,8 @@ htmlTableElementSetSummary self val
           valPtr
  
 htmlTableElementGetSummary ::
-                           (HTMLTableElementClass self) => self -> IO String
+                           (HTMLTableElementClass self, GlibString string) =>
+                             self -> IO string
 htmlTableElementGetSummary self
   = ({# call webkit_dom_html_table_element_get_summary #}
        (toHTMLTableElement self))
@@ -313,7 +329,8 @@ htmlTableElementGetSummary self
       readUTFString
  
 htmlTableElementSetWidth ::
-                         (HTMLTableElementClass self) => self -> String -> IO ()
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlTableElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -322,7 +339,8 @@ htmlTableElementSetWidth self val
           valPtr
  
 htmlTableElementGetWidth ::
-                         (HTMLTableElementClass self) => self -> IO String
+                         (HTMLTableElementClass self, GlibString string) =>
+                           self -> IO string
 htmlTableElementGetWidth self
   = ({# call webkit_dom_html_table_element_get_width #}
        (toHTMLTableElement self))

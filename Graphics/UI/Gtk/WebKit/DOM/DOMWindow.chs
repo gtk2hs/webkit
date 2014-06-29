@@ -98,7 +98,8 @@ domWindowStop :: (DOMWindowClass self) => self -> IO ()
 domWindowStop self
   = {# call webkit_dom_dom_window_stop #} (toDOMWindow self)
  
-domWindowAlert :: (DOMWindowClass self) => self -> String -> IO ()
+domWindowAlert ::
+               (DOMWindowClass self, GlibString string) => self -> string -> IO ()
 domWindowAlert self message
   = withUTFString message $
       \ messagePtr ->
@@ -106,7 +107,8 @@ domWindowAlert self message
           messagePtr
  
 domWindowConfirm ::
-                 (DOMWindowClass self) => self -> String -> IO Bool
+                 (DOMWindowClass self, GlibString string) =>
+                   self -> string -> IO Bool
 domWindowConfirm self message
   = toBool <$>
       (withUTFString message $
@@ -115,7 +117,8 @@ domWindowConfirm self message
              messagePtr)
  
 domWindowPrompt ::
-                (DOMWindowClass self) => self -> String -> String -> IO String
+                (DOMWindowClass self, GlibString string) =>
+                  self -> string -> string -> IO string
 domWindowPrompt self message defaultValue
   = (withUTFString defaultValue $
        \ defaultValuePtr ->
@@ -128,9 +131,9 @@ domWindowPrompt self message defaultValue
       readUTFString
  
 domWindowFind ::
-              (DOMWindowClass self) =>
+              (DOMWindowClass self, GlibString string) =>
                 self ->
-                  String -> Bool -> Bool -> Bool -> Bool -> Bool -> Bool -> IO Bool
+                  string -> Bool -> Bool -> Bool -> Bool -> Bool -> Bool -> IO Bool
 domWindowFind self string caseSensitive backwards wrap wholeWord
   searchInFrames showDialog
   = toBool <$>
@@ -194,8 +197,8 @@ domWindowResizeTo self width height
       (realToFrac height)
  
 domWindowMatchMedia ::
-                    (DOMWindowClass self) =>
-                      self -> String -> IO (Maybe MediaQueryList)
+                    (DOMWindowClass self, GlibString string) =>
+                      self -> string -> IO (Maybe MediaQueryList)
 domWindowMatchMedia self query
   = maybeNull (makeNewGObject mkMediaQueryList)
       (withUTFString query $
@@ -204,8 +207,8 @@ domWindowMatchMedia self query
              queryPtr)
  
 domWindowGetComputedStyle ::
-                          (DOMWindowClass self, ElementClass element) =>
-                            self -> Maybe element -> String -> IO (Maybe CSSStyleDeclaration)
+                          (DOMWindowClass self, ElementClass element, GlibString string) =>
+                            self -> Maybe element -> string -> IO (Maybe CSSStyleDeclaration)
 domWindowGetComputedStyle self element pseudoElement
   = maybeNull (makeNewGObject mkCSSStyleDeclaration)
       (withUTFString pseudoElement $
@@ -458,34 +461,36 @@ domWindowGetLength self
       ({# call webkit_dom_dom_window_get_length #} (toDOMWindow self))
  
 domWindowSetName ::
-                 (DOMWindowClass self) => self -> String -> IO ()
+                 (DOMWindowClass self, GlibString string) => self -> string -> IO ()
 domWindowSetName self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_dom_window_set_name #} (toDOMWindow self) valPtr
  
-domWindowGetName :: (DOMWindowClass self) => self -> IO String
+domWindowGetName ::
+                 (DOMWindowClass self, GlibString string) => self -> IO string
 domWindowGetName self
   = ({# call webkit_dom_dom_window_get_name #} (toDOMWindow self))
       >>=
       readUTFString
  
 domWindowSetStatus ::
-                   (DOMWindowClass self) => self -> String -> IO ()
+                   (DOMWindowClass self, GlibString string) => self -> string -> IO ()
 domWindowSetStatus self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_dom_window_set_status #} (toDOMWindow self)
           valPtr
  
-domWindowGetStatus :: (DOMWindowClass self) => self -> IO String
+domWindowGetStatus ::
+                   (DOMWindowClass self, GlibString string) => self -> IO string
 domWindowGetStatus self
   = ({# call webkit_dom_dom_window_get_status #} (toDOMWindow self))
       >>=
       readUTFString
  
 domWindowSetDefaultStatus ::
-                          (DOMWindowClass self) => self -> String -> IO ()
+                          (DOMWindowClass self, GlibString string) => self -> string -> IO ()
 domWindowSetDefaultStatus self val
   = withUTFString val $
       \ valPtr ->
@@ -494,7 +499,7 @@ domWindowSetDefaultStatus self val
           valPtr
  
 domWindowGetDefaultStatus ::
-                          (DOMWindowClass self) => self -> IO String
+                          (DOMWindowClass self, GlibString string) => self -> IO string
 domWindowGetDefaultStatus self
   = ({# call webkit_dom_dom_window_get_default_status #}
        (toDOMWindow self))

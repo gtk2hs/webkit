@@ -26,8 +26,8 @@ domNamedFlowCollectionItem self index
          (fromIntegral index))
  
 domNamedFlowCollectionNamedItem ::
-                                (DOMNamedFlowCollectionClass self) =>
-                                  self -> String -> IO (Maybe WebKitNamedFlow)
+                                (DOMNamedFlowCollectionClass self, GlibString string) =>
+                                  self -> string -> IO (Maybe WebKitNamedFlow)
 domNamedFlowCollectionNamedItem self name
   = maybeNull (makeNewGObject mkWebKitNamedFlow)
       (withUTFString name $

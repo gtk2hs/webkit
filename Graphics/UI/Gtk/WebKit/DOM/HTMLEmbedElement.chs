@@ -15,7 +15,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlEmbedElementSetAlign ::
-                         (HTMLEmbedElementClass self) => self -> String -> IO ()
+                         (HTMLEmbedElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlEmbedElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -24,7 +25,8 @@ htmlEmbedElementSetAlign self val
           valPtr
  
 htmlEmbedElementGetAlign ::
-                         (HTMLEmbedElementClass self) => self -> IO String
+                         (HTMLEmbedElementClass self, GlibString string) =>
+                           self -> IO string
 htmlEmbedElementGetAlign self
   = ({# call webkit_dom_html_embed_element_get_align #}
        (toHTMLEmbedElement self))
@@ -46,7 +48,8 @@ htmlEmbedElementGetHeight self
          (toHTMLEmbedElement self))
  
 htmlEmbedElementSetName ::
-                        (HTMLEmbedElementClass self) => self -> String -> IO ()
+                        (HTMLEmbedElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlEmbedElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -55,7 +58,8 @@ htmlEmbedElementSetName self val
           valPtr
  
 htmlEmbedElementGetName ::
-                        (HTMLEmbedElementClass self) => self -> IO String
+                        (HTMLEmbedElementClass self, GlibString string) =>
+                          self -> IO string
 htmlEmbedElementGetName self
   = ({# call webkit_dom_html_embed_element_get_name #}
        (toHTMLEmbedElement self))
@@ -63,7 +67,8 @@ htmlEmbedElementGetName self
       readUTFString
  
 htmlEmbedElementSetSrc ::
-                       (HTMLEmbedElementClass self) => self -> String -> IO ()
+                       (HTMLEmbedElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlEmbedElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +77,8 @@ htmlEmbedElementSetSrc self val
           valPtr
  
 htmlEmbedElementGetSrc ::
-                       (HTMLEmbedElementClass self) => self -> IO String
+                       (HTMLEmbedElementClass self, GlibString string) =>
+                         self -> IO string
 htmlEmbedElementGetSrc self
   = ({# call webkit_dom_html_embed_element_get_src #}
        (toHTMLEmbedElement self))

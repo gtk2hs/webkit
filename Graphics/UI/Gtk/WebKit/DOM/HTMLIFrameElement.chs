@@ -29,7 +29,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmliFrameElementSetAlign ::
-                          (HTMLIFrameElementClass self) => self -> String -> IO ()
+                          (HTMLIFrameElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmliFrameElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -38,7 +39,8 @@ htmliFrameElementSetAlign self val
           valPtr
  
 htmliFrameElementGetAlign ::
-                          (HTMLIFrameElementClass self) => self -> IO String
+                          (HTMLIFrameElementClass self, GlibString string) =>
+                            self -> IO string
 htmliFrameElementGetAlign self
   = ({# call webkit_dom_html_iframe_element_get_align #}
        (toHTMLIFrameElement self))
@@ -46,7 +48,8 @@ htmliFrameElementGetAlign self
       readUTFString
  
 htmliFrameElementSetFrameBorder ::
-                                (HTMLIFrameElementClass self) => self -> String -> IO ()
+                                (HTMLIFrameElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmliFrameElementSetFrameBorder self val
   = withUTFString val $
       \ valPtr ->
@@ -55,7 +58,8 @@ htmliFrameElementSetFrameBorder self val
           valPtr
  
 htmliFrameElementGetFrameBorder ::
-                                (HTMLIFrameElementClass self) => self -> IO String
+                                (HTMLIFrameElementClass self, GlibString string) =>
+                                  self -> IO string
 htmliFrameElementGetFrameBorder self
   = ({# call webkit_dom_html_iframe_element_get_frame_border #}
        (toHTMLIFrameElement self))
@@ -63,7 +67,8 @@ htmliFrameElementGetFrameBorder self
       readUTFString
  
 htmliFrameElementSetHeight ::
-                           (HTMLIFrameElementClass self) => self -> String -> IO ()
+                           (HTMLIFrameElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmliFrameElementSetHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +77,8 @@ htmliFrameElementSetHeight self val
           valPtr
  
 htmliFrameElementGetHeight ::
-                           (HTMLIFrameElementClass self) => self -> IO String
+                           (HTMLIFrameElementClass self, GlibString string) =>
+                             self -> IO string
 htmliFrameElementGetHeight self
   = ({# call webkit_dom_html_iframe_element_get_height #}
        (toHTMLIFrameElement self))
@@ -80,7 +86,8 @@ htmliFrameElementGetHeight self
       readUTFString
  
 htmliFrameElementSetLongDesc ::
-                             (HTMLIFrameElementClass self) => self -> String -> IO ()
+                             (HTMLIFrameElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmliFrameElementSetLongDesc self val
   = withUTFString val $
       \ valPtr ->
@@ -89,7 +96,8 @@ htmliFrameElementSetLongDesc self val
           valPtr
  
 htmliFrameElementGetLongDesc ::
-                             (HTMLIFrameElementClass self) => self -> IO String
+                             (HTMLIFrameElementClass self, GlibString string) =>
+                               self -> IO string
 htmliFrameElementGetLongDesc self
   = ({# call webkit_dom_html_iframe_element_get_long_desc #}
        (toHTMLIFrameElement self))
@@ -97,7 +105,8 @@ htmliFrameElementGetLongDesc self
       readUTFString
  
 htmliFrameElementSetMarginHeight ::
-                                 (HTMLIFrameElementClass self) => self -> String -> IO ()
+                                 (HTMLIFrameElementClass self, GlibString string) =>
+                                   self -> string -> IO ()
 htmliFrameElementSetMarginHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -106,7 +115,8 @@ htmliFrameElementSetMarginHeight self val
           valPtr
  
 htmliFrameElementGetMarginHeight ::
-                                 (HTMLIFrameElementClass self) => self -> IO String
+                                 (HTMLIFrameElementClass self, GlibString string) =>
+                                   self -> IO string
 htmliFrameElementGetMarginHeight self
   = ({# call webkit_dom_html_iframe_element_get_margin_height #}
        (toHTMLIFrameElement self))
@@ -114,7 +124,8 @@ htmliFrameElementGetMarginHeight self
       readUTFString
  
 htmliFrameElementSetMarginWidth ::
-                                (HTMLIFrameElementClass self) => self -> String -> IO ()
+                                (HTMLIFrameElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmliFrameElementSetMarginWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -123,7 +134,8 @@ htmliFrameElementSetMarginWidth self val
           valPtr
  
 htmliFrameElementGetMarginWidth ::
-                                (HTMLIFrameElementClass self) => self -> IO String
+                                (HTMLIFrameElementClass self, GlibString string) =>
+                                  self -> IO string
 htmliFrameElementGetMarginWidth self
   = ({# call webkit_dom_html_iframe_element_get_margin_width #}
        (toHTMLIFrameElement self))
@@ -131,7 +143,8 @@ htmliFrameElementGetMarginWidth self
       readUTFString
  
 htmliFrameElementSetName ::
-                         (HTMLIFrameElementClass self) => self -> String -> IO ()
+                         (HTMLIFrameElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmliFrameElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -140,7 +153,8 @@ htmliFrameElementSetName self val
           valPtr
  
 htmliFrameElementGetName ::
-                         (HTMLIFrameElementClass self) => self -> IO String
+                         (HTMLIFrameElementClass self, GlibString string) =>
+                           self -> IO string
 htmliFrameElementGetName self
   = ({# call webkit_dom_html_iframe_element_get_name #}
        (toHTMLIFrameElement self))
@@ -148,7 +162,8 @@ htmliFrameElementGetName self
       readUTFString
  
 htmliFrameElementSetSandbox ::
-                            (HTMLIFrameElementClass self) => self -> String -> IO ()
+                            (HTMLIFrameElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmliFrameElementSetSandbox self val
   = withUTFString val $
       \ valPtr ->
@@ -157,7 +172,8 @@ htmliFrameElementSetSandbox self val
           valPtr
  
 htmliFrameElementGetSandbox ::
-                            (HTMLIFrameElementClass self) => self -> IO String
+                            (HTMLIFrameElementClass self, GlibString string) =>
+                              self -> IO string
 htmliFrameElementGetSandbox self
   = ({# call webkit_dom_html_iframe_element_get_sandbox #}
        (toHTMLIFrameElement self))
@@ -181,7 +197,8 @@ htmliFrameElementGetSeamless self
 #endif
  
 htmliFrameElementSetScrolling ::
-                              (HTMLIFrameElementClass self) => self -> String -> IO ()
+                              (HTMLIFrameElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmliFrameElementSetScrolling self val
   = withUTFString val $
       \ valPtr ->
@@ -190,7 +207,8 @@ htmliFrameElementSetScrolling self val
           valPtr
  
 htmliFrameElementGetScrolling ::
-                              (HTMLIFrameElementClass self) => self -> IO String
+                              (HTMLIFrameElementClass self, GlibString string) =>
+                                self -> IO string
 htmliFrameElementGetScrolling self
   = ({# call webkit_dom_html_iframe_element_get_scrolling #}
        (toHTMLIFrameElement self))
@@ -198,7 +216,8 @@ htmliFrameElementGetScrolling self
       readUTFString
  
 htmliFrameElementSetSrc ::
-                        (HTMLIFrameElementClass self) => self -> String -> IO ()
+                        (HTMLIFrameElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmliFrameElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -207,7 +226,8 @@ htmliFrameElementSetSrc self val
           valPtr
  
 htmliFrameElementGetSrc ::
-                        (HTMLIFrameElementClass self) => self -> IO String
+                        (HTMLIFrameElementClass self, GlibString string) =>
+                          self -> IO string
 htmliFrameElementGetSrc self
   = ({# call webkit_dom_html_iframe_element_get_src #}
        (toHTMLIFrameElement self))
@@ -216,7 +236,8 @@ htmliFrameElementGetSrc self
  
 #if WEBKIT_CHECK_VERSION(1,10,0)
 htmliFrameElementSetSrcdoc ::
-                           (HTMLIFrameElementClass self) => self -> String -> IO ()
+                           (HTMLIFrameElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmliFrameElementSetSrcdoc self val
   = withUTFString val $
       \ valPtr ->
@@ -225,7 +246,8 @@ htmliFrameElementSetSrcdoc self val
           valPtr
  
 htmliFrameElementGetSrcdoc ::
-                           (HTMLIFrameElementClass self) => self -> IO String
+                           (HTMLIFrameElementClass self, GlibString string) =>
+                             self -> IO string
 htmliFrameElementGetSrcdoc self
   = ({# call webkit_dom_html_iframe_element_get_srcdoc #}
        (toHTMLIFrameElement self))
@@ -234,7 +256,8 @@ htmliFrameElementGetSrcdoc self
 #endif
  
 htmliFrameElementSetWidth ::
-                          (HTMLIFrameElementClass self) => self -> String -> IO ()
+                          (HTMLIFrameElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmliFrameElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -243,7 +266,8 @@ htmliFrameElementSetWidth self val
           valPtr
  
 htmliFrameElementGetWidth ::
-                          (HTMLIFrameElementClass self) => self -> IO String
+                          (HTMLIFrameElementClass self, GlibString string) =>
+                            self -> IO string
 htmliFrameElementGetWidth self
   = ({# call webkit_dom_html_iframe_element_get_width #}
        (toHTMLIFrameElement self))

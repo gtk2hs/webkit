@@ -9,7 +9,8 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-consoleTime :: (ConsoleClass self) => self -> String -> IO ()
+consoleTime ::
+            (ConsoleClass self, GlibString string) => self -> string -> IO ()
 consoleTime self title
   = withUTFString title $
       \ titlePtr ->

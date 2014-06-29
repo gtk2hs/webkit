@@ -20,7 +20,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlFrameElementSetFrameBorder ::
-                               (HTMLFrameElementClass self) => self -> String -> IO ()
+                               (HTMLFrameElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlFrameElementSetFrameBorder self val
   = withUTFString val $
       \ valPtr ->
@@ -29,7 +30,8 @@ htmlFrameElementSetFrameBorder self val
           valPtr
  
 htmlFrameElementGetFrameBorder ::
-                               (HTMLFrameElementClass self) => self -> IO String
+                               (HTMLFrameElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlFrameElementGetFrameBorder self
   = ({# call webkit_dom_html_frame_element_get_frame_border #}
        (toHTMLFrameElement self))
@@ -37,7 +39,8 @@ htmlFrameElementGetFrameBorder self
       readUTFString
  
 htmlFrameElementSetLongDesc ::
-                            (HTMLFrameElementClass self) => self -> String -> IO ()
+                            (HTMLFrameElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlFrameElementSetLongDesc self val
   = withUTFString val $
       \ valPtr ->
@@ -46,7 +49,8 @@ htmlFrameElementSetLongDesc self val
           valPtr
  
 htmlFrameElementGetLongDesc ::
-                            (HTMLFrameElementClass self) => self -> IO String
+                            (HTMLFrameElementClass self, GlibString string) =>
+                              self -> IO string
 htmlFrameElementGetLongDesc self
   = ({# call webkit_dom_html_frame_element_get_long_desc #}
        (toHTMLFrameElement self))
@@ -54,7 +58,8 @@ htmlFrameElementGetLongDesc self
       readUTFString
  
 htmlFrameElementSetMarginHeight ::
-                                (HTMLFrameElementClass self) => self -> String -> IO ()
+                                (HTMLFrameElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlFrameElementSetMarginHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -63,7 +68,8 @@ htmlFrameElementSetMarginHeight self val
           valPtr
  
 htmlFrameElementGetMarginHeight ::
-                                (HTMLFrameElementClass self) => self -> IO String
+                                (HTMLFrameElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlFrameElementGetMarginHeight self
   = ({# call webkit_dom_html_frame_element_get_margin_height #}
        (toHTMLFrameElement self))
@@ -71,7 +77,8 @@ htmlFrameElementGetMarginHeight self
       readUTFString
  
 htmlFrameElementSetMarginWidth ::
-                               (HTMLFrameElementClass self) => self -> String -> IO ()
+                               (HTMLFrameElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlFrameElementSetMarginWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -80,7 +87,8 @@ htmlFrameElementSetMarginWidth self val
           valPtr
  
 htmlFrameElementGetMarginWidth ::
-                               (HTMLFrameElementClass self) => self -> IO String
+                               (HTMLFrameElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlFrameElementGetMarginWidth self
   = ({# call webkit_dom_html_frame_element_get_margin_width #}
        (toHTMLFrameElement self))
@@ -88,7 +96,8 @@ htmlFrameElementGetMarginWidth self
       readUTFString
  
 htmlFrameElementSetName ::
-                        (HTMLFrameElementClass self) => self -> String -> IO ()
+                        (HTMLFrameElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlFrameElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -97,7 +106,8 @@ htmlFrameElementSetName self val
           valPtr
  
 htmlFrameElementGetName ::
-                        (HTMLFrameElementClass self) => self -> IO String
+                        (HTMLFrameElementClass self, GlibString string) =>
+                          self -> IO string
 htmlFrameElementGetName self
   = ({# call webkit_dom_html_frame_element_get_name #}
        (toHTMLFrameElement self))
@@ -119,7 +129,8 @@ htmlFrameElementGetNoResize self
          (toHTMLFrameElement self))
  
 htmlFrameElementSetScrolling ::
-                             (HTMLFrameElementClass self) => self -> String -> IO ()
+                             (HTMLFrameElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlFrameElementSetScrolling self val
   = withUTFString val $
       \ valPtr ->
@@ -128,7 +139,8 @@ htmlFrameElementSetScrolling self val
           valPtr
  
 htmlFrameElementGetScrolling ::
-                             (HTMLFrameElementClass self) => self -> IO String
+                             (HTMLFrameElementClass self, GlibString string) =>
+                               self -> IO string
 htmlFrameElementGetScrolling self
   = ({# call webkit_dom_html_frame_element_get_scrolling #}
        (toHTMLFrameElement self))
@@ -136,7 +148,8 @@ htmlFrameElementGetScrolling self
       readUTFString
  
 htmlFrameElementSetSrc ::
-                       (HTMLFrameElementClass self) => self -> String -> IO ()
+                       (HTMLFrameElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlFrameElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -145,7 +158,8 @@ htmlFrameElementSetSrc self val
           valPtr
  
 htmlFrameElementGetSrc ::
-                       (HTMLFrameElementClass self) => self -> IO String
+                       (HTMLFrameElementClass self, GlibString string) =>
+                         self -> IO string
 htmlFrameElementGetSrc self
   = ({# call webkit_dom_html_frame_element_get_src #}
        (toHTMLFrameElement self))

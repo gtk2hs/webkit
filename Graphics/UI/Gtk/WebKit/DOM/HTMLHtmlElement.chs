@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlHtmlElementSetVersion ::
-                          (HTMLHtmlElementClass self) => self -> String -> IO ()
+                          (HTMLHtmlElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlHtmlElementSetVersion self val
   = withUTFString val $
       \ valPtr ->
@@ -21,7 +22,7 @@ htmlHtmlElementSetVersion self val
           valPtr
  
 htmlHtmlElementGetVersion ::
-                          (HTMLHtmlElementClass self) => self -> IO String
+                          (HTMLHtmlElementClass self, GlibString string) => self -> IO string
 htmlHtmlElementGetVersion self
   = ({# call webkit_dom_html_html_element_get_version #}
        (toHTMLHtmlElement self))
@@ -29,7 +30,8 @@ htmlHtmlElementGetVersion self
       readUTFString
  
 htmlHtmlElementSetManifest ::
-                           (HTMLHtmlElementClass self) => self -> String -> IO ()
+                           (HTMLHtmlElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlHtmlElementSetManifest self val
   = withUTFString val $
       \ valPtr ->
@@ -38,7 +40,7 @@ htmlHtmlElementSetManifest self val
           valPtr
  
 htmlHtmlElementGetManifest ::
-                           (HTMLHtmlElementClass self) => self -> IO String
+                           (HTMLHtmlElementClass self, GlibString string) => self -> IO string
 htmlHtmlElementGetManifest self
   = ({# call webkit_dom_html_html_element_get_manifest #}
        (toHTMLHtmlElement self))

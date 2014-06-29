@@ -32,13 +32,20 @@ domSecurityPolicyIsActive self = toBool <$>
   ({# call webkit_dom_dom_security_policy_is_active #} (toDOMSecurityPolicy self))
 #endif
 
-domSecurityPolicyAllowsConnectionTo :: (DOMSecurityPolicyClass self) => self -> String -> IO Bool
-domSecurityPolicyAllowsConnectionTo self url = toBool <$>
-  (withUTFString url $ \urlPtr ->
-     {# call webkit_dom_dom_security_policy_allows_connection_to #} (toDOMSecurityPolicy self) urlPtr)
+domSecurityPolicyAllowsConnectionTo ::
+                                    (DOMSecurityPolicyClass self, GlibString string) =>
+                                      self -> string -> IO Bool
+domSecurityPolicyAllowsConnectionTo self url
+  = toBool <$>
+      (withUTFString url $
+         \ urlPtr ->
+           {# call webkit_dom_dom_security_policy_allows_connection_to #}
+             (toDOMSecurityPolicy self)
+             urlPtr)
 
 domSecurityPolicyAllowsFontFrom ::
-                                (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                (DOMSecurityPolicyClass self, GlibString string) =>
+                                  self -> string -> IO Bool
 domSecurityPolicyAllowsFontFrom self url
   = toBool <$>
       (withUTFString url $
@@ -48,7 +55,8 @@ domSecurityPolicyAllowsFontFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsFormAction ::
-                                  (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                  (DOMSecurityPolicyClass self, GlibString string) =>
+                                    self -> string -> IO Bool
 domSecurityPolicyAllowsFormAction self url
   = toBool <$>
       (withUTFString url $
@@ -58,7 +66,8 @@ domSecurityPolicyAllowsFormAction self url
              urlPtr)
 
 domSecurityPolicyAllowsFrameFrom ::
-                                 (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                 (DOMSecurityPolicyClass self, GlibString string) =>
+                                   self -> string -> IO Bool
 domSecurityPolicyAllowsFrameFrom self url
   = toBool <$>
       (withUTFString url $
@@ -68,7 +77,8 @@ domSecurityPolicyAllowsFrameFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsImageFrom ::
-                                 (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                 (DOMSecurityPolicyClass self, GlibString string) =>
+                                   self -> string -> IO Bool
 domSecurityPolicyAllowsImageFrom self url
   = toBool <$>
       (withUTFString url $
@@ -78,7 +88,8 @@ domSecurityPolicyAllowsImageFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsMediaFrom ::
-                                 (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                 (DOMSecurityPolicyClass self, GlibString string) =>
+                                   self -> string -> IO Bool
 domSecurityPolicyAllowsMediaFrom self url
   = toBool <$>
       (withUTFString url $
@@ -88,7 +99,8 @@ domSecurityPolicyAllowsMediaFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsObjectFrom ::
-                                  (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                  (DOMSecurityPolicyClass self, GlibString string) =>
+                                    self -> string -> IO Bool
 domSecurityPolicyAllowsObjectFrom self url
   = toBool <$>
       (withUTFString url $
@@ -98,7 +110,8 @@ domSecurityPolicyAllowsObjectFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsPluginType ::
-                                  (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                  (DOMSecurityPolicyClass self, GlibString string) =>
+                                    self -> string -> IO Bool
 domSecurityPolicyAllowsPluginType self type'
   = toBool <$>
       (withUTFString type' $
@@ -108,7 +121,8 @@ domSecurityPolicyAllowsPluginType self type'
              typePtr)
 
 domSecurityPolicyAllowsScriptFrom ::
-                                  (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                  (DOMSecurityPolicyClass self, GlibString string) =>
+                                    self -> string -> IO Bool
 domSecurityPolicyAllowsScriptFrom self url
   = toBool <$>
       (withUTFString url $
@@ -118,7 +132,8 @@ domSecurityPolicyAllowsScriptFrom self url
              urlPtr)
 
 domSecurityPolicyAllowsStyleFrom ::
-                                 (DOMSecurityPolicyClass self) => self -> String -> IO Bool
+                                 (DOMSecurityPolicyClass self, GlibString string) =>
+                                   self -> string -> IO Bool
 domSecurityPolicyAllowsStyleFrom self url
   = toBool <$>
       (withUTFString url $

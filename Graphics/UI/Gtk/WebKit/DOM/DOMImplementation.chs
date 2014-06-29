@@ -14,8 +14,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 domImplementationHasFeature ::
-                            (DOMImplementationClass self) =>
-                              self -> String -> String -> IO Bool
+                            (DOMImplementationClass self, GlibString string) =>
+                              self -> string -> string -> IO Bool
 domImplementationHasFeature self feature version
   = toBool <$>
       (withUTFString version $
@@ -28,8 +28,8 @@ domImplementationHasFeature self feature version
              versionPtr)
  
 domImplementationCreateDocumentType ::
-                                    (DOMImplementationClass self) =>
-                                      self -> String -> String -> String -> IO (Maybe DocumentType)
+                                    (DOMImplementationClass self, GlibString string) =>
+                                      self -> string -> string -> string -> IO (Maybe DocumentType)
 domImplementationCreateDocumentType self qualifiedName publicId
   systemId
   = maybeNull (makeNewGObject mkDocumentType)
@@ -49,8 +49,9 @@ domImplementationCreateDocumentType self qualifiedName publicId
              errorPtr_)
  
 domImplementationCreateDocument ::
-                                (DOMImplementationClass self, DocumentTypeClass doctype) =>
-                                  self -> String -> String -> Maybe doctype -> IO (Maybe Document)
+                                (DOMImplementationClass self, DocumentTypeClass doctype,
+                                 GlibString string) =>
+                                  self -> string -> string -> Maybe doctype -> IO (Maybe Document)
 domImplementationCreateDocument self namespaceURI qualifiedName
   doctype
   = maybeNull (makeNewGObject mkDocument)
@@ -68,8 +69,8 @@ domImplementationCreateDocument self namespaceURI qualifiedName
              errorPtr_)
  
 domImplementationCreateCSSStyleSheet ::
-                                     (DOMImplementationClass self) =>
-                                       self -> String -> String -> IO (Maybe CSSStyleSheet)
+                                     (DOMImplementationClass self, GlibString string) =>
+                                       self -> string -> string -> IO (Maybe CSSStyleSheet)
 domImplementationCreateCSSStyleSheet self title media
   = maybeNull (makeNewGObject mkCSSStyleSheet)
       (propagateGError $
@@ -85,8 +86,8 @@ domImplementationCreateCSSStyleSheet self title media
              errorPtr_)
  
 domImplementationCreateHTMLDocument ::
-                                    (DOMImplementationClass self) =>
-                                      self -> String -> IO (Maybe HTMLDocument)
+                                    (DOMImplementationClass self, GlibString string) =>
+                                      self -> string -> IO (Maybe HTMLDocument)
 domImplementationCreateHTMLDocument self title
   = maybeNull (makeNewGObject mkHTMLDocument)
       (withUTFString title $

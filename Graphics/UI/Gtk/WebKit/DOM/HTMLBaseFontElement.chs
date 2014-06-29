@@ -14,7 +14,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlBaseFontElementSetColor ::
-                            (HTMLBaseFontElementClass self) => self -> String -> IO ()
+                            (HTMLBaseFontElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlBaseFontElementSetColor self val
   = withUTFString val $
       \ valPtr ->
@@ -23,7 +24,8 @@ htmlBaseFontElementSetColor self val
           valPtr
  
 htmlBaseFontElementGetColor ::
-                            (HTMLBaseFontElementClass self) => self -> IO String
+                            (HTMLBaseFontElementClass self, GlibString string) =>
+                              self -> IO string
 htmlBaseFontElementGetColor self
   = ({# call webkit_dom_html_base_font_element_get_color #}
        (toHTMLBaseFontElement self))
@@ -31,7 +33,8 @@ htmlBaseFontElementGetColor self
       readUTFString
  
 htmlBaseFontElementSetFace ::
-                           (HTMLBaseFontElementClass self) => self -> String -> IO ()
+                           (HTMLBaseFontElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlBaseFontElementSetFace self val
   = withUTFString val $
       \ valPtr ->
@@ -40,7 +43,8 @@ htmlBaseFontElementSetFace self val
           valPtr
  
 htmlBaseFontElementGetFace ::
-                           (HTMLBaseFontElementClass self) => self -> IO String
+                           (HTMLBaseFontElementClass self, GlibString string) =>
+                             self -> IO string
 htmlBaseFontElementGetFace self
   = ({# call webkit_dom_html_base_font_element_get_face #}
        (toHTMLBaseFontElement self))

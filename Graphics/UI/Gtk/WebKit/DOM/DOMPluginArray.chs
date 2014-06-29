@@ -20,8 +20,8 @@ domPluginArrayItem self index
          (fromIntegral index))
  
 domPluginArrayNamedItem ::
-                        (DOMPluginArrayClass self) =>
-                          self -> String -> IO (Maybe DOMPlugin)
+                        (DOMPluginArrayClass self, GlibString string) =>
+                          self -> string -> IO (Maybe DOMPlugin)
 domPluginArrayNamedItem self name
   = maybeNull (makeNewGObject mkDOMPlugin)
       (withUTFString name $

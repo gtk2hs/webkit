@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlModElementSetCite ::
-                      (HTMLModElementClass self) => self -> String -> IO ()
+                      (HTMLModElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlModElementSetCite self val
   = withUTFString val $
       \ valPtr ->
@@ -21,7 +22,7 @@ htmlModElementSetCite self val
           valPtr
  
 htmlModElementGetCite ::
-                      (HTMLModElementClass self) => self -> IO String
+                      (HTMLModElementClass self, GlibString string) => self -> IO string
 htmlModElementGetCite self
   = ({# call webkit_dom_html_mod_element_get_cite #}
        (toHTMLModElement self))
@@ -29,7 +30,8 @@ htmlModElementGetCite self
       readUTFString
  
 htmlModElementSetDateTime ::
-                          (HTMLModElementClass self) => self -> String -> IO ()
+                          (HTMLModElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlModElementSetDateTime self val
   = withUTFString val $
       \ valPtr ->
@@ -38,7 +40,7 @@ htmlModElementSetDateTime self val
           valPtr
  
 htmlModElementGetDateTime ::
-                          (HTMLModElementClass self) => self -> IO String
+                          (HTMLModElementClass self, GlibString string) => self -> IO string
 htmlModElementGetDateTime self
   = ({# call webkit_dom_html_mod_element_get_date_time #}
        (toHTMLModElement self))

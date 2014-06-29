@@ -20,7 +20,8 @@ textSplitText self offset
              errorPtr_)
  
 textReplaceWholeText ::
-                     (TextClass self) => self -> String -> IO (Maybe Text)
+                     (TextClass self, GlibString string) =>
+                       self -> string -> IO (Maybe Text)
 textReplaceWholeText self content
   = maybeNull (makeNewGObject mkText)
       (propagateGError $
@@ -31,7 +32,8 @@ textReplaceWholeText self content
                  contentPtr
              errorPtr_)
  
-textGetWholeText :: (TextClass self) => self -> IO String
+textGetWholeText ::
+                 (TextClass self, GlibString string) => self -> IO string
 textGetWholeText self
   = ({# call webkit_dom_text_get_whole_text #} (toText self)) >>=
       readUTFString

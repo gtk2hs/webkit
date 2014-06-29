@@ -17,8 +17,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 htmlOptionsCollectionNamedItem ::
-                               (HTMLOptionsCollectionClass self) =>
-                                 self -> String -> IO (Maybe Node)
+                               (HTMLOptionsCollectionClass self, GlibString string) =>
+                                 self -> string -> IO (Maybe Node)
 htmlOptionsCollectionNamedItem self name
   = maybeNull (makeNewGObject mkNode)
       (withUTFString name $

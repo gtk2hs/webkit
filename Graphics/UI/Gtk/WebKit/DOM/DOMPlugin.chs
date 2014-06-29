@@ -19,7 +19,8 @@ domPluginItem self index
          (fromIntegral index))
  
 domPluginNamedItem ::
-                   (DOMPluginClass self) => self -> String -> IO (Maybe DOMMimeType)
+                   (DOMPluginClass self, GlibString string) =>
+                     self -> string -> IO (Maybe DOMMimeType)
 domPluginNamedItem self name
   = maybeNull (makeNewGObject mkDOMMimeType)
       (withUTFString name $
@@ -27,13 +28,15 @@ domPluginNamedItem self name
            {# call webkit_dom_dom_plugin_named_item #} (toDOMPlugin self)
              namePtr)
  
-domPluginGetName :: (DOMPluginClass self) => self -> IO String
+domPluginGetName ::
+                 (DOMPluginClass self, GlibString string) => self -> IO string
 domPluginGetName self
   = ({# call webkit_dom_dom_plugin_get_name #} (toDOMPlugin self))
       >>=
       readUTFString
  
-domPluginGetFilename :: (DOMPluginClass self) => self -> IO String
+domPluginGetFilename ::
+                     (DOMPluginClass self, GlibString string) => self -> IO string
 domPluginGetFilename self
   = ({# call webkit_dom_dom_plugin_get_filename #}
        (toDOMPlugin self))
@@ -41,7 +44,7 @@ domPluginGetFilename self
       readUTFString
  
 domPluginGetDescription ::
-                        (DOMPluginClass self) => self -> IO String
+                        (DOMPluginClass self, GlibString string) => self -> IO string
 domPluginGetDescription self
   = ({# call webkit_dom_dom_plugin_get_description #}
        (toDOMPlugin self))

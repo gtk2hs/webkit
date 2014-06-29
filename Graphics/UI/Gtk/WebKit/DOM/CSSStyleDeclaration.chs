@@ -19,7 +19,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 cssStyleDeclarationGetPropertyValue ::
-                                    (CSSStyleDeclarationClass self) => self -> String -> IO String
+                                    (CSSStyleDeclarationClass self, GlibString string) =>
+                                      self -> string -> IO string
 cssStyleDeclarationGetPropertyValue self propertyName
   = (withUTFString propertyName $
        \ propertyNamePtr ->
@@ -30,7 +31,8 @@ cssStyleDeclarationGetPropertyValue self propertyName
       readUTFString
  
 cssStyleDeclarationRemoveProperty ::
-                                  (CSSStyleDeclarationClass self) => self -> String -> IO String
+                                  (CSSStyleDeclarationClass self, GlibString string) =>
+                                    self -> string -> IO string
 cssStyleDeclarationRemoveProperty self propertyName
   = (propagateGError $
        \ errorPtr_ ->
@@ -44,8 +46,8 @@ cssStyleDeclarationRemoveProperty self propertyName
       readUTFString
  
 cssStyleDeclarationGetPropertyPriority ::
-                                       (CSSStyleDeclarationClass self) =>
-                                         self -> String -> IO String
+                                       (CSSStyleDeclarationClass self, GlibString string) =>
+                                         self -> string -> IO string
 cssStyleDeclarationGetPropertyPriority self propertyName
   = (withUTFString propertyName $
        \ propertyNamePtr ->
@@ -56,8 +58,8 @@ cssStyleDeclarationGetPropertyPriority self propertyName
       readUTFString
  
 cssStyleDeclarationSetProperty ::
-                               (CSSStyleDeclarationClass self) =>
-                                 self -> String -> String -> String -> IO ()
+                               (CSSStyleDeclarationClass self, GlibString string) =>
+                                 self -> string -> string -> string -> IO ()
 cssStyleDeclarationSetProperty self propertyName value priority
   = propagateGError $
       \ errorPtr_ ->
@@ -75,7 +77,8 @@ cssStyleDeclarationSetProperty self propertyName value priority
           errorPtr_
  
 cssStyleDeclarationItem ::
-                        (CSSStyleDeclarationClass self) => self -> Word -> IO String
+                        (CSSStyleDeclarationClass self, GlibString string) =>
+                          self -> Word -> IO string
 cssStyleDeclarationItem self index
   = ({# call webkit_dom_css_style_declaration_item #}
        (toCSSStyleDeclaration self)
@@ -84,8 +87,8 @@ cssStyleDeclarationItem self index
       readUTFString
  
 cssStyleDeclarationGetPropertyShorthand ::
-                                        (CSSStyleDeclarationClass self) =>
-                                          self -> String -> IO String
+                                        (CSSStyleDeclarationClass self, GlibString string) =>
+                                          self -> string -> IO string
 cssStyleDeclarationGetPropertyShorthand self propertyName
   = (withUTFString propertyName $
        \ propertyNamePtr ->
@@ -96,7 +99,8 @@ cssStyleDeclarationGetPropertyShorthand self propertyName
       readUTFString
  
 cssStyleDeclarationIsPropertyImplicit ::
-                                      (CSSStyleDeclarationClass self) => self -> String -> IO Bool
+                                      (CSSStyleDeclarationClass self, GlibString string) =>
+                                        self -> string -> IO Bool
 cssStyleDeclarationIsPropertyImplicit self propertyName
   = toBool <$>
       (withUTFString propertyName $
@@ -106,7 +110,8 @@ cssStyleDeclarationIsPropertyImplicit self propertyName
              propertyNamePtr)
  
 cssStyleDeclarationSetCssText ::
-                              (CSSStyleDeclarationClass self) => self -> String -> IO ()
+                              (CSSStyleDeclarationClass self, GlibString string) =>
+                                self -> string -> IO ()
 cssStyleDeclarationSetCssText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -118,7 +123,8 @@ cssStyleDeclarationSetCssText self val
           errorPtr_
  
 cssStyleDeclarationGetCssText ::
-                              (CSSStyleDeclarationClass self) => self -> IO String
+                              (CSSStyleDeclarationClass self, GlibString string) =>
+                                self -> IO string
 cssStyleDeclarationGetCssText self
   = ({# call webkit_dom_css_style_declaration_get_css_text #}
        (toCSSStyleDeclaration self))

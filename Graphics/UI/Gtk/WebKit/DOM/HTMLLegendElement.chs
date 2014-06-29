@@ -19,7 +19,8 @@ htmlLegendElementGetForm self
          (toHTMLLegendElement self))
  
 htmlLegendElementSetAlign ::
-                          (HTMLLegendElementClass self) => self -> String -> IO ()
+                          (HTMLLegendElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlLegendElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -28,7 +29,8 @@ htmlLegendElementSetAlign self val
           valPtr
  
 htmlLegendElementGetAlign ::
-                          (HTMLLegendElementClass self) => self -> IO String
+                          (HTMLLegendElementClass self, GlibString string) =>
+                            self -> IO string
 htmlLegendElementGetAlign self
   = ({# call webkit_dom_html_legend_element_get_align #}
        (toHTMLLegendElement self))

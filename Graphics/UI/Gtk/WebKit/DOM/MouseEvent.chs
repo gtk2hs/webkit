@@ -17,9 +17,9 @@ import System.Glib.GError
  
 mouseEventInitMouseEvent ::
                          (MouseEventClass self, DOMWindowClass view,
-                          EventTargetClass relatedTarget) =>
+                          EventTargetClass relatedTarget, GlibString string) =>
                            self ->
-                             String ->
+                             string ->
                                Bool ->
                                  Bool ->
                                    Maybe view ->

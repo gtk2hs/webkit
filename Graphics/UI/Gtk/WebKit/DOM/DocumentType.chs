@@ -13,7 +13,7 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 documentTypeGetName ::
-                    (DocumentTypeClass self) => self -> IO String
+                    (DocumentTypeClass self, GlibString string) => self -> IO string
 documentTypeGetName self
   = ({# call webkit_dom_document_type_get_name #}
        (toDocumentType self))
@@ -35,7 +35,7 @@ documentTypeGetNotations self
          (toDocumentType self))
  
 documentTypeGetPublicId ::
-                        (DocumentTypeClass self) => self -> IO String
+                        (DocumentTypeClass self, GlibString string) => self -> IO string
 documentTypeGetPublicId self
   = ({# call webkit_dom_document_type_get_public_id #}
        (toDocumentType self))
@@ -43,7 +43,7 @@ documentTypeGetPublicId self
       readUTFString
  
 documentTypeGetSystemId ::
-                        (DocumentTypeClass self) => self -> IO String
+                        (DocumentTypeClass self, GlibString string) => self -> IO string
 documentTypeGetSystemId self
   = ({# call webkit_dom_document_type_get_system_id #}
        (toDocumentType self))
@@ -51,7 +51,7 @@ documentTypeGetSystemId self
       readUTFString
  
 documentTypeGetInternalSubset ::
-                              (DocumentTypeClass self) => self -> IO String
+                              (DocumentTypeClass self, GlibString string) => self -> IO string
 documentTypeGetInternalSubset self
   = ({# call webkit_dom_document_type_get_internal_subset #}
        (toDocumentType self))

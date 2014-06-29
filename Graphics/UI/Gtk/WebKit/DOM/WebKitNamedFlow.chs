@@ -54,7 +54,7 @@ webKitNamedFlowDispatchEvent self event
              errorPtr_)
  
 webKitNamedFlowGetName ::
-                       (WebKitNamedFlowClass self) => self -> IO String
+                       (WebKitNamedFlowClass self, GlibString string) => self -> IO string
 webKitNamedFlowGetName self
   = ({# call webkit_dom_webkit_named_flow_get_name #}
        (toWebKitNamedFlow self))

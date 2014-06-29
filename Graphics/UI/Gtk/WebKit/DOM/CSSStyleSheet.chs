@@ -13,7 +13,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 cssStyleSheetInsertRule ::
-                        (CSSStyleSheetClass self) => self -> String -> Word -> IO Word
+                        (CSSStyleSheetClass self, GlibString string) =>
+                          self -> string -> Word -> IO Word
 cssStyleSheetInsertRule self rule index
   = fromIntegral <$>
       (propagateGError $
@@ -37,8 +38,8 @@ cssStyleSheetDeleteRule self index
           errorPtr_
  
 cssStyleSheetAddRule ::
-                     (CSSStyleSheetClass self) =>
-                       self -> String -> String -> Word -> IO Int
+                     (CSSStyleSheetClass self, GlibString string) =>
+                       self -> string -> string -> Word -> IO Int
 cssStyleSheetAddRule self selector style index
   = fromIntegral <$>
       (propagateGError $

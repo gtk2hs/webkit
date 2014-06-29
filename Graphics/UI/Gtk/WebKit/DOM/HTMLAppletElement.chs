@@ -21,7 +21,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlAppletElementSetAlign ::
-                          (HTMLAppletElementClass self) => self -> String -> IO ()
+                          (HTMLAppletElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlAppletElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -30,7 +31,8 @@ htmlAppletElementSetAlign self val
           valPtr
  
 htmlAppletElementGetAlign ::
-                          (HTMLAppletElementClass self) => self -> IO String
+                          (HTMLAppletElementClass self, GlibString string) =>
+                            self -> IO string
 htmlAppletElementGetAlign self
   = ({# call webkit_dom_html_applet_element_get_align #}
        (toHTMLAppletElement self))
@@ -38,7 +40,8 @@ htmlAppletElementGetAlign self
       readUTFString
  
 htmlAppletElementSetAlt ::
-                        (HTMLAppletElementClass self) => self -> String -> IO ()
+                        (HTMLAppletElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlAppletElementSetAlt self val
   = withUTFString val $
       \ valPtr ->
@@ -47,7 +50,8 @@ htmlAppletElementSetAlt self val
           valPtr
  
 htmlAppletElementGetAlt ::
-                        (HTMLAppletElementClass self) => self -> IO String
+                        (HTMLAppletElementClass self, GlibString string) =>
+                          self -> IO string
 htmlAppletElementGetAlt self
   = ({# call webkit_dom_html_applet_element_get_alt #}
        (toHTMLAppletElement self))
@@ -55,7 +59,8 @@ htmlAppletElementGetAlt self
       readUTFString
  
 htmlAppletElementSetArchive ::
-                            (HTMLAppletElementClass self) => self -> String -> IO ()
+                            (HTMLAppletElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlAppletElementSetArchive self val
   = withUTFString val $
       \ valPtr ->
@@ -64,7 +69,8 @@ htmlAppletElementSetArchive self val
           valPtr
  
 htmlAppletElementGetArchive ::
-                            (HTMLAppletElementClass self) => self -> IO String
+                            (HTMLAppletElementClass self, GlibString string) =>
+                              self -> IO string
 htmlAppletElementGetArchive self
   = ({# call webkit_dom_html_applet_element_get_archive #}
        (toHTMLAppletElement self))
@@ -72,7 +78,8 @@ htmlAppletElementGetArchive self
       readUTFString
  
 htmlAppletElementSetCode ::
-                         (HTMLAppletElementClass self) => self -> String -> IO ()
+                         (HTMLAppletElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAppletElementSetCode self val
   = withUTFString val $
       \ valPtr ->
@@ -81,7 +88,8 @@ htmlAppletElementSetCode self val
           valPtr
  
 htmlAppletElementGetCode ::
-                         (HTMLAppletElementClass self) => self -> IO String
+                         (HTMLAppletElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAppletElementGetCode self
   = ({# call webkit_dom_html_applet_element_get_code #}
        (toHTMLAppletElement self))
@@ -89,7 +97,8 @@ htmlAppletElementGetCode self
       readUTFString
  
 htmlAppletElementSetCodeBase ::
-                             (HTMLAppletElementClass self) => self -> String -> IO ()
+                             (HTMLAppletElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAppletElementSetCodeBase self val
   = withUTFString val $
       \ valPtr ->
@@ -98,7 +107,8 @@ htmlAppletElementSetCodeBase self val
           valPtr
  
 htmlAppletElementGetCodeBase ::
-                             (HTMLAppletElementClass self) => self -> IO String
+                             (HTMLAppletElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAppletElementGetCodeBase self
   = ({# call webkit_dom_html_applet_element_get_code_base #}
        (toHTMLAppletElement self))
@@ -106,7 +116,8 @@ htmlAppletElementGetCodeBase self
       readUTFString
  
 htmlAppletElementSetHeight ::
-                           (HTMLAppletElementClass self) => self -> String -> IO ()
+                           (HTMLAppletElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlAppletElementSetHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -115,7 +126,8 @@ htmlAppletElementSetHeight self val
           valPtr
  
 htmlAppletElementGetHeight ::
-                           (HTMLAppletElementClass self) => self -> IO String
+                           (HTMLAppletElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAppletElementGetHeight self
   = ({# call webkit_dom_html_applet_element_get_height #}
        (toHTMLAppletElement self))
@@ -137,7 +149,8 @@ htmlAppletElementGetHspace self
          (toHTMLAppletElement self))
  
 htmlAppletElementSetName ::
-                         (HTMLAppletElementClass self) => self -> String -> IO ()
+                         (HTMLAppletElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAppletElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -146,7 +159,8 @@ htmlAppletElementSetName self val
           valPtr
  
 htmlAppletElementGetName ::
-                         (HTMLAppletElementClass self) => self -> IO String
+                         (HTMLAppletElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAppletElementGetName self
   = ({# call webkit_dom_html_applet_element_get_name #}
        (toHTMLAppletElement self))
@@ -154,7 +168,8 @@ htmlAppletElementGetName self
       readUTFString
  
 htmlAppletElementSetObject ::
-                           (HTMLAppletElementClass self) => self -> String -> IO ()
+                           (HTMLAppletElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlAppletElementSetObject self val
   = withUTFString val $
       \ valPtr ->
@@ -163,7 +178,8 @@ htmlAppletElementSetObject self val
           valPtr
  
 htmlAppletElementGetObject ::
-                           (HTMLAppletElementClass self) => self -> IO String
+                           (HTMLAppletElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAppletElementGetObject self
   = ({# call webkit_dom_html_applet_element_get_object #}
        (toHTMLAppletElement self))
@@ -185,7 +201,8 @@ htmlAppletElementGetVspace self
          (toHTMLAppletElement self))
  
 htmlAppletElementSetWidth ::
-                          (HTMLAppletElementClass self) => self -> String -> IO ()
+                          (HTMLAppletElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlAppletElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -194,7 +211,8 @@ htmlAppletElementSetWidth self val
           valPtr
  
 htmlAppletElementGetWidth ::
-                          (HTMLAppletElementClass self) => self -> IO String
+                          (HTMLAppletElementClass self, GlibString string) =>
+                            self -> IO string
 htmlAppletElementGetWidth self
   = ({# call webkit_dom_html_applet_element_get_width #}
        (toHTMLAppletElement self))

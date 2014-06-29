@@ -13,7 +13,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlhrElementSetAlign ::
-                      (HTMLHRElementClass self) => self -> String -> IO ()
+                      (HTMLHRElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlhrElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -22,7 +23,7 @@ htmlhrElementSetAlign self val
           valPtr
  
 htmlhrElementGetAlign ::
-                      (HTMLHRElementClass self) => self -> IO String
+                      (HTMLHRElementClass self, GlibString string) => self -> IO string
 htmlhrElementGetAlign self
   = ({# call webkit_dom_htmlhr_element_get_align #}
        (toHTMLHRElement self))
@@ -44,7 +45,8 @@ htmlhrElementGetNoShade self
          (toHTMLHRElement self))
  
 htmlhrElementSetSize ::
-                     (HTMLHRElementClass self) => self -> String -> IO ()
+                     (HTMLHRElementClass self, GlibString string) =>
+                       self -> string -> IO ()
 htmlhrElementSetSize self val
   = withUTFString val $
       \ valPtr ->
@@ -53,7 +55,7 @@ htmlhrElementSetSize self val
           valPtr
  
 htmlhrElementGetSize ::
-                     (HTMLHRElementClass self) => self -> IO String
+                     (HTMLHRElementClass self, GlibString string) => self -> IO string
 htmlhrElementGetSize self
   = ({# call webkit_dom_htmlhr_element_get_size #}
        (toHTMLHRElement self))
@@ -61,7 +63,8 @@ htmlhrElementGetSize self
       readUTFString
  
 htmlhrElementSetWidth ::
-                      (HTMLHRElementClass self) => self -> String -> IO ()
+                      (HTMLHRElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlhrElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -70,7 +73,7 @@ htmlhrElementSetWidth self val
           valPtr
  
 htmlhrElementGetWidth ::
-                      (HTMLHRElementClass self) => self -> IO String
+                      (HTMLHRElementClass self, GlibString string) => self -> IO string
 htmlhrElementGetWidth self
   = ({# call webkit_dom_htmlhr_element_get_width #}
        (toHTMLHRElement self))

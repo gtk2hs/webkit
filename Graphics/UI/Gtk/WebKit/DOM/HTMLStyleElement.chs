@@ -41,7 +41,8 @@ htmlStyleElementGetScoped self
          (toHTMLStyleElement self))
  
 htmlStyleElementSetMedia ::
-                         (HTMLStyleElementClass self) => self -> String -> IO ()
+                         (HTMLStyleElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlStyleElementSetMedia self val
   = withUTFString val $
       \ valPtr ->
@@ -50,7 +51,8 @@ htmlStyleElementSetMedia self val
           valPtr
  
 htmlStyleElementGetMedia ::
-                         (HTMLStyleElementClass self) => self -> IO String
+                         (HTMLStyleElementClass self, GlibString string) =>
+                           self -> IO string
 htmlStyleElementGetMedia self
   = ({# call webkit_dom_html_style_element_get_media #}
        (toHTMLStyleElement self))

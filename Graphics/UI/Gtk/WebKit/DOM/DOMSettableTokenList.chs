@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 domSettableTokenListSetValue ::
-                             (DOMSettableTokenListClass self) => self -> String -> IO ()
+                             (DOMSettableTokenListClass self, GlibString string) =>
+                               self -> string -> IO ()
 domSettableTokenListSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -21,7 +22,8 @@ domSettableTokenListSetValue self val
           valPtr
  
 domSettableTokenListGetValue ::
-                             (DOMSettableTokenListClass self) => self -> IO String
+                             (DOMSettableTokenListClass self, GlibString string) =>
+                               self -> IO string
 domSettableTokenListGetValue self
   = ({# call webkit_dom_dom_settable_token_list_get_value #}
        (toDOMSettableTokenList self))

@@ -10,7 +10,8 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-attrGetName :: (DOMAttrClass self) => self -> IO String
+attrGetName ::
+            (DOMAttrClass self, GlibString string) => self -> IO string
 attrGetName self
   = ({# call webkit_dom_attr_get_name #} (toDOMAttr self)) >>=
       readUTFString
@@ -20,7 +21,8 @@ attrGetSpecified self
   = toBool <$>
       ({# call webkit_dom_attr_get_specified #} (toDOMAttr self))
  
-attrSetValue :: (DOMAttrClass self) => self -> String -> IO ()
+attrSetValue ::
+             (DOMAttrClass self, GlibString string) => self -> string -> IO ()
 attrSetValue self val
   = propagateGError $
       \ errorPtr_ ->
@@ -29,7 +31,8 @@ attrSetValue self val
             {# call webkit_dom_attr_set_value #} (toDOMAttr self) valPtr
           errorPtr_
  
-attrGetValue :: (DOMAttrClass self) => self -> IO String
+attrGetValue ::
+             (DOMAttrClass self, GlibString string) => self -> IO string
 attrGetValue self
   = ({# call webkit_dom_attr_get_value #} (toDOMAttr self)) >>=
       readUTFString

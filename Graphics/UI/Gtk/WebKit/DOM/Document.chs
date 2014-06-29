@@ -82,7 +82,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
 
 documentCreateElement ::
-                      (DocumentClass self) => self -> String -> IO (Maybe Element)
+                      (DocumentClass self, GlibString string) =>
+                        self -> string -> IO (Maybe Element)
 documentCreateElement self tagName
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -101,7 +102,8 @@ documentCreateDocumentFragment self
          (toDocument self))
 
 documentCreateTextNode ::
-                       (DocumentClass self) => self -> String -> IO (Maybe Text)
+                       (DocumentClass self, GlibString string) =>
+                         self -> string -> IO (Maybe Text)
 documentCreateTextNode self data'
   = maybeNull (makeNewGObject mkText)
       (withUTFString data' $
@@ -110,7 +112,8 @@ documentCreateTextNode self data'
              dataPtr)
 
 documentCreateComment ::
-                      (DocumentClass self) => self -> String -> IO (Maybe Comment)
+                      (DocumentClass self, GlibString string) =>
+                        self -> string -> IO (Maybe Comment)
 documentCreateComment self data'
   = maybeNull (makeNewGObject mkComment)
       (withUTFString data' $
@@ -119,7 +122,8 @@ documentCreateComment self data'
              dataPtr)
 
 documentCreateCDATASection ::
-                           (DocumentClass self) => self -> String -> IO (Maybe CDATASection)
+                           (DocumentClass self, GlibString string) =>
+                             self -> string -> IO (Maybe CDATASection)
 documentCreateCDATASection self data'
   = maybeNull (makeNewGObject mkCDATASection)
       (propagateGError $
@@ -132,8 +136,8 @@ documentCreateCDATASection self data'
              errorPtr_)
 
 documentCreateProcessingInstruction ::
-                                    (DocumentClass self) =>
-                                      self -> String -> String -> IO (Maybe ProcessingInstruction)
+                                    (DocumentClass self, GlibString string) =>
+                                      self -> string -> string -> IO (Maybe ProcessingInstruction)
 documentCreateProcessingInstruction self target data'
   = maybeNull (makeNewGObject mkProcessingInstruction)
       (propagateGError $
@@ -149,7 +153,8 @@ documentCreateProcessingInstruction self target data'
              errorPtr_)
 
 documentCreateAttribute ::
-                        (DocumentClass self) => self -> String -> IO (Maybe DOMAttr)
+                        (DocumentClass self, GlibString string) =>
+                          self -> string -> IO (Maybe DOMAttr)
 documentCreateAttribute self name
   = maybeNull (makeNewGObject mkDOMAttr)
       (propagateGError $
@@ -161,8 +166,8 @@ documentCreateAttribute self name
              errorPtr_)
 
 documentCreateEntityReference ::
-                              (DocumentClass self) =>
-                                self -> String -> IO (Maybe EntityReference)
+                              (DocumentClass self, GlibString string) =>
+                                self -> string -> IO (Maybe EntityReference)
 documentCreateEntityReference self name
   = maybeNull (makeNewGObject mkEntityReference)
       (propagateGError $
@@ -175,7 +180,8 @@ documentCreateEntityReference self name
              errorPtr_)
 
 documentGetElementsByTagName ::
-                             (DocumentClass self) => self -> String -> IO (Maybe NodeList)
+                             (DocumentClass self, GlibString string) =>
+                               self -> string -> IO (Maybe NodeList)
 documentGetElementsByTagName self tagname
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString tagname $
@@ -197,8 +203,8 @@ documentImportNode self importedNode deep
              errorPtr_)
 
 documentCreateElementNS ::
-                        (DocumentClass self) =>
-                          self -> String -> String -> IO (Maybe Element)
+                        (DocumentClass self, GlibString string) =>
+                          self -> string -> string -> IO (Maybe Element)
 documentCreateElementNS self namespaceURI qualifiedName
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -213,8 +219,8 @@ documentCreateElementNS self namespaceURI qualifiedName
              errorPtr_)
 
 documentCreateAttributeNS ::
-                          (DocumentClass self) =>
-                            self -> String -> String -> IO (Maybe DOMAttr)
+                          (DocumentClass self, GlibString string) =>
+                            self -> string -> string -> IO (Maybe DOMAttr)
 documentCreateAttributeNS self namespaceURI qualifiedName
   = maybeNull (makeNewGObject mkDOMAttr)
       (propagateGError $
@@ -230,8 +236,8 @@ documentCreateAttributeNS self namespaceURI qualifiedName
              errorPtr_)
 
 documentGetElementsByTagNameNS ::
-                               (DocumentClass self) =>
-                                 self -> String -> String -> IO (Maybe NodeList)
+                               (DocumentClass self, GlibString string) =>
+                                 self -> string -> string -> IO (Maybe NodeList)
 documentGetElementsByTagNameNS self namespaceURI localName
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString localName $
@@ -244,7 +250,8 @@ documentGetElementsByTagNameNS self namespaceURI localName
              localNamePtr)
 
 documentGetElementById ::
-                       (DocumentClass self) => self -> String -> IO (Maybe Element)
+                       (DocumentClass self, GlibString string) =>
+                         self -> string -> IO (Maybe Element)
 documentGetElementById self elementId
   = maybeNull (makeNewGObject mkElement)
       (withUTFString elementId $
@@ -264,7 +271,8 @@ documentAdoptNode self source
              errorPtr_)
 
 documentCreateEvent ::
-                    (DocumentClass self) => self -> String -> IO (Maybe Event)
+                    (DocumentClass self, GlibString string) =>
+                      self -> string -> IO (Maybe Event)
 documentCreateEvent self eventType
   = maybeNull (makeNewGObject mkEvent)
       (propagateGError $
@@ -316,8 +324,8 @@ documentCreateTreeWalker self root whatToShow filter
              errorPtr_)
 
 documentGetOverrideStyle ::
-                         (DocumentClass self, ElementClass element) =>
-                           self -> Maybe element -> String -> IO (Maybe CSSStyleDeclaration)
+                         (DocumentClass self, ElementClass element, GlibString string) =>
+                           self -> Maybe element -> string -> IO (Maybe CSSStyleDeclaration)
 documentGetOverrideStyle self element pseudoElement
   = maybeNull (makeNewGObject mkCSSStyleDeclaration)
       (withUTFString pseudoElement $
@@ -327,8 +335,9 @@ documentGetOverrideStyle self element pseudoElement
              pseudoElementPtr)
 
 documentCreateExpression ::
-                         (DocumentClass self, XPathNSResolverClass resolver) =>
-                           self -> String -> Maybe resolver -> IO (Maybe XPathExpression)
+                         (DocumentClass self, XPathNSResolverClass resolver,
+                          GlibString string) =>
+                           self -> string -> Maybe resolver -> IO (Maybe XPathExpression)
 documentCreateExpression self expression resolver
   = maybeNull (makeNewGObject mkXPathExpression)
       (propagateGError $
@@ -351,9 +360,10 @@ documentCreateNSResolver self nodeResolver
 
 documentEvaluate ::
                  (DocumentClass self, NodeClass contextNode,
-                  XPathNSResolverClass resolver, XPathResultClass inResult) =>
+                  XPathNSResolverClass resolver, XPathResultClass inResult,
+                  GlibString string) =>
                    self ->
-                     String ->
+                     string ->
                        Maybe contextNode ->
                          Maybe resolver -> Word -> Maybe inResult -> IO (Maybe XPathResult)
 documentEvaluate self expression contextNode resolver type'
@@ -372,7 +382,8 @@ documentEvaluate self expression contextNode resolver type'
              errorPtr_)
 
 documentExecCommand ::
-                    (DocumentClass self) => self -> String -> Bool -> String -> IO Bool
+                    (DocumentClass self, GlibString string) =>
+                      self -> string -> Bool -> string -> IO Bool
 documentExecCommand self command userInterface value
   = toBool <$>
       (withUTFString value $
@@ -385,7 +396,8 @@ documentExecCommand self command userInterface value
              valuePtr)
 
 documentQueryCommandEnabled ::
-                            (DocumentClass self) => self -> String -> IO Bool
+                            (DocumentClass self, GlibString string) =>
+                              self -> string -> IO Bool
 documentQueryCommandEnabled self command
   = toBool <$>
       (withUTFString command $
@@ -395,7 +407,8 @@ documentQueryCommandEnabled self command
              commandPtr)
 
 documentQueryCommandIndeterm ::
-                             (DocumentClass self) => self -> String -> IO Bool
+                             (DocumentClass self, GlibString string) =>
+                               self -> string -> IO Bool
 documentQueryCommandIndeterm self command
   = toBool <$>
       (withUTFString command $
@@ -405,7 +418,8 @@ documentQueryCommandIndeterm self command
              commandPtr)
 
 documentQueryCommandState ::
-                          (DocumentClass self) => self -> String -> IO Bool
+                          (DocumentClass self, GlibString string) =>
+                            self -> string -> IO Bool
 documentQueryCommandState self command
   = toBool <$>
       (withUTFString command $
@@ -415,7 +429,8 @@ documentQueryCommandState self command
              commandPtr)
 
 documentQueryCommandSupported ::
-                              (DocumentClass self) => self -> String -> IO Bool
+                              (DocumentClass self, GlibString string) =>
+                                self -> string -> IO Bool
 documentQueryCommandSupported self command
   = toBool <$>
       (withUTFString command $
@@ -425,7 +440,8 @@ documentQueryCommandSupported self command
              commandPtr)
 
 documentQueryCommandValue ::
-                          (DocumentClass self) => self -> String -> IO String
+                          (DocumentClass self, GlibString string) =>
+                            self -> string -> IO string
 documentQueryCommandValue self command
   = (withUTFString command $
        \ commandPtr ->
@@ -436,7 +452,8 @@ documentQueryCommandValue self command
       readUTFString
 
 documentGetElementsByName ::
-                          (DocumentClass self) => self -> String -> IO (Maybe NodeList)
+                          (DocumentClass self, GlibString string) =>
+                            self -> string -> IO (Maybe NodeList)
 documentGetElementsByName self elementName
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString elementName $
@@ -471,7 +488,8 @@ documentCreateCSSStyleDeclaration self
          (toDocument self))
 
 documentGetElementsByClassName ::
-                               (DocumentClass self) => self -> String -> IO (Maybe NodeList)
+                               (DocumentClass self, GlibString string) =>
+                                 self -> string -> IO (Maybe NodeList)
 documentGetElementsByClassName self tagname
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString tagname $
@@ -481,7 +499,8 @@ documentGetElementsByClassName self tagname
              tagnamePtr)
 
 documentQuerySelector ::
-                      (DocumentClass self) => self -> String -> IO (Maybe Element)
+                      (DocumentClass self, GlibString string) =>
+                        self -> string -> IO (Maybe Element)
 documentQuerySelector self selectors
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -493,7 +512,8 @@ documentQuerySelector self selectors
              errorPtr_)
 
 documentQuerySelectorAll ::
-                         (DocumentClass self) => self -> String -> IO (Maybe NodeList)
+                         (DocumentClass self, GlibString string) =>
+                           self -> string -> IO (Maybe NodeList)
 documentQuerySelectorAll self selectors
   = maybeNull (makeNewGObject mkNodeList)
       (propagateGError $
@@ -540,14 +560,15 @@ documentGetDocumentElement self
          (toDocument self))
 
 documentGetInputEncoding ::
-                         (DocumentClass self) => self -> IO String
+                         (DocumentClass self, GlibString string) => self -> IO string
 documentGetInputEncoding self
   = ({# call webkit_dom_document_get_input_encoding #}
        (toDocument self))
       >>=
       readUTFString
-
-documentGetXmlEncoding :: (DocumentClass self) => self -> IO String
+ 
+documentGetXmlEncoding ::
+                       (DocumentClass self, GlibString string) => self -> IO string
 documentGetXmlEncoding self
   = ({# call webkit_dom_document_get_xml_encoding #}
        (toDocument self))
@@ -555,7 +576,7 @@ documentGetXmlEncoding self
       readUTFString
 
 documentSetXmlVersion ::
-                      (DocumentClass self) => self -> String -> IO ()
+                      (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetXmlVersion self val
   = propagateGError $
       \ errorPtr_ ->
@@ -564,8 +585,9 @@ documentSetXmlVersion self val
             {# call webkit_dom_document_set_xml_version #} (toDocument self)
               valPtr
           errorPtr_
-
-documentGetXmlVersion :: (DocumentClass self) => self -> IO String
+ 
+documentGetXmlVersion ::
+                      (DocumentClass self, GlibString string) => self -> IO string
 documentGetXmlVersion self
   = ({# call webkit_dom_document_get_xml_version #}
        (toDocument self))
@@ -588,14 +610,15 @@ documentGetXmlStandalone self
          (toDocument self))
 
 documentSetDocumentURI ::
-                       (DocumentClass self) => self -> String -> IO ()
+                       (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetDocumentURI self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_document_set_document_uri #} (toDocument self)
           valPtr
-
-documentGetDocumentURI :: (DocumentClass self) => self -> IO String
+ 
+documentGetDocumentURI ::
+                       (DocumentClass self, GlibString string) => self -> IO string
 documentGetDocumentURI self
   = ({# call webkit_dom_document_get_document_uri #}
        (toDocument self))
@@ -613,31 +636,35 @@ documentGetStyleSheets ::
 documentGetStyleSheets self
   = maybeNull (makeNewGObject mkStyleSheetList)
       ({# call webkit_dom_document_get_style_sheets #} (toDocument self))
-
-documentSetTitle :: (DocumentClass self) => self -> String -> IO ()
+ 
+documentSetTitle ::
+                 (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetTitle self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_document_set_title #} (toDocument self) valPtr
-
-documentGetTitle :: (DocumentClass self) => self -> IO String
+ 
+documentGetTitle ::
+                 (DocumentClass self, GlibString string) => self -> IO string
 documentGetTitle self
   = ({# call webkit_dom_document_get_title #} (toDocument self)) >>=
       readUTFString
-
-documentGetReferrer :: (DocumentClass self) => self -> IO String
+ 
+documentGetReferrer ::
+                    (DocumentClass self, GlibString string) => self -> IO string
 documentGetReferrer self
   = ({# call webkit_dom_document_get_referrer #} (toDocument self))
       >>=
       readUTFString
-
-documentGetDomain :: (DocumentClass self) => self -> IO String
+ 
+documentGetDomain ::
+                  (DocumentClass self, GlibString string) => self -> IO string
 documentGetDomain self
   = ({# call webkit_dom_document_get_domain #} (toDocument self)) >>=
       readUTFString
 
 documentSetCookie ::
-                  (DocumentClass self) => self -> String -> IO ()
+                  (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetCookie self val
   = propagateGError $
       \ errorPtr_ ->
@@ -645,8 +672,9 @@ documentSetCookie self val
           \ valPtr ->
             {# call webkit_dom_document_set_cookie #} (toDocument self) valPtr
           errorPtr_
-
-documentGetCookie :: (DocumentClass self) => self -> IO String
+ 
+documentGetCookie ::
+                  (DocumentClass self, GlibString string) => self -> IO string
 documentGetCookie self
   = (propagateGError $
        \ errorPtr_ ->
@@ -708,7 +736,7 @@ documentGetAnchors self
       ({# call webkit_dom_document_get_anchors #} (toDocument self))
 
 documentGetLastModified ::
-                        (DocumentClass self) => self -> IO String
+                        (DocumentClass self, GlibString string) => self -> IO string
 documentGetLastModified self
   = ({# call webkit_dom_document_get_last_modified #}
        (toDocument self))
@@ -716,27 +744,29 @@ documentGetLastModified self
       readUTFString
 
 documentSetCharset ::
-                   (DocumentClass self) => self -> String -> IO ()
+                   (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetCharset self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_document_set_charset #} (toDocument self) valPtr
-
-documentGetCharset :: (DocumentClass self) => self -> IO String
+ 
+documentGetCharset ::
+                   (DocumentClass self, GlibString string) => self -> IO string
 documentGetCharset self
   = ({# call webkit_dom_document_get_charset #} (toDocument self))
       >>=
       readUTFString
 
 documentGetDefaultCharset ::
-                          (DocumentClass self) => self -> IO String
+                          (DocumentClass self, GlibString string) => self -> IO string
 documentGetDefaultCharset self
   = ({# call webkit_dom_document_get_default_charset #}
        (toDocument self))
       >>=
       readUTFString
-
-documentGetReadyState :: (DocumentClass self) => self -> IO String
+ 
+documentGetReadyState ::
+                      (DocumentClass self, GlibString string) => self -> IO string
 documentGetReadyState self
   = ({# call webkit_dom_document_get_ready_state #}
        (toDocument self))
@@ -744,7 +774,7 @@ documentGetReadyState self
       readUTFString
 
 documentGetCharacterSet ::
-                        (DocumentClass self) => self -> IO String
+                        (DocumentClass self, GlibString string) => self -> IO string
 documentGetCharacterSet self
   = ({# call webkit_dom_document_get_character_set #}
        (toDocument self))
@@ -752,7 +782,7 @@ documentGetCharacterSet self
       readUTFString
 
 documentGetPreferredStylesheetSet ::
-                                  (DocumentClass self) => self -> IO String
+                                  (DocumentClass self, GlibString string) => self -> IO string
 documentGetPreferredStylesheetSet self
   = ({# call webkit_dom_document_get_preferred_stylesheet_set #}
        (toDocument self))
@@ -760,7 +790,7 @@ documentGetPreferredStylesheetSet self
       readUTFString
 
 documentSetSelectedStylesheetSet ::
-                                 (DocumentClass self) => self -> String -> IO ()
+                                 (DocumentClass self, GlibString string) => self -> string -> IO ()
 documentSetSelectedStylesheetSet self val
   = withUTFString val $
       \ valPtr ->
@@ -769,14 +799,15 @@ documentSetSelectedStylesheetSet self val
           valPtr
 
 documentGetSelectedStylesheetSet ::
-                                 (DocumentClass self) => self -> IO String
+                                 (DocumentClass self, GlibString string) => self -> IO string
 documentGetSelectedStylesheetSet self
   = ({# call webkit_dom_document_get_selected_stylesheet_set #}
        (toDocument self))
       >>=
       readUTFString
-
-documentGetCompatMode :: (DocumentClass self) => self -> IO String
+ 
+documentGetCompatMode ::
+                      (DocumentClass self, GlibString string) => self -> IO string
 documentGetCompatMode self
   = ({# call webkit_dom_document_get_compat_mode #}
        (toDocument self))
@@ -1011,7 +1042,7 @@ documentOnsecuritypolicyviolation
 #endif
 
 documentGetVisibilityState ::
-                           (DocumentClass self) => self -> IO String
+                           (DocumentClass self, GlibString string) => self -> IO string
 documentGetVisibilityState self
 #if WEBKIT_CHECK_VERSION(2,2,2)
   = ({# call webkit_dom_document_get_visibility_state #}

@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlHeadElementSetProfile ::
-                          (HTMLHeadElementClass self) => self -> String -> IO ()
+                          (HTMLHeadElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlHeadElementSetProfile self val
   = withUTFString val $
       \ valPtr ->
@@ -20,7 +21,7 @@ htmlHeadElementSetProfile self val
           valPtr
  
 htmlHeadElementGetProfile ::
-                          (HTMLHeadElementClass self) => self -> IO String
+                          (HTMLHeadElementClass self, GlibString string) => self -> IO string
 htmlHeadElementGetProfile self
   = ({# call webkit_dom_html_head_element_get_profile #}
        (toHTMLHeadElement self))

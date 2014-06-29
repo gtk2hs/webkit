@@ -27,8 +27,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlElementInsertAdjacentElement ::
-                                 (HTMLElementClass self, ElementClass element) =>
-                                   self -> String -> Maybe element -> IO (Maybe Element)
+                                 (HTMLElementClass self, ElementClass element, GlibString string) =>
+                                   self -> string -> Maybe element -> IO (Maybe Element)
 htmlElementInsertAdjacentElement self where' element
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -42,7 +42,8 @@ htmlElementInsertAdjacentElement self where' element
              errorPtr_)
  
 htmlElementInsertAdjacentHTML ::
-                              (HTMLElementClass self) => self -> String -> String -> IO ()
+                              (HTMLElementClass self, GlibString string) =>
+                                self -> string -> string -> IO ()
 htmlElementInsertAdjacentHTML self where' html
   = propagateGError $
       \ errorPtr_ ->
@@ -57,7 +58,8 @@ htmlElementInsertAdjacentHTML self where' html
           errorPtr_
  
 htmlElementInsertAdjacentText ::
-                              (HTMLElementClass self) => self -> String -> String -> IO ()
+                              (HTMLElementClass self, GlibString string) =>
+                                self -> string -> string -> IO ()
 htmlElementInsertAdjacentText self where' text
   = propagateGError $
       \ errorPtr_ ->
@@ -76,14 +78,16 @@ htmlElementClick self
   = {# call webkit_dom_html_element_click #} (toHTMLElement self)
  
 htmlElementSetTitle ::
-                    (HTMLElementClass self) => self -> String -> IO ()
+                    (HTMLElementClass self, GlibString string) =>
+                      self -> string -> IO ()
 htmlElementSetTitle self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_html_element_set_title #} (toHTMLElement self)
           valPtr
  
-htmlElementGetTitle :: (HTMLElementClass self) => self -> IO String
+htmlElementGetTitle ::
+                    (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetTitle self
   = ({# call webkit_dom_html_element_get_title #}
        (toHTMLElement self))
@@ -91,14 +95,16 @@ htmlElementGetTitle self
       readUTFString
  
 htmlElementSetLang ::
-                   (HTMLElementClass self) => self -> String -> IO ()
+                   (HTMLElementClass self, GlibString string) =>
+                     self -> string -> IO ()
 htmlElementSetLang self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_html_element_set_lang #} (toHTMLElement self)
           valPtr
  
-htmlElementGetLang :: (HTMLElementClass self) => self -> IO String
+htmlElementGetLang ::
+                   (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetLang self
   = ({# call webkit_dom_html_element_get_lang #}
        (toHTMLElement self))
@@ -120,14 +126,16 @@ htmlElementGetTranslate self
          (toHTMLElement self))
  
 htmlElementSetDir ::
-                  (HTMLElementClass self) => self -> String -> IO ()
+                  (HTMLElementClass self, GlibString string) =>
+                    self -> string -> IO ()
 htmlElementSetDir self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_html_element_set_dir #} (toHTMLElement self)
           valPtr
  
-htmlElementGetDir :: (HTMLElementClass self) => self -> IO String
+htmlElementGetDir ::
+                  (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetDir self
   = ({# call webkit_dom_html_element_get_dir #} (toHTMLElement self))
       >>=
@@ -161,7 +169,8 @@ htmlElementGetDraggable self
          (toHTMLElement self))
  
 htmlElementSetWebkitdropzone ::
-                             (HTMLElementClass self) => self -> String -> IO ()
+                             (HTMLElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlElementSetWebkitdropzone self val
   = withUTFString val $
       \ valPtr ->
@@ -170,7 +179,7 @@ htmlElementSetWebkitdropzone self val
           valPtr
  
 htmlElementGetWebkitdropzone ::
-                             (HTMLElementClass self) => self -> IO String
+                             (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetWebkitdropzone self
   = ({# call webkit_dom_html_element_get_webkitdropzone #}
        (toHTMLElement self))
@@ -191,7 +200,8 @@ htmlElementGetHidden self
          (toHTMLElement self))
  
 htmlElementSetAccessKey ::
-                        (HTMLElementClass self) => self -> String -> IO ()
+                        (HTMLElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlElementSetAccessKey self val
   = withUTFString val $
       \ valPtr ->
@@ -200,7 +210,7 @@ htmlElementSetAccessKey self val
           valPtr
  
 htmlElementGetAccessKey ::
-                        (HTMLElementClass self) => self -> IO String
+                        (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetAccessKey self
   = ({# call webkit_dom_html_element_get_access_key #}
        (toHTMLElement self))
@@ -208,7 +218,8 @@ htmlElementGetAccessKey self
       readUTFString
  
 htmlElementSetInnerHTML ::
-                        (HTMLElementClass self) => self -> String -> IO ()
+                        (HTMLElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlElementSetInnerHTML self val
   = propagateGError $
       \ errorPtr_ ->
@@ -220,7 +231,7 @@ htmlElementSetInnerHTML self val
           errorPtr_
  
 htmlElementGetInnerHTML ::
-                        (HTMLElementClass self) => self -> IO String
+                        (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetInnerHTML self
   = ({# call webkit_dom_html_element_get_inner_html #}
        (toHTMLElement self))
@@ -228,7 +239,8 @@ htmlElementGetInnerHTML self
       readUTFString
  
 htmlElementSetInnerText ::
-                        (HTMLElementClass self) => self -> String -> IO ()
+                        (HTMLElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlElementSetInnerText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -240,7 +252,7 @@ htmlElementSetInnerText self val
           errorPtr_
  
 htmlElementGetInnerText ::
-                        (HTMLElementClass self) => self -> IO String
+                        (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetInnerText self
   = ({# call webkit_dom_html_element_get_inner_text #}
        (toHTMLElement self))
@@ -248,7 +260,8 @@ htmlElementGetInnerText self
       readUTFString
  
 htmlElementSetOuterHTML ::
-                        (HTMLElementClass self) => self -> String -> IO ()
+                        (HTMLElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlElementSetOuterHTML self val
   = propagateGError $
       \ errorPtr_ ->
@@ -260,7 +273,7 @@ htmlElementSetOuterHTML self val
           errorPtr_
  
 htmlElementGetOuterHTML ::
-                        (HTMLElementClass self) => self -> IO String
+                        (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetOuterHTML self
   = ({# call webkit_dom_html_element_get_outer_html #}
        (toHTMLElement self))
@@ -268,7 +281,8 @@ htmlElementGetOuterHTML self
       readUTFString
  
 htmlElementSetOuterText ::
-                        (HTMLElementClass self) => self -> String -> IO ()
+                        (HTMLElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlElementSetOuterText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -280,7 +294,7 @@ htmlElementSetOuterText self val
           errorPtr_
  
 htmlElementGetOuterText ::
-                        (HTMLElementClass self) => self -> IO String
+                        (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetOuterText self
   = ({# call webkit_dom_html_element_get_outer_text #}
        (toHTMLElement self))
@@ -295,7 +309,8 @@ htmlElementGetChildren self
          (toHTMLElement self))
  
 htmlElementSetContentEditable ::
-                              (HTMLElementClass self) => self -> String -> IO ()
+                              (HTMLElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlElementSetContentEditable self val
   = propagateGError $
       \ errorPtr_ ->
@@ -307,7 +322,7 @@ htmlElementSetContentEditable self val
           errorPtr_
  
 htmlElementGetContentEditable ::
-                              (HTMLElementClass self) => self -> IO String
+                              (HTMLElementClass self, GlibString string) => self -> IO string
 htmlElementGetContentEditable self
   = ({# call webkit_dom_html_element_get_content_editable #}
        (toHTMLElement self))

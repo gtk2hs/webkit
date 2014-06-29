@@ -23,7 +23,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlBodyElementSetALink ::
-                        (HTMLBodyElementClass self) => self -> String -> IO ()
+                        (HTMLBodyElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlBodyElementSetALink self val
   = withUTFString val $
       \ valPtr ->
@@ -32,7 +33,7 @@ htmlBodyElementSetALink self val
           valPtr
  
 htmlBodyElementGetALink ::
-                        (HTMLBodyElementClass self) => self -> IO String
+                        (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetALink self
   = ({# call webkit_dom_html_body_element_get_a_link #}
        (toHTMLBodyElement self))
@@ -40,7 +41,8 @@ htmlBodyElementGetALink self
       readUTFString
  
 htmlBodyElementSetBackground ::
-                             (HTMLBodyElementClass self) => self -> String -> IO ()
+                             (HTMLBodyElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlBodyElementSetBackground self val
   = withUTFString val $
       \ valPtr ->
@@ -49,7 +51,7 @@ htmlBodyElementSetBackground self val
           valPtr
  
 htmlBodyElementGetBackground ::
-                             (HTMLBodyElementClass self) => self -> IO String
+                             (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetBackground self
   = ({# call webkit_dom_html_body_element_get_background #}
        (toHTMLBodyElement self))
@@ -57,7 +59,8 @@ htmlBodyElementGetBackground self
       readUTFString
  
 htmlBodyElementSetBgColor ::
-                          (HTMLBodyElementClass self) => self -> String -> IO ()
+                          (HTMLBodyElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlBodyElementSetBgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -66,7 +69,7 @@ htmlBodyElementSetBgColor self val
           valPtr
  
 htmlBodyElementGetBgColor ::
-                          (HTMLBodyElementClass self) => self -> IO String
+                          (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetBgColor self
   = ({# call webkit_dom_html_body_element_get_bg_color #}
        (toHTMLBodyElement self))
@@ -74,7 +77,8 @@ htmlBodyElementGetBgColor self
       readUTFString
  
 htmlBodyElementSetLink ::
-                       (HTMLBodyElementClass self) => self -> String -> IO ()
+                       (HTMLBodyElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlBodyElementSetLink self val
   = withUTFString val $
       \ valPtr ->
@@ -83,7 +87,7 @@ htmlBodyElementSetLink self val
           valPtr
  
 htmlBodyElementGetLink ::
-                       (HTMLBodyElementClass self) => self -> IO String
+                       (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetLink self
   = ({# call webkit_dom_html_body_element_get_link #}
        (toHTMLBodyElement self))
@@ -91,7 +95,8 @@ htmlBodyElementGetLink self
       readUTFString
  
 htmlBodyElementSetText ::
-                       (HTMLBodyElementClass self) => self -> String -> IO ()
+                       (HTMLBodyElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlBodyElementSetText self val
   = withUTFString val $
       \ valPtr ->
@@ -100,7 +105,7 @@ htmlBodyElementSetText self val
           valPtr
  
 htmlBodyElementGetText ::
-                       (HTMLBodyElementClass self) => self -> IO String
+                       (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetText self
   = ({# call webkit_dom_html_body_element_get_text #}
        (toHTMLBodyElement self))
@@ -108,7 +113,8 @@ htmlBodyElementGetText self
       readUTFString
  
 htmlBodyElementSetVLink ::
-                        (HTMLBodyElementClass self) => self -> String -> IO ()
+                        (HTMLBodyElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlBodyElementSetVLink self val
   = withUTFString val $
       \ valPtr ->
@@ -117,7 +123,7 @@ htmlBodyElementSetVLink self val
           valPtr
  
 htmlBodyElementGetVLink ::
-                        (HTMLBodyElementClass self) => self -> IO String
+                        (HTMLBodyElementClass self, GlibString string) => self -> IO string
 htmlBodyElementGetVLink self
   = ({# call webkit_dom_html_body_element_get_v_link #}
        (toHTMLBodyElement self))

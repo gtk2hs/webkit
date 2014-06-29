@@ -99,7 +99,8 @@ htmlInputElementCheckValidity self
          (toHTMLInputElement self))
 
 htmlInputElementSetCustomValidity ::
-                                  (HTMLInputElementClass self) => self -> String -> IO ()
+                                  (HTMLInputElementClass self, GlibString string) =>
+                                    self -> string -> IO ()
 htmlInputElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -115,8 +116,8 @@ htmlInputElementSelect self
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 htmlInputElementSetRangeText ::
-                             (HTMLInputElementClass self) =>
-                               self -> String -> Word -> Word -> String -> IO ()
+                             (HTMLInputElementClass self, GlibString string) =>
+                               self -> string -> Word -> Word -> string -> IO ()
 htmlInputElementSetRangeText self replacement start end
   selectionMode
   = propagateGError $
@@ -135,7 +136,8 @@ htmlInputElementSetRangeText self replacement start end
 #endif
 
 htmlInputElementSetValueForUser ::
-                                (HTMLInputElementClass self) => self -> String -> IO ()
+                                (HTMLInputElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlInputElementSetValueForUser self value
   = withUTFString value $
       \ valuePtr ->
@@ -144,7 +146,8 @@ htmlInputElementSetValueForUser self value
           valuePtr
 
 htmlInputElementSetAccept ::
-                          (HTMLInputElementClass self) => self -> String -> IO ()
+                          (HTMLInputElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlInputElementSetAccept self val
   = withUTFString val $
       \ valPtr ->
@@ -153,7 +156,8 @@ htmlInputElementSetAccept self val
           valPtr
 
 htmlInputElementGetAccept ::
-                          (HTMLInputElementClass self) => self -> IO String
+                          (HTMLInputElementClass self, GlibString string) =>
+                            self -> IO string
 htmlInputElementGetAccept self
   = ({# call webkit_dom_html_input_element_get_accept #}
        (toHTMLInputElement self))
@@ -161,7 +165,8 @@ htmlInputElementGetAccept self
       readUTFString
 
 htmlInputElementSetAlt ::
-                       (HTMLInputElementClass self) => self -> String -> IO ()
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlInputElementSetAlt self val
   = withUTFString val $
       \ valPtr ->
@@ -170,7 +175,8 @@ htmlInputElementSetAlt self val
           valPtr
 
 htmlInputElementGetAlt ::
-                       (HTMLInputElementClass self) => self -> IO String
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> IO string
 htmlInputElementGetAlt self
   = ({# call webkit_dom_html_input_element_get_alt #}
        (toHTMLInputElement self))
@@ -178,7 +184,8 @@ htmlInputElementGetAlt self
       readUTFString
 
 htmlInputElementSetAutocomplete ::
-                                (HTMLInputElementClass self) => self -> String -> IO ()
+                                (HTMLInputElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlInputElementSetAutocomplete self val
   = withUTFString val $
       \ valPtr ->
@@ -187,7 +194,8 @@ htmlInputElementSetAutocomplete self val
           valPtr
 
 htmlInputElementGetAutocomplete ::
-                                (HTMLInputElementClass self) => self -> IO String
+                                (HTMLInputElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlInputElementGetAutocomplete self
   = ({# call webkit_dom_html_input_element_get_autocomplete #}
        (toHTMLInputElement self))
@@ -237,7 +245,8 @@ htmlInputElementGetChecked self
          (toHTMLInputElement self))
 
 htmlInputElementSetDirName ::
-                           (HTMLInputElementClass self) => self -> String -> IO ()
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlInputElementSetDirName self val
   = withUTFString val $
       \ valPtr ->
@@ -246,7 +255,8 @@ htmlInputElementSetDirName self val
           valPtr
 
 htmlInputElementGetDirName ::
-                           (HTMLInputElementClass self) => self -> IO String
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> IO string
 htmlInputElementGetDirName self
   = ({# call webkit_dom_html_input_element_get_dir_name #}
        (toHTMLInputElement self))
@@ -292,7 +302,8 @@ htmlInputElementGetFiles self
          (toHTMLInputElement self))
 
 htmlInputElementSetFormAction ::
-                              (HTMLInputElementClass self) => self -> String -> IO ()
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlInputElementSetFormAction self val
   = withUTFString val $
       \ valPtr ->
@@ -301,7 +312,8 @@ htmlInputElementSetFormAction self val
           valPtr
 
 htmlInputElementGetFormAction ::
-                              (HTMLInputElementClass self) => self -> IO String
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> IO string
 htmlInputElementGetFormAction self
   = ({# call webkit_dom_html_input_element_get_form_action #}
        (toHTMLInputElement self))
@@ -309,7 +321,8 @@ htmlInputElementGetFormAction self
       readUTFString
 
 htmlInputElementSetFormEnctype ::
-                               (HTMLInputElementClass self) => self -> String -> IO ()
+                               (HTMLInputElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlInputElementSetFormEnctype self val
   = withUTFString val $
       \ valPtr ->
@@ -318,7 +331,8 @@ htmlInputElementSetFormEnctype self val
           valPtr
 
 htmlInputElementGetFormEnctype ::
-                               (HTMLInputElementClass self) => self -> IO String
+                               (HTMLInputElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlInputElementGetFormEnctype self
   = ({# call webkit_dom_html_input_element_get_form_enctype #}
        (toHTMLInputElement self))
@@ -326,7 +340,8 @@ htmlInputElementGetFormEnctype self
       readUTFString
 
 htmlInputElementSetFormMethod ::
-                              (HTMLInputElementClass self) => self -> String -> IO ()
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlInputElementSetFormMethod self val
   = withUTFString val $
       \ valPtr ->
@@ -335,7 +350,8 @@ htmlInputElementSetFormMethod self val
           valPtr
 
 htmlInputElementGetFormMethod ::
-                              (HTMLInputElementClass self) => self -> IO String
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> IO string
 htmlInputElementGetFormMethod self
   = ({# call webkit_dom_html_input_element_get_form_method #}
        (toHTMLInputElement self))
@@ -357,7 +373,8 @@ htmlInputElementGetFormNoValidate self
          (toHTMLInputElement self))
 
 htmlInputElementSetFormTarget ::
-                              (HTMLInputElementClass self) => self -> String -> IO ()
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlInputElementSetFormTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -366,7 +383,8 @@ htmlInputElementSetFormTarget self val
           valPtr
 
 htmlInputElementGetFormTarget ::
-                              (HTMLInputElementClass self) => self -> IO String
+                              (HTMLInputElementClass self, GlibString string) =>
+                                self -> IO string
 htmlInputElementGetFormTarget self
   = ({# call webkit_dom_html_input_element_get_form_target #}
        (toHTMLInputElement self))
@@ -411,7 +429,8 @@ htmlInputElementGetList self
          (toHTMLInputElement self))
 
 htmlInputElementSetMax ::
-                       (HTMLInputElementClass self) => self -> String -> IO ()
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlInputElementSetMax self val
   = withUTFString val $
       \ valPtr ->
@@ -420,7 +439,8 @@ htmlInputElementSetMax self val
           valPtr
 
 htmlInputElementGetMax ::
-                       (HTMLInputElementClass self) => self -> IO String
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> IO string
 htmlInputElementGetMax self
   = ({# call webkit_dom_html_input_element_get_max #}
        (toHTMLInputElement self))
@@ -445,7 +465,8 @@ htmlInputElementGetMaxLength self
          (toHTMLInputElement self))
 
 htmlInputElementSetMin ::
-                       (HTMLInputElementClass self) => self -> String -> IO ()
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlInputElementSetMin self val
   = withUTFString val $
       \ valPtr ->
@@ -454,7 +475,8 @@ htmlInputElementSetMin self val
           valPtr
 
 htmlInputElementGetMin ::
-                       (HTMLInputElementClass self) => self -> IO String
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> IO string
 htmlInputElementGetMin self
   = ({# call webkit_dom_html_input_element_get_min #}
        (toHTMLInputElement self))
@@ -476,7 +498,8 @@ htmlInputElementGetMultiple self
          (toHTMLInputElement self))
 
 htmlInputElementSetName ::
-                        (HTMLInputElementClass self) => self -> String -> IO ()
+                        (HTMLInputElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlInputElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -485,7 +508,8 @@ htmlInputElementSetName self val
           valPtr
 
 htmlInputElementGetName ::
-                        (HTMLInputElementClass self) => self -> IO String
+                        (HTMLInputElementClass self, GlibString string) =>
+                          self -> IO string
 htmlInputElementGetName self
   = ({# call webkit_dom_html_input_element_get_name #}
        (toHTMLInputElement self))
@@ -493,7 +517,8 @@ htmlInputElementGetName self
       readUTFString
 
 htmlInputElementSetPattern ::
-                           (HTMLInputElementClass self) => self -> String -> IO ()
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlInputElementSetPattern self val
   = withUTFString val $
       \ valPtr ->
@@ -502,7 +527,8 @@ htmlInputElementSetPattern self val
           valPtr
 
 htmlInputElementGetPattern ::
-                           (HTMLInputElementClass self) => self -> IO String
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> IO string
 htmlInputElementGetPattern self
   = ({# call webkit_dom_html_input_element_get_pattern #}
        (toHTMLInputElement self))
@@ -510,7 +536,8 @@ htmlInputElementGetPattern self
       readUTFString
 
 htmlInputElementSetPlaceholder ::
-                               (HTMLInputElementClass self) => self -> String -> IO ()
+                               (HTMLInputElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlInputElementSetPlaceholder self val
   = withUTFString val $
       \ valPtr ->
@@ -519,7 +546,8 @@ htmlInputElementSetPlaceholder self val
           valPtr
 
 htmlInputElementGetPlaceholder ::
-                               (HTMLInputElementClass self) => self -> IO String
+                               (HTMLInputElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlInputElementGetPlaceholder self
   = ({# call webkit_dom_html_input_element_get_placeholder #}
        (toHTMLInputElement self))
@@ -570,7 +598,8 @@ htmlInputElementGetSize self
          (toHTMLInputElement self))
 
 htmlInputElementSetSrc ::
-                       (HTMLInputElementClass self) => self -> String -> IO ()
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlInputElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -579,7 +608,8 @@ htmlInputElementSetSrc self val
           valPtr
 
 htmlInputElementGetSrc ::
-                       (HTMLInputElementClass self) => self -> IO String
+                       (HTMLInputElementClass self, GlibString string) =>
+                         self -> IO string
 htmlInputElementGetSrc self
   = ({# call webkit_dom_html_input_element_get_src #}
        (toHTMLInputElement self))
@@ -587,7 +617,8 @@ htmlInputElementGetSrc self
       readUTFString
 
 htmlInputElementSetStep ::
-                        (HTMLInputElementClass self) => self -> String -> IO ()
+                        (HTMLInputElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlInputElementSetStep self val
   = withUTFString val $
       \ valPtr ->
@@ -596,7 +627,8 @@ htmlInputElementSetStep self val
           valPtr
 
 htmlInputElementGetStep ::
-                        (HTMLInputElementClass self) => self -> IO String
+                        (HTMLInputElementClass self, GlibString string) =>
+                          self -> IO string
 htmlInputElementGetStep self
   = ({# call webkit_dom_html_input_element_get_step #}
        (toHTMLInputElement self))
@@ -604,7 +636,8 @@ htmlInputElementGetStep self
       readUTFString
 
 htmlInputElementSetDefaultValue ::
-                                (HTMLInputElementClass self) => self -> String -> IO ()
+                                (HTMLInputElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlInputElementSetDefaultValue self val
   = withUTFString val $
       \ valPtr ->
@@ -613,7 +646,8 @@ htmlInputElementSetDefaultValue self val
           valPtr
 
 htmlInputElementGetDefaultValue ::
-                                (HTMLInputElementClass self) => self -> IO String
+                                (HTMLInputElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlInputElementGetDefaultValue self
   = ({# call webkit_dom_html_input_element_get_default_value #}
        (toHTMLInputElement self))
@@ -621,7 +655,8 @@ htmlInputElementGetDefaultValue self
       readUTFString
 
 htmlInputElementSetValue ::
-                         (HTMLInputElementClass self) => self -> String -> IO ()
+                         (HTMLInputElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlInputElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -630,7 +665,8 @@ htmlInputElementSetValue self val
           valPtr
 
 htmlInputElementGetValue ::
-                         (HTMLInputElementClass self) => self -> IO String
+                         (HTMLInputElementClass self, GlibString string) =>
+                           self -> IO string
 htmlInputElementGetValue self
   = ({# call webkit_dom_html_input_element_get_value #}
        (toHTMLInputElement self))
@@ -685,7 +721,8 @@ htmlInputElementGetValidity self
          (toHTMLInputElement self))
 
 htmlInputElementGetValidationMessage ::
-                                     (HTMLInputElementClass self) => self -> IO String
+                                     (HTMLInputElementClass self, GlibString string) =>
+                                       self -> IO string
 htmlInputElementGetValidationMessage self
   = ({# call webkit_dom_html_input_element_get_validation_message #}
        (toHTMLInputElement self))
@@ -700,7 +737,8 @@ htmlInputElementGetLabels self
          (toHTMLInputElement self))
 
 htmlInputElementSetAlign ::
-                         (HTMLInputElementClass self) => self -> String -> IO ()
+                         (HTMLInputElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlInputElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -709,7 +747,8 @@ htmlInputElementSetAlign self val
           valPtr
 
 htmlInputElementGetAlign ::
-                         (HTMLInputElementClass self) => self -> IO String
+                         (HTMLInputElementClass self, GlibString string) =>
+                           self -> IO string
 htmlInputElementGetAlign self
   = ({# call webkit_dom_html_input_element_get_align #}
        (toHTMLInputElement self))
@@ -731,7 +770,8 @@ htmlInputElementGetWebkitdirectory self
          (toHTMLInputElement self))
 
 htmlInputElementSetUseMap ::
-                          (HTMLInputElementClass self) => self -> String -> IO ()
+                          (HTMLInputElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlInputElementSetUseMap self val
   = withUTFString val $
       \ valPtr ->
@@ -740,7 +780,8 @@ htmlInputElementSetUseMap self val
           valPtr
 
 htmlInputElementGetUseMap ::
-                          (HTMLInputElementClass self) => self -> IO String
+                          (HTMLInputElementClass self, GlibString string) =>
+                            self -> IO string
 htmlInputElementGetUseMap self
   = ({# call webkit_dom_html_input_element_get_use_map #}
        (toHTMLInputElement self))
@@ -797,7 +838,8 @@ htmlInputElementOnwebkitspeechchange
 
 #if WEBKIT_CHECK_VERSION(1,10,0)
 htmlInputElementSetCapture ::
-                           (HTMLInputElementClass self) => self -> String -> IO ()
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlInputElementSetCapture self val
   = withUTFString val $
       \ valPtr ->
@@ -806,7 +848,8 @@ htmlInputElementSetCapture self val
           valPtr
 
 htmlInputElementGetCapture ::
-                           (HTMLInputElementClass self) => self -> IO String
+                           (HTMLInputElementClass self, GlibString string) =>
+                             self -> IO string
 htmlInputElementGetCapture self
   = ({# call webkit_dom_html_input_element_get_capture #}
        (toHTMLInputElement self))

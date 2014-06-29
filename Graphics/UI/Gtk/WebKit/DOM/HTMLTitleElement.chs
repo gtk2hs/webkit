@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlTitleElementSetText ::
-                        (HTMLTitleElementClass self) => self -> String -> IO ()
+                        (HTMLTitleElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlTitleElementSetText self val
   = withUTFString val $
       \ valPtr ->
@@ -20,7 +21,8 @@ htmlTitleElementSetText self val
           valPtr
  
 htmlTitleElementGetText ::
-                        (HTMLTitleElementClass self) => self -> IO String
+                        (HTMLTitleElementClass self, GlibString string) =>
+                          self -> IO string
 htmlTitleElementGetText self
   = ({# call webkit_dom_html_title_element_get_text #}
        (toHTMLTitleElement self))

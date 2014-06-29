@@ -36,7 +36,8 @@ htmlMarqueeElementStop self
       (toHTMLMarqueeElement self)
  
 htmlMarqueeElementSetBehavior ::
-                              (HTMLMarqueeElementClass self) => self -> String -> IO ()
+                              (HTMLMarqueeElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlMarqueeElementSetBehavior self val
   = withUTFString val $
       \ valPtr ->
@@ -45,7 +46,8 @@ htmlMarqueeElementSetBehavior self val
           valPtr
  
 htmlMarqueeElementGetBehavior ::
-                              (HTMLMarqueeElementClass self) => self -> IO String
+                              (HTMLMarqueeElementClass self, GlibString string) =>
+                                self -> IO string
 htmlMarqueeElementGetBehavior self
   = ({# call webkit_dom_html_marquee_element_get_behavior #}
        (toHTMLMarqueeElement self))
@@ -53,7 +55,8 @@ htmlMarqueeElementGetBehavior self
       readUTFString
  
 htmlMarqueeElementSetBgColor ::
-                             (HTMLMarqueeElementClass self) => self -> String -> IO ()
+                             (HTMLMarqueeElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlMarqueeElementSetBgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -62,7 +65,8 @@ htmlMarqueeElementSetBgColor self val
           valPtr
  
 htmlMarqueeElementGetBgColor ::
-                             (HTMLMarqueeElementClass self) => self -> IO String
+                             (HTMLMarqueeElementClass self, GlibString string) =>
+                               self -> IO string
 htmlMarqueeElementGetBgColor self
   = ({# call webkit_dom_html_marquee_element_get_bg_color #}
        (toHTMLMarqueeElement self))
@@ -70,7 +74,8 @@ htmlMarqueeElementGetBgColor self
       readUTFString
  
 htmlMarqueeElementSetDirection ::
-                               (HTMLMarqueeElementClass self) => self -> String -> IO ()
+                               (HTMLMarqueeElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlMarqueeElementSetDirection self val
   = withUTFString val $
       \ valPtr ->
@@ -79,7 +84,8 @@ htmlMarqueeElementSetDirection self val
           valPtr
  
 htmlMarqueeElementGetDirection ::
-                               (HTMLMarqueeElementClass self) => self -> IO String
+                               (HTMLMarqueeElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlMarqueeElementGetDirection self
   = ({# call webkit_dom_html_marquee_element_get_direction #}
        (toHTMLMarqueeElement self))
@@ -87,7 +93,8 @@ htmlMarqueeElementGetDirection self
       readUTFString
  
 htmlMarqueeElementSetHeight ::
-                            (HTMLMarqueeElementClass self) => self -> String -> IO ()
+                            (HTMLMarqueeElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlMarqueeElementSetHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -96,7 +103,8 @@ htmlMarqueeElementSetHeight self val
           valPtr
  
 htmlMarqueeElementGetHeight ::
-                            (HTMLMarqueeElementClass self) => self -> IO String
+                            (HTMLMarqueeElementClass self, GlibString string) =>
+                              self -> IO string
 htmlMarqueeElementGetHeight self
   = ({# call webkit_dom_html_marquee_element_get_height #}
        (toHTMLMarqueeElement self))
@@ -197,7 +205,8 @@ htmlMarqueeElementGetVspace self
          (toHTMLMarqueeElement self))
  
 htmlMarqueeElementSetWidth ::
-                           (HTMLMarqueeElementClass self) => self -> String -> IO ()
+                           (HTMLMarqueeElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlMarqueeElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -206,7 +215,8 @@ htmlMarqueeElementSetWidth self val
           valPtr
  
 htmlMarqueeElementGetWidth ::
-                           (HTMLMarqueeElementClass self) => self -> IO String
+                           (HTMLMarqueeElementClass self, GlibString string) =>
+                             self -> IO string
 htmlMarqueeElementGetWidth self
   = ({# call webkit_dom_html_marquee_element_get_width #}
        (toHTMLMarqueeElement self))

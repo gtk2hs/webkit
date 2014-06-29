@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
 
 domTokenListItem ::
-                 (DOMTokenListClass self) => self -> Word -> IO String
+                 (DOMTokenListClass self, GlibString string) =>
+                   self -> Word -> IO string
 domTokenListItem self index
   = ({# call webkit_dom_dom_token_list_item #} (toDOMTokenList self)
        (fromIntegral index))
@@ -20,7 +21,8 @@ domTokenListItem self index
       readUTFString
 
 domTokenListContains ::
-                     (DOMTokenListClass self) => self -> String -> IO Bool
+                     (DOMTokenListClass self, GlibString string) =>
+                       self -> string -> IO Bool
 domTokenListContains self token
   = toBool <$>
       (propagateGError $
@@ -54,12 +56,14 @@ domTokenListRemove self token
           errorPtr_
 
 #if WEBKIT_CHECK_VERSION(2,0,0)
-domTokenListToggle :: (DOMTokenListClass self) => self -> String -> Bool -> IO Bool
+domTokenListToggle ::
+                   (DOMTokenListClass self, GlibString string) =>
+                     self -> string -> Bool -> IO Bool
 domTokenListToggle self token force = toBool <$> (propagateGError $ \errorPtr_ -> withUTFString token $ \tokenPtr ->
     {# call webkit_dom_dom_token_list_toggle #} (toDOMTokenList self) tokenPtr (fromBool force) errorPtr_)
 #else
 domTokenListToggle ::
-                   (DOMTokenListClass self) => self -> String -> IO Bool
+                   (DOMTokenListClass self, GlibString string) => self -> string -> IO Bool
 domTokenListToggle self token
   = toBool <$>
       (propagateGError $

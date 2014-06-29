@@ -10,7 +10,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 styleMediaMatchMedium ::
-                      (StyleMediaClass self) => self -> String -> IO Bool
+                      (StyleMediaClass self, GlibString string) =>
+                        self -> string -> IO Bool
 styleMediaMatchMedium self mediaquery
   = toBool <$>
       (withUTFString mediaquery $

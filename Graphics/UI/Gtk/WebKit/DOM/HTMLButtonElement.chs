@@ -31,7 +31,8 @@ htmlButtonElementCheckValidity self
          (toHTMLButtonElement self))
  
 htmlButtonElementSetCustomValidity ::
-                                   (HTMLButtonElementClass self) => self -> String -> IO ()
+                                   (HTMLButtonElementClass self, GlibString string) =>
+                                     self -> string -> IO ()
 htmlButtonElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -75,7 +76,8 @@ htmlButtonElementGetForm self
          (toHTMLButtonElement self))
  
 htmlButtonElementSetFormAction ::
-                               (HTMLButtonElementClass self) => self -> String -> IO ()
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlButtonElementSetFormAction self val
   = withUTFString val $
       \ valPtr ->
@@ -84,7 +86,8 @@ htmlButtonElementSetFormAction self val
           valPtr
  
 htmlButtonElementGetFormAction ::
-                               (HTMLButtonElementClass self) => self -> IO String
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlButtonElementGetFormAction self
   = ({# call webkit_dom_html_button_element_get_form_action #}
        (toHTMLButtonElement self))
@@ -92,7 +95,8 @@ htmlButtonElementGetFormAction self
       readUTFString
  
 htmlButtonElementSetFormEnctype ::
-                                (HTMLButtonElementClass self) => self -> String -> IO ()
+                                (HTMLButtonElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlButtonElementSetFormEnctype self val
   = withUTFString val $
       \ valPtr ->
@@ -101,7 +105,8 @@ htmlButtonElementSetFormEnctype self val
           valPtr
  
 htmlButtonElementGetFormEnctype ::
-                                (HTMLButtonElementClass self) => self -> IO String
+                                (HTMLButtonElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlButtonElementGetFormEnctype self
   = ({# call webkit_dom_html_button_element_get_form_enctype #}
        (toHTMLButtonElement self))
@@ -109,7 +114,8 @@ htmlButtonElementGetFormEnctype self
       readUTFString
  
 htmlButtonElementSetFormMethod ::
-                               (HTMLButtonElementClass self) => self -> String -> IO ()
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlButtonElementSetFormMethod self val
   = withUTFString val $
       \ valPtr ->
@@ -118,7 +124,8 @@ htmlButtonElementSetFormMethod self val
           valPtr
  
 htmlButtonElementGetFormMethod ::
-                               (HTMLButtonElementClass self) => self -> IO String
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlButtonElementGetFormMethod self
   = ({# call webkit_dom_html_button_element_get_form_method #}
        (toHTMLButtonElement self))
@@ -140,7 +147,8 @@ htmlButtonElementGetFormNoValidate self
          (toHTMLButtonElement self))
  
 htmlButtonElementSetFormTarget ::
-                               (HTMLButtonElementClass self) => self -> String -> IO ()
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlButtonElementSetFormTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -149,7 +157,8 @@ htmlButtonElementSetFormTarget self val
           valPtr
  
 htmlButtonElementGetFormTarget ::
-                               (HTMLButtonElementClass self) => self -> IO String
+                               (HTMLButtonElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlButtonElementGetFormTarget self
   = ({# call webkit_dom_html_button_element_get_form_target #}
        (toHTMLButtonElement self))
@@ -157,7 +166,8 @@ htmlButtonElementGetFormTarget self
       readUTFString
  
 htmlButtonElementSetName ::
-                         (HTMLButtonElementClass self) => self -> String -> IO ()
+                         (HTMLButtonElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlButtonElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -166,7 +176,8 @@ htmlButtonElementSetName self val
           valPtr
  
 htmlButtonElementGetName ::
-                         (HTMLButtonElementClass self) => self -> IO String
+                         (HTMLButtonElementClass self, GlibString string) =>
+                           self -> IO string
 htmlButtonElementGetName self
   = ({# call webkit_dom_html_button_element_get_name #}
        (toHTMLButtonElement self))
@@ -174,7 +185,8 @@ htmlButtonElementGetName self
       readUTFString
  
 htmlButtonElementSetValue ::
-                          (HTMLButtonElementClass self) => self -> String -> IO ()
+                          (HTMLButtonElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlButtonElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -183,7 +195,8 @@ htmlButtonElementSetValue self val
           valPtr
  
 htmlButtonElementGetValue ::
-                          (HTMLButtonElementClass self) => self -> IO String
+                          (HTMLButtonElementClass self, GlibString string) =>
+                            self -> IO string
 htmlButtonElementGetValue self
   = ({# call webkit_dom_html_button_element_get_value #}
        (toHTMLButtonElement self))
@@ -205,7 +218,8 @@ htmlButtonElementGetValidity self
          (toHTMLButtonElement self))
  
 htmlButtonElementGetValidationMessage ::
-                                      (HTMLButtonElementClass self) => self -> IO String
+                                      (HTMLButtonElementClass self, GlibString string) =>
+                                        self -> IO string
 htmlButtonElementGetValidationMessage self
   = ({# call webkit_dom_html_button_element_get_validation_message #}
        (toHTMLButtonElement self))

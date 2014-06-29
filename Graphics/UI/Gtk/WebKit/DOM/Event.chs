@@ -25,7 +25,8 @@ eventPreventDefault self
   = {# call webkit_dom_event_prevent_default #} (toEvent self)
  
 eventInitEvent ::
-               (EventClass self) => self -> String -> Bool -> Bool -> IO ()
+               (EventClass self, GlibString string) =>
+                 self -> string -> Bool -> Bool -> IO ()
 eventInitEvent self eventTypeArg canBubbleArg cancelableArg
   = withUTFString eventTypeArg $
       \ eventTypeArgPtr ->

@@ -27,7 +27,8 @@ htmlOptGroupElementGetDisabled self
          (toHTMLOptGroupElement self))
  
 htmlOptGroupElementSetLabel ::
-                            (HTMLOptGroupElementClass self) => self -> String -> IO ()
+                            (HTMLOptGroupElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlOptGroupElementSetLabel self val
   = withUTFString val $
       \ valPtr ->
@@ -36,7 +37,8 @@ htmlOptGroupElementSetLabel self val
           valPtr
  
 htmlOptGroupElementGetLabel ::
-                            (HTMLOptGroupElementClass self) => self -> IO String
+                            (HTMLOptGroupElementClass self, GlibString string) =>
+                              self -> IO string
 htmlOptGroupElementGetLabel self
   = ({# call webkit_dom_html_opt_group_element_get_label #}
        (toHTMLOptGroupElement self))

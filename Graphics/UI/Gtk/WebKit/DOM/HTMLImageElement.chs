@@ -29,7 +29,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlImageElementSetName ::
-                        (HTMLImageElementClass self) => self -> String -> IO ()
+                        (HTMLImageElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlImageElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -38,7 +39,8 @@ htmlImageElementSetName self val
           valPtr
  
 htmlImageElementGetName ::
-                        (HTMLImageElementClass self) => self -> IO String
+                        (HTMLImageElementClass self, GlibString string) =>
+                          self -> IO string
 htmlImageElementGetName self
   = ({# call webkit_dom_html_image_element_get_name #}
        (toHTMLImageElement self))
@@ -46,7 +48,8 @@ htmlImageElementGetName self
       readUTFString
  
 htmlImageElementSetAlign ::
-                         (HTMLImageElementClass self) => self -> String -> IO ()
+                         (HTMLImageElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlImageElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -55,7 +58,8 @@ htmlImageElementSetAlign self val
           valPtr
  
 htmlImageElementGetAlign ::
-                         (HTMLImageElementClass self) => self -> IO String
+                         (HTMLImageElementClass self, GlibString string) =>
+                           self -> IO string
 htmlImageElementGetAlign self
   = ({# call webkit_dom_html_image_element_get_align #}
        (toHTMLImageElement self))
@@ -63,7 +67,8 @@ htmlImageElementGetAlign self
       readUTFString
  
 htmlImageElementSetAlt ::
-                       (HTMLImageElementClass self) => self -> String -> IO ()
+                       (HTMLImageElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlImageElementSetAlt self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +77,8 @@ htmlImageElementSetAlt self val
           valPtr
  
 htmlImageElementGetAlt ::
-                       (HTMLImageElementClass self) => self -> IO String
+                       (HTMLImageElementClass self, GlibString string) =>
+                         self -> IO string
 htmlImageElementGetAlt self
   = ({# call webkit_dom_html_image_element_get_alt #}
        (toHTMLImageElement self))
@@ -80,7 +86,8 @@ htmlImageElementGetAlt self
       readUTFString
  
 htmlImageElementSetBorder ::
-                          (HTMLImageElementClass self) => self -> String -> IO ()
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlImageElementSetBorder self val
   = withUTFString val $
       \ valPtr ->
@@ -89,7 +96,8 @@ htmlImageElementSetBorder self val
           valPtr
  
 htmlImageElementGetBorder ::
-                          (HTMLImageElementClass self) => self -> IO String
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> IO string
 htmlImageElementGetBorder self
   = ({# call webkit_dom_html_image_element_get_border #}
        (toHTMLImageElement self))
@@ -97,7 +105,8 @@ htmlImageElementGetBorder self
       readUTFString
  
 htmlImageElementSetCrossOrigin ::
-                               (HTMLImageElementClass self) => self -> String -> IO ()
+                               (HTMLImageElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlImageElementSetCrossOrigin self val
   = withUTFString val $
       \ valPtr ->
@@ -106,7 +115,8 @@ htmlImageElementSetCrossOrigin self val
           valPtr
  
 htmlImageElementGetCrossOrigin ::
-                               (HTMLImageElementClass self) => self -> IO String
+                               (HTMLImageElementClass self, GlibString string) =>
+                                 self -> IO string
 htmlImageElementGetCrossOrigin self
   = ({# call webkit_dom_html_image_element_get_cross_origin #}
        (toHTMLImageElement self))
@@ -156,7 +166,8 @@ htmlImageElementGetIsMap self
          (toHTMLImageElement self))
  
 htmlImageElementSetLongDesc ::
-                            (HTMLImageElementClass self) => self -> String -> IO ()
+                            (HTMLImageElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlImageElementSetLongDesc self val
   = withUTFString val $
       \ valPtr ->
@@ -165,7 +176,8 @@ htmlImageElementSetLongDesc self val
           valPtr
  
 htmlImageElementGetLongDesc ::
-                            (HTMLImageElementClass self) => self -> IO String
+                            (HTMLImageElementClass self, GlibString string) =>
+                              self -> IO string
 htmlImageElementGetLongDesc self
   = ({# call webkit_dom_html_image_element_get_long_desc #}
        (toHTMLImageElement self))
@@ -173,7 +185,8 @@ htmlImageElementGetLongDesc self
       readUTFString
  
 htmlImageElementSetSrc ::
-                       (HTMLImageElementClass self) => self -> String -> IO ()
+                       (HTMLImageElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlImageElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -182,7 +195,8 @@ htmlImageElementSetSrc self val
           valPtr
  
 htmlImageElementGetSrc ::
-                       (HTMLImageElementClass self) => self -> IO String
+                       (HTMLImageElementClass self, GlibString string) =>
+                         self -> IO string
 htmlImageElementGetSrc self
   = ({# call webkit_dom_html_image_element_get_src #}
        (toHTMLImageElement self))
@@ -191,7 +205,8 @@ htmlImageElementGetSrc self
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 htmlImageElementSetSrcset ::
-                          (HTMLImageElementClass self) => self -> String -> IO ()
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlImageElementSetSrcset self val
   = withUTFString val $
       \ valPtr ->
@@ -200,7 +215,8 @@ htmlImageElementSetSrcset self val
           valPtr
  
 htmlImageElementGetSrcset ::
-                          (HTMLImageElementClass self) => self -> IO String
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> IO string
 htmlImageElementGetSrcset self
   = ({# call webkit_dom_html_image_element_get_srcset #}
        (toHTMLImageElement self))
@@ -209,7 +225,8 @@ htmlImageElementGetSrcset self
 #endif
 
 htmlImageElementSetUseMap ::
-                          (HTMLImageElementClass self) => self -> String -> IO ()
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlImageElementSetUseMap self val
   = withUTFString val $
       \ valPtr ->
@@ -218,7 +235,8 @@ htmlImageElementSetUseMap self val
           valPtr
  
 htmlImageElementGetUseMap ::
-                          (HTMLImageElementClass self) => self -> IO String
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> IO string
 htmlImageElementGetUseMap self
   = ({# call webkit_dom_html_image_element_get_use_map #}
        (toHTMLImageElement self))
@@ -261,7 +279,8 @@ htmlImageElementGetComplete self
          (toHTMLImageElement self))
  
 htmlImageElementSetLowsrc ::
-                          (HTMLImageElementClass self) => self -> String -> IO ()
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlImageElementSetLowsrc self val
   = withUTFString val $
       \ valPtr ->
@@ -270,7 +289,8 @@ htmlImageElementSetLowsrc self val
           valPtr
  
 htmlImageElementGetLowsrc ::
-                          (HTMLImageElementClass self) => self -> IO String
+                          (HTMLImageElementClass self, GlibString string) =>
+                            self -> IO string
 htmlImageElementGetLowsrc self
   = ({# call webkit_dom_html_image_element_get_lowsrc #}
        (toHTMLImageElement self))

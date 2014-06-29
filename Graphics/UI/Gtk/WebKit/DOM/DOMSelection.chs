@@ -114,8 +114,8 @@ domSelectionAddRange self range
       (maybe (DOMRange nullForeignPtr) toDOMRange range)
  
 domSelectionModify ::
-                   (DOMSelectionClass self) =>
-                     self -> String -> String -> String -> IO ()
+                   (DOMSelectionClass self, GlibString string) =>
+                     self -> string -> string -> string -> IO ()
 domSelectionModify self alter direction granularity
   = withUTFString granularity $
       \ granularityPtr ->

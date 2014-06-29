@@ -14,7 +14,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 characterDataSubstringData ::
-                           (CharacterDataClass self) => self -> Word -> Word -> IO String
+                           (CharacterDataClass self, GlibString string) =>
+                             self -> Word -> Word -> IO string
 characterDataSubstringData self offset length
   = (propagateGError $
        \ errorPtr_ ->
@@ -27,7 +28,8 @@ characterDataSubstringData self offset length
       readUTFString
  
 characterDataAppendData ::
-                        (CharacterDataClass self) => self -> String -> IO ()
+                        (CharacterDataClass self, GlibString string) =>
+                          self -> string -> IO ()
 characterDataAppendData self data'
   = propagateGError $
       \ errorPtr_ ->
@@ -39,7 +41,8 @@ characterDataAppendData self data'
           errorPtr_
  
 characterDataInsertData ::
-                        (CharacterDataClass self) => self -> Word -> String -> IO ()
+                        (CharacterDataClass self, GlibString string) =>
+                          self -> Word -> string -> IO ()
 characterDataInsertData self offset data'
   = propagateGError $
       \ errorPtr_ ->
@@ -63,8 +66,8 @@ characterDataDeleteData self offset length
           errorPtr_
  
 characterDataReplaceData ::
-                         (CharacterDataClass self) =>
-                           self -> Word -> Word -> String -> IO ()
+                         (CharacterDataClass self, GlibString string) =>
+                           self -> Word -> Word -> string -> IO ()
 characterDataReplaceData self offset length data'
   = propagateGError $
       \ errorPtr_ ->
@@ -78,7 +81,8 @@ characterDataReplaceData self offset length data'
           errorPtr_
  
 characterDataSetData ::
-                     (CharacterDataClass self) => self -> String -> IO ()
+                     (CharacterDataClass self, GlibString string) =>
+                       self -> string -> IO ()
 characterDataSetData self val
   = propagateGError $
       \ errorPtr_ ->
@@ -90,7 +94,7 @@ characterDataSetData self val
           errorPtr_
  
 characterDataGetData ::
-                     (CharacterDataClass self) => self -> IO String
+                     (CharacterDataClass self, GlibString string) => self -> IO string
 characterDataGetData self
   = ({# call webkit_dom_character_data_get_data #}
        (toCharacterData self))

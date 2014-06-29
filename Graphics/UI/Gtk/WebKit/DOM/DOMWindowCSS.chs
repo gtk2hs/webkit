@@ -14,7 +14,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 domWindowCSSSupports ::
-                     (DOMWindowCSSClass self) => self -> String -> String -> IO Bool
+                     (DOMWindowCSSClass self, GlibString string) =>
+                       self -> string -> string -> IO Bool
 domWindowCSSSupports self property value
   = toBool <$>
       (withUTFString value $

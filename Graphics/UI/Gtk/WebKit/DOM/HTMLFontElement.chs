@@ -13,7 +13,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlFontElementSetColor ::
-                        (HTMLFontElementClass self) => self -> String -> IO ()
+                        (HTMLFontElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlFontElementSetColor self val
   = withUTFString val $
       \ valPtr ->
@@ -22,7 +23,7 @@ htmlFontElementSetColor self val
           valPtr
  
 htmlFontElementGetColor ::
-                        (HTMLFontElementClass self) => self -> IO String
+                        (HTMLFontElementClass self, GlibString string) => self -> IO string
 htmlFontElementGetColor self
   = ({# call webkit_dom_html_font_element_get_color #}
        (toHTMLFontElement self))
@@ -30,7 +31,8 @@ htmlFontElementGetColor self
       readUTFString
  
 htmlFontElementSetFace ::
-                       (HTMLFontElementClass self) => self -> String -> IO ()
+                       (HTMLFontElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlFontElementSetFace self val
   = withUTFString val $
       \ valPtr ->
@@ -39,7 +41,7 @@ htmlFontElementSetFace self val
           valPtr
  
 htmlFontElementGetFace ::
-                       (HTMLFontElementClass self) => self -> IO String
+                       (HTMLFontElementClass self, GlibString string) => self -> IO string
 htmlFontElementGetFace self
   = ({# call webkit_dom_html_font_element_get_face #}
        (toHTMLFontElement self))
@@ -47,7 +49,8 @@ htmlFontElementGetFace self
       readUTFString
  
 htmlFontElementSetSize ::
-                       (HTMLFontElementClass self) => self -> String -> IO ()
+                       (HTMLFontElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlFontElementSetSize self val
   = withUTFString val $
       \ valPtr ->
@@ -56,7 +59,7 @@ htmlFontElementSetSize self val
           valPtr
  
 htmlFontElementGetSize ::
-                       (HTMLFontElementClass self) => self -> IO String
+                       (HTMLFontElementClass self, GlibString string) => self -> IO string
 htmlFontElementGetSize self
   = ({# call webkit_dom_html_font_element_get_size #}
        (toHTMLFontElement self))

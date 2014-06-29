@@ -40,7 +40,8 @@ htmlFormElementCheckValidity self
          (toHTMLFormElement self))
  
 htmlFormElementSetAcceptCharset ::
-                                (HTMLFormElementClass self) => self -> String -> IO ()
+                                (HTMLFormElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlFormElementSetAcceptCharset self val
   = withUTFString val $
       \ valPtr ->
@@ -49,7 +50,7 @@ htmlFormElementSetAcceptCharset self val
           valPtr
  
 htmlFormElementGetAcceptCharset ::
-                                (HTMLFormElementClass self) => self -> IO String
+                                (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetAcceptCharset self
   = ({# call webkit_dom_html_form_element_get_accept_charset #}
        (toHTMLFormElement self))
@@ -57,7 +58,8 @@ htmlFormElementGetAcceptCharset self
       readUTFString
  
 htmlFormElementSetAction ::
-                         (HTMLFormElementClass self) => self -> String -> IO ()
+                         (HTMLFormElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlFormElementSetAction self val
   = withUTFString val $
       \ valPtr ->
@@ -66,7 +68,7 @@ htmlFormElementSetAction self val
           valPtr
  
 htmlFormElementGetAction ::
-                         (HTMLFormElementClass self) => self -> IO String
+                         (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetAction self
   = ({# call webkit_dom_html_form_element_get_action #}
        (toHTMLFormElement self))
@@ -74,7 +76,8 @@ htmlFormElementGetAction self
       readUTFString
  
 htmlFormElementSetAutocomplete ::
-                               (HTMLFormElementClass self) => self -> String -> IO ()
+                               (HTMLFormElementClass self, GlibString string) =>
+                                 self -> string -> IO ()
 htmlFormElementSetAutocomplete self val
   = withUTFString val $
       \ valPtr ->
@@ -83,7 +86,7 @@ htmlFormElementSetAutocomplete self val
           valPtr
  
 htmlFormElementGetAutocomplete ::
-                               (HTMLFormElementClass self) => self -> IO String
+                               (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetAutocomplete self
   = ({# call webkit_dom_html_form_element_get_autocomplete #}
        (toHTMLFormElement self))
@@ -91,7 +94,8 @@ htmlFormElementGetAutocomplete self
       readUTFString
  
 htmlFormElementSetEnctype ::
-                          (HTMLFormElementClass self) => self -> String -> IO ()
+                          (HTMLFormElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlFormElementSetEnctype self val
   = withUTFString val $
       \ valPtr ->
@@ -100,7 +104,7 @@ htmlFormElementSetEnctype self val
           valPtr
  
 htmlFormElementGetEnctype ::
-                          (HTMLFormElementClass self) => self -> IO String
+                          (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetEnctype self
   = ({# call webkit_dom_html_form_element_get_enctype #}
        (toHTMLFormElement self))
@@ -108,7 +112,8 @@ htmlFormElementGetEnctype self
       readUTFString
  
 htmlFormElementSetEncoding ::
-                           (HTMLFormElementClass self) => self -> String -> IO ()
+                           (HTMLFormElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlFormElementSetEncoding self val
   = withUTFString val $
       \ valPtr ->
@@ -117,7 +122,7 @@ htmlFormElementSetEncoding self val
           valPtr
  
 htmlFormElementGetEncoding ::
-                           (HTMLFormElementClass self) => self -> IO String
+                           (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetEncoding self
   = ({# call webkit_dom_html_form_element_get_encoding #}
        (toHTMLFormElement self))
@@ -125,7 +130,8 @@ htmlFormElementGetEncoding self
       readUTFString
  
 htmlFormElementSetMethod ::
-                         (HTMLFormElementClass self) => self -> String -> IO ()
+                         (HTMLFormElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlFormElementSetMethod self val
   = withUTFString val $
       \ valPtr ->
@@ -134,7 +140,7 @@ htmlFormElementSetMethod self val
           valPtr
  
 htmlFormElementGetMethod ::
-                         (HTMLFormElementClass self) => self -> IO String
+                         (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetMethod self
   = ({# call webkit_dom_html_form_element_get_method #}
        (toHTMLFormElement self))
@@ -142,7 +148,8 @@ htmlFormElementGetMethod self
       readUTFString
  
 htmlFormElementSetName ::
-                       (HTMLFormElementClass self) => self -> String -> IO ()
+                       (HTMLFormElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlFormElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -151,7 +158,7 @@ htmlFormElementSetName self val
           valPtr
  
 htmlFormElementGetName ::
-                       (HTMLFormElementClass self) => self -> IO String
+                       (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetName self
   = ({# call webkit_dom_html_form_element_get_name #}
        (toHTMLFormElement self))
@@ -173,7 +180,8 @@ htmlFormElementGetNoValidate self
          (toHTMLFormElement self))
  
 htmlFormElementSetTarget ::
-                         (HTMLFormElementClass self) => self -> String -> IO ()
+                         (HTMLFormElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlFormElementSetTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -182,7 +190,7 @@ htmlFormElementSetTarget self val
           valPtr
  
 htmlFormElementGetTarget ::
-                         (HTMLFormElementClass self) => self -> IO String
+                         (HTMLFormElementClass self, GlibString string) => self -> IO string
 htmlFormElementGetTarget self
   = ({# call webkit_dom_html_form_element_get_target #}
        (toHTMLFormElement self))

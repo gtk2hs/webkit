@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlHeadingElementSetAlign ::
-                           (HTMLHeadingElementClass self) => self -> String -> IO ()
+                           (HTMLHeadingElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlHeadingElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -21,7 +22,8 @@ htmlHeadingElementSetAlign self val
           valPtr
  
 htmlHeadingElementGetAlign ::
-                           (HTMLHeadingElementClass self) => self -> IO String
+                           (HTMLHeadingElementClass self, GlibString string) =>
+                             self -> IO string
 htmlHeadingElementGetAlign self
   = ({# call webkit_dom_html_heading_element_get_align #}
        (toHTMLHeadingElement self))

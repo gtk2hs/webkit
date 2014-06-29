@@ -26,7 +26,8 @@ htmlKeygenElementCheckValidity self
          (toHTMLKeygenElement self))
  
 htmlKeygenElementSetCustomValidity ::
-                                   (HTMLKeygenElementClass self) => self -> String -> IO ()
+                                   (HTMLKeygenElementClass self, GlibString string) =>
+                                     self -> string -> IO ()
 htmlKeygenElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -49,7 +50,8 @@ htmlKeygenElementGetAutofocus self
          (toHTMLKeygenElement self))
  
 htmlKeygenElementSetChallenge ::
-                              (HTMLKeygenElementClass self) => self -> String -> IO ()
+                              (HTMLKeygenElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlKeygenElementSetChallenge self val
   = withUTFString val $
       \ valPtr ->
@@ -58,7 +60,8 @@ htmlKeygenElementSetChallenge self val
           valPtr
  
 htmlKeygenElementGetChallenge ::
-                              (HTMLKeygenElementClass self) => self -> IO String
+                              (HTMLKeygenElementClass self, GlibString string) =>
+                                self -> IO string
 htmlKeygenElementGetChallenge self
   = ({# call webkit_dom_html_keygen_element_get_challenge #}
        (toHTMLKeygenElement self))
@@ -87,7 +90,8 @@ htmlKeygenElementGetForm self
          (toHTMLKeygenElement self))
  
 htmlKeygenElementSetKeytype ::
-                            (HTMLKeygenElementClass self) => self -> String -> IO ()
+                            (HTMLKeygenElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlKeygenElementSetKeytype self val
   = withUTFString val $
       \ valPtr ->
@@ -96,7 +100,8 @@ htmlKeygenElementSetKeytype self val
           valPtr
  
 htmlKeygenElementGetKeytype ::
-                            (HTMLKeygenElementClass self) => self -> IO String
+                            (HTMLKeygenElementClass self, GlibString string) =>
+                              self -> IO string
 htmlKeygenElementGetKeytype self
   = ({# call webkit_dom_html_keygen_element_get_keytype #}
        (toHTMLKeygenElement self))
@@ -104,7 +109,8 @@ htmlKeygenElementGetKeytype self
       readUTFString
  
 htmlKeygenElementSetName ::
-                         (HTMLKeygenElementClass self) => self -> String -> IO ()
+                         (HTMLKeygenElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlKeygenElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -113,7 +119,8 @@ htmlKeygenElementSetName self val
           valPtr
  
 htmlKeygenElementGetName ::
-                         (HTMLKeygenElementClass self) => self -> IO String
+                         (HTMLKeygenElementClass self, GlibString string) =>
+                           self -> IO string
 htmlKeygenElementGetName self
   = ({# call webkit_dom_html_keygen_element_get_name #}
        (toHTMLKeygenElement self))
@@ -135,7 +142,8 @@ htmlKeygenElementGetValidity self
          (toHTMLKeygenElement self))
  
 htmlKeygenElementGetValidationMessage ::
-                                      (HTMLKeygenElementClass self) => self -> IO String
+                                      (HTMLKeygenElementClass self, GlibString string) =>
+                                        self -> IO string
 htmlKeygenElementGetValidationMessage self
   = ({# call webkit_dom_html_keygen_element_get_validation_message #}
        (toHTMLKeygenElement self))

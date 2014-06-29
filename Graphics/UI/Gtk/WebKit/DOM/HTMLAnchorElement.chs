@@ -29,7 +29,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlAnchorElementSetCharset ::
-                            (HTMLAnchorElementClass self) => self -> String -> IO ()
+                            (HTMLAnchorElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlAnchorElementSetCharset self val
   = withUTFString val $
       \ valPtr ->
@@ -38,7 +39,8 @@ htmlAnchorElementSetCharset self val
           valPtr
  
 htmlAnchorElementGetCharset ::
-                            (HTMLAnchorElementClass self) => self -> IO String
+                            (HTMLAnchorElementClass self, GlibString string) =>
+                              self -> IO string
 htmlAnchorElementGetCharset self
   = ({# call webkit_dom_html_anchor_element_get_charset #}
        (toHTMLAnchorElement self))
@@ -46,7 +48,8 @@ htmlAnchorElementGetCharset self
       readUTFString
  
 htmlAnchorElementSetCoords ::
-                           (HTMLAnchorElementClass self) => self -> String -> IO ()
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlAnchorElementSetCoords self val
   = withUTFString val $
       \ valPtr ->
@@ -55,7 +58,8 @@ htmlAnchorElementSetCoords self val
           valPtr
  
 htmlAnchorElementGetCoords ::
-                           (HTMLAnchorElementClass self) => self -> IO String
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAnchorElementGetCoords self
   = ({# call webkit_dom_html_anchor_element_get_coords #}
        (toHTMLAnchorElement self))
@@ -63,7 +67,8 @@ htmlAnchorElementGetCoords self
       readUTFString
  
 htmlAnchorElementSetDownload ::
-                             (HTMLAnchorElementClass self) => self -> String -> IO ()
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAnchorElementSetDownload self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +77,8 @@ htmlAnchorElementSetDownload self val
           valPtr
  
 htmlAnchorElementGetDownload ::
-                             (HTMLAnchorElementClass self) => self -> IO String
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAnchorElementGetDownload self
   = ({# call webkit_dom_html_anchor_element_get_download #}
        (toHTMLAnchorElement self))
@@ -80,7 +86,8 @@ htmlAnchorElementGetDownload self
       readUTFString
  
 htmlAnchorElementSetHref ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetHref self val
   = withUTFString val $
       \ valPtr ->
@@ -89,7 +96,8 @@ htmlAnchorElementSetHref self val
           valPtr
  
 htmlAnchorElementGetHref ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetHref self
   = ({# call webkit_dom_html_anchor_element_get_href #}
        (toHTMLAnchorElement self))
@@ -97,7 +105,8 @@ htmlAnchorElementGetHref self
       readUTFString
  
 htmlAnchorElementSetHreflang ::
-                             (HTMLAnchorElementClass self) => self -> String -> IO ()
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAnchorElementSetHreflang self val
   = withUTFString val $
       \ valPtr ->
@@ -106,7 +115,8 @@ htmlAnchorElementSetHreflang self val
           valPtr
  
 htmlAnchorElementGetHreflang ::
-                             (HTMLAnchorElementClass self) => self -> IO String
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAnchorElementGetHreflang self
   = ({# call webkit_dom_html_anchor_element_get_hreflang #}
        (toHTMLAnchorElement self))
@@ -114,7 +124,8 @@ htmlAnchorElementGetHreflang self
       readUTFString
  
 htmlAnchorElementSetName ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -123,7 +134,8 @@ htmlAnchorElementSetName self val
           valPtr
  
 htmlAnchorElementGetName ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetName self
   = ({# call webkit_dom_html_anchor_element_get_name #}
        (toHTMLAnchorElement self))
@@ -131,7 +143,8 @@ htmlAnchorElementGetName self
       readUTFString
  
 htmlAnchorElementSetPing ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetPing self val
   = withUTFString val $
       \ valPtr ->
@@ -140,7 +153,8 @@ htmlAnchorElementSetPing self val
           valPtr
  
 htmlAnchorElementGetPing ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetPing self
   = ({# call webkit_dom_html_anchor_element_get_ping #}
        (toHTMLAnchorElement self))
@@ -148,7 +162,8 @@ htmlAnchorElementGetPing self
       readUTFString
  
 htmlAnchorElementSetRel ::
-                        (HTMLAnchorElementClass self) => self -> String -> IO ()
+                        (HTMLAnchorElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlAnchorElementSetRel self val
   = withUTFString val $
       \ valPtr ->
@@ -157,7 +172,8 @@ htmlAnchorElementSetRel self val
           valPtr
  
 htmlAnchorElementGetRel ::
-                        (HTMLAnchorElementClass self) => self -> IO String
+                        (HTMLAnchorElementClass self, GlibString string) =>
+                          self -> IO string
 htmlAnchorElementGetRel self
   = ({# call webkit_dom_html_anchor_element_get_rel #}
        (toHTMLAnchorElement self))
@@ -165,7 +181,8 @@ htmlAnchorElementGetRel self
       readUTFString
  
 htmlAnchorElementSetRev ::
-                        (HTMLAnchorElementClass self) => self -> String -> IO ()
+                        (HTMLAnchorElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlAnchorElementSetRev self val
   = withUTFString val $
       \ valPtr ->
@@ -174,7 +191,8 @@ htmlAnchorElementSetRev self val
           valPtr
  
 htmlAnchorElementGetRev ::
-                        (HTMLAnchorElementClass self) => self -> IO String
+                        (HTMLAnchorElementClass self, GlibString string) =>
+                          self -> IO string
 htmlAnchorElementGetRev self
   = ({# call webkit_dom_html_anchor_element_get_rev #}
        (toHTMLAnchorElement self))
@@ -182,7 +200,8 @@ htmlAnchorElementGetRev self
       readUTFString
  
 htmlAnchorElementSetShape ::
-                          (HTMLAnchorElementClass self) => self -> String -> IO ()
+                          (HTMLAnchorElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlAnchorElementSetShape self val
   = withUTFString val $
       \ valPtr ->
@@ -191,7 +210,8 @@ htmlAnchorElementSetShape self val
           valPtr
  
 htmlAnchorElementGetShape ::
-                          (HTMLAnchorElementClass self) => self -> IO String
+                          (HTMLAnchorElementClass self, GlibString string) =>
+                            self -> IO string
 htmlAnchorElementGetShape self
   = ({# call webkit_dom_html_anchor_element_get_shape #}
        (toHTMLAnchorElement self))
@@ -199,7 +219,8 @@ htmlAnchorElementGetShape self
       readUTFString
  
 htmlAnchorElementSetTarget ::
-                           (HTMLAnchorElementClass self) => self -> String -> IO ()
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlAnchorElementSetTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -208,7 +229,8 @@ htmlAnchorElementSetTarget self val
           valPtr
  
 htmlAnchorElementGetTarget ::
-                           (HTMLAnchorElementClass self) => self -> IO String
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAnchorElementGetTarget self
   = ({# call webkit_dom_html_anchor_element_get_target #}
        (toHTMLAnchorElement self))
@@ -216,7 +238,8 @@ htmlAnchorElementGetTarget self
       readUTFString
  
 htmlAnchorElementSetHash ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetHash self val
   = withUTFString val $
       \ valPtr ->
@@ -225,7 +248,8 @@ htmlAnchorElementSetHash self val
           valPtr
  
 htmlAnchorElementGetHash ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetHash self
   = ({# call webkit_dom_html_anchor_element_get_hash #}
        (toHTMLAnchorElement self))
@@ -233,7 +257,8 @@ htmlAnchorElementGetHash self
       readUTFString
  
 htmlAnchorElementSetHost ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetHost self val
   = withUTFString val $
       \ valPtr ->
@@ -242,7 +267,8 @@ htmlAnchorElementSetHost self val
           valPtr
  
 htmlAnchorElementGetHost ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetHost self
   = ({# call webkit_dom_html_anchor_element_get_host #}
        (toHTMLAnchorElement self))
@@ -250,7 +276,8 @@ htmlAnchorElementGetHost self
       readUTFString
  
 htmlAnchorElementSetHostname ::
-                             (HTMLAnchorElementClass self) => self -> String -> IO ()
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAnchorElementSetHostname self val
   = withUTFString val $
       \ valPtr ->
@@ -259,7 +286,8 @@ htmlAnchorElementSetHostname self val
           valPtr
  
 htmlAnchorElementGetHostname ::
-                             (HTMLAnchorElementClass self) => self -> IO String
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAnchorElementGetHostname self
   = ({# call webkit_dom_html_anchor_element_get_hostname #}
        (toHTMLAnchorElement self))
@@ -267,7 +295,8 @@ htmlAnchorElementGetHostname self
       readUTFString
  
 htmlAnchorElementSetPathname ::
-                             (HTMLAnchorElementClass self) => self -> String -> IO ()
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAnchorElementSetPathname self val
   = withUTFString val $
       \ valPtr ->
@@ -276,7 +305,8 @@ htmlAnchorElementSetPathname self val
           valPtr
  
 htmlAnchorElementGetPathname ::
-                             (HTMLAnchorElementClass self) => self -> IO String
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAnchorElementGetPathname self
   = ({# call webkit_dom_html_anchor_element_get_pathname #}
        (toHTMLAnchorElement self))
@@ -284,7 +314,8 @@ htmlAnchorElementGetPathname self
       readUTFString
  
 htmlAnchorElementSetPort ::
-                         (HTMLAnchorElementClass self) => self -> String -> IO ()
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAnchorElementSetPort self val
   = withUTFString val $
       \ valPtr ->
@@ -293,7 +324,8 @@ htmlAnchorElementSetPort self val
           valPtr
  
 htmlAnchorElementGetPort ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetPort self
   = ({# call webkit_dom_html_anchor_element_get_port #}
        (toHTMLAnchorElement self))
@@ -301,7 +333,8 @@ htmlAnchorElementGetPort self
       readUTFString
  
 htmlAnchorElementSetProtocol ::
-                             (HTMLAnchorElementClass self) => self -> String -> IO ()
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlAnchorElementSetProtocol self val
   = withUTFString val $
       \ valPtr ->
@@ -310,7 +343,8 @@ htmlAnchorElementSetProtocol self val
           valPtr
  
 htmlAnchorElementGetProtocol ::
-                             (HTMLAnchorElementClass self) => self -> IO String
+                             (HTMLAnchorElementClass self, GlibString string) =>
+                               self -> IO string
 htmlAnchorElementGetProtocol self
   = ({# call webkit_dom_html_anchor_element_get_protocol #}
        (toHTMLAnchorElement self))
@@ -318,7 +352,8 @@ htmlAnchorElementGetProtocol self
       readUTFString
  
 htmlAnchorElementSetSearch ::
-                           (HTMLAnchorElementClass self) => self -> String -> IO ()
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlAnchorElementSetSearch self val
   = withUTFString val $
       \ valPtr ->
@@ -327,7 +362,8 @@ htmlAnchorElementSetSearch self val
           valPtr
  
 htmlAnchorElementGetSearch ::
-                           (HTMLAnchorElementClass self) => self -> IO String
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAnchorElementGetSearch self
   = ({# call webkit_dom_html_anchor_element_get_search #}
        (toHTMLAnchorElement self))
@@ -335,7 +371,8 @@ htmlAnchorElementGetSearch self
       readUTFString
  
 htmlAnchorElementGetOrigin ::
-                           (HTMLAnchorElementClass self) => self -> IO String
+                           (HTMLAnchorElementClass self, GlibString string) =>
+                             self -> IO string
 htmlAnchorElementGetOrigin self
   = ({# call webkit_dom_html_anchor_element_get_origin #}
        (toHTMLAnchorElement self))
@@ -343,7 +380,8 @@ htmlAnchorElementGetOrigin self
       readUTFString
  
 htmlAnchorElementGetText ::
-                         (HTMLAnchorElementClass self) => self -> IO String
+                         (HTMLAnchorElementClass self, GlibString string) =>
+                           self -> IO string
 htmlAnchorElementGetText self
   = ({# call webkit_dom_html_anchor_element_get_text #}
        (toHTMLAnchorElement self))

@@ -63,7 +63,8 @@ htmlTableRowElementGetCells self
          (toHTMLTableRowElement self))
  
 htmlTableRowElementSetAlign ::
-                            (HTMLTableRowElementClass self) => self -> String -> IO ()
+                            (HTMLTableRowElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlTableRowElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +73,8 @@ htmlTableRowElementSetAlign self val
           valPtr
  
 htmlTableRowElementGetAlign ::
-                            (HTMLTableRowElementClass self) => self -> IO String
+                            (HTMLTableRowElementClass self, GlibString string) =>
+                              self -> IO string
 htmlTableRowElementGetAlign self
   = ({# call webkit_dom_html_table_row_element_get_align #}
        (toHTMLTableRowElement self))
@@ -80,7 +82,8 @@ htmlTableRowElementGetAlign self
       readUTFString
  
 htmlTableRowElementSetBgColor ::
-                              (HTMLTableRowElementClass self) => self -> String -> IO ()
+                              (HTMLTableRowElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlTableRowElementSetBgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -89,7 +92,8 @@ htmlTableRowElementSetBgColor self val
           valPtr
  
 htmlTableRowElementGetBgColor ::
-                              (HTMLTableRowElementClass self) => self -> IO String
+                              (HTMLTableRowElementClass self, GlibString string) =>
+                                self -> IO string
 htmlTableRowElementGetBgColor self
   = ({# call webkit_dom_html_table_row_element_get_bg_color #}
        (toHTMLTableRowElement self))
@@ -97,7 +101,8 @@ htmlTableRowElementGetBgColor self
       readUTFString
  
 htmlTableRowElementSetCh ::
-                         (HTMLTableRowElementClass self) => self -> String -> IO ()
+                         (HTMLTableRowElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlTableRowElementSetCh self val
   = withUTFString val $
       \ valPtr ->
@@ -106,7 +111,8 @@ htmlTableRowElementSetCh self val
           valPtr
  
 htmlTableRowElementGetCh ::
-                         (HTMLTableRowElementClass self) => self -> IO String
+                         (HTMLTableRowElementClass self, GlibString string) =>
+                           self -> IO string
 htmlTableRowElementGetCh self
   = ({# call webkit_dom_html_table_row_element_get_ch #}
        (toHTMLTableRowElement self))
@@ -114,7 +120,8 @@ htmlTableRowElementGetCh self
       readUTFString
  
 htmlTableRowElementSetChOff ::
-                            (HTMLTableRowElementClass self) => self -> String -> IO ()
+                            (HTMLTableRowElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlTableRowElementSetChOff self val
   = withUTFString val $
       \ valPtr ->
@@ -123,7 +130,8 @@ htmlTableRowElementSetChOff self val
           valPtr
  
 htmlTableRowElementGetChOff ::
-                            (HTMLTableRowElementClass self) => self -> IO String
+                            (HTMLTableRowElementClass self, GlibString string) =>
+                              self -> IO string
 htmlTableRowElementGetChOff self
   = ({# call webkit_dom_html_table_row_element_get_ch_off #}
        (toHTMLTableRowElement self))
@@ -131,7 +139,8 @@ htmlTableRowElementGetChOff self
       readUTFString
  
 htmlTableRowElementSetVAlign ::
-                             (HTMLTableRowElementClass self) => self -> String -> IO ()
+                             (HTMLTableRowElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlTableRowElementSetVAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -140,7 +149,8 @@ htmlTableRowElementSetVAlign self val
           valPtr
  
 htmlTableRowElementGetVAlign ::
-                             (HTMLTableRowElementClass self) => self -> IO String
+                             (HTMLTableRowElementClass self, GlibString string) =>
+                               self -> IO string
 htmlTableRowElementGetVAlign self
   = ({# call webkit_dom_html_table_row_element_get_v_align #}
        (toHTMLTableRowElement self))

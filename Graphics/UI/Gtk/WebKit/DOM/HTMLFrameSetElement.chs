@@ -20,7 +20,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlFrameSetElementSetCols ::
-                           (HTMLFrameSetElementClass self) => self -> String -> IO ()
+                           (HTMLFrameSetElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlFrameSetElementSetCols self val
   = withUTFString val $
       \ valPtr ->
@@ -29,7 +30,8 @@ htmlFrameSetElementSetCols self val
           valPtr
  
 htmlFrameSetElementGetCols ::
-                           (HTMLFrameSetElementClass self) => self -> IO String
+                           (HTMLFrameSetElementClass self, GlibString string) =>
+                             self -> IO string
 htmlFrameSetElementGetCols self
   = ({# call webkit_dom_html_frame_set_element_get_cols #}
        (toHTMLFrameSetElement self))
@@ -37,7 +39,8 @@ htmlFrameSetElementGetCols self
       readUTFString
  
 htmlFrameSetElementSetRows ::
-                           (HTMLFrameSetElementClass self) => self -> String -> IO ()
+                           (HTMLFrameSetElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlFrameSetElementSetRows self val
   = withUTFString val $
       \ valPtr ->
@@ -46,7 +49,8 @@ htmlFrameSetElementSetRows self val
           valPtr
  
 htmlFrameSetElementGetRows ::
-                           (HTMLFrameSetElementClass self) => self -> IO String
+                           (HTMLFrameSetElementClass self, GlibString string) =>
+                             self -> IO string
 htmlFrameSetElementGetRows self
   = ({# call webkit_dom_html_frame_set_element_get_rows #}
        (toHTMLFrameSetElement self))

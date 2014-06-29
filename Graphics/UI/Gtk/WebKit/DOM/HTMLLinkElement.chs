@@ -32,7 +32,8 @@ htmlLinkElementGetDisabled self
          (toHTMLLinkElement self))
  
 htmlLinkElementSetCharset ::
-                          (HTMLLinkElementClass self) => self -> String -> IO ()
+                          (HTMLLinkElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlLinkElementSetCharset self val
   = withUTFString val $
       \ valPtr ->
@@ -41,7 +42,7 @@ htmlLinkElementSetCharset self val
           valPtr
  
 htmlLinkElementGetCharset ::
-                          (HTMLLinkElementClass self) => self -> IO String
+                          (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetCharset self
   = ({# call webkit_dom_html_link_element_get_charset #}
        (toHTMLLinkElement self))
@@ -49,7 +50,8 @@ htmlLinkElementGetCharset self
       readUTFString
  
 htmlLinkElementSetHref ::
-                       (HTMLLinkElementClass self) => self -> String -> IO ()
+                       (HTMLLinkElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlLinkElementSetHref self val
   = withUTFString val $
       \ valPtr ->
@@ -58,7 +60,7 @@ htmlLinkElementSetHref self val
           valPtr
  
 htmlLinkElementGetHref ::
-                       (HTMLLinkElementClass self) => self -> IO String
+                       (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetHref self
   = ({# call webkit_dom_html_link_element_get_href #}
        (toHTMLLinkElement self))
@@ -66,7 +68,8 @@ htmlLinkElementGetHref self
       readUTFString
  
 htmlLinkElementSetHreflang ::
-                           (HTMLLinkElementClass self) => self -> String -> IO ()
+                           (HTMLLinkElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlLinkElementSetHreflang self val
   = withUTFString val $
       \ valPtr ->
@@ -75,7 +78,7 @@ htmlLinkElementSetHreflang self val
           valPtr
  
 htmlLinkElementGetHreflang ::
-                           (HTMLLinkElementClass self) => self -> IO String
+                           (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetHreflang self
   = ({# call webkit_dom_html_link_element_get_hreflang #}
        (toHTMLLinkElement self))
@@ -83,7 +86,8 @@ htmlLinkElementGetHreflang self
       readUTFString
  
 htmlLinkElementSetMedia ::
-                        (HTMLLinkElementClass self) => self -> String -> IO ()
+                        (HTMLLinkElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlLinkElementSetMedia self val
   = withUTFString val $
       \ valPtr ->
@@ -92,7 +96,7 @@ htmlLinkElementSetMedia self val
           valPtr
  
 htmlLinkElementGetMedia ::
-                        (HTMLLinkElementClass self) => self -> IO String
+                        (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetMedia self
   = ({# call webkit_dom_html_link_element_get_media #}
        (toHTMLLinkElement self))
@@ -100,7 +104,8 @@ htmlLinkElementGetMedia self
       readUTFString
  
 htmlLinkElementSetRel ::
-                      (HTMLLinkElementClass self) => self -> String -> IO ()
+                      (HTMLLinkElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlLinkElementSetRel self val
   = withUTFString val $
       \ valPtr ->
@@ -109,7 +114,7 @@ htmlLinkElementSetRel self val
           valPtr
  
 htmlLinkElementGetRel ::
-                      (HTMLLinkElementClass self) => self -> IO String
+                      (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetRel self
   = ({# call webkit_dom_html_link_element_get_rel #}
        (toHTMLLinkElement self))
@@ -117,7 +122,8 @@ htmlLinkElementGetRel self
       readUTFString
  
 htmlLinkElementSetRev ::
-                      (HTMLLinkElementClass self) => self -> String -> IO ()
+                      (HTMLLinkElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlLinkElementSetRev self val
   = withUTFString val $
       \ valPtr ->
@@ -126,7 +132,7 @@ htmlLinkElementSetRev self val
           valPtr
  
 htmlLinkElementGetRev ::
-                      (HTMLLinkElementClass self) => self -> IO String
+                      (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetRev self
   = ({# call webkit_dom_html_link_element_get_rev #}
        (toHTMLLinkElement self))
@@ -134,7 +140,8 @@ htmlLinkElementGetRev self
       readUTFString
  
 htmlLinkElementSetTarget ::
-                         (HTMLLinkElementClass self) => self -> String -> IO ()
+                         (HTMLLinkElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlLinkElementSetTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -143,7 +150,7 @@ htmlLinkElementSetTarget self val
           valPtr
  
 htmlLinkElementGetTarget ::
-                         (HTMLLinkElementClass self) => self -> IO String
+                         (HTMLLinkElementClass self, GlibString string) => self -> IO string
 htmlLinkElementGetTarget self
   = ({# call webkit_dom_html_link_element_get_target #}
        (toHTMLLinkElement self))

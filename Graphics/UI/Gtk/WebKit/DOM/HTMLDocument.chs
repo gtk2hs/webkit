@@ -81,14 +81,16 @@ htmlDocumentGetHeight self
          (toHTMLDocument self))
  
 htmlDocumentSetDir ::
-                   (HTMLDocumentClass self) => self -> String -> IO ()
+                   (HTMLDocumentClass self, GlibString string) =>
+                     self -> string -> IO ()
 htmlDocumentSetDir self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_html_document_set_dir #} (toHTMLDocument self)
           valPtr
  
-htmlDocumentGetDir :: (HTMLDocumentClass self) => self -> IO String
+htmlDocumentGetDir ::
+                   (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetDir self
   = ({# call webkit_dom_html_document_get_dir #}
        (toHTMLDocument self))
@@ -96,7 +98,8 @@ htmlDocumentGetDir self
       readUTFString
  
 htmlDocumentSetDesignMode ::
-                          (HTMLDocumentClass self) => self -> String -> IO ()
+                          (HTMLDocumentClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlDocumentSetDesignMode self val
   = withUTFString val $
       \ valPtr ->
@@ -105,7 +108,7 @@ htmlDocumentSetDesignMode self val
           valPtr
  
 htmlDocumentGetDesignMode ::
-                          (HTMLDocumentClass self) => self -> IO String
+                          (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetDesignMode self
   = ({# call webkit_dom_html_document_get_design_mode #}
        (toHTMLDocument self))
@@ -113,7 +116,7 @@ htmlDocumentGetDesignMode self
       readUTFString
  
 htmlDocumentGetCompatMode ::
-                          (HTMLDocumentClass self) => self -> IO String
+                          (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetCompatMode self
   = ({# call webkit_dom_html_document_get_compat_mode #}
        (toHTMLDocument self))
@@ -128,7 +131,8 @@ htmlDocumentGetActiveElement self
          (toHTMLDocument self))
  
 htmlDocumentSetBgColor ::
-                       (HTMLDocumentClass self) => self -> String -> IO ()
+                       (HTMLDocumentClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlDocumentSetBgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -137,7 +141,7 @@ htmlDocumentSetBgColor self val
           valPtr
  
 htmlDocumentGetBgColor ::
-                       (HTMLDocumentClass self) => self -> IO String
+                       (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetBgColor self
   = ({# call webkit_dom_html_document_get_bg_color #}
        (toHTMLDocument self))
@@ -145,7 +149,8 @@ htmlDocumentGetBgColor self
       readUTFString
  
 htmlDocumentSetFgColor ::
-                       (HTMLDocumentClass self) => self -> String -> IO ()
+                       (HTMLDocumentClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlDocumentSetFgColor self val
   = withUTFString val $
       \ valPtr ->
@@ -154,7 +159,7 @@ htmlDocumentSetFgColor self val
           valPtr
  
 htmlDocumentGetFgColor ::
-                       (HTMLDocumentClass self) => self -> IO String
+                       (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetFgColor self
   = ({# call webkit_dom_html_document_get_fg_color #}
        (toHTMLDocument self))
@@ -162,7 +167,8 @@ htmlDocumentGetFgColor self
       readUTFString
  
 htmlDocumentSetAlinkColor ::
-                          (HTMLDocumentClass self) => self -> String -> IO ()
+                          (HTMLDocumentClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlDocumentSetAlinkColor self val
   = withUTFString val $
       \ valPtr ->
@@ -171,7 +177,7 @@ htmlDocumentSetAlinkColor self val
           valPtr
  
 htmlDocumentGetAlinkColor ::
-                          (HTMLDocumentClass self) => self -> IO String
+                          (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetAlinkColor self
   = ({# call webkit_dom_html_document_get_alink_color #}
        (toHTMLDocument self))
@@ -179,7 +185,8 @@ htmlDocumentGetAlinkColor self
       readUTFString
  
 htmlDocumentSetLinkColor ::
-                         (HTMLDocumentClass self) => self -> String -> IO ()
+                         (HTMLDocumentClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlDocumentSetLinkColor self val
   = withUTFString val $
       \ valPtr ->
@@ -188,7 +195,7 @@ htmlDocumentSetLinkColor self val
           valPtr
  
 htmlDocumentGetLinkColor ::
-                         (HTMLDocumentClass self) => self -> IO String
+                         (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetLinkColor self
   = ({# call webkit_dom_html_document_get_link_color #}
        (toHTMLDocument self))
@@ -196,7 +203,8 @@ htmlDocumentGetLinkColor self
       readUTFString
  
 htmlDocumentSetVlinkColor ::
-                          (HTMLDocumentClass self) => self -> String -> IO ()
+                          (HTMLDocumentClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlDocumentSetVlinkColor self val
   = withUTFString val $
       \ valPtr ->
@@ -205,7 +213,7 @@ htmlDocumentSetVlinkColor self val
           valPtr
  
 htmlDocumentGetVlinkColor ::
-                          (HTMLDocumentClass self) => self -> IO String
+                          (HTMLDocumentClass self, GlibString string) => self -> IO string
 htmlDocumentGetVlinkColor self
   = ({# call webkit_dom_html_document_get_vlink_color #}
        (toHTMLDocument self))

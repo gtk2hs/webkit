@@ -22,7 +22,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 keyboardEventGetModifierState ::
-                              (KeyboardEventClass self) => self -> String -> IO Bool
+                              (KeyboardEventClass self, GlibString string) =>
+                                self -> string -> IO Bool
 keyboardEventGetModifierState self keyIdentifierArg
   = toBool <$>
       (withUTFString keyIdentifierArg $
@@ -32,13 +33,14 @@ keyboardEventGetModifierState self keyIdentifierArg
              keyIdentifierArgPtr)
  
 keyboardEventInitKeyboardEvent ::
-                               (KeyboardEventClass self, DOMWindowClass view) =>
+                               (KeyboardEventClass self, DOMWindowClass view,
+                                GlibString string) =>
                                  self ->
-                                   String ->
+                                   string ->
                                      Bool ->
                                        Bool ->
                                          Maybe view ->
-                                           String ->
+                                           string ->
                                              Word -> Bool -> Bool -> Bool -> Bool -> Bool -> IO ()
 keyboardEventInitKeyboardEvent self type' canBubble cancelable view
   keyIdentifier location ctrlKey altKey shiftKey metaKey altGraphKey
@@ -65,7 +67,7 @@ cKEY_LOCATION_RIGHT = 2
 cKEY_LOCATION_NUMPAD = 3
  
 keyboardEventGetKeyIdentifier ::
-                              (KeyboardEventClass self) => self -> IO String
+                              (KeyboardEventClass self, GlibString string) => self -> IO string
 keyboardEventGetKeyIdentifier self
   = ({# call webkit_dom_keyboard_event_get_key_identifier #}
        (toKeyboardEvent self))

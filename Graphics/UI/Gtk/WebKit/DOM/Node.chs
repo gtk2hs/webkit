@@ -90,7 +90,8 @@ nodeNormalize self
   = {# call webkit_dom_node_normalize #} (toNode self)
  
 nodeIsSupported ::
-                (NodeClass self) => self -> String -> String -> IO Bool
+                (NodeClass self, GlibString string) =>
+                  self -> string -> string -> IO Bool
 nodeIsSupported self feature version
   = toBool <$>
       (withUTFString version $
@@ -114,7 +115,8 @@ nodeIsEqualNode self other
       ({# call webkit_dom_node_is_equal_node #} (toNode self)
          (maybe (Node nullForeignPtr) toNode other))
  
-nodeLookupPrefix :: (NodeClass self) => self -> String -> IO String
+nodeLookupPrefix ::
+                 (NodeClass self, GlibString string) => self -> string -> IO string
 nodeLookupPrefix self namespaceURI
   = (withUTFString namespaceURI $
        \ namespaceURIPtr ->
@@ -124,7 +126,7 @@ nodeLookupPrefix self namespaceURI
       readUTFString
  
 nodeIsDefaultNamespace ::
-                       (NodeClass self) => self -> String -> IO Bool
+                       (NodeClass self, GlibString string) => self -> string -> IO Bool
 nodeIsDefaultNamespace self namespaceURI
   = toBool <$>
       (withUTFString namespaceURI $
@@ -133,7 +135,7 @@ nodeIsDefaultNamespace self namespaceURI
              namespaceURIPtr)
  
 nodeLookupNamespaceURI ::
-                       (NodeClass self) => self -> String -> IO String
+                       (NodeClass self, GlibString string) => self -> string -> IO string
 nodeLookupNamespaceURI self prefix
   = (withUTFString prefix $
        \ prefixPtr ->
@@ -185,12 +187,14 @@ cDOCUMENT_POSITION_CONTAINS = 8
 cDOCUMENT_POSITION_CONTAINED_BY = 16
 cDOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32
  
-nodeGetNodeName :: (NodeClass self) => self -> IO String
+nodeGetNodeName ::
+                (NodeClass self, GlibString string) => self -> IO string
 nodeGetNodeName self
   = ({# call webkit_dom_node_get_node_name #} (toNode self)) >>=
       readUTFString
  
-nodeSetNodeValue :: (NodeClass self) => self -> String -> IO ()
+nodeSetNodeValue ::
+                 (NodeClass self, GlibString string) => self -> string -> IO ()
 nodeSetNodeValue self val
   = propagateGError $
       \ errorPtr_ ->
@@ -199,7 +203,8 @@ nodeSetNodeValue self val
             {# call webkit_dom_node_set_node_value #} (toNode self) valPtr
           errorPtr_
  
-nodeGetNodeValue :: (NodeClass self) => self -> IO String
+nodeGetNodeValue ::
+                 (NodeClass self, GlibString string) => self -> IO string
 nodeGetNodeValue self
   = ({# call webkit_dom_node_get_node_value #} (toNode self)) >>=
       readUTFString
@@ -247,12 +252,14 @@ nodeGetOwnerDocument self
   = maybeNull (makeNewGObject mkDocument)
       ({# call webkit_dom_node_get_owner_document #} (toNode self))
  
-nodeGetNamespaceURI :: (NodeClass self) => self -> IO String
+nodeGetNamespaceURI ::
+                    (NodeClass self, GlibString string) => self -> IO string
 nodeGetNamespaceURI self
   = ({# call webkit_dom_node_get_namespace_uri #} (toNode self)) >>=
       readUTFString
  
-nodeSetPrefix :: (NodeClass self) => self -> String -> IO ()
+nodeSetPrefix ::
+              (NodeClass self, GlibString string) => self -> string -> IO ()
 nodeSetPrefix self val
   = propagateGError $
       \ errorPtr_ ->
@@ -261,22 +268,26 @@ nodeSetPrefix self val
             {# call webkit_dom_node_set_prefix #} (toNode self) valPtr
           errorPtr_
  
-nodeGetPrefix :: (NodeClass self) => self -> IO String
+nodeGetPrefix ::
+              (NodeClass self, GlibString string) => self -> IO string
 nodeGetPrefix self
   = ({# call webkit_dom_node_get_prefix #} (toNode self)) >>=
       readUTFString
  
-nodeGetLocalName :: (NodeClass self) => self -> IO String
+nodeGetLocalName ::
+                 (NodeClass self, GlibString string) => self -> IO string
 nodeGetLocalName self
   = ({# call webkit_dom_node_get_local_name #} (toNode self)) >>=
       readUTFString
  
-nodeGetBaseURI :: (NodeClass self) => self -> IO String
+nodeGetBaseURI ::
+               (NodeClass self, GlibString string) => self -> IO string
 nodeGetBaseURI self
   = ({# call webkit_dom_node_get_base_uri #} (toNode self)) >>=
       readUTFString
  
-nodeSetTextContent :: (NodeClass self) => self -> String -> IO ()
+nodeSetTextContent ::
+                   (NodeClass self, GlibString string) => self -> string -> IO ()
 nodeSetTextContent self val
   = propagateGError $
       \ errorPtr_ ->
@@ -285,7 +296,8 @@ nodeSetTextContent self val
             {# call webkit_dom_node_set_text_content #} (toNode self) valPtr
           errorPtr_
  
-nodeGetTextContent :: (NodeClass self) => self -> IO String
+nodeGetTextContent ::
+                   (NodeClass self, GlibString string) => self -> IO string
 nodeGetTextContent self
   = ({# call webkit_dom_node_get_text_content #} (toNode self)) >>=
       readUTFString

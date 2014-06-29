@@ -37,7 +37,8 @@ htmlObjectElementCheckValidity self
          (toHTMLObjectElement self))
  
 htmlObjectElementSetCustomValidity ::
-                                   (HTMLObjectElementClass self) => self -> String -> IO ()
+                                   (HTMLObjectElementClass self, GlibString string) =>
+                                     self -> string -> IO ()
 htmlObjectElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -53,7 +54,8 @@ htmlObjectElementGetForm self
          (toHTMLObjectElement self))
  
 htmlObjectElementSetCode ::
-                         (HTMLObjectElementClass self) => self -> String -> IO ()
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlObjectElementSetCode self val
   = withUTFString val $
       \ valPtr ->
@@ -62,7 +64,8 @@ htmlObjectElementSetCode self val
           valPtr
  
 htmlObjectElementGetCode ::
-                         (HTMLObjectElementClass self) => self -> IO String
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> IO string
 htmlObjectElementGetCode self
   = ({# call webkit_dom_html_object_element_get_code #}
        (toHTMLObjectElement self))
@@ -70,7 +73,8 @@ htmlObjectElementGetCode self
       readUTFString
  
 htmlObjectElementSetAlign ::
-                          (HTMLObjectElementClass self) => self -> String -> IO ()
+                          (HTMLObjectElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlObjectElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -79,7 +83,8 @@ htmlObjectElementSetAlign self val
           valPtr
  
 htmlObjectElementGetAlign ::
-                          (HTMLObjectElementClass self) => self -> IO String
+                          (HTMLObjectElementClass self, GlibString string) =>
+                            self -> IO string
 htmlObjectElementGetAlign self
   = ({# call webkit_dom_html_object_element_get_align #}
        (toHTMLObjectElement self))
@@ -87,7 +92,8 @@ htmlObjectElementGetAlign self
       readUTFString
  
 htmlObjectElementSetArchive ::
-                            (HTMLObjectElementClass self) => self -> String -> IO ()
+                            (HTMLObjectElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlObjectElementSetArchive self val
   = withUTFString val $
       \ valPtr ->
@@ -96,7 +102,8 @@ htmlObjectElementSetArchive self val
           valPtr
  
 htmlObjectElementGetArchive ::
-                            (HTMLObjectElementClass self) => self -> IO String
+                            (HTMLObjectElementClass self, GlibString string) =>
+                              self -> IO string
 htmlObjectElementGetArchive self
   = ({# call webkit_dom_html_object_element_get_archive #}
        (toHTMLObjectElement self))
@@ -104,7 +111,8 @@ htmlObjectElementGetArchive self
       readUTFString
  
 htmlObjectElementSetBorder ::
-                           (HTMLObjectElementClass self) => self -> String -> IO ()
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlObjectElementSetBorder self val
   = withUTFString val $
       \ valPtr ->
@@ -113,7 +121,8 @@ htmlObjectElementSetBorder self val
           valPtr
  
 htmlObjectElementGetBorder ::
-                           (HTMLObjectElementClass self) => self -> IO String
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> IO string
 htmlObjectElementGetBorder self
   = ({# call webkit_dom_html_object_element_get_border #}
        (toHTMLObjectElement self))
@@ -121,7 +130,8 @@ htmlObjectElementGetBorder self
       readUTFString
  
 htmlObjectElementSetCodeBase ::
-                             (HTMLObjectElementClass self) => self -> String -> IO ()
+                             (HTMLObjectElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlObjectElementSetCodeBase self val
   = withUTFString val $
       \ valPtr ->
@@ -130,7 +140,8 @@ htmlObjectElementSetCodeBase self val
           valPtr
  
 htmlObjectElementGetCodeBase ::
-                             (HTMLObjectElementClass self) => self -> IO String
+                             (HTMLObjectElementClass self, GlibString string) =>
+                               self -> IO string
 htmlObjectElementGetCodeBase self
   = ({# call webkit_dom_html_object_element_get_code_base #}
        (toHTMLObjectElement self))
@@ -138,7 +149,8 @@ htmlObjectElementGetCodeBase self
       readUTFString
  
 htmlObjectElementSetCodeType ::
-                             (HTMLObjectElementClass self) => self -> String -> IO ()
+                             (HTMLObjectElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlObjectElementSetCodeType self val
   = withUTFString val $
       \ valPtr ->
@@ -147,7 +159,8 @@ htmlObjectElementSetCodeType self val
           valPtr
  
 htmlObjectElementGetCodeType ::
-                             (HTMLObjectElementClass self) => self -> IO String
+                             (HTMLObjectElementClass self, GlibString string) =>
+                               self -> IO string
 htmlObjectElementGetCodeType self
   = ({# call webkit_dom_html_object_element_get_code_type #}
        (toHTMLObjectElement self))
@@ -155,7 +168,8 @@ htmlObjectElementGetCodeType self
       readUTFString
  
 htmlObjectElementSetData ::
-                         (HTMLObjectElementClass self) => self -> String -> IO ()
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlObjectElementSetData self val
   = withUTFString val $
       \ valPtr ->
@@ -164,7 +178,8 @@ htmlObjectElementSetData self val
           valPtr
  
 htmlObjectElementGetData ::
-                         (HTMLObjectElementClass self) => self -> IO String
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> IO string
 htmlObjectElementGetData self
   = ({# call webkit_dom_html_object_element_get_data #}
        (toHTMLObjectElement self))
@@ -186,7 +201,8 @@ htmlObjectElementGetDeclare self
          (toHTMLObjectElement self))
  
 htmlObjectElementSetHeight ::
-                           (HTMLObjectElementClass self) => self -> String -> IO ()
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlObjectElementSetHeight self val
   = withUTFString val $
       \ valPtr ->
@@ -195,7 +211,8 @@ htmlObjectElementSetHeight self val
           valPtr
  
 htmlObjectElementGetHeight ::
-                           (HTMLObjectElementClass self) => self -> IO String
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> IO string
 htmlObjectElementGetHeight self
   = ({# call webkit_dom_html_object_element_get_height #}
        (toHTMLObjectElement self))
@@ -217,7 +234,8 @@ htmlObjectElementGetHspace self
          (toHTMLObjectElement self))
  
 htmlObjectElementSetName ::
-                         (HTMLObjectElementClass self) => self -> String -> IO ()
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlObjectElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -226,7 +244,8 @@ htmlObjectElementSetName self val
           valPtr
  
 htmlObjectElementGetName ::
-                         (HTMLObjectElementClass self) => self -> IO String
+                         (HTMLObjectElementClass self, GlibString string) =>
+                           self -> IO string
 htmlObjectElementGetName self
   = ({# call webkit_dom_html_object_element_get_name #}
        (toHTMLObjectElement self))
@@ -234,7 +253,8 @@ htmlObjectElementGetName self
       readUTFString
  
 htmlObjectElementSetStandby ::
-                            (HTMLObjectElementClass self) => self -> String -> IO ()
+                            (HTMLObjectElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlObjectElementSetStandby self val
   = withUTFString val $
       \ valPtr ->
@@ -243,7 +263,8 @@ htmlObjectElementSetStandby self val
           valPtr
  
 htmlObjectElementGetStandby ::
-                            (HTMLObjectElementClass self) => self -> IO String
+                            (HTMLObjectElementClass self, GlibString string) =>
+                              self -> IO string
 htmlObjectElementGetStandby self
   = ({# call webkit_dom_html_object_element_get_standby #}
        (toHTMLObjectElement self))
@@ -251,7 +272,8 @@ htmlObjectElementGetStandby self
       readUTFString
  
 htmlObjectElementSetUseMap ::
-                           (HTMLObjectElementClass self) => self -> String -> IO ()
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlObjectElementSetUseMap self val
   = withUTFString val $
       \ valPtr ->
@@ -260,7 +282,8 @@ htmlObjectElementSetUseMap self val
           valPtr
  
 htmlObjectElementGetUseMap ::
-                           (HTMLObjectElementClass self) => self -> IO String
+                           (HTMLObjectElementClass self, GlibString string) =>
+                             self -> IO string
 htmlObjectElementGetUseMap self
   = ({# call webkit_dom_html_object_element_get_use_map #}
        (toHTMLObjectElement self))
@@ -282,7 +305,8 @@ htmlObjectElementGetVspace self
          (toHTMLObjectElement self))
  
 htmlObjectElementSetWidth ::
-                          (HTMLObjectElementClass self) => self -> String -> IO ()
+                          (HTMLObjectElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlObjectElementSetWidth self val
   = withUTFString val $
       \ valPtr ->
@@ -291,7 +315,8 @@ htmlObjectElementSetWidth self val
           valPtr
  
 htmlObjectElementGetWidth ::
-                          (HTMLObjectElementClass self) => self -> IO String
+                          (HTMLObjectElementClass self, GlibString string) =>
+                            self -> IO string
 htmlObjectElementGetWidth self
   = ({# call webkit_dom_html_object_element_get_width #}
        (toHTMLObjectElement self))
@@ -313,7 +338,8 @@ htmlObjectElementGetValidity self
          (toHTMLObjectElement self))
  
 htmlObjectElementGetValidationMessage ::
-                                      (HTMLObjectElementClass self) => self -> IO String
+                                      (HTMLObjectElementClass self, GlibString string) =>
+                                        self -> IO string
 htmlObjectElementGetValidationMessage self
   = ({# call webkit_dom_html_object_element_get_validation_message #}
        (toHTMLObjectElement self))

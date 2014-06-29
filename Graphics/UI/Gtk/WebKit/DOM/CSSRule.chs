@@ -21,7 +21,8 @@ cPAGE_RULE = 6
 cWEBKIT_KEYFRAMES_RULE = 7
 cWEBKIT_KEYFRAME_RULE = 8
  
-cssRuleSetCssText :: (CSSRuleClass self) => self -> String -> IO ()
+cssRuleSetCssText ::
+                  (CSSRuleClass self, GlibString string) => self -> string -> IO ()
 cssRuleSetCssText self val
   = propagateGError $
       \ errorPtr_ ->
@@ -30,7 +31,8 @@ cssRuleSetCssText self val
             {# call webkit_dom_css_rule_set_css_text #} (toCSSRule self) valPtr
           errorPtr_
  
-cssRuleGetCssText :: (CSSRuleClass self) => self -> IO String
+cssRuleGetCssText ::
+                  (CSSRuleClass self, GlibString string) => self -> IO string
 cssRuleGetCssText self
   = ({# call webkit_dom_css_rule_get_css_text #} (toCSSRule self))
       >>=

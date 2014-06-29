@@ -45,7 +45,8 @@ htmlTextAreaElementCheckValidity self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetCustomValidity ::
-                                     (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                                     (HTMLTextAreaElementClass self, GlibString string) =>
+                                       self -> string -> IO ()
 htmlTextAreaElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -61,8 +62,8 @@ htmlTextAreaElementSelect self
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 htmlTextAreaElementSetRangeText ::
-                                (HTMLTextAreaElementClass self) =>
-                                  self -> String -> Word -> Word -> String -> IO ()
+                                (HTMLTextAreaElementClass self, GlibString string) =>
+                                  self -> string -> Word -> Word -> string -> IO ()
 htmlTextAreaElementSetRangeText self replacement start end
   selectionMode
   = propagateGError $
@@ -81,8 +82,8 @@ htmlTextAreaElementSetRangeText self replacement start end
 #endif
 
 htmlTextAreaElementSetSelectionRange ::
-                                     (HTMLTextAreaElementClass self) =>
-                                       self -> Int -> Int -> String -> IO ()
+                                     (HTMLTextAreaElementClass self, GlibString string) =>
+                                       self -> Int -> Int -> string -> IO ()
 htmlTextAreaElementSetSelectionRange self start end direction
   = withUTFString direction $
       \ directionPtr ->
@@ -121,7 +122,8 @@ htmlTextAreaElementGetCols self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetDirName ::
-                              (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                              (HTMLTextAreaElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlTextAreaElementSetDirName self val
   = withUTFString val $
       \ valPtr ->
@@ -130,7 +132,8 @@ htmlTextAreaElementSetDirName self val
           valPtr
  
 htmlTextAreaElementGetDirName ::
-                              (HTMLTextAreaElementClass self) => self -> IO String
+                              (HTMLTextAreaElementClass self, GlibString string) =>
+                                self -> IO string
 htmlTextAreaElementGetDirName self
   = ({# call webkit_dom_html_text_area_element_get_dir_name #}
        (toHTMLTextAreaElement self))
@@ -177,7 +180,8 @@ htmlTextAreaElementGetMaxLength self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetName ::
-                           (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                           (HTMLTextAreaElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlTextAreaElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -186,7 +190,8 @@ htmlTextAreaElementSetName self val
           valPtr
  
 htmlTextAreaElementGetName ::
-                           (HTMLTextAreaElementClass self) => self -> IO String
+                           (HTMLTextAreaElementClass self, GlibString string) =>
+                             self -> IO string
 htmlTextAreaElementGetName self
   = ({# call webkit_dom_html_text_area_element_get_name #}
        (toHTMLTextAreaElement self))
@@ -194,7 +199,8 @@ htmlTextAreaElementGetName self
       readUTFString
  
 htmlTextAreaElementSetPlaceholder ::
-                                  (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                                  (HTMLTextAreaElementClass self, GlibString string) =>
+                                    self -> string -> IO ()
 htmlTextAreaElementSetPlaceholder self val
   = withUTFString val $
       \ valPtr ->
@@ -203,7 +209,8 @@ htmlTextAreaElementSetPlaceholder self val
           valPtr
  
 htmlTextAreaElementGetPlaceholder ::
-                                  (HTMLTextAreaElementClass self) => self -> IO String
+                                  (HTMLTextAreaElementClass self, GlibString string) =>
+                                    self -> IO string
 htmlTextAreaElementGetPlaceholder self
   = ({# call webkit_dom_html_text_area_element_get_placeholder #}
        (toHTMLTextAreaElement self))
@@ -253,7 +260,8 @@ htmlTextAreaElementGetRows self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetWrap ::
-                           (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                           (HTMLTextAreaElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlTextAreaElementSetWrap self val
   = withUTFString val $
       \ valPtr ->
@@ -262,7 +270,8 @@ htmlTextAreaElementSetWrap self val
           valPtr
  
 htmlTextAreaElementGetWrap ::
-                           (HTMLTextAreaElementClass self) => self -> IO String
+                           (HTMLTextAreaElementClass self, GlibString string) =>
+                             self -> IO string
 htmlTextAreaElementGetWrap self
   = ({# call webkit_dom_html_text_area_element_get_wrap #}
        (toHTMLTextAreaElement self))
@@ -270,7 +279,8 @@ htmlTextAreaElementGetWrap self
       readUTFString
  
 htmlTextAreaElementSetDefaultValue ::
-                                   (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                                   (HTMLTextAreaElementClass self, GlibString string) =>
+                                     self -> string -> IO ()
 htmlTextAreaElementSetDefaultValue self val
   = withUTFString val $
       \ valPtr ->
@@ -279,7 +289,8 @@ htmlTextAreaElementSetDefaultValue self val
           valPtr
  
 htmlTextAreaElementGetDefaultValue ::
-                                   (HTMLTextAreaElementClass self) => self -> IO String
+                                   (HTMLTextAreaElementClass self, GlibString string) =>
+                                     self -> IO string
 htmlTextAreaElementGetDefaultValue self
   = ({# call webkit_dom_html_text_area_element_get_default_value #}
        (toHTMLTextAreaElement self))
@@ -287,7 +298,8 @@ htmlTextAreaElementGetDefaultValue self
       readUTFString
  
 htmlTextAreaElementSetValue ::
-                            (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                            (HTMLTextAreaElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlTextAreaElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -296,7 +308,8 @@ htmlTextAreaElementSetValue self val
           valPtr
  
 htmlTextAreaElementGetValue ::
-                            (HTMLTextAreaElementClass self) => self -> IO String
+                            (HTMLTextAreaElementClass self, GlibString string) =>
+                              self -> IO string
 htmlTextAreaElementGetValue self
   = ({# call webkit_dom_html_text_area_element_get_value #}
        (toHTMLTextAreaElement self))
@@ -325,7 +338,8 @@ htmlTextAreaElementGetValidity self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementGetValidationMessage ::
-                                        (HTMLTextAreaElementClass self) => self -> IO String
+                                        (HTMLTextAreaElementClass self, GlibString string) =>
+                                          self -> IO string
 htmlTextAreaElementGetValidationMessage self
   = ({# call webkit_dom_html_text_area_element_get_validation_message
        #}
@@ -369,7 +383,8 @@ htmlTextAreaElementGetSelectionEnd self
          (toHTMLTextAreaElement self))
  
 htmlTextAreaElementSetSelectionDirection ::
-                                         (HTMLTextAreaElementClass self) => self -> String -> IO ()
+                                         (HTMLTextAreaElementClass self, GlibString string) =>
+                                           self -> string -> IO ()
 htmlTextAreaElementSetSelectionDirection self val
   = withUTFString val $
       \ valPtr ->
@@ -379,7 +394,8 @@ htmlTextAreaElementSetSelectionDirection self val
           valPtr
  
 htmlTextAreaElementGetSelectionDirection ::
-                                         (HTMLTextAreaElementClass self) => self -> IO String
+                                         (HTMLTextAreaElementClass self, GlibString string) =>
+                                           self -> IO string
 htmlTextAreaElementGetSelectionDirection self
   = ({# call
        webkit_dom_html_text_area_element_get_selection_direction

@@ -58,7 +58,8 @@ htmlMediaElementLoad self
 #endif
 
 htmlMediaElementCanPlayType ::
-                            (HTMLMediaElementClass self) => self -> String -> IO String
+                            (HTMLMediaElementClass self, GlibString string) =>
+                              self -> string -> IO string
 htmlMediaElementCanPlayType self type'
   = (withUTFString type' $
        \ typePtr ->
@@ -97,7 +98,8 @@ htmlMediaElementGetError self
          (toHTMLMediaElement self))
 
 htmlMediaElementSetSrc ::
-                       (HTMLMediaElementClass self) => self -> String -> IO ()
+                       (HTMLMediaElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlMediaElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -106,7 +108,8 @@ htmlMediaElementSetSrc self val
           valPtr
 
 htmlMediaElementGetSrc ::
-                       (HTMLMediaElementClass self) => self -> IO String
+                       (HTMLMediaElementClass self, GlibString string) =>
+                         self -> IO string
 htmlMediaElementGetSrc self
   = ({# call webkit_dom_html_media_element_get_src #}
        (toHTMLMediaElement self))
@@ -114,7 +117,8 @@ htmlMediaElementGetSrc self
       readUTFString
 
 htmlMediaElementGetCurrentSrc ::
-                              (HTMLMediaElementClass self) => self -> IO String
+                              (HTMLMediaElementClass self, GlibString string) =>
+                                self -> IO string
 htmlMediaElementGetCurrentSrc self
   = ({# call webkit_dom_html_media_element_get_current_src #}
        (toHTMLMediaElement self))
@@ -129,7 +133,8 @@ htmlMediaElementGetNetworkState self
          (toHTMLMediaElement self))
 
 htmlMediaElementSetPreload ::
-                           (HTMLMediaElementClass self) => self -> String -> IO ()
+                           (HTMLMediaElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlMediaElementSetPreload self val
   = withUTFString val $
       \ valPtr ->
@@ -138,7 +143,8 @@ htmlMediaElementSetPreload self val
           valPtr
 
 htmlMediaElementGetPreload ::
-                           (HTMLMediaElementClass self) => self -> IO String
+                           (HTMLMediaElementClass self, GlibString string) =>
+                             self -> IO string
 htmlMediaElementGetPreload self
   = ({# call webkit_dom_html_media_element_get_preload #}
        (toHTMLMediaElement self))
@@ -417,7 +423,8 @@ htmlMediaElementOnwebkitneedkey = (connect "webkitneedkey")
 #endif
 
 htmlMediaElementSetMediaGroup ::
-                              (HTMLMediaElementClass self) => self -> String -> IO ()
+                              (HTMLMediaElementClass self, GlibString string) =>
+                                self -> string -> IO ()
 htmlMediaElementSetMediaGroup self val
   = withUTFString val $
       \ valPtr ->
@@ -426,7 +433,8 @@ htmlMediaElementSetMediaGroup self val
           valPtr
 
 htmlMediaElementGetMediaGroup ::
-                              (HTMLMediaElementClass self) => self -> IO String
+                              (HTMLMediaElementClass self, GlibString string) =>
+                                self -> IO string
 htmlMediaElementGetMediaGroup self
   = ({# call webkit_dom_html_media_element_get_media_group #}
        (toHTMLMediaElement self))

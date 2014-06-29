@@ -18,7 +18,8 @@ htmlMapElementGetAreas self
          (toHTMLMapElement self))
  
 htmlMapElementSetName ::
-                      (HTMLMapElementClass self) => self -> String -> IO ()
+                      (HTMLMapElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlMapElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -27,7 +28,7 @@ htmlMapElementSetName self val
           valPtr
  
 htmlMapElementGetName ::
-                      (HTMLMapElementClass self) => self -> IO String
+                      (HTMLMapElementClass self, GlibString string) => self -> IO string
 htmlMapElementGetName self
   = ({# call webkit_dom_html_map_element_get_name #}
        (toHTMLMapElement self))

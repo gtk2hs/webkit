@@ -13,7 +13,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlParamElementSetName ::
-                        (HTMLParamElementClass self) => self -> String -> IO ()
+                        (HTMLParamElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlParamElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -22,7 +23,8 @@ htmlParamElementSetName self val
           valPtr
  
 htmlParamElementGetName ::
-                        (HTMLParamElementClass self) => self -> IO String
+                        (HTMLParamElementClass self, GlibString string) =>
+                          self -> IO string
 htmlParamElementGetName self
   = ({# call webkit_dom_html_param_element_get_name #}
        (toHTMLParamElement self))
@@ -30,7 +32,8 @@ htmlParamElementGetName self
       readUTFString
  
 htmlParamElementSetValue ::
-                         (HTMLParamElementClass self) => self -> String -> IO ()
+                         (HTMLParamElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlParamElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -39,7 +42,8 @@ htmlParamElementSetValue self val
           valPtr
  
 htmlParamElementGetValue ::
-                         (HTMLParamElementClass self) => self -> IO String
+                         (HTMLParamElementClass self, GlibString string) =>
+                           self -> IO string
 htmlParamElementGetValue self
   = ({# call webkit_dom_html_param_element_get_value #}
        (toHTMLParamElement self))
@@ -47,7 +51,8 @@ htmlParamElementGetValue self
       readUTFString
  
 htmlParamElementSetValueType ::
-                             (HTMLParamElementClass self) => self -> String -> IO ()
+                             (HTMLParamElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlParamElementSetValueType self val
   = withUTFString val $
       \ valPtr ->
@@ -56,7 +61,8 @@ htmlParamElementSetValueType self val
           valPtr
  
 htmlParamElementGetValueType ::
-                             (HTMLParamElementClass self) => self -> IO String
+                             (HTMLParamElementClass self, GlibString string) =>
+                               self -> IO string
 htmlParamElementGetValueType self
   = ({# call webkit_dom_html_param_element_get_value_type #}
        (toHTMLParamElement self))

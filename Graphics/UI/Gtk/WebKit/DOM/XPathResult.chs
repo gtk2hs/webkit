@@ -66,7 +66,7 @@ xPathResultGetNumberValue self
              errorPtr_)
  
 xPathResultGetStringValue ::
-                          (XPathResultClass self) => self -> IO String
+                          (XPathResultClass self, GlibString string) => self -> IO string
 xPathResultGetStringValue self
   = (propagateGError $
        \ errorPtr_ ->

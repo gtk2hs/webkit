@@ -39,7 +39,8 @@ htmlTableSectionElementDeleteRow self index
           errorPtr_
  
 htmlTableSectionElementSetAlign ::
-                                (HTMLTableSectionElementClass self) => self -> String -> IO ()
+                                (HTMLTableSectionElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlTableSectionElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -48,7 +49,8 @@ htmlTableSectionElementSetAlign self val
           valPtr
  
 htmlTableSectionElementGetAlign ::
-                                (HTMLTableSectionElementClass self) => self -> IO String
+                                (HTMLTableSectionElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlTableSectionElementGetAlign self
   = ({# call webkit_dom_html_table_section_element_get_align #}
        (toHTMLTableSectionElement self))
@@ -56,7 +58,8 @@ htmlTableSectionElementGetAlign self
       readUTFString
  
 htmlTableSectionElementSetCh ::
-                             (HTMLTableSectionElementClass self) => self -> String -> IO ()
+                             (HTMLTableSectionElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlTableSectionElementSetCh self val
   = withUTFString val $
       \ valPtr ->
@@ -65,7 +68,8 @@ htmlTableSectionElementSetCh self val
           valPtr
  
 htmlTableSectionElementGetCh ::
-                             (HTMLTableSectionElementClass self) => self -> IO String
+                             (HTMLTableSectionElementClass self, GlibString string) =>
+                               self -> IO string
 htmlTableSectionElementGetCh self
   = ({# call webkit_dom_html_table_section_element_get_ch #}
        (toHTMLTableSectionElement self))
@@ -73,7 +77,8 @@ htmlTableSectionElementGetCh self
       readUTFString
  
 htmlTableSectionElementSetChOff ::
-                                (HTMLTableSectionElementClass self) => self -> String -> IO ()
+                                (HTMLTableSectionElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlTableSectionElementSetChOff self val
   = withUTFString val $
       \ valPtr ->
@@ -82,7 +87,8 @@ htmlTableSectionElementSetChOff self val
           valPtr
  
 htmlTableSectionElementGetChOff ::
-                                (HTMLTableSectionElementClass self) => self -> IO String
+                                (HTMLTableSectionElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlTableSectionElementGetChOff self
   = ({# call webkit_dom_html_table_section_element_get_ch_off #}
        (toHTMLTableSectionElement self))
@@ -90,7 +96,8 @@ htmlTableSectionElementGetChOff self
       readUTFString
  
 htmlTableSectionElementSetVAlign ::
-                                 (HTMLTableSectionElementClass self) => self -> String -> IO ()
+                                 (HTMLTableSectionElementClass self, GlibString string) =>
+                                   self -> string -> IO ()
 htmlTableSectionElementSetVAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -99,7 +106,8 @@ htmlTableSectionElementSetVAlign self val
           valPtr
  
 htmlTableSectionElementGetVAlign ::
-                                 (HTMLTableSectionElementClass self) => self -> IO String
+                                 (HTMLTableSectionElementClass self, GlibString string) =>
+                                   self -> IO string
 htmlTableSectionElementGetVAlign self
   = ({# call webkit_dom_html_table_section_element_get_v_align #}
        (toHTMLTableSectionElement self))

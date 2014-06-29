@@ -12,7 +12,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlParagraphElementSetAlign ::
-                             (HTMLParagraphElementClass self) => self -> String -> IO ()
+                             (HTMLParagraphElementClass self, GlibString string) =>
+                               self -> string -> IO ()
 htmlParagraphElementSetAlign self val
   = withUTFString val $
       \ valPtr ->
@@ -21,7 +22,8 @@ htmlParagraphElementSetAlign self val
           valPtr
  
 htmlParagraphElementGetAlign ::
-                             (HTMLParagraphElementClass self) => self -> IO String
+                             (HTMLParagraphElementClass self, GlibString string) =>
+                               self -> IO string
 htmlParagraphElementGetAlign self
   = ({# call webkit_dom_html_paragraph_element_get_align #}
        (toHTMLParagraphElement self))

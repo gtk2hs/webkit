@@ -13,7 +13,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 processingInstructionGetTarget ::
-                               (ProcessingInstructionClass self) => self -> IO String
+                               (ProcessingInstructionClass self, GlibString string) =>
+                                 self -> IO string
 processingInstructionGetTarget self
   = ({# call webkit_dom_processing_instruction_get_target #}
        (toProcessingInstruction self))

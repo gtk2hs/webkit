@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
 
 
-storageKey :: (StorageClass self) => self -> Word -> IO String
+storageKey ::
+           (StorageClass self, GlibString string) => self -> Word -> IO string
 #if WEBKIT_CHECK_VERSION(2,0,0)
 storageKey self index = propagateGError $ \errorPtr ->
     ({# call webkit_dom_storage_key #} (toStorage self) (fromIntegral index) errorPtr >>= readUTFString)
@@ -20,7 +21,9 @@ storageKey self index = {# call webkit_dom_storage_key #} (toStorage self) (from
 #endif
 
 
-storageGetItem :: (StorageClass self) => self -> String -> IO String
+storageGetItem ::
+               (StorageClass self, GlibString string) =>
+                 self -> string -> IO string
 #if WEBKIT_CHECK_VERSION(2,0,0)
 storageGetItem self key = propagateGError $ \errorPtr -> (
   (withUTFString key $ \keyPtr ->
@@ -47,7 +50,8 @@ storageSetItem self key data'
           errorPtr_
 
 
-storageRemoveItem :: (StorageClass self) => self -> String -> IO ()
+storageRemoveItem ::
+                  (StorageClass self, GlibString string) => self -> string -> IO ()
 #if WEBKIT_CHECK_VERSION(2,0,0)
 storageRemoveItem self key = propagateGError $ \errorPtr -> (
   withUTFString key $ \keyPtr ->

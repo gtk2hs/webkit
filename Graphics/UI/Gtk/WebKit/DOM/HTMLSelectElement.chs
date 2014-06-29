@@ -37,7 +37,8 @@ htmlSelectElementItem self index
          (fromIntegral index))
  
 htmlSelectElementNamedItem ::
-                           (HTMLSelectElementClass self) => self -> String -> IO (Maybe Node)
+                           (HTMLSelectElementClass self, GlibString string) =>
+                             self -> string -> IO (Maybe Node)
 htmlSelectElementNamedItem self name
   = maybeNull (makeNewGObject mkNode)
       (withUTFString name $
@@ -74,7 +75,8 @@ htmlSelectElementCheckValidity self
          (toHTMLSelectElement self))
  
 htmlSelectElementSetCustomValidity ::
-                                   (HTMLSelectElementClass self) => self -> String -> IO ()
+                                   (HTMLSelectElementClass self, GlibString string) =>
+                                     self -> string -> IO ()
 htmlSelectElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -132,7 +134,8 @@ htmlSelectElementGetMultiple self
          (toHTMLSelectElement self))
  
 htmlSelectElementSetName ::
-                         (HTMLSelectElementClass self) => self -> String -> IO ()
+                         (HTMLSelectElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlSelectElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -141,7 +144,8 @@ htmlSelectElementSetName self val
           valPtr
  
 htmlSelectElementGetName ::
-                         (HTMLSelectElementClass self) => self -> IO String
+                         (HTMLSelectElementClass self, GlibString string) =>
+                           self -> IO string
 htmlSelectElementGetName self
   = ({# call webkit_dom_html_select_element_get_name #}
        (toHTMLSelectElement self))
@@ -226,7 +230,8 @@ htmlSelectElementGetSelectedIndex self
          (toHTMLSelectElement self))
  
 htmlSelectElementSetValue ::
-                          (HTMLSelectElementClass self) => self -> String -> IO ()
+                          (HTMLSelectElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlSelectElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -235,7 +240,8 @@ htmlSelectElementSetValue self val
           valPtr
  
 htmlSelectElementGetValue ::
-                          (HTMLSelectElementClass self) => self -> IO String
+                          (HTMLSelectElementClass self, GlibString string) =>
+                            self -> IO string
 htmlSelectElementGetValue self
   = ({# call webkit_dom_html_select_element_get_value #}
        (toHTMLSelectElement self))
@@ -257,7 +263,8 @@ htmlSelectElementGetValidity self
          (toHTMLSelectElement self))
  
 htmlSelectElementGetValidationMessage ::
-                                      (HTMLSelectElementClass self) => self -> IO String
+                                      (HTMLSelectElementClass self, GlibString string) =>
+                                        self -> IO string
 htmlSelectElementGetValidationMessage self
   = ({# call webkit_dom_html_select_element_get_validation_message #}
        (toHTMLSelectElement self))

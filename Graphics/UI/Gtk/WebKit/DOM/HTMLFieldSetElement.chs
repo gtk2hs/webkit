@@ -29,7 +29,8 @@ htmlFieldSetElementCheckValidity self
          (toHTMLFieldSetElement self))
  
 htmlFieldSetElementSetCustomValidity ::
-                                     (HTMLFieldSetElementClass self) => self -> String -> IO ()
+                                     (HTMLFieldSetElementClass self, GlibString string) =>
+                                       self -> string -> IO ()
 htmlFieldSetElementSetCustomValidity self error
   = withUTFString error $
       \ errorPtr ->
@@ -63,7 +64,8 @@ htmlFieldSetElementGetForm self
  
 #if WEBKIT_CHECK_VERSION(1,10,0)
 htmlFieldSetElementSetName ::
-                           (HTMLFieldSetElementClass self) => self -> String -> IO ()
+                           (HTMLFieldSetElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlFieldSetElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -72,7 +74,8 @@ htmlFieldSetElementSetName self val
           valPtr
  
 htmlFieldSetElementGetName ::
-                           (HTMLFieldSetElementClass self) => self -> IO String
+                           (HTMLFieldSetElementClass self, GlibString string) =>
+                             self -> IO string
 htmlFieldSetElementGetName self
   = ({# call webkit_dom_html_field_set_element_get_name #}
        (toHTMLFieldSetElement self))
@@ -103,7 +106,8 @@ htmlFieldSetElementGetValidity self
          (toHTMLFieldSetElement self))
  
 htmlFieldSetElementGetValidationMessage ::
-                                        (HTMLFieldSetElementClass self) => self -> IO String
+                                        (HTMLFieldSetElementClass self, GlibString string) =>
+                                          self -> IO string
 htmlFieldSetElementGetValidationMessage self
   = ({# call webkit_dom_html_field_set_element_get_validation_message
        #}

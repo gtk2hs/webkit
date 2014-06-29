@@ -11,7 +11,7 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 mediaQueryListGetMedia ::
-                       (MediaQueryListClass self) => self -> IO String
+                       (MediaQueryListClass self, GlibString string) => self -> IO string
 mediaQueryListGetMedia self
   = ({# call webkit_dom_media_query_list_get_media #}
        (toMediaQueryList self))

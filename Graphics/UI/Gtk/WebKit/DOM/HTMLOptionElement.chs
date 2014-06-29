@@ -38,7 +38,8 @@ htmlOptionElementGetForm self
          (toHTMLOptionElement self))
  
 htmlOptionElementSetLabel ::
-                          (HTMLOptionElementClass self) => self -> String -> IO ()
+                          (HTMLOptionElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlOptionElementSetLabel self val
   = withUTFString val $
       \ valPtr ->
@@ -47,7 +48,8 @@ htmlOptionElementSetLabel self val
           valPtr
  
 htmlOptionElementGetLabel ::
-                          (HTMLOptionElementClass self) => self -> IO String
+                          (HTMLOptionElementClass self, GlibString string) =>
+                            self -> IO string
 htmlOptionElementGetLabel self
   = ({# call webkit_dom_html_option_element_get_label #}
        (toHTMLOptionElement self))
@@ -83,7 +85,8 @@ htmlOptionElementGetSelected self
          (toHTMLOptionElement self))
  
 htmlOptionElementSetValue ::
-                          (HTMLOptionElementClass self) => self -> String -> IO ()
+                          (HTMLOptionElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlOptionElementSetValue self val
   = withUTFString val $
       \ valPtr ->
@@ -92,7 +95,8 @@ htmlOptionElementSetValue self val
           valPtr
  
 htmlOptionElementGetValue ::
-                          (HTMLOptionElementClass self) => self -> IO String
+                          (HTMLOptionElementClass self, GlibString string) =>
+                            self -> IO string
 htmlOptionElementGetValue self
   = ({# call webkit_dom_html_option_element_get_value #}
        (toHTMLOptionElement self))
@@ -100,7 +104,8 @@ htmlOptionElementGetValue self
       readUTFString
  
 htmlOptionElementGetText ::
-                         (HTMLOptionElementClass self) => self -> IO String
+                         (HTMLOptionElementClass self, GlibString string) =>
+                           self -> IO string
 htmlOptionElementGetText self
   = ({# call webkit_dom_html_option_element_get_text #}
        (toHTMLOptionElement self))

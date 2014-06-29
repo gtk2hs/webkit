@@ -29,7 +29,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 xmlHttpRequestSetRequestHeader ::
-                               (XMLHttpRequestClass self) => self -> String -> String -> IO ()
+                               (XMLHttpRequestClass self, GlibString string) =>
+                                 self -> string -> string -> IO ()
 xmlHttpRequestSetRequestHeader self header value
   = propagateGError $
       \ errorPtr_ ->
@@ -49,7 +50,8 @@ xmlHttpRequestAbort self
       (toXMLHttpRequest self)
  
 xmlHttpRequestGetAllResponseHeaders ::
-                                    (XMLHttpRequestClass self) => self -> IO String
+                                    (XMLHttpRequestClass self, GlibString string) =>
+                                      self -> IO string
 xmlHttpRequestGetAllResponseHeaders self
   = (propagateGError $
        \ errorPtr_ ->
@@ -60,7 +62,8 @@ xmlHttpRequestGetAllResponseHeaders self
       readUTFString
  
 xmlHttpRequestGetResponseHeader ::
-                                (XMLHttpRequestClass self) => self -> String -> IO String
+                                (XMLHttpRequestClass self, GlibString string) =>
+                                  self -> string -> IO string
 xmlHttpRequestGetResponseHeader self header
   = (propagateGError $
        \ errorPtr_ ->
@@ -74,7 +77,8 @@ xmlHttpRequestGetResponseHeader self header
       readUTFString
  
 xmlHttpRequestOverrideMimeType ::
-                               (XMLHttpRequestClass self) => self -> String -> IO ()
+                               (XMLHttpRequestClass self, GlibString string) =>
+                                 self -> string -> IO ()
 xmlHttpRequestOverrideMimeType self override
   = withUTFString override $
       \ overridePtr ->
@@ -226,7 +230,7 @@ xmlHttpRequestGetStatus self
              errorPtr_)
  
 xmlHttpRequestGetStatusText ::
-                            (XMLHttpRequestClass self) => self -> IO String
+                            (XMLHttpRequestClass self, GlibString string) => self -> IO string
 xmlHttpRequestGetStatusText self
   = (propagateGError $
        \ errorPtr_ ->

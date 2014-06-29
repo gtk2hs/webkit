@@ -11,13 +11,15 @@ import Control.Applicative
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
-fileGetName :: (FileClass self) => self -> IO String
+fileGetName ::
+            (FileClass self, GlibString string) => self -> IO string
 fileGetName self
   = ({# call webkit_dom_file_get_name #} (toFile self)) >>=
       readUTFString
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
-fileGetWebkitRelativePath :: (FileClass self) => self -> IO String
+fileGetWebkitRelativePath ::
+                          (FileClass self, GlibString string) => self -> IO string
 fileGetWebkitRelativePath self
   = ({# call webkit_dom_file_get_webkit_relative_path #}
        (toFile self))

@@ -20,7 +20,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlAreaElementSetAlt ::
-                      (HTMLAreaElementClass self) => self -> String -> IO ()
+                      (HTMLAreaElementClass self, GlibString string) =>
+                        self -> string -> IO ()
 htmlAreaElementSetAlt self val
   = withUTFString val $
       \ valPtr ->
@@ -29,7 +30,7 @@ htmlAreaElementSetAlt self val
           valPtr
  
 htmlAreaElementGetAlt ::
-                      (HTMLAreaElementClass self) => self -> IO String
+                      (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetAlt self
   = ({# call webkit_dom_html_area_element_get_alt #}
        (toHTMLAreaElement self))
@@ -37,7 +38,8 @@ htmlAreaElementGetAlt self
       readUTFString
  
 htmlAreaElementSetCoords ::
-                         (HTMLAreaElementClass self) => self -> String -> IO ()
+                         (HTMLAreaElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAreaElementSetCoords self val
   = withUTFString val $
       \ valPtr ->
@@ -46,7 +48,7 @@ htmlAreaElementSetCoords self val
           valPtr
  
 htmlAreaElementGetCoords ::
-                         (HTMLAreaElementClass self) => self -> IO String
+                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetCoords self
   = ({# call webkit_dom_html_area_element_get_coords #}
        (toHTMLAreaElement self))
@@ -54,7 +56,8 @@ htmlAreaElementGetCoords self
       readUTFString
  
 htmlAreaElementSetHref ::
-                       (HTMLAreaElementClass self) => self -> String -> IO ()
+                       (HTMLAreaElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlAreaElementSetHref self val
   = withUTFString val $
       \ valPtr ->
@@ -63,7 +66,7 @@ htmlAreaElementSetHref self val
           valPtr
  
 htmlAreaElementGetHref ::
-                       (HTMLAreaElementClass self) => self -> IO String
+                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetHref self
   = ({# call webkit_dom_html_area_element_get_href #}
        (toHTMLAreaElement self))
@@ -85,7 +88,8 @@ htmlAreaElementGetNoHref self
          (toHTMLAreaElement self))
  
 htmlAreaElementSetPing ::
-                       (HTMLAreaElementClass self) => self -> String -> IO ()
+                       (HTMLAreaElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlAreaElementSetPing self val
   = withUTFString val $
       \ valPtr ->
@@ -94,7 +98,7 @@ htmlAreaElementSetPing self val
           valPtr
  
 htmlAreaElementGetPing ::
-                       (HTMLAreaElementClass self) => self -> IO String
+                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetPing self
   = ({# call webkit_dom_html_area_element_get_ping #}
        (toHTMLAreaElement self))
@@ -102,7 +106,8 @@ htmlAreaElementGetPing self
       readUTFString
  
 htmlAreaElementSetShape ::
-                        (HTMLAreaElementClass self) => self -> String -> IO ()
+                        (HTMLAreaElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlAreaElementSetShape self val
   = withUTFString val $
       \ valPtr ->
@@ -111,7 +116,7 @@ htmlAreaElementSetShape self val
           valPtr
  
 htmlAreaElementGetShape ::
-                        (HTMLAreaElementClass self) => self -> IO String
+                        (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetShape self
   = ({# call webkit_dom_html_area_element_get_shape #}
        (toHTMLAreaElement self))
@@ -119,7 +124,8 @@ htmlAreaElementGetShape self
       readUTFString
  
 htmlAreaElementSetTarget ::
-                         (HTMLAreaElementClass self) => self -> String -> IO ()
+                         (HTMLAreaElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlAreaElementSetTarget self val
   = withUTFString val $
       \ valPtr ->
@@ -128,7 +134,7 @@ htmlAreaElementSetTarget self val
           valPtr
  
 htmlAreaElementGetTarget ::
-                         (HTMLAreaElementClass self) => self -> IO String
+                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetTarget self
   = ({# call webkit_dom_html_area_element_get_target #}
        (toHTMLAreaElement self))
@@ -136,7 +142,7 @@ htmlAreaElementGetTarget self
       readUTFString
  
 htmlAreaElementGetHash ::
-                       (HTMLAreaElementClass self) => self -> IO String
+                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetHash self
   = ({# call webkit_dom_html_area_element_get_hash #}
        (toHTMLAreaElement self))
@@ -144,7 +150,7 @@ htmlAreaElementGetHash self
       readUTFString
  
 htmlAreaElementGetHost ::
-                       (HTMLAreaElementClass self) => self -> IO String
+                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetHost self
   = ({# call webkit_dom_html_area_element_get_host #}
        (toHTMLAreaElement self))
@@ -152,7 +158,7 @@ htmlAreaElementGetHost self
       readUTFString
  
 htmlAreaElementGetHostname ::
-                           (HTMLAreaElementClass self) => self -> IO String
+                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetHostname self
   = ({# call webkit_dom_html_area_element_get_hostname #}
        (toHTMLAreaElement self))
@@ -160,7 +166,7 @@ htmlAreaElementGetHostname self
       readUTFString
  
 htmlAreaElementGetPathname ::
-                           (HTMLAreaElementClass self) => self -> IO String
+                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetPathname self
   = ({# call webkit_dom_html_area_element_get_pathname #}
        (toHTMLAreaElement self))
@@ -168,7 +174,7 @@ htmlAreaElementGetPathname self
       readUTFString
  
 htmlAreaElementGetPort ::
-                       (HTMLAreaElementClass self) => self -> IO String
+                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetPort self
   = ({# call webkit_dom_html_area_element_get_port #}
        (toHTMLAreaElement self))
@@ -176,7 +182,7 @@ htmlAreaElementGetPort self
       readUTFString
  
 htmlAreaElementGetProtocol ::
-                           (HTMLAreaElementClass self) => self -> IO String
+                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetProtocol self
   = ({# call webkit_dom_html_area_element_get_protocol #}
        (toHTMLAreaElement self))
@@ -184,7 +190,7 @@ htmlAreaElementGetProtocol self
       readUTFString
  
 htmlAreaElementGetSearch ::
-                         (HTMLAreaElementClass self) => self -> IO String
+                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
 htmlAreaElementGetSearch self
   = ({# call webkit_dom_html_area_element_get_search #}
        (toHTMLAreaElement self))

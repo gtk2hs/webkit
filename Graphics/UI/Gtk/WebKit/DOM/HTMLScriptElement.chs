@@ -21,7 +21,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlScriptElementSetText ::
-                         (HTMLScriptElementClass self) => self -> String -> IO ()
+                         (HTMLScriptElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlScriptElementSetText self val
   = withUTFString val $
       \ valPtr ->
@@ -30,7 +31,8 @@ htmlScriptElementSetText self val
           valPtr
  
 htmlScriptElementGetText ::
-                         (HTMLScriptElementClass self) => self -> IO String
+                         (HTMLScriptElementClass self, GlibString string) =>
+                           self -> IO string
 htmlScriptElementGetText self
   = ({# call webkit_dom_html_script_element_get_text #}
        (toHTMLScriptElement self))
@@ -38,7 +40,8 @@ htmlScriptElementGetText self
       readUTFString
  
 htmlScriptElementSetHtmlFor ::
-                            (HTMLScriptElementClass self) => self -> String -> IO ()
+                            (HTMLScriptElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlScriptElementSetHtmlFor self val
   = withUTFString val $
       \ valPtr ->
@@ -47,7 +50,8 @@ htmlScriptElementSetHtmlFor self val
           valPtr
  
 htmlScriptElementGetHtmlFor ::
-                            (HTMLScriptElementClass self) => self -> IO String
+                            (HTMLScriptElementClass self, GlibString string) =>
+                              self -> IO string
 htmlScriptElementGetHtmlFor self
   = ({# call webkit_dom_html_script_element_get_html_for #}
        (toHTMLScriptElement self))
@@ -55,7 +59,8 @@ htmlScriptElementGetHtmlFor self
       readUTFString
  
 htmlScriptElementSetEvent ::
-                          (HTMLScriptElementClass self) => self -> String -> IO ()
+                          (HTMLScriptElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlScriptElementSetEvent self val
   = withUTFString val $
       \ valPtr ->
@@ -64,7 +69,8 @@ htmlScriptElementSetEvent self val
           valPtr
  
 htmlScriptElementGetEvent ::
-                          (HTMLScriptElementClass self) => self -> IO String
+                          (HTMLScriptElementClass self, GlibString string) =>
+                            self -> IO string
 htmlScriptElementGetEvent self
   = ({# call webkit_dom_html_script_element_get_event #}
        (toHTMLScriptElement self))
@@ -72,7 +78,8 @@ htmlScriptElementGetEvent self
       readUTFString
  
 htmlScriptElementSetCharset ::
-                            (HTMLScriptElementClass self) => self -> String -> IO ()
+                            (HTMLScriptElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlScriptElementSetCharset self val
   = withUTFString val $
       \ valPtr ->
@@ -81,7 +88,8 @@ htmlScriptElementSetCharset self val
           valPtr
  
 htmlScriptElementGetCharset ::
-                            (HTMLScriptElementClass self) => self -> IO String
+                            (HTMLScriptElementClass self, GlibString string) =>
+                              self -> IO string
 htmlScriptElementGetCharset self
   = ({# call webkit_dom_html_script_element_get_charset #}
        (toHTMLScriptElement self))
@@ -117,7 +125,8 @@ htmlScriptElementGetDefer self
          (toHTMLScriptElement self))
  
 htmlScriptElementSetSrc ::
-                        (HTMLScriptElementClass self) => self -> String -> IO ()
+                        (HTMLScriptElementClass self, GlibString string) =>
+                          self -> string -> IO ()
 htmlScriptElementSetSrc self val
   = withUTFString val $
       \ valPtr ->
@@ -126,7 +135,8 @@ htmlScriptElementSetSrc self val
           valPtr
  
 htmlScriptElementGetSrc ::
-                        (HTMLScriptElementClass self) => self -> IO String
+                        (HTMLScriptElementClass self, GlibString string) =>
+                          self -> IO string
 htmlScriptElementGetSrc self
   = ({# call webkit_dom_html_script_element_get_src #}
        (toHTMLScriptElement self))
@@ -135,7 +145,8 @@ htmlScriptElementGetSrc self
  
 #if WEBKIT_CHECK_VERSION(1,10,0)
 htmlScriptElementSetCrossOrigin ::
-                                (HTMLScriptElementClass self) => self -> String -> IO ()
+                                (HTMLScriptElementClass self, GlibString string) =>
+                                  self -> string -> IO ()
 htmlScriptElementSetCrossOrigin self val
   = withUTFString val $
       \ valPtr ->
@@ -144,7 +155,8 @@ htmlScriptElementSetCrossOrigin self val
           valPtr
  
 htmlScriptElementGetCrossOrigin ::
-                                (HTMLScriptElementClass self) => self -> IO String
+                                (HTMLScriptElementClass self, GlibString string) =>
+                                  self -> IO string
 htmlScriptElementGetCrossOrigin self
   = ({# call webkit_dom_html_script_element_get_cross_origin #}
        (toHTMLScriptElement self))
@@ -152,7 +164,8 @@ htmlScriptElementGetCrossOrigin self
       readUTFString
  
 htmlScriptElementSetNonce ::
-                          (HTMLScriptElementClass self) => self -> String -> IO ()
+                          (HTMLScriptElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlScriptElementSetNonce self val
   = withUTFString val $
       \ valPtr ->
@@ -161,7 +174,8 @@ htmlScriptElementSetNonce self val
           valPtr
  
 htmlScriptElementGetNonce ::
-                          (HTMLScriptElementClass self) => self -> IO String
+                          (HTMLScriptElementClass self, GlibString string) =>
+                            self -> IO string
 htmlScriptElementGetNonce self
   = ({# call webkit_dom_html_script_element_get_nonce #}
        (toHTMLScriptElement self))

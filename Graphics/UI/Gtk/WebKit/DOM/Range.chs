@@ -178,7 +178,8 @@ rangeCloneRange self
            {# call webkit_dom_range_clone_range #} (toDOMRange self)
              errorPtr_)
  
-rangeToString :: (DOMRangeClass self) => self -> IO String
+rangeToString ::
+              (DOMRangeClass self, GlibString string) => self -> IO string
 rangeToString self
   = (propagateGError $
        \ errorPtr_ ->
@@ -193,8 +194,8 @@ rangeDetach self
         {# call webkit_dom_range_detach #} (toDOMRange self) errorPtr_
  
 rangeCreateContextualFragment ::
-                              (DOMRangeClass self) =>
-                                self -> String -> IO (Maybe DocumentFragment)
+                              (DOMRangeClass self, GlibString string) =>
+                                self -> string -> IO (Maybe DocumentFragment)
 rangeCreateContextualFragment self html
   = maybeNull (makeNewGObject mkDocumentFragment)
       (propagateGError $
@@ -252,7 +253,8 @@ rangeIsPointInRange self refNode offset
              (fromIntegral offset)
              errorPtr_)
  
-rangeExpand :: (DOMRangeClass self) => self -> String -> IO ()
+rangeExpand ::
+            (DOMRangeClass self, GlibString string) => self -> string -> IO ()
 rangeExpand self unit
   = propagateGError $
       \ errorPtr_ ->
@@ -321,7 +323,8 @@ rangeGetCommonAncestorContainer self
              (toDOMRange self)
              errorPtr_)
  
-rangeGetText :: (DOMRangeClass self) => self -> IO String
+rangeGetText ::
+             (DOMRangeClass self, GlibString string) => self -> IO string
 rangeGetText self
   = ({# call webkit_dom_range_get_text #} (toDOMRange self)) >>=
       readUTFString

@@ -20,8 +20,8 @@ domMimeTypeArrayItem self index
          (fromIntegral index))
  
 domMimeTypeArrayNamedItem ::
-                          (DOMMimeTypeArrayClass self) =>
-                            self -> String -> IO (Maybe DOMMimeType)
+                          (DOMMimeTypeArrayClass self, GlibString string) =>
+                            self -> string -> IO (Maybe DOMMimeType)
 domMimeTypeArrayNamedItem self name
   = maybeNull (makeNewGObject mkDOMMimeType)
       (withUTFString name $

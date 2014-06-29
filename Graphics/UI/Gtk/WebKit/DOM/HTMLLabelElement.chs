@@ -19,7 +19,8 @@ htmlLabelElementGetForm self
          (toHTMLLabelElement self))
  
 htmlLabelElementSetHtmlFor ::
-                           (HTMLLabelElementClass self) => self -> String -> IO ()
+                           (HTMLLabelElementClass self, GlibString string) =>
+                             self -> string -> IO ()
 htmlLabelElementSetHtmlFor self val
   = withUTFString val $
       \ valPtr ->
@@ -28,7 +29,8 @@ htmlLabelElementSetHtmlFor self val
           valPtr
  
 htmlLabelElementGetHtmlFor ::
-                           (HTMLLabelElementClass self) => self -> IO String
+                           (HTMLLabelElementClass self, GlibString string) =>
+                             self -> IO string
 htmlLabelElementGetHtmlFor self
   = ({# call webkit_dom_html_label_element_get_html_for #}
        (toHTMLLabelElement self))

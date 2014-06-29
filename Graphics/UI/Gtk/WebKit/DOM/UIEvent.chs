@@ -12,8 +12,8 @@ import Control.Applicative
 import System.Glib.GError
  
 uiEventInitUIEvent ::
-                   (UIEventClass self, DOMWindowClass view) =>
-                     self -> String -> Bool -> Bool -> Maybe view -> Int -> IO ()
+                   (UIEventClass self, DOMWindowClass view, GlibString string) =>
+                     self -> string -> Bool -> Bool -> Maybe view -> Int -> IO ()
 uiEventInitUIEvent self type' canBubble cancelable view detail
   = withUTFString type' $
       \ typePtr ->

@@ -39,13 +39,15 @@ styleSheetGetParentStyleSheet self
       ({# call webkit_dom_style_sheet_get_parent_style_sheet #}
          (toStyleSheet self))
  
-styleSheetGetHref :: (StyleSheetClass self) => self -> IO String
+styleSheetGetHref ::
+                  (StyleSheetClass self, GlibString string) => self -> IO string
 styleSheetGetHref self
   = ({# call webkit_dom_style_sheet_get_href #} (toStyleSheet self))
       >>=
       readUTFString
  
-styleSheetGetTitle :: (StyleSheetClass self) => self -> IO String
+styleSheetGetTitle ::
+                   (StyleSheetClass self, GlibString string) => self -> IO string
 styleSheetGetTitle self
   = ({# call webkit_dom_style_sheet_get_title #} (toStyleSheet self))
       >>=

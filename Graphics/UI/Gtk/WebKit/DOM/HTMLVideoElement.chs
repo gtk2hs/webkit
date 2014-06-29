@@ -94,7 +94,8 @@ htmlVideoElementGetVideoHeight self
          (toHTMLVideoElement self))
  
 htmlVideoElementSetPoster ::
-                          (HTMLVideoElementClass self) => self -> String -> IO ()
+                          (HTMLVideoElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlVideoElementSetPoster self val
   = withUTFString val $
       \ valPtr ->
@@ -103,7 +104,8 @@ htmlVideoElementSetPoster self val
           valPtr
  
 htmlVideoElementGetPoster ::
-                          (HTMLVideoElementClass self) => self -> IO String
+                          (HTMLVideoElementClass self, GlibString string) =>
+                            self -> IO string
 htmlVideoElementGetPoster self
   = ({# call webkit_dom_html_video_element_get_poster #}
        (toHTMLVideoElement self))

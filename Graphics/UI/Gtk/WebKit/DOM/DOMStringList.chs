@@ -11,7 +11,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 domStringListItem ::
-                  (DOMStringListClass self) => self -> Word -> IO String
+                  (DOMStringListClass self, GlibString string) =>
+                    self -> Word -> IO string
 domStringListItem self index
   = ({# call webkit_dom_dom_string_list_item #}
        (toDOMStringList self)
@@ -20,7 +21,8 @@ domStringListItem self index
       readUTFString
  
 domStringListContains ::
-                      (DOMStringListClass self) => self -> String -> IO Bool
+                      (DOMStringListClass self, GlibString string) =>
+                        self -> string -> IO Bool
 domStringListContains self string
   = toBool <$>
       (withUTFString string $

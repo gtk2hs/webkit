@@ -68,7 +68,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 elementGetAttribute ::
-                    (ElementClass self) => self -> String -> IO String
+                    (ElementClass self, GlibString string) =>
+                      self -> string -> IO string
 elementGetAttribute self name
   = (withUTFString name $
        \ namePtr ->
@@ -78,7 +79,8 @@ elementGetAttribute self name
       readUTFString
  
 elementSetAttribute ::
-                    (ElementClass self) => self -> String -> String -> IO ()
+                    (ElementClass self, GlibString string) =>
+                      self -> string -> string -> IO ()
 elementSetAttribute self name value
   = propagateGError $
       \ errorPtr_ ->
@@ -92,7 +94,7 @@ elementSetAttribute self name value
           errorPtr_
  
 elementRemoveAttribute ::
-                       (ElementClass self) => self -> String -> IO ()
+                       (ElementClass self, GlibString string) => self -> string -> IO ()
 elementRemoveAttribute self name
   = withUTFString name $
       \ namePtr ->
@@ -100,7 +102,8 @@ elementRemoveAttribute self name
           namePtr
  
 elementGetAttributeNode ::
-                        (ElementClass self) => self -> String -> IO (Maybe DOMAttr)
+                        (ElementClass self, GlibString string) =>
+                          self -> string -> IO (Maybe DOMAttr)
 elementGetAttributeNode self name
   = maybeNull (makeNewGObject mkDOMAttr)
       (withUTFString name $
@@ -132,7 +135,8 @@ elementRemoveAttributeNode self oldAttr
              errorPtr_)
  
 elementGetElementsByTagName ::
-                            (ElementClass self) => self -> String -> IO (Maybe NodeList)
+                            (ElementClass self, GlibString string) =>
+                              self -> string -> IO (Maybe NodeList)
 elementGetElementsByTagName self name
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString name $
@@ -149,7 +153,8 @@ elementHasAttributes self
 #endif
 
 elementGetAttributeNS ::
-                      (ElementClass self) => self -> String -> String -> IO String
+                      (ElementClass self, GlibString string) =>
+                        self -> string -> string -> IO string
 elementGetAttributeNS self namespaceURI localName
   = (withUTFString localName $
        \ localNamePtr ->
@@ -162,7 +167,8 @@ elementGetAttributeNS self namespaceURI localName
       readUTFString
  
 elementSetAttributeNS ::
-                      (ElementClass self) => self -> String -> String -> String -> IO ()
+                      (ElementClass self, GlibString string) =>
+                        self -> string -> string -> string -> IO ()
 elementSetAttributeNS self namespaceURI qualifiedName value
   = propagateGError $
       \ errorPtr_ ->
@@ -179,7 +185,8 @@ elementSetAttributeNS self namespaceURI qualifiedName value
           errorPtr_
  
 elementRemoveAttributeNS ::
-                         (ElementClass self) => self -> String -> String -> IO ()
+                         (ElementClass self, GlibString string) =>
+                           self -> string -> string -> IO ()
 elementRemoveAttributeNS self namespaceURI localName
   = withUTFString localName $
       \ localNamePtr ->
@@ -190,8 +197,8 @@ elementRemoveAttributeNS self namespaceURI localName
           localNamePtr
  
 elementGetElementsByTagNameNS ::
-                              (ElementClass self) =>
-                                self -> String -> String -> IO (Maybe NodeList)
+                              (ElementClass self, GlibString string) =>
+                                self -> string -> string -> IO (Maybe NodeList)
 elementGetElementsByTagNameNS self namespaceURI localName
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString localName $
@@ -204,8 +211,8 @@ elementGetElementsByTagNameNS self namespaceURI localName
              localNamePtr)
  
 elementGetAttributeNodeNS ::
-                          (ElementClass self) =>
-                            self -> String -> String -> IO (Maybe DOMAttr)
+                          (ElementClass self, GlibString string) =>
+                            self -> string -> string -> IO (Maybe DOMAttr)
 elementGetAttributeNodeNS self namespaceURI localName
   = maybeNull (makeNewGObject mkDOMAttr)
       (withUTFString localName $
@@ -230,7 +237,7 @@ elementSetAttributeNodeNS self newAttr
              errorPtr_)
  
 elementHasAttribute ::
-                    (ElementClass self) => self -> String -> IO Bool
+                    (ElementClass self, GlibString string) => self -> string -> IO Bool
 elementHasAttribute self name
   = toBool <$>
       (withUTFString name $
@@ -239,7 +246,8 @@ elementHasAttribute self name
              namePtr)
  
 elementHasAttributeNS ::
-                      (ElementClass self) => self -> String -> String -> IO Bool
+                      (ElementClass self, GlibString string) =>
+                        self -> string -> string -> IO Bool
 elementHasAttributeNS self namespaceURI localName
   = toBool <$>
       (withUTFString localName $
@@ -282,7 +290,8 @@ elementScrollByPages self pages
       (fromIntegral pages)
  
 elementGetElementsByClassName ::
-                              (ElementClass self) => self -> String -> IO (Maybe NodeList)
+                              (ElementClass self, GlibString string) =>
+                                self -> string -> IO (Maybe NodeList)
 elementGetElementsByClassName self name
   = maybeNull (makeNewGObject mkNodeList)
       (withUTFString name $
@@ -292,7 +301,8 @@ elementGetElementsByClassName self name
              namePtr)
  
 elementQuerySelector ::
-                     (ElementClass self) => self -> String -> IO (Maybe Element)
+                     (ElementClass self, GlibString string) =>
+                       self -> string -> IO (Maybe Element)
 elementQuerySelector self selectors
   = maybeNull (makeNewGObject mkElement)
       (propagateGError $
@@ -304,7 +314,8 @@ elementQuerySelector self selectors
              errorPtr_)
  
 elementQuerySelectorAll ::
-                        (ElementClass self) => self -> String -> IO (Maybe NodeList)
+                        (ElementClass self, GlibString string) =>
+                          self -> string -> IO (Maybe NodeList)
 elementQuerySelectorAll self selectors
   = maybeNull (makeNewGObject mkNodeList)
       (propagateGError $
@@ -316,7 +327,7 @@ elementQuerySelectorAll self selectors
              errorPtr_)
  
 elementWebkitMatchesSelector ::
-                             (ElementClass self) => self -> String -> IO Bool
+                             (ElementClass self, GlibString string) => self -> string -> IO Bool
 elementWebkitMatchesSelector self selectors
   = toBool <$>
       (propagateGError $
@@ -336,7 +347,8 @@ elementWebkitRequestPointerLock self
       (toElement self)
 #endif
 
-elementGetTagName :: (ElementClass self) => self -> IO String
+elementGetTagName ::
+                  (ElementClass self, GlibString string) => self -> IO string
 elementGetTagName self
   = ({# call webkit_dom_element_get_tag_name #} (toElement self)) >>=
       readUTFString
@@ -356,13 +368,15 @@ elementGetStyle self
       ({# call webkit_dom_element_get_style #} (toElement self))
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
-elementSetId :: (ElementClass self) => self -> String -> IO ()
+elementSetId ::
+             (ElementClass self, GlibString string) => self -> string -> IO ()
 elementSetId self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_element_set_id #} (toElement self) valPtr
  
-elementGetId :: (ElementClass self) => self -> IO String
+elementGetId ::
+             (ElementClass self, GlibString string) => self -> IO string
 elementGetId self
   = ({# call webkit_dom_element_get_id #} (toElement self)) >>=
       readUTFString
@@ -446,14 +460,15 @@ elementGetScrollHeight self
  
 #if WEBKIT_CHECK_VERSION(1,10,0)
 elementSetClassName ::
-                    (ElementClass self) => self -> String -> IO ()
+                    (ElementClass self, GlibString string) => self -> string -> IO ()
 elementSetClassName self val
   = withUTFString val $
       \ valPtr ->
         {# call webkit_dom_element_set_class_name #} (toElement self)
           valPtr
  
-elementGetClassName :: (ElementClass self) => self -> IO String
+elementGetClassName ::
+                    (ElementClass self, GlibString string) => self -> IO string
 elementGetClassName self
   = ({# call webkit_dom_element_get_class_name #} (toElement self))
       >>=
@@ -503,7 +518,7 @@ elementGetChildElementCount self
  
 #if WEBKIT_CHECK_VERSION(1,10,0)
 elementGetWebkitRegionOverset ::
-                              (ElementClass self) => self -> IO String
+                              (ElementClass self, GlibString string) => self -> IO string
 elementGetWebkitRegionOverset self
   = ({# call webkit_dom_element_get_webkit_region_overset #}
        (toElement self))

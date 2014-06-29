@@ -22,7 +22,8 @@ htmlCollectionItem self index
  
 #if WEBKIT_CHECK_VERSION(2,2,2)
 htmlCollectionNamedItem ::
-                        (HTMLCollectionClass self) => self -> String -> IO (Maybe Node)
+                        (HTMLCollectionClass self, GlibString string) =>
+                          self -> string -> IO (Maybe Node)
 htmlCollectionNamedItem self name
   = maybeNull (makeNewGObject mkNode)
       (withUTFString name $

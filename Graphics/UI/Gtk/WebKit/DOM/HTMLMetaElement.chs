@@ -14,7 +14,8 @@ import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventM
  
 htmlMetaElementSetContent ::
-                          (HTMLMetaElementClass self) => self -> String -> IO ()
+                          (HTMLMetaElementClass self, GlibString string) =>
+                            self -> string -> IO ()
 htmlMetaElementSetContent self val
   = withUTFString val $
       \ valPtr ->
@@ -23,7 +24,7 @@ htmlMetaElementSetContent self val
           valPtr
  
 htmlMetaElementGetContent ::
-                          (HTMLMetaElementClass self) => self -> IO String
+                          (HTMLMetaElementClass self, GlibString string) => self -> IO string
 htmlMetaElementGetContent self
   = ({# call webkit_dom_html_meta_element_get_content #}
        (toHTMLMetaElement self))
@@ -31,7 +32,8 @@ htmlMetaElementGetContent self
       readUTFString
  
 htmlMetaElementSetHttpEquiv ::
-                            (HTMLMetaElementClass self) => self -> String -> IO ()
+                            (HTMLMetaElementClass self, GlibString string) =>
+                              self -> string -> IO ()
 htmlMetaElementSetHttpEquiv self val
   = withUTFString val $
       \ valPtr ->
@@ -40,7 +42,7 @@ htmlMetaElementSetHttpEquiv self val
           valPtr
  
 htmlMetaElementGetHttpEquiv ::
-                            (HTMLMetaElementClass self) => self -> IO String
+                            (HTMLMetaElementClass self, GlibString string) => self -> IO string
 htmlMetaElementGetHttpEquiv self
   = ({# call webkit_dom_html_meta_element_get_http_equiv #}
        (toHTMLMetaElement self))
@@ -48,7 +50,8 @@ htmlMetaElementGetHttpEquiv self
       readUTFString
  
 htmlMetaElementSetName ::
-                       (HTMLMetaElementClass self) => self -> String -> IO ()
+                       (HTMLMetaElementClass self, GlibString string) =>
+                         self -> string -> IO ()
 htmlMetaElementSetName self val
   = withUTFString val $
       \ valPtr ->
@@ -57,7 +60,7 @@ htmlMetaElementSetName self val
           valPtr
  
 htmlMetaElementGetName ::
-                       (HTMLMetaElementClass self) => self -> IO String
+                       (HTMLMetaElementClass self, GlibString string) => self -> IO string
 htmlMetaElementGetName self
   = ({# call webkit_dom_html_meta_element_get_name #}
        (toHTMLMetaElement self))
@@ -65,7 +68,8 @@ htmlMetaElementGetName self
       readUTFString
  
 htmlMetaElementSetScheme ::
-                         (HTMLMetaElementClass self) => self -> String -> IO ()
+                         (HTMLMetaElementClass self, GlibString string) =>
+                           self -> string -> IO ()
 htmlMetaElementSetScheme self val
   = withUTFString val $
       \ valPtr ->
@@ -74,7 +78,7 @@ htmlMetaElementSetScheme self val
           valPtr
  
 htmlMetaElementGetScheme ::
-                         (HTMLMetaElementClass self) => self -> IO String
+                         (HTMLMetaElementClass self, GlibString string) => self -> IO string
 htmlMetaElementGetScheme self
   = ({# call webkit_dom_html_meta_element_get_scheme #}
        (toHTMLMetaElement self))
