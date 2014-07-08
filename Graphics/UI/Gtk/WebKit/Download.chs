@@ -307,4 +307,4 @@ totalSize = readAttr downloadGetTotalSize
 --
 -- Since 1.1.2
 downloadError :: (DownloadClass self, GlibString string) => Signal self (Int -> Int -> string -> IO Bool)
-downloadError = Signal (connect_INT_INT_STRING__BOOL "error")
+downloadError = Signal (connect_INT_INT_GLIBSTRING__BOOL "error")

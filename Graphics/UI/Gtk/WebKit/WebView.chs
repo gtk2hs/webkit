@@ -926,7 +926,7 @@ webViewGetDomDocument webView = do
 --
 -- title - current title string.
 titleChanged :: (WebViewClass self, GlibString string) => Signal self ( WebFrame -> string -> IO() )
-titleChanged = Signal (connect_OBJECT_STRING__NONE "title_changed")
+titleChanged = Signal (connect_OBJECT_GLIBSTRING__NONE "title_changed")
 
 
 -- | When the cursor is over a link, this signal is emitted.
@@ -935,7 +935,7 @@ titleChanged = Signal (connect_OBJECT_STRING__NONE "title_changed")
 --
 -- uri - the URI the link points to or @Nothing@ in case of failure.
 hoveringOverLink :: (WebViewClass self, GlibString string) => Signal self (Maybe string -> Maybe string -> IO())
-hoveringOverLink = Signal (connect_MSTRING_MSTRING__NONE "hovering_over_link")
+hoveringOverLink = Signal (connect_MGLIBSTRING_MGLIBSTRING__NONE "hovering_over_link")
 
 -- | When a 'WebFrame' begins to load, this signal is emitted
 loadStarted :: WebViewClass self => Signal self (WebFrame -> IO())
@@ -966,7 +966,7 @@ loadFinished = Signal (connect_OBJECT__NONE "load_finished")
 --
 -- The URI that triggered the error and the 'GError' will be passed back to user function.
 loadError :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> GError -> IO Bool)
-loadError = Signal (connect_OBJECT_STRING_BOXED__BOOL "load_error" peek)
+loadError = Signal (connect_OBJECT_GLIBSTRING_BOXED__BOOL "load_error" peek)
 
 createWebView :: WebViewClass self => Signal self (WebFrame -> IO WebView)
 createWebView = Signal (connect_OBJECT__OBJECTPTR "create_web_view")
@@ -986,7 +986,7 @@ closeWebView = Signal (connect_NONE__BOOL "close_web_view")
 
 -- | A JavaScript console message was created.
 consoleMessage :: (WebViewClass self, GlibString string) => Signal self (string -> string -> Int -> string -> IO Bool)
-consoleMessage = Signal (connect_STRING_STRING_INT_STRING__BOOL "console_message")
+consoleMessage = Signal (connect_GLIBSTRING_GLIBSTRING_INT_GLIBSTRING__BOOL "console_message")
 
 -- | The 'copyClipboard' signal is a keybinding signal which gets emitted to copy the selection to the clipboard.
 --
@@ -1021,19 +1021,19 @@ printRequested = Signal (connect_OBJECT__BOOL "print_requested")
 
 -- | A JavaScript alert dialog was created.
 scriptAlert :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> IO Bool)
-scriptAlert = Signal (connect_OBJECT_STRING__BOOL "script_alert")
+scriptAlert = Signal (connect_OBJECT_GLIBSTRING__BOOL "script_alert")
 
 -- | A JavaScript confirm dialog was created, providing Yes and No buttons.
 scriptConfirm :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> IO Bool)
-scriptConfirm = Signal (connect_OBJECT_STRING__BOOL "script_confirm")
+scriptConfirm = Signal (connect_OBJECT_GLIBSTRING__BOOL "script_confirm")
 
 -- | A JavaScript prompt dialog was created, providing an entry to input text.
 scriptPrompt :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> string -> string -> IO Bool)
-scriptPrompt = Signal (connect_OBJECT_STRING_STRING__BOOL "script_prompt")
+scriptPrompt = Signal (connect_OBJECT_GLIBSTRING_GLIBSTRING__BOOL "script_prompt")
 
 -- | When status-bar text changed, this signal will emitted.
 statusBarTextChanged :: (WebViewClass self, GlibString string) => Signal self (string -> IO ())
-statusBarTextChanged = Signal (connect_STRING__NONE "status_bar_text_changed")
+statusBarTextChanged = Signal (connect_GLIBSTRING__NONE "status_bar_text_changed")
 
 
 editingBegan :: WebViewClass self => Signal self (IO ())
@@ -1093,7 +1093,7 @@ downloadRequested =
 -- | Emitted after Icon loaded
 iconLoaded :: (WebViewClass self, GlibString string) => Signal self (string -> IO ())
 iconLoaded =
-    Signal (connect_STRING__NONE "icon_loaded")
+    Signal (connect_GLIBSTRING__NONE "icon_loaded")
 #endif
 
 -- | The "redo" signal is a keybinding signal which gets emitted to redo the last editing command.
@@ -1120,7 +1120,7 @@ undo = Signal (connect_NONE__NONE "undo")
 -- And you must call 'webPolicyDecisionIgnore', 'webPolicyDecisionDownload', or 'webPolicyDecisionUse'
 -- on the 'webPolicyDecision' object.
 mimeTypePolicyDecisionRequested :: (WebViewClass self, GlibString string) => Signal self (WebFrame -> NetworkRequest -> string -> WebPolicyDecision -> IO Bool)
-mimeTypePolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_STRING_OBJECT__BOOL "mime_type_policy_decision_requested")
+mimeTypePolicyDecisionRequested = Signal (connect_OBJECT_OBJECT_GLIBSTRING_OBJECT__BOOL "mime_type_policy_decision_requested")
 
 -- | The 'moveCursor' will be emitted to apply the cursor movement described by its parameters to the view.
 moveCursor :: WebViewClass self => Signal self (MovementStep -> Int -> IO Bool)
