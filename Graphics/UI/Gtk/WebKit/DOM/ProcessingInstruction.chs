@@ -22,7 +22,7 @@ processingInstructionGetTarget self
       readUTFString
  
 processingInstructionSetData ::
-                             (ProcessingInstructionClass self) => self -> String -> IO ()
+                             (ProcessingInstructionClass self, GlibString string) => self -> string -> IO ()
 processingInstructionSetData self val
   = propagateGError $
       \ errorPtr_ ->
@@ -34,7 +34,7 @@ processingInstructionSetData self val
           errorPtr_
  
 processingInstructionGetData ::
-                             (ProcessingInstructionClass self) => self -> IO String
+                             (ProcessingInstructionClass self, GlibString string) => self -> IO string
 processingInstructionGetData self
   = ({# call webkit_dom_processing_instruction_get_data #}
        (toProcessingInstruction self))

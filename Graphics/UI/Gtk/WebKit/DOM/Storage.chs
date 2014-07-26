@@ -37,7 +37,7 @@ storageGetItem self key =
 #endif
 
 
-storageSetItem :: (StorageClass self) => self -> String -> String -> IO ()
+storageSetItem :: (StorageClass self, GlibString string) => self -> string -> string -> IO ()
 storageSetItem self key data'
   = propagateGError $
       \ errorPtr_ ->

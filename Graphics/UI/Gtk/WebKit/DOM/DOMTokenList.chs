@@ -34,7 +34,7 @@ domTokenListContains self token
              errorPtr_)
 
 domTokenListAdd ::
-                (DOMTokenListClass self) => self -> String -> IO ()
+                (DOMTokenListClass self, GlibString string) => self -> string -> IO ()
 domTokenListAdd self token
   = propagateGError $
       \ errorPtr_ ->
@@ -45,7 +45,7 @@ domTokenListAdd self token
           errorPtr_
 
 domTokenListRemove ::
-                   (DOMTokenListClass self) => self -> String -> IO ()
+                   (DOMTokenListClass self, GlibString string) => self -> string -> IO ()
 domTokenListRemove self token
   = propagateGError $
       \ errorPtr_ ->

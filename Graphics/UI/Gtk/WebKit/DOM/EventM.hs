@@ -56,6 +56,7 @@ module Graphics.UI.Gtk.WebKit.DOM.EventM
 , connect
 )
 where
+
 import Control.Applicative ((<$>))
 import Control.Monad.Reader ( ReaderT, ask, runReaderT )
 import Control.Monad.Trans ( liftIO )
@@ -66,6 +67,7 @@ import Graphics.UI.Gtk.WebKit.DOM.UIEvent
 import Graphics.UI.Gtk.WebKit.DOM.MouseEvent
 import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Data.Word (Word)
+import qualified Data.Text as T (pack)
 
 type Signal target callback = target -> callback -> IO (IO ())
 
@@ -261,4 +263,4 @@ mouseToElement = event >>= (liftIO . mouseEventGetToElement)
 
 connect :: (GObjectClass t, EventClass e) => String -> t -> EventM e t () -> IO (IO ())
 connect eventName target callback = do
-  eventTargetAddEventListener target eventName False $ curry (runReaderT callback)
+  eventTargetAddEventListener target (T.pack eventName) False $ curry (runReaderT callback)

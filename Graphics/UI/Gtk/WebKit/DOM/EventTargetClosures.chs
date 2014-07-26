@@ -16,8 +16,8 @@ foreign import ccall unsafe "gtk2hs_closure_new"
   gtk2hs_closure_new :: StablePtr a -> IO (Ptr GClosure)
 
 eventTargetAddEventListener ::
-                         (GObjectClass self, EventClass event) =>
-                           self -> String -> Bool -> (self -> event -> IO ()) -> IO (IO ())
+                         (GObjectClass self, EventClass event, GlibString string) =>
+                           self -> string -> Bool -> (self -> event -> IO ()) -> IO (IO ())
 eventTargetAddEventListener self eventName bubble user = do
   sptr <- newStablePtr action
   gclosurePtr <- gtk2hs_closure_new sptr

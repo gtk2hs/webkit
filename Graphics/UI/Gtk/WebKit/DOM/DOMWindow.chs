@@ -258,7 +258,7 @@ domWindowClearInterval self handle
       (fromIntegral handle)
  
 domWindowAtob ::
-              (DOMWindowClass self) => self -> String -> IO String
+              (DOMWindowClass self, GlibString string) => self -> string -> IO string
 domWindowAtob self string
   = (propagateGError $
        \ errorPtr_ ->
@@ -270,7 +270,7 @@ domWindowAtob self string
       readUTFString
  
 domWindowBtoa ::
-              (DOMWindowClass self) => self -> String -> IO String
+              (DOMWindowClass self, GlibString string) => self -> string -> IO string
 domWindowBtoa self string
   = (propagateGError $
        \ errorPtr_ ->
