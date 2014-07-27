@@ -9,7 +9,7 @@ Build-Type:     Custom
 Cabal-Version:  >= 1.8
 Stability:      provisional
 homepage:       http://projects.haskell.org/gtk2hs/
-bug-reports:    http://hackage.haskell.org/trac/gtk2hs/
+bug-reports:    https://github.com/gtk2hs/webkit/issues
 Synopsis:       Binding to the Webkit library.
 Description:    WebKit is a web content engine, derived from KHTML and KJS from KDE, and
                 used primarily in Apple's Safari browser.  It is made to be embedded in
