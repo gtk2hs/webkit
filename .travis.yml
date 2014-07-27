@@ -7,7 +7,7 @@ env:
 before_install:
   - sudo add-apt-repository -y ppa:hvr/ghc
   - sudo apt-get update -qq
-  - sudo apt-get --no-install-recommends install libwebkitgtk-3.0-dev
+  - sudo apt-get --no-install-recommends install libwebkitgtk-dev libwebkitgtk-3.0-dev
   - sudo apt-get install cabal-install-1.20 ghc-$GHCVER
   - export PATH=$HOME/.cabal/bin:/opt/ghc/$GHCVER/bin:/opt/cabal/1.20/bin:$PATH
   - cabal update
@@ -22,8 +22,9 @@ before_install:
 
 install:
   - cabal install Cabal
-  - cabal install gtk2hs/tools
-  - cabal install gtk2hs/glib gtk2hs/gio gtk2hs/cairo gtk2hs/pango gtk2hs/gtk
+  - cd gtk2hs
+  - ./install-both.sh
+  - cd ..
 
 script:
   - ./install-both.sh
