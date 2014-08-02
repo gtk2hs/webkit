@@ -18,13 +18,9 @@ before_install:
     else
       sudo apt-get install happy alex
     fi
-  - git clone https://github.com/gtk2hs/gtk2hs.git
 
 install:
   - cabal install Cabal
-  - cd gtk2hs
-  - ./install-both.sh
-  - cd ..
 
 script:
   - ./install-both.sh
