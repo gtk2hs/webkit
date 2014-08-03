@@ -21,6 +21,7 @@ before_install:
 
 install:
   - cabal install Cabal
+  - cabal install gtk2hs-buildtools
 
 script:
   - ./install-both.sh
