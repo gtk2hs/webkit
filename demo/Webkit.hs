@@ -69,8 +69,8 @@ browser url = do
     uri <- entryGetText addressBar -- get uri from address bar
     webViewLoadUri webView uri    -- load new uri
 
-  -- Add current uri to address bar when load start.
-  webView `on` loadStarted $ \frame -> do
+  -- Add current uri to address bar when load is committed.
+  webView `on` loadCommitted $ \frame -> do
     currentUri <- webFrameGetUri frame
     case currentUri of
          Just uri -> entrySetText addressBar uri
