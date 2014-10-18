@@ -1,5 +1,5 @@
 Name:           webkit
-Version:        0.13.0.2
+Version:        0.13.0.3
 License:        LGPL-2.1
 License-file:   COPYING
 Copyright:      (c) 2001-2013 The Gtk2Hs Team
@@ -220,6 +220,7 @@ Library
         default-language:   Haskell98
         default-extensions: ForeignFunctionInterface
         include-dirs: .
+        cpp-options: -DDISABLE_DEPRECATED -U__BLOCKS__ -D__attribute__(A)=
 
         x-Signals-File:  Graphics/UI/Gtk/WebKit/Signals.chs
         x-Signals-Modname: Graphics.UI.Gtk.WebKit.Signals
