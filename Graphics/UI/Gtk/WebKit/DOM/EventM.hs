@@ -36,9 +36,9 @@ module Graphics.UI.Gtk.WebKit.DOM.EventM
 , mouseClientX
 , mouseClientY
 , mouseClientXY
-, mouseWebkitMovementX
-, mouseWebkitMovementY
-, mouseWebkitMovementXY
+, mouseMovementX
+, mouseMovementY
+, mouseMovementXY
 , mouseCtrlKey
 , mouseShiftKey
 , mouseAltKey
@@ -195,18 +195,18 @@ mouseClientXY = do
     y <- mouseEventGetClientY e
     return (x, y)
 
-mouseWebkitMovementX :: MouseEventClass e => EventM e t Int
-mouseWebkitMovementX = event >>= (liftIO . mouseEventGetWebkitMovementX)
+mouseMovementX :: MouseEventClass e => EventM e t Int
+mouseMovementX = event >>= (liftIO . mouseEventGetMovementX)
 
-mouseWebkitMovementY :: MouseEventClass e => EventM e t Int
-mouseWebkitMovementY = event >>= (liftIO . mouseEventGetWebkitMovementY)
+mouseMovementY :: MouseEventClass e => EventM e t Int
+mouseMovementY = event >>= (liftIO . mouseEventGetMovementY)
 
-mouseWebkitMovementXY :: MouseEventClass e => EventM e t (Int, Int)
-mouseWebkitMovementXY = do
+mouseMovementXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseMovementXY = do
   e <- event
   liftIO $ do
-    x <- mouseEventGetWebkitMovementX e
-    y <- mouseEventGetWebkitMovementY e
+    x <- mouseEventGetMovementX e
+    y <- mouseEventGetMovementY e
     return (x, y)
 
 mouseCtrlKey :: MouseEventClass e => EventM e t Bool

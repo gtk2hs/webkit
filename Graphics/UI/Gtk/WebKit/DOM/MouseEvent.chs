@@ -3,11 +3,11 @@ module Graphics.UI.Gtk.WebKit.DOM.MouseEvent
         mouseEventGetScreenY, mouseEventGetClientX, mouseEventGetClientY,
         mouseEventGetCtrlKey, mouseEventGetShiftKey, mouseEventGetAltKey,
         mouseEventGetMetaKey, mouseEventGetButton,
-        mouseEventGetRelatedTarget, mouseEventGetWebkitMovementX,
-        mouseEventGetWebkitMovementY, mouseEventGetOffsetX,
-        mouseEventGetOffsetY, mouseEventGetX, mouseEventGetY,
-        mouseEventGetFromElement, mouseEventGetToElement, MouseEvent,
-        MouseEventClass, castToMouseEvent, gTypeMouseEvent, toMouseEvent)
+        mouseEventGetRelatedTarget, mouseEventGetMovementX,
+        mouseEventGetMovementY, mouseEventGetOffsetX, mouseEventGetOffsetY,
+        mouseEventGetX, mouseEventGetY, mouseEventGetFromElement,
+        mouseEventGetToElement, MouseEvent, MouseEventClass,
+        castToMouseEvent, gTypeMouseEvent, toMouseEvent)
        where
 import System.Glib.FFI
 import System.Glib.UTFString
@@ -114,16 +114,14 @@ mouseEventGetRelatedTarget self
       ({# call webkit_dom_mouse_event_get_related_target #}
          (toMouseEvent self))
  
-mouseEventGetWebkitMovementX ::
-                             (MouseEventClass self) => self -> IO Int
-mouseEventGetWebkitMovementX self
+mouseEventGetMovementX :: (MouseEventClass self) => self -> IO Int
+mouseEventGetMovementX self
   = fromIntegral <$>
       ({# call webkit_dom_mouse_event_get_webkit_movement_x #}
          (toMouseEvent self))
  
-mouseEventGetWebkitMovementY ::
-                             (MouseEventClass self) => self -> IO Int
-mouseEventGetWebkitMovementY self
+mouseEventGetMovementY :: (MouseEventClass self) => self -> IO Int
+mouseEventGetMovementY self
   = fromIntegral <$>
       ({# call webkit_dom_mouse_event_get_webkit_movement_y #}
          (toMouseEvent self))
