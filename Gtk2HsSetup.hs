@@ -129,7 +129,7 @@ fixLibs dlls = concatMap $ \ lib ->
             Just ('.':_)                -> True
             Just ('-':n:_) | isNumber n -> True
             _                           -> False
-        
+
 -- The following code is a big copy-and-paste job from the sources of
 -- Cabal 1.8 just to be able to fix a field in the package file. Yuck.
 
@@ -167,7 +167,11 @@ register pkg@PackageDescription { library       = Just lib  } lbi regFlags
     let clbi = LBI.getComponentLocalBuildInfo lbi LBI.CLibName
 
     installedPkgInfoRaw <- generateRegistrationInfo
+#if CABAL_VERSION_CHECK(1,22,0)
+                           verbosity pkg lib lbi clbi inplace False distPref packageDb
+#else
                            verbosity pkg lib lbi clbi inplace distPref
+#endif
 
     dllsInScope <- getSearchPath >>= (filterM doesDirectoryExist) >>= getDlls
     let libs = fixLibs dllsInScope (extraLibraries installedPkgInfoRaw)
