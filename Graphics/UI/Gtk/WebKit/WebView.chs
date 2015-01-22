@@ -1,4 +1,5 @@
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP          #-}
+{-# LANGUAGE ViewPatterns #-}
 -- -*-haskell-*-
 -----------------------------------------------------------------------------
 --  Module      :  Graphics.UI.Gtk.WebKit.WebView
@@ -182,7 +183,9 @@ module Graphics.UI.Gtk.WebKit.WebView (
 #endif
 
 -- * Attributes
+#if WEBKIT_CHECK_VERSION(1,0,1)
   webViewZoomLevel,
+#endif
   webViewFullContentZoom,
   webViewEncoding,
   webViewCustomEncoding,
@@ -204,6 +207,10 @@ module Graphics.UI.Gtk.WebKit.WebView (
 
 #if WEBKIT_CHECK_VERSION (1,1,20)
   webViewImContext,
+#endif
+
+#if WEBKIT_CHECK_VERSION(1,3,4)
+  webViewViewMode,
 #endif
 
 -- * Signals
@@ -472,11 +479,11 @@ webViewSetEditable webview editable = {#call web_view_set_editable#} (toWebView 
 
 #if WEBKIT_CHECK_VERSION(1,3,4)
 -- | Gets the value of the "view-mode" property of the 'WebView'
-webViewGetViewMode :: WebView -> IO ViewMode
-webViewGetViewMode = liftM (toEnum . fromIntegral) . {#call web_view_get_view_source_mode#}
+webViewGetViewMode :: WebViewClass self => self -> IO ViewMode
+webViewGetViewMode = liftM (toEnum . fromIntegral) . {#call web_view_get_view_source_mode#} . toWebView
 
-webViewSetViewMode :: WebView -> ViewMode -> IO ()
-webViewSetViewMode webView viewMode = {#call web_view_set_view_source_mode#} webView (fromIntegral . fromEnum $ viewMode)
+webViewSetViewMode :: WebViewClass self => self -> ViewMode -> IO ()
+webViewSetViewMode (toWebView -> webView) viewMode = {#call web_view_set_view_source_mode#} webView (fromIntegral . fromEnum $ viewMode)
 #endif
 
 -- | Returns whether 'WebView' is in view source mode
@@ -767,37 +774,35 @@ webViewGetPasteTargetList = maybePeek mkTargetList <=< {#call web_view_get_paste
 
 -- * Attibutes
 
+#if WEBKIT_CHECK_VERSION(1,0,1)
 -- | Zoom level of the 'WebView' instance
 webViewZoomLevel :: WebViewClass self => Attr self Float
-webViewZoomLevel = newAttr
-   webViewGetZoomLevel
-   webViewSetZoomLevel
+webViewZoomLevel = newAttrFromFloatProperty "zoom-level"
+#endif
 
 -- | Whether the full content is scaled when zooming
 --
 -- Default value: False
 webViewFullContentZoom :: WebViewClass self => Attr self Bool
-webViewFullContentZoom = newAttr
-   webViewGetFullContentZoom
-   webViewSetFullContentZoom
+webViewFullContentZoom = newAttrFromBoolProperty "full-content-zoom"
 
 -- | The default encoding of the 'WebView' instance
 --
 -- Default value: @Nothing@
 webViewEncoding :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
-webViewEncoding = readAttr webViewGetEncoding
+webViewEncoding = readAttrFromMaybeStringProperty "encoding"
 
 -- | Determines the current status of the load.
 --
 -- Default value: @LoadFinished@
 webViewLoadStatus :: WebViewClass self => ReadAttr self LoadStatus
-webViewLoadStatus = readAttr webViewGetLoadStatus
+webViewLoadStatus = readAttrFromEnumProperty "load-status" {#call pure unsafe webkit_load_status_get_type#}
 
 -- |Determines the current progress of the load
 --
 -- Default Value: 1
 webViewProgress :: WebViewClass self => ReadAttr self Double
-webViewProgress = readAttr webViewGetProgress
+webViewProgress = readAttrFromDoubleProperty "progress"
 
 
 -- | The associated webSettings of the 'WebView' instance
@@ -809,7 +814,7 @@ webViewWebSettings = newAttr
 
 -- | Title of the 'WebView' instance
 webViewTitle :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
-webViewTitle = readAttr webViewGetTitle
+webViewTitle = readAttrFromMaybeStringProperty "title"
 
 -- | The associated webInspector instance of the 'WebView'
 webViewInspector :: WebViewClass self => ReadAttr self WebInspector
@@ -820,9 +825,7 @@ webViewInspector = readAttr webViewGetInspector
 --
 -- Default value: @Nothing@
 webViewCustomEncoding :: (WebViewClass self, GlibString string) => Attr self (Maybe string)
-webViewCustomEncoding = newAttr
-   webViewGetCustomEncoding
-   webViewSetCustomEncoding
+webViewCustomEncoding = newAttrFromMaybeStringProperty "custom-encoding"
 
 -- | view source mode of the 'WebView' instance
 webViewViewSourceMode :: WebViewClass self => Attr self Bool
@@ -832,23 +835,19 @@ webViewViewSourceMode = newAttr
 
 -- | transparent background of the 'WebView' instance
 webViewTransparent :: WebViewClass self => Attr self Bool
-webViewTransparent = newAttr
-  webViewGetTransparent
-  webViewSetTransparent
+webViewTransparent = newAttrFromBoolProperty "transparent"
 
 -- | Whether content of the 'WebView' can be modified by the user
 --
 -- Default value: @False@
 webViewEditable :: WebViewClass self => Attr self Bool
-webViewEditable = newAttr
-  webViewGetEditable
-  webViewSetEditable
+webViewEditable = newAttrFromBoolProperty "editable"
 
 -- | Returns the current URI of the contents displayed by the @web_view@.
 --
 -- Default value: Nothing
 webViewUri :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
-webViewUri = readAttr webViewGetUri
+webViewUri = readAttrFromMaybeStringProperty "uri"
 
 -- | The list of targets this web view supports for clipboard copying.
 webViewCopyTargetList :: WebViewClass self => ReadAttr self (Maybe TargetList)
@@ -870,8 +869,8 @@ webViewWindowFeatures =
 -- Default value: 'Nothing'
 --
 -- * Since 1.1.18
-webViewIconUri :: (WebViewClass self, GlibString string) => ReadAttr self string
-webViewIconUri = readAttrFromStringProperty "icon-uri"
+webViewIconUri :: (WebViewClass self, GlibString string) => ReadAttr self (Maybe string)
+webViewIconUri = readAttrFromMaybeStringProperty "icon-uri"
 #endif
 
 #if WEBKIT_CHECK_VERSION (1,1,20)
@@ -887,6 +886,13 @@ webViewImContext =
   {#call pure gtk_im_context_get_type #}
 #endif
 
+#if WEBKIT_CHECK_VERSION(1,3,4)
+-- | The "view-mode" property of the 'WebView'
+webViewViewMode :: (WebViewClass self) => Attr self ViewMode
+webViewViewMode = newAttr
+    webViewGetViewMode
+    webViewSetViewMode
+#endif
 
 #if WEBKIT_CHECK_VERSION (1,3,1)
 webViewGetDomDocument :: WebView -> IO (Maybe Document)
