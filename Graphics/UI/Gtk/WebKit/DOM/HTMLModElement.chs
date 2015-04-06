@@ -1,48 +1,65 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLModElement
-       (htmlModElementSetCite, htmlModElementGetCite,
-        htmlModElementSetDateTime, htmlModElementGetDateTime,
-        HTMLModElement, HTMLModElementClass, castToHTMLModElement,
-        gTypeHTMLModElement, toHTMLModElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLModElement(
+setCite,
+getCite,
+setDateTime,
+getDateTime,
+HTMLModElement,
+castToHTMLModElement,
+gTypeHTMLModElement,
+HTMLModElementClass,
+toHTMLModElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlModElementSetCite ::
-                      (HTMLModElementClass self, GlibString string) =>
-                        self -> string -> IO ()
-htmlModElementSetCite self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_mod_element_set_cite #}
-          (toHTMLModElement self)
-          valPtr
+setCite ::
+        (MonadIO m, HTMLModElementClass self, GlibString string) =>
+          self -> string -> m ()
+setCite self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_mod_element_set_cite #}
+             (toHTMLModElement self)
+             valPtr)
  
-htmlModElementGetCite ::
-                      (HTMLModElementClass self, GlibString string) => self -> IO string
-htmlModElementGetCite self
-  = ({# call webkit_dom_html_mod_element_get_cite #}
-       (toHTMLModElement self))
-      >>=
-      readUTFString
+getCite ::
+        (MonadIO m, HTMLModElementClass self, GlibString string) =>
+          self -> m string
+getCite self
+  = liftIO
+      (({# call webkit_dom_html_mod_element_get_cite #}
+          (toHTMLModElement self))
+         >>=
+         readUTFString)
  
-htmlModElementSetDateTime ::
-                          (HTMLModElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlModElementSetDateTime self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_mod_element_set_date_time #}
-          (toHTMLModElement self)
-          valPtr
+setDateTime ::
+            (MonadIO m, HTMLModElementClass self, GlibString string) =>
+              self -> string -> m ()
+setDateTime self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_mod_element_set_date_time #}
+             (toHTMLModElement self)
+             valPtr)
  
-htmlModElementGetDateTime ::
-                          (HTMLModElementClass self, GlibString string) => self -> IO string
-htmlModElementGetDateTime self
-  = ({# call webkit_dom_html_mod_element_get_date_time #}
-       (toHTMLModElement self))
-      >>=
-      readUTFString
+getDateTime ::
+            (MonadIO m, HTMLModElementClass self, GlibString string) =>
+              self -> m string
+getDateTime self
+  = liftIO
+      (({# call webkit_dom_html_mod_element_get_date_time #}
+          (toHTMLModElement self))
+         >>=
+         readUTFString)

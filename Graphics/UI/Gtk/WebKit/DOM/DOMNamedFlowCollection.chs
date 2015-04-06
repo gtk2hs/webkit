@@ -1,45 +1,52 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection
-       (
-#if WEBKIT_CHECK_VERSION(2,2,2)
-        domNamedFlowCollectionItem, domNamedFlowCollectionNamedItem,
-        domNamedFlowCollectionGetLength, DOMNamedFlowCollection,
-        DOMNamedFlowCollectionClass, castToDOMNamedFlowCollection,
-        gTypeDOMNamedFlowCollection, toDOMNamedFlowCollection
-#endif
-       )
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection(
+item,
+namedItem,
+getLength,
+DOMNamedFlowCollection,
+castToDOMNamedFlowCollection,
+gTypeDOMNamedFlowCollection,
+DOMNamedFlowCollectionClass,
+toDOMNamedFlowCollection,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-#if WEBKIT_CHECK_VERSION(2,2,2)
-domNamedFlowCollectionItem ::
-                           (DOMNamedFlowCollectionClass self) =>
-                             self -> Word -> IO (Maybe WebKitNamedFlow)
-domNamedFlowCollectionItem self index
-  = maybeNull (makeNewGObject mkWebKitNamedFlow)
-      ({# call webkit_dom_dom_named_flow_collection_item #}
-         (toDOMNamedFlowCollection self)
-         (fromIntegral index))
+item ::
+     (MonadIO m, DOMNamedFlowCollectionClass self) =>
+       self -> Word -> m (Maybe WebKitNamedFlow)
+item self index
+  = liftIO
+      (maybeNull (makeNewGObject mkWebKitNamedFlow)
+         ({# call webkit_dom_dom_named_flow_collection_item #}
+            (toDOMNamedFlowCollection self)
+            (fromIntegral index)))
  
-domNamedFlowCollectionNamedItem ::
-                                (DOMNamedFlowCollectionClass self, GlibString string) =>
-                                  self -> string -> IO (Maybe WebKitNamedFlow)
-domNamedFlowCollectionNamedItem self name
-  = maybeNull (makeNewGObject mkWebKitNamedFlow)
-      (withUTFString name $
-         \ namePtr ->
-           {# call webkit_dom_dom_named_flow_collection_named_item #}
-             (toDOMNamedFlowCollection self)
-             namePtr)
+namedItem ::
+          (MonadIO m, DOMNamedFlowCollectionClass self, GlibString string) =>
+            self -> string -> m (Maybe WebKitNamedFlow)
+namedItem self name
+  = liftIO
+      (maybeNull (makeNewGObject mkWebKitNamedFlow)
+         (withUTFString name $
+            \ namePtr ->
+              {# call webkit_dom_dom_named_flow_collection_named_item #}
+                (toDOMNamedFlowCollection self)
+                namePtr))
  
-domNamedFlowCollectionGetLength ::
-                                (DOMNamedFlowCollectionClass self) => self -> IO Word
-domNamedFlowCollectionGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_dom_named_flow_collection_get_length #}
-         (toDOMNamedFlowCollection self))
-#endif
+getLength ::
+          (MonadIO m, DOMNamedFlowCollectionClass self) => self -> m Word
+getLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_dom_named_flow_collection_get_length #}
+            (toDOMNamedFlowCollection self)))

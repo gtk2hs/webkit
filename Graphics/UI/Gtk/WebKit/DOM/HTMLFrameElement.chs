@@ -1,195 +1,236 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameElement
-       (htmlFrameElementSetFrameBorder, htmlFrameElementGetFrameBorder,
-        htmlFrameElementSetLongDesc, htmlFrameElementGetLongDesc,
-        htmlFrameElementSetMarginHeight, htmlFrameElementGetMarginHeight,
-        htmlFrameElementSetMarginWidth, htmlFrameElementGetMarginWidth,
-        htmlFrameElementSetName, htmlFrameElementGetName,
-        htmlFrameElementSetNoResize, htmlFrameElementGetNoResize,
-        htmlFrameElementSetScrolling, htmlFrameElementGetScrolling,
-        htmlFrameElementSetSrc, htmlFrameElementGetSrc,
-        htmlFrameElementGetContentDocument,
-        htmlFrameElementGetContentWindow, htmlFrameElementGetWidth,
-        htmlFrameElementGetHeight, HTMLFrameElement, HTMLFrameElementClass,
-        castToHTMLFrameElement, gTypeHTMLFrameElement, toHTMLFrameElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameElement(
+setFrameBorder,
+getFrameBorder,
+setLongDesc,
+getLongDesc,
+setMarginHeight,
+getMarginHeight,
+setMarginWidth,
+getMarginWidth,
+setName,
+getName,
+setNoResize,
+getNoResize,
+setScrolling,
+getScrolling,
+setSrc,
+getSrc,
+getContentDocument,
+getContentWindow,
+getWidth,
+getHeight,
+HTMLFrameElement,
+castToHTMLFrameElement,
+gTypeHTMLFrameElement,
+HTMLFrameElementClass,
+toHTMLFrameElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlFrameElementSetFrameBorder ::
-                               (HTMLFrameElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlFrameElementSetFrameBorder self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_frame_border #}
-          (toHTMLFrameElement self)
-          valPtr
+setFrameBorder ::
+               (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setFrameBorder self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_frame_border #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetFrameBorder ::
-                               (HTMLFrameElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlFrameElementGetFrameBorder self
-  = ({# call webkit_dom_html_frame_element_get_frame_border #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getFrameBorder ::
+               (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                 self -> m string
+getFrameBorder self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_frame_border #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetLongDesc ::
-                            (HTMLFrameElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlFrameElementSetLongDesc self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_long_desc #}
-          (toHTMLFrameElement self)
-          valPtr
+setLongDesc ::
+            (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+              self -> string -> m ()
+setLongDesc self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_long_desc #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetLongDesc ::
-                            (HTMLFrameElementClass self, GlibString string) =>
-                              self -> IO string
-htmlFrameElementGetLongDesc self
-  = ({# call webkit_dom_html_frame_element_get_long_desc #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getLongDesc ::
+            (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+              self -> m string
+getLongDesc self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_long_desc #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetMarginHeight ::
-                                (HTMLFrameElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlFrameElementSetMarginHeight self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_margin_height #}
-          (toHTMLFrameElement self)
-          valPtr
+setMarginHeight ::
+                (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                  self -> string -> m ()
+setMarginHeight self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_margin_height #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetMarginHeight ::
-                                (HTMLFrameElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlFrameElementGetMarginHeight self
-  = ({# call webkit_dom_html_frame_element_get_margin_height #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getMarginHeight ::
+                (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                  self -> m string
+getMarginHeight self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_margin_height #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetMarginWidth ::
-                               (HTMLFrameElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlFrameElementSetMarginWidth self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_margin_width #}
-          (toHTMLFrameElement self)
-          valPtr
+setMarginWidth ::
+               (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setMarginWidth self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_margin_width #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetMarginWidth ::
-                               (HTMLFrameElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlFrameElementGetMarginWidth self
-  = ({# call webkit_dom_html_frame_element_get_margin_width #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getMarginWidth ::
+               (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+                 self -> m string
+getMarginWidth self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_margin_width #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetName ::
-                        (HTMLFrameElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlFrameElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_name #}
-          (toHTMLFrameElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_name #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetName ::
-                        (HTMLFrameElementClass self, GlibString string) =>
-                          self -> IO string
-htmlFrameElementGetName self
-  = ({# call webkit_dom_html_frame_element_get_name #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_name #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetNoResize ::
-                            (HTMLFrameElementClass self) => self -> Bool -> IO ()
-htmlFrameElementSetNoResize self val
-  = {# call webkit_dom_html_frame_element_set_no_resize #}
-      (toHTMLFrameElement self)
-      (fromBool val)
+setNoResize ::
+            (MonadIO m, HTMLFrameElementClass self) => self -> Bool -> m ()
+setNoResize self val
+  = liftIO
+      ({# call webkit_dom_html_frame_element_set_no_resize #}
+         (toHTMLFrameElement self)
+         (fromBool val))
  
-htmlFrameElementGetNoResize ::
-                            (HTMLFrameElementClass self) => self -> IO Bool
-htmlFrameElementGetNoResize self
-  = toBool <$>
-      ({# call webkit_dom_html_frame_element_get_no_resize #}
-         (toHTMLFrameElement self))
+getNoResize ::
+            (MonadIO m, HTMLFrameElementClass self) => self -> m Bool
+getNoResize self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_frame_element_get_no_resize #}
+            (toHTMLFrameElement self)))
  
-htmlFrameElementSetScrolling ::
-                             (HTMLFrameElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlFrameElementSetScrolling self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_scrolling #}
-          (toHTMLFrameElement self)
-          valPtr
+setScrolling ::
+             (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+               self -> string -> m ()
+setScrolling self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_scrolling #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetScrolling ::
-                             (HTMLFrameElementClass self, GlibString string) =>
-                               self -> IO string
-htmlFrameElementGetScrolling self
-  = ({# call webkit_dom_html_frame_element_get_scrolling #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getScrolling ::
+             (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+               self -> m string
+getScrolling self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_scrolling #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementSetSrc ::
-                       (HTMLFrameElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlFrameElementSetSrc self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_element_set_src #}
-          (toHTMLFrameElement self)
-          valPtr
+setSrc ::
+       (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+         self -> string -> m ()
+setSrc self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_element_set_src #}
+             (toHTMLFrameElement self)
+             valPtr)
  
-htmlFrameElementGetSrc ::
-                       (HTMLFrameElementClass self, GlibString string) =>
-                         self -> IO string
-htmlFrameElementGetSrc self
-  = ({# call webkit_dom_html_frame_element_get_src #}
-       (toHTMLFrameElement self))
-      >>=
-      readUTFString
+getSrc ::
+       (MonadIO m, HTMLFrameElementClass self, GlibString string) =>
+         self -> m string
+getSrc self
+  = liftIO
+      (({# call webkit_dom_html_frame_element_get_src #}
+          (toHTMLFrameElement self))
+         >>=
+         readUTFString)
  
-htmlFrameElementGetContentDocument ::
-                                   (HTMLFrameElementClass self) => self -> IO (Maybe Document)
-htmlFrameElementGetContentDocument self
-  = maybeNull (makeNewGObject mkDocument)
-      ({# call webkit_dom_html_frame_element_get_content_document #}
-         (toHTMLFrameElement self))
+getContentDocument ::
+                   (MonadIO m, HTMLFrameElementClass self) =>
+                     self -> m (Maybe Document)
+getContentDocument self
+  = liftIO
+      (maybeNull (makeNewGObject mkDocument)
+         ({# call webkit_dom_html_frame_element_get_content_document #}
+            (toHTMLFrameElement self)))
  
-htmlFrameElementGetContentWindow ::
-                                 (HTMLFrameElementClass self) => self -> IO (Maybe DOMWindow)
-htmlFrameElementGetContentWindow self
-  = maybeNull (makeNewGObject mkDOMWindow)
-      ({# call webkit_dom_html_frame_element_get_content_window #}
-         (toHTMLFrameElement self))
+getContentWindow ::
+                 (MonadIO m, HTMLFrameElementClass self) =>
+                   self -> m (Maybe DOMWindow)
+getContentWindow self
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMWindow)
+         ({# call webkit_dom_html_frame_element_get_content_window #}
+            (toHTMLFrameElement self)))
  
-htmlFrameElementGetWidth ::
-                         (HTMLFrameElementClass self) => self -> IO Int
-htmlFrameElementGetWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_frame_element_get_width #}
-         (toHTMLFrameElement self))
+getWidth ::
+         (MonadIO m, HTMLFrameElementClass self) => self -> m Int
+getWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_frame_element_get_width #}
+            (toHTMLFrameElement self)))
  
-htmlFrameElementGetHeight ::
-                          (HTMLFrameElementClass self) => self -> IO Int
-htmlFrameElementGetHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_frame_element_get_height #}
-         (toHTMLFrameElement self))
+getHeight ::
+          (MonadIO m, HTMLFrameElementClass self) => self -> m Int
+getHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_frame_element_get_height #}
+            (toHTMLFrameElement self)))

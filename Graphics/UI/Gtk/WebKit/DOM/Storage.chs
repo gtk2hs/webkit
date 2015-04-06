@@ -1,78 +1,95 @@
-module Graphics.UI.Gtk.WebKit.DOM.Storage
-       (storageKey, storageGetItem, storageSetItem, storageRemoveItem,
-        storageClear, storageGetLength, Storage, StorageClass,
-        castToStorage, gTypeStorage, toStorage)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.Storage(
+key,
+getItem,
+setItem,
+removeItem,
+clear,
+getLength,
+Storage,
+castToStorage,
+gTypeStorage,
+StorageClass,
+toStorage,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
 
-
-storageKey ::
-           (StorageClass self, GlibString string) => self -> Word -> IO string
-#if WEBKIT_CHECK_VERSION(2,0,0)
-storageKey self index = propagateGError $ \errorPtr ->
-    ({# call webkit_dom_storage_key #} (toStorage self) (fromIntegral index) errorPtr >>= readUTFString)
-#else
-storageKey self index = {# call webkit_dom_storage_key #} (toStorage self) (fromIntegral index) >>= readUTFString
-#endif
-
-
-storageGetItem ::
-               (StorageClass self, GlibString string) =>
-                 self -> string -> IO string
-#if WEBKIT_CHECK_VERSION(2,0,0)
-storageGetItem self key = propagateGError $ \errorPtr -> (
-  (withUTFString key $ \keyPtr ->
-    {# call webkit_dom_storage_get_item #} (toStorage self) keyPtr errorPtr)
-  >>= readUTFString)
-#else
-storageGetItem self key =
-  (withUTFString key $ \keyPtr ->
-    {# call webkit_dom_storage_get_item #} (toStorage self) keyPtr)
-  >>= readUTFString
-#endif
-
-
-storageSetItem :: (StorageClass self, GlibString string) => self -> string -> string -> IO ()
-storageSetItem self key data'
-  = propagateGError $
-      \ errorPtr_ ->
-        withUTFString data' $
-          \ dataPtr ->
+ 
+key ::
+    (MonadIO m, StorageClass self, GlibString string) =>
+      self -> Word -> m string
+key self index
+  = liftIO
+      ((propagateGError $
+          \ errorPtr_ ->
+            {# call webkit_dom_storage_key #} (toStorage self)
+              (fromIntegral index)
+              errorPtr_)
+         >>=
+         readUTFString)
+ 
+getItem ::
+        (MonadIO m, StorageClass self, GlibString string) =>
+          self -> string -> m string
+getItem self key
+  = liftIO
+      ((propagateGError $
+          \ errorPtr_ ->
             withUTFString key $
               \ keyPtr ->
-                {# call webkit_dom_storage_set_item #} (toStorage self) keyPtr
-              dataPtr
-          errorPtr_
-
-
-storageRemoveItem ::
-                  (StorageClass self, GlibString string) => self -> string -> IO ()
-#if WEBKIT_CHECK_VERSION(2,0,0)
-storageRemoveItem self key = propagateGError $ \errorPtr -> (
-  withUTFString key $ \keyPtr ->
-    {# call webkit_dom_storage_remove_item #} (toStorage self) keyPtr errorPtr)
-#else
-storageRemoveItem self key = withUTFString key $ \keyPtr ->
-    {# call webkit_dom_storage_remove_item #} (toStorage self) keyPtr
-#endif
-
-
-storageClear :: (StorageClass self) => self -> IO ()
-#if WEBKIT_CHECK_VERSION(2,0,0)
-storageClear self = propagateGError $ {# call webkit_dom_storage_clear #} (toStorage self)
-#else
-storageClear = {# call webkit_dom_storage_clear #} . toStorage
-#endif
-
-
-storageGetLength :: (StorageClass self) => self -> IO Word
-#if WEBKIT_CHECK_VERSION(2,0,0)
-storageGetLength self = fromIntegral <$> propagateGError ({# call webkit_dom_storage_get_length #} (toStorage self))
-#else
-storageGetLength self = fromIntegral <$> ({# call webkit_dom_storage_get_length #} (toStorage self))
-#endif
+                {# call webkit_dom_storage_get_item #} (toStorage self) keyPtr
+              errorPtr_)
+         >>=
+         readUTFString)
+ 
+setItem ::
+        (MonadIO m, StorageClass self, GlibString string) =>
+          self -> string -> string -> m ()
+setItem self key data'
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           withUTFString data' $
+             \ dataPtr ->
+               withUTFString key $
+                 \ keyPtr ->
+                   {# call webkit_dom_storage_set_item #} (toStorage self) keyPtr
+                 dataPtr
+             errorPtr_)
+ 
+removeItem ::
+           (MonadIO m, StorageClass self, GlibString string) =>
+             self -> string -> m ()
+removeItem self key
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           withUTFString key $
+             \ keyPtr ->
+               {# call webkit_dom_storage_remove_item #} (toStorage self) keyPtr
+             errorPtr_)
+ 
+clear :: (MonadIO m, StorageClass self) => self -> m ()
+clear self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_storage_clear #} (toStorage self) errorPtr_)
+ 
+getLength :: (MonadIO m, StorageClass self) => self -> m Word
+getLength self
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_storage_get_length #} (toStorage self)
+                errorPtr_))

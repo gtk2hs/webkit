@@ -1,49 +1,72 @@
-module Graphics.UI.Gtk.WebKit.DOM.Attr
-       (attrGetName, attrGetSpecified, attrSetValue, attrGetValue,
-        attrGetOwnerElement, attrGetIsId, DOMAttr, DOMAttrClass,
-        castToDOMAttr, gTypeDOMAttr, toDOMAttr)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.Attr(
+getName,
+getSpecified,
+setValue,
+getValue,
+getOwnerElement,
+getIsId,
+DOMAttr,
+castToDOMAttr,
+gTypeDOMAttr,
+DOMAttrClass,
+toDOMAttr,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-attrGetName ::
-            (DOMAttrClass self, GlibString string) => self -> IO string
-attrGetName self
-  = ({# call webkit_dom_attr_get_name #} (toDOMAttr self)) >>=
-      readUTFString
+getName ::
+        (MonadIO m, DOMAttrClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_attr_get_name #} (toDOMAttr self)) >>=
+         readUTFString)
  
-attrGetSpecified :: (DOMAttrClass self) => self -> IO Bool
-attrGetSpecified self
-  = toBool <$>
-      ({# call webkit_dom_attr_get_specified #} (toDOMAttr self))
+getSpecified :: (MonadIO m, DOMAttrClass self) => self -> m Bool
+getSpecified self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_attr_get_specified #} (toDOMAttr self)))
  
-attrSetValue ::
-             (DOMAttrClass self, GlibString string) => self -> string -> IO ()
-attrSetValue self val
-  = propagateGError $
-      \ errorPtr_ ->
-        withUTFString val $
-          \ valPtr ->
-            {# call webkit_dom_attr_set_value #} (toDOMAttr self) valPtr
-          errorPtr_
+setValue ::
+         (MonadIO m, DOMAttrClass self, GlibString string) =>
+           self -> string -> m ()
+setValue self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           withUTFString val $
+             \ valPtr ->
+               {# call webkit_dom_attr_set_value #} (toDOMAttr self) valPtr
+             errorPtr_)
  
-attrGetValue ::
-             (DOMAttrClass self, GlibString string) => self -> IO string
-attrGetValue self
-  = ({# call webkit_dom_attr_get_value #} (toDOMAttr self)) >>=
-      readUTFString
+getValue ::
+         (MonadIO m, DOMAttrClass self, GlibString string) =>
+           self -> m string
+getValue self
+  = liftIO
+      (({# call webkit_dom_attr_get_value #} (toDOMAttr self)) >>=
+         readUTFString)
  
-attrGetOwnerElement ::
-                    (DOMAttrClass self) => self -> IO (Maybe Element)
-attrGetOwnerElement self
-  = maybeNull (makeNewGObject mkElement)
-      ({# call webkit_dom_attr_get_owner_element #} (toDOMAttr self))
+getOwnerElement ::
+                (MonadIO m, DOMAttrClass self) => self -> m (Maybe Element)
+getOwnerElement self
+  = liftIO
+      (maybeNull (makeNewGObject mkElement)
+         ({# call webkit_dom_attr_get_owner_element #} (toDOMAttr self)))
  
-attrGetIsId :: (DOMAttrClass self) => self -> IO Bool
-attrGetIsId self
-  = toBool <$>
-      ({# call webkit_dom_attr_get_is_id #} (toDOMAttr self))
+getIsId :: (MonadIO m, DOMAttrClass self) => self -> m Bool
+getIsId self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_attr_get_is_id #} (toDOMAttr self)))

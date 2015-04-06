@@ -1,55 +1,75 @@
-module Graphics.UI.Gtk.WebKit.DOM.TreeWalker
-       (treeWalkerGetRoot, treeWalkerGetWhatToShow, treeWalkerGetFilter,
-        treeWalkerGetExpandEntityReferences, treeWalkerSetCurrentNode,
-        treeWalkerGetCurrentNode, TreeWalker(..), TreeWalkerClass(..),
-        castToTreeWalker, gTypeTreeWalker, toTreeWalker)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.TreeWalker(
+getRoot,
+getWhatToShow,
+getFilter,
+getExpandEntityReferences,
+setCurrentNode,
+getCurrentNode,
+TreeWalker,
+castToTreeWalker,
+gTypeTreeWalker,
+TreeWalkerClass,
+toTreeWalker,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-treeWalkerGetRoot ::
-                  (TreeWalkerClass self) => self -> IO (Maybe Node)
-treeWalkerGetRoot self
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_tree_walker_get_root #} (toTreeWalker self))
+getRoot ::
+        (MonadIO m, TreeWalkerClass self) => self -> m (Maybe Node)
+getRoot self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         ({# call webkit_dom_tree_walker_get_root #} (toTreeWalker self)))
  
-treeWalkerGetWhatToShow ::
-                        (TreeWalkerClass self) => self -> IO Word
-treeWalkerGetWhatToShow self
-  = fromIntegral <$>
-      ({# call webkit_dom_tree_walker_get_what_to_show #}
-         (toTreeWalker self))
+getWhatToShow ::
+              (MonadIO m, TreeWalkerClass self) => self -> m Word
+getWhatToShow self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_tree_walker_get_what_to_show #}
+            (toTreeWalker self)))
  
-treeWalkerGetFilter ::
-                    (TreeWalkerClass self) => self -> IO (Maybe NodeFilter)
-treeWalkerGetFilter self
-  = maybeNull (makeNewGObject mkNodeFilter)
-      ({# call webkit_dom_tree_walker_get_filter #} (toTreeWalker self))
+getFilter ::
+          (MonadIO m, TreeWalkerClass self) => self -> m (Maybe NodeFilter)
+getFilter self
+  = liftIO
+      (maybeNull (makeNewGObject mkNodeFilter)
+         ({# call webkit_dom_tree_walker_get_filter #} (toTreeWalker self)))
  
-treeWalkerGetExpandEntityReferences ::
-                                    (TreeWalkerClass self) => self -> IO Bool
-treeWalkerGetExpandEntityReferences self
-  = toBool <$>
-      ({# call webkit_dom_tree_walker_get_expand_entity_references #}
-         (toTreeWalker self))
+getExpandEntityReferences ::
+                          (MonadIO m, TreeWalkerClass self) => self -> m Bool
+getExpandEntityReferences self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_tree_walker_get_expand_entity_references #}
+            (toTreeWalker self)))
  
-treeWalkerSetCurrentNode ::
-                         (NodeClass val, TreeWalkerClass self) => self -> Maybe val -> IO ()
-treeWalkerSetCurrentNode self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_tree_walker_set_current_node #}
-          (toTreeWalker self)
-          (maybe (Node nullForeignPtr) toNode val)
-          errorPtr_
+setCurrentNode ::
+               (MonadIO m, NodeClass val, TreeWalkerClass self) =>
+                 self -> Maybe val -> m ()
+setCurrentNode self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_tree_walker_set_current_node #}
+             (toTreeWalker self)
+             (maybe (Node nullForeignPtr) toNode val)
+             errorPtr_)
  
-treeWalkerGetCurrentNode ::
-                         (TreeWalkerClass self) => self -> IO (Maybe Node)
-treeWalkerGetCurrentNode self
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_tree_walker_get_current_node #}
-         (toTreeWalker self))
+getCurrentNode ::
+               (MonadIO m, TreeWalkerClass self) => self -> m (Maybe Node)
+getCurrentNode self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         ({# call webkit_dom_tree_walker_get_current_node #}
+            (toTreeWalker self)))

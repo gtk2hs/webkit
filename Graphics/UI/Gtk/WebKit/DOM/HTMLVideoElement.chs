@@ -1,149 +1,257 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement
-       (htmlVideoElementWebkitEnterFullscreen,
-        htmlVideoElementWebkitExitFullscreen,
-        htmlVideoElementWebkitEnterFullScreen,
-        htmlVideoElementWebkitExitFullScreen, htmlVideoElementSetWidth,
-        htmlVideoElementGetWidth, htmlVideoElementSetHeight,
-        htmlVideoElementGetHeight, htmlVideoElementGetVideoWidth,
-        htmlVideoElementGetVideoHeight, htmlVideoElementSetPoster,
-        htmlVideoElementGetPoster,
-        htmlVideoElementGetWebkitSupportsFullscreen,
-        htmlVideoElementGetWebkitDisplayingFullscreen,
-        htmlVideoElementGetWebkitDecodedFrameCount,
-        htmlVideoElementGetWebkitDroppedFrameCount, HTMLVideoElement,
-        HTMLVideoElementClass, castToHTMLVideoElement,
-        gTypeHTMLVideoElement, toHTMLVideoElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLVideoElement(
+webkitEnterFullscreen,
+webkitExitFullscreen,
+webkitEnterFullScreen,
+webkitExitFullScreen,
+#if WEBKIT_CHECK_VERSION(99,0,0)
+webkitSupportsPresentationMode,
+webkitSetPresentationMode,
+#endif
+setWidth,
+getWidth,
+setHeight,
+getHeight,
+getVideoWidth,
+getVideoHeight,
+setPoster,
+getPoster,
+getWebkitSupportsFullscreen,
+getWebkitDisplayingFullscreen,
+setWebkitWirelessVideoPlaybackDisabled,
+getWebkitWirelessVideoPlaybackDisabled,
+getWebkitDecodedFrameCount,
+getWebkitDroppedFrameCount,
+#if WEBKIT_CHECK_VERSION(99,0,0)
+getWebkitPresentationMode,
+#endif
+webKitPresentationModeChanged,
+HTMLVideoElement,
+castToHTMLVideoElement,
+gTypeHTMLVideoElement,
+HTMLVideoElementClass,
+toHTMLVideoElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlVideoElementWebkitEnterFullscreen ::
-                                      (HTMLVideoElementClass self) => self -> IO ()
-htmlVideoElementWebkitEnterFullscreen self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_video_element_webkit_enter_fullscreen #}
-          (toHTMLVideoElement self)
-          errorPtr_
+webkitEnterFullscreen ::
+                      (MonadIO m, HTMLVideoElementClass self) => self -> m ()
+webkitEnterFullscreen self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_video_element_webkit_enter_fullscreen #}
+             (toHTMLVideoElement self)
+             errorPtr_)
  
-htmlVideoElementWebkitExitFullscreen ::
-                                     (HTMLVideoElementClass self) => self -> IO ()
-htmlVideoElementWebkitExitFullscreen self
-  = {# call webkit_dom_html_video_element_webkit_exit_fullscreen #}
-      (toHTMLVideoElement self)
- 
-htmlVideoElementWebkitEnterFullScreen ::
-                                      (HTMLVideoElementClass self) => self -> IO ()
-htmlVideoElementWebkitEnterFullScreen self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_video_element_webkit_enter_full_screen #}
-          (toHTMLVideoElement self)
-          errorPtr_
- 
-htmlVideoElementWebkitExitFullScreen ::
-                                     (HTMLVideoElementClass self) => self -> IO ()
-htmlVideoElementWebkitExitFullScreen self
-  = {# call webkit_dom_html_video_element_webkit_exit_full_screen #}
-      (toHTMLVideoElement self)
- 
-htmlVideoElementSetWidth ::
-                         (HTMLVideoElementClass self) => self -> Word -> IO ()
-htmlVideoElementSetWidth self val
-  = {# call webkit_dom_html_video_element_set_width #}
-      (toHTMLVideoElement self)
-      (fromIntegral val)
- 
-htmlVideoElementGetWidth ::
-                         (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_video_element_get_width #}
+webkitExitFullscreen ::
+                     (MonadIO m, HTMLVideoElementClass self) => self -> m ()
+webkitExitFullscreen self
+  = liftIO
+      ({# call webkit_dom_html_video_element_webkit_exit_fullscreen #}
          (toHTMLVideoElement self))
  
-htmlVideoElementSetHeight ::
-                          (HTMLVideoElementClass self) => self -> Word -> IO ()
-htmlVideoElementSetHeight self val
-  = {# call webkit_dom_html_video_element_set_height #}
-      (toHTMLVideoElement self)
-      (fromIntegral val)
+webkitEnterFullScreen ::
+                      (MonadIO m, HTMLVideoElementClass self) => self -> m ()
+webkitEnterFullScreen self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_video_element_webkit_enter_full_screen #}
+             (toHTMLVideoElement self)
+             errorPtr_)
  
-htmlVideoElementGetHeight ::
-                          (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_video_element_get_height #}
+webkitExitFullScreen ::
+                     (MonadIO m, HTMLVideoElementClass self) => self -> m ()
+webkitExitFullScreen self
+  = liftIO
+      ({# call webkit_dom_html_video_element_webkit_exit_full_screen #}
          (toHTMLVideoElement self))
+
+#if WEBKIT_CHECK_VERSION(99,0,0) 
+webkitSupportsPresentationMode ::
+                               (MonadIO m, HTMLVideoElementClass self) =>
+                                 self -> VideoPresentationMode -> m Bool
+webkitSupportsPresentationMode self mode
+  = liftIO
+      (toBool <$>
+         (withUTFString (enumToString mode) $
+            \ modePtr ->
+              {# call
+                webkit_dom_html_video_element_webkit_supports_presentation_mode
+                #}
+                (toHTMLVideoElement self)
+                modePtr))
  
-htmlVideoElementGetVideoWidth ::
-                              (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetVideoWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_video_element_get_video_width #}
-         (toHTMLVideoElement self))
+webkitSetPresentationMode ::
+                          (MonadIO m, HTMLVideoElementClass self) =>
+                            self -> VideoPresentationMode -> m ()
+webkitSetPresentationMode self mode
+  = liftIO
+      (withUTFString (enumToString mode) $
+         \ modePtr ->
+           {# call webkit_dom_html_video_element_webkit_set_presentation_mode
+             #}
+             (toHTMLVideoElement self)
+             modePtr)
+#endif
  
-htmlVideoElementGetVideoHeight ::
-                               (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetVideoHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_video_element_get_video_height #}
-         (toHTMLVideoElement self))
+setWidth ::
+         (MonadIO m, HTMLVideoElementClass self) => self -> Word -> m ()
+setWidth self val
+  = liftIO
+      ({# call webkit_dom_html_video_element_set_width #}
+         (toHTMLVideoElement self)
+         (fromIntegral val))
  
-htmlVideoElementSetPoster ::
-                          (HTMLVideoElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlVideoElementSetPoster self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_video_element_set_poster #}
-          (toHTMLVideoElement self)
-          valPtr
+getWidth ::
+         (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_video_element_get_width #}
+            (toHTMLVideoElement self)))
  
-htmlVideoElementGetPoster ::
-                          (HTMLVideoElementClass self, GlibString string) =>
-                            self -> IO string
-htmlVideoElementGetPoster self
-  = ({# call webkit_dom_html_video_element_get_poster #}
-       (toHTMLVideoElement self))
-      >>=
-      readUTFString
+setHeight ::
+          (MonadIO m, HTMLVideoElementClass self) => self -> Word -> m ()
+setHeight self val
+  = liftIO
+      ({# call webkit_dom_html_video_element_set_height #}
+         (toHTMLVideoElement self)
+         (fromIntegral val))
  
-htmlVideoElementGetWebkitSupportsFullscreen ::
-                                            (HTMLVideoElementClass self) => self -> IO Bool
-htmlVideoElementGetWebkitSupportsFullscreen self
-  = toBool <$>
+getHeight ::
+          (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_video_element_get_height #}
+            (toHTMLVideoElement self)))
+ 
+getVideoWidth ::
+              (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getVideoWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_video_element_get_video_width #}
+            (toHTMLVideoElement self)))
+ 
+getVideoHeight ::
+               (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getVideoHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_video_element_get_video_height #}
+            (toHTMLVideoElement self)))
+ 
+setPoster ::
+          (MonadIO m, HTMLVideoElementClass self, GlibString string) =>
+            self -> string -> m ()
+setPoster self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_video_element_set_poster #}
+             (toHTMLVideoElement self)
+             valPtr)
+ 
+getPoster ::
+          (MonadIO m, HTMLVideoElementClass self, GlibString string) =>
+            self -> m string
+getPoster self
+  = liftIO
+      (({# call webkit_dom_html_video_element_get_poster #}
+          (toHTMLVideoElement self))
+         >>=
+         readUTFString)
+ 
+getWebkitSupportsFullscreen ::
+                            (MonadIO m, HTMLVideoElementClass self) => self -> m Bool
+getWebkitSupportsFullscreen self
+  = liftIO
+      (toBool <$>
+         ({# call
+            webkit_dom_html_video_element_get_webkit_supports_fullscreen
+            #}
+            (toHTMLVideoElement self)))
+ 
+getWebkitDisplayingFullscreen ::
+                              (MonadIO m, HTMLVideoElementClass self) => self -> m Bool
+getWebkitDisplayingFullscreen self
+  = liftIO
+      (toBool <$>
+         ({# call
+            webkit_dom_html_video_element_get_webkit_displaying_fullscreen
+            #}
+            (toHTMLVideoElement self)))
+ 
+setWebkitWirelessVideoPlaybackDisabled ::
+                                       (MonadIO m, HTMLVideoElementClass self) =>
+                                         self -> Bool -> m ()
+setWebkitWirelessVideoPlaybackDisabled self val
+  = liftIO
       ({# call
-         webkit_dom_html_video_element_get_webkit_supports_fullscreen
+         webkit_dom_html_video_element_set_webkit_wireless_video_playback_disabled
          #}
-         (toHTMLVideoElement self))
+         (toHTMLVideoElement self)
+         (fromBool val))
  
-htmlVideoElementGetWebkitDisplayingFullscreen ::
-                                              (HTMLVideoElementClass self) => self -> IO Bool
-htmlVideoElementGetWebkitDisplayingFullscreen self
-  = toBool <$>
-      ({# call
-         webkit_dom_html_video_element_get_webkit_displaying_fullscreen
-         #}
-         (toHTMLVideoElement self))
+getWebkitWirelessVideoPlaybackDisabled ::
+                                       (MonadIO m, HTMLVideoElementClass self) => self -> m Bool
+getWebkitWirelessVideoPlaybackDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call
+            webkit_dom_html_video_element_get_webkit_wireless_video_playback_disabled
+            #}
+            (toHTMLVideoElement self)))
  
-htmlVideoElementGetWebkitDecodedFrameCount ::
-                                           (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetWebkitDecodedFrameCount self
-  = fromIntegral <$>
-      ({# call
-         webkit_dom_html_video_element_get_webkit_decoded_frame_count
-         #}
-         (toHTMLVideoElement self))
+getWebkitDecodedFrameCount ::
+                           (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getWebkitDecodedFrameCount self
+  = liftIO
+      (fromIntegral <$>
+         ({# call
+            webkit_dom_html_video_element_get_webkit_decoded_frame_count
+            #}
+            (toHTMLVideoElement self)))
  
-htmlVideoElementGetWebkitDroppedFrameCount ::
-                                           (HTMLVideoElementClass self) => self -> IO Word
-htmlVideoElementGetWebkitDroppedFrameCount self
-  = fromIntegral <$>
-      ({# call
-         webkit_dom_html_video_element_get_webkit_dropped_frame_count
-         #}
-         (toHTMLVideoElement self))
+getWebkitDroppedFrameCount ::
+                           (MonadIO m, HTMLVideoElementClass self) => self -> m Word
+getWebkitDroppedFrameCount self
+  = liftIO
+      (fromIntegral <$>
+         ({# call
+            webkit_dom_html_video_element_get_webkit_dropped_frame_count
+            #}
+            (toHTMLVideoElement self)))
+
+#if WEBKIT_CHECK_VERSION(99,0,0) 
+getWebkitPresentationMode ::
+                          (MonadIO m, HTMLVideoElementClass self) =>
+                            self -> m VideoPresentationMode
+getWebkitPresentationMode self
+  = liftIO
+      (stringToEnum <$>
+         (({# call
+             webkit_dom_html_video_element_get_webkit_presentation_mode
+             #}
+             (toHTMLVideoElement self))
+            >>=
+            readUTFString))
+#endif
+ 
+webKitPresentationModeChanged ::
+                              (HTMLVideoElementClass self) => EventName self Event
+webKitPresentationModeChanged
+  = EventName "webkitpresentationmodechanged"

@@ -1,198 +1,293 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLAreaElement
-       (htmlAreaElementSetAlt, htmlAreaElementGetAlt,
-        htmlAreaElementSetCoords, htmlAreaElementGetCoords,
-        htmlAreaElementSetHref, htmlAreaElementGetHref,
-        htmlAreaElementSetNoHref, htmlAreaElementGetNoHref,
-        htmlAreaElementSetPing, htmlAreaElementGetPing,
-        htmlAreaElementSetShape, htmlAreaElementGetShape,
-        htmlAreaElementSetTarget, htmlAreaElementGetTarget,
-        htmlAreaElementGetHash, htmlAreaElementGetHost,
-        htmlAreaElementGetHostname, htmlAreaElementGetPathname,
-        htmlAreaElementGetPort, htmlAreaElementGetProtocol,
-        htmlAreaElementGetSearch, HTMLAreaElement, HTMLAreaElementClass,
-        castToHTMLAreaElement, gTypeHTMLAreaElement, toHTMLAreaElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLAreaElement(
+setAlt,
+getAlt,
+setCoords,
+getCoords,
+setHref,
+getHref,
+setNoHref,
+getNoHref,
+setPing,
+getPing,
+#if WEBKIT_CHECK_VERSION(99,0,0)
+setRel,
+getRel,
+#endif
+setShape,
+getShape,
+setTarget,
+getTarget,
+getHash,
+getHost,
+getHostname,
+getPathname,
+getPort,
+getProtocol,
+getSearch,
+#if WEBKIT_CHECK_VERSION(99,0,0)
+getRelList,
+#endif
+HTMLAreaElement,
+castToHTMLAreaElement,
+gTypeHTMLAreaElement,
+HTMLAreaElementClass,
+toHTMLAreaElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlAreaElementSetAlt ::
-                      (HTMLAreaElementClass self, GlibString string) =>
-                        self -> string -> IO ()
-htmlAreaElementSetAlt self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_alt #}
-          (toHTMLAreaElement self)
-          valPtr
+setAlt ::
+       (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+         self -> string -> m ()
+setAlt self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_alt #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementGetAlt ::
-                      (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetAlt self
-  = ({# call webkit_dom_html_area_element_get_alt #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getAlt ::
+       (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+         self -> m string
+getAlt self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_alt #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementSetCoords ::
-                         (HTMLAreaElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlAreaElementSetCoords self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_coords #}
-          (toHTMLAreaElement self)
-          valPtr
+setCoords ::
+          (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+            self -> string -> m ()
+setCoords self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_coords #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementGetCoords ::
-                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetCoords self
-  = ({# call webkit_dom_html_area_element_get_coords #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getCoords ::
+          (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+            self -> m string
+getCoords self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_coords #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementSetHref ::
-                       (HTMLAreaElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlAreaElementSetHref self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_href #}
-          (toHTMLAreaElement self)
-          valPtr
+setHref ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> string -> m ()
+setHref self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_href #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementGetHref ::
-                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetHref self
-  = ({# call webkit_dom_html_area_element_get_href #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getHref ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> m string
+getHref self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_href #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementSetNoHref ::
-                         (HTMLAreaElementClass self) => self -> Bool -> IO ()
-htmlAreaElementSetNoHref self val
-  = {# call webkit_dom_html_area_element_set_no_href #}
-      (toHTMLAreaElement self)
-      (fromBool val)
+setNoHref ::
+          (MonadIO m, HTMLAreaElementClass self) => self -> Bool -> m ()
+setNoHref self val
+  = liftIO
+      ({# call webkit_dom_html_area_element_set_no_href #}
+         (toHTMLAreaElement self)
+         (fromBool val))
  
-htmlAreaElementGetNoHref ::
-                         (HTMLAreaElementClass self) => self -> IO Bool
-htmlAreaElementGetNoHref self
-  = toBool <$>
-      ({# call webkit_dom_html_area_element_get_no_href #}
-         (toHTMLAreaElement self))
+getNoHref ::
+          (MonadIO m, HTMLAreaElementClass self) => self -> m Bool
+getNoHref self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_area_element_get_no_href #}
+            (toHTMLAreaElement self)))
  
-htmlAreaElementSetPing ::
-                       (HTMLAreaElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlAreaElementSetPing self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_ping #}
-          (toHTMLAreaElement self)
-          valPtr
+setPing ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> string -> m ()
+setPing self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_ping #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementGetPing ::
-                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetPing self
-  = ({# call webkit_dom_html_area_element_get_ping #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getPing ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> m string
+getPing self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_ping #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
+
+#if WEBKIT_CHECK_VERSION(99,0,0) 
+setRel ::
+       (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+         self -> string -> m ()
+setRel self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_rel #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementSetShape ::
-                        (HTMLAreaElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlAreaElementSetShape self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_shape #}
-          (toHTMLAreaElement self)
-          valPtr
+getRel ::
+       (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+         self -> m string
+getRel self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_rel #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
+#endif
  
-htmlAreaElementGetShape ::
-                        (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetShape self
-  = ({# call webkit_dom_html_area_element_get_shape #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+setShape ::
+         (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+           self -> string -> m ()
+setShape self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_shape #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementSetTarget ::
-                         (HTMLAreaElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlAreaElementSetTarget self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_area_element_set_target #}
-          (toHTMLAreaElement self)
-          valPtr
+getShape ::
+         (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+           self -> m string
+getShape self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_shape #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetTarget ::
-                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetTarget self
-  = ({# call webkit_dom_html_area_element_get_target #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+setTarget ::
+          (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+            self -> string -> m ()
+setTarget self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_area_element_set_target #}
+             (toHTMLAreaElement self)
+             valPtr)
  
-htmlAreaElementGetHash ::
-                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetHash self
-  = ({# call webkit_dom_html_area_element_get_hash #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getTarget ::
+          (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+            self -> m string
+getTarget self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_target #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetHost ::
-                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetHost self
-  = ({# call webkit_dom_html_area_element_get_host #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getHash ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> m string
+getHash self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_hash #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetHostname ::
-                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetHostname self
-  = ({# call webkit_dom_html_area_element_get_hostname #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getHost ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> m string
+getHost self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_host #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetPathname ::
-                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetPathname self
-  = ({# call webkit_dom_html_area_element_get_pathname #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getHostname ::
+            (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+              self -> m string
+getHostname self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_hostname #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetPort ::
-                       (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetPort self
-  = ({# call webkit_dom_html_area_element_get_port #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getPathname ::
+            (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+              self -> m string
+getPathname self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_pathname #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetProtocol ::
-                           (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetProtocol self
-  = ({# call webkit_dom_html_area_element_get_protocol #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getPort ::
+        (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+          self -> m string
+getPort self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_port #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
  
-htmlAreaElementGetSearch ::
-                         (HTMLAreaElementClass self, GlibString string) => self -> IO string
-htmlAreaElementGetSearch self
-  = ({# call webkit_dom_html_area_element_get_search #}
-       (toHTMLAreaElement self))
-      >>=
-      readUTFString
+getProtocol ::
+            (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+              self -> m string
+getProtocol self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_protocol #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
+ 
+getSearch ::
+          (MonadIO m, HTMLAreaElementClass self, GlibString string) =>
+            self -> m string
+getSearch self
+  = liftIO
+      (({# call webkit_dom_html_area_element_get_search #}
+          (toHTMLAreaElement self))
+         >>=
+         readUTFString)
+
+#if WEBKIT_CHECK_VERSION(99,0,0) 
+getRelList ::
+           (MonadIO m, HTMLAreaElementClass self) =>
+             self -> m (Maybe DOMTokenList)
+getRelList self
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMTokenList)
+         ({# call webkit_dom_html_area_element_get_rel_list #}
+            (toHTMLAreaElement self)))
+#endif

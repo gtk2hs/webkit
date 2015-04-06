@@ -1,71 +1,98 @@
-module Graphics.UI.Gtk.WebKit.DOM.UIEvent
-       (uiEventInitUIEvent, uiEventGetView, uiEventGetDetail,
-        uiEventGetKeyCode, uiEventGetCharCode, uiEventGetLayerX,
-        uiEventGetLayerY, uiEventGetPageX, uiEventGetPageY,
-        uiEventGetWhich, UIEvent, UIEventClass, castToUIEvent,
-        gTypeUIEvent, toUIEvent)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.UIEvent(
+initUIEvent,
+getView,
+getDetail,
+getKeyCode,
+getCharCode,
+getLayerX,
+getLayerY,
+getPageX,
+getPageY,
+getWhich,
+UIEvent,
+castToUIEvent,
+gTypeUIEvent,
+UIEventClass,
+toUIEvent,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-uiEventInitUIEvent ::
-                   (UIEventClass self, DOMWindowClass view, GlibString string) =>
-                     self -> string -> Bool -> Bool -> Maybe view -> Int -> IO ()
-uiEventInitUIEvent self type' canBubble cancelable view detail
-  = withUTFString type' $
-      \ typePtr ->
-        {# call webkit_dom_ui_event_init_ui_event #} (toUIEvent self)
-          typePtr
-      (fromBool canBubble)
-      (fromBool cancelable)
-      (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
-      (fromIntegral detail)
+initUIEvent ::
+            (MonadIO m, UIEventClass self, DOMWindowClass view,
+             GlibString string) =>
+              self -> string -> Bool -> Bool -> Maybe view -> Int -> m ()
+initUIEvent self type' canBubble cancelable view detail
+  = liftIO
+      (withUTFString type' $
+         \ typePtr ->
+           {# call webkit_dom_ui_event_init_ui_event #} (toUIEvent self)
+             typePtr
+         (fromBool canBubble)
+         (fromBool cancelable)
+         (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+         (fromIntegral detail))
  
-uiEventGetView ::
-               (UIEventClass self) => self -> IO (Maybe DOMWindow)
-uiEventGetView self
-  = maybeNull (makeNewGObject mkDOMWindow)
-      ({# call webkit_dom_ui_event_get_view #} (toUIEvent self))
+getView ::
+        (MonadIO m, UIEventClass self) => self -> m (Maybe DOMWindow)
+getView self
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMWindow)
+         ({# call webkit_dom_ui_event_get_view #} (toUIEvent self)))
  
-uiEventGetDetail :: (UIEventClass self) => self -> IO Int
-uiEventGetDetail self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_detail #} (toUIEvent self))
+getDetail :: (MonadIO m, UIEventClass self) => self -> m Int
+getDetail self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_detail #} (toUIEvent self)))
  
-uiEventGetKeyCode :: (UIEventClass self) => self -> IO Int
-uiEventGetKeyCode self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_key_code #} (toUIEvent self))
+getKeyCode :: (MonadIO m, UIEventClass self) => self -> m Int
+getKeyCode self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_key_code #} (toUIEvent self)))
  
-uiEventGetCharCode :: (UIEventClass self) => self -> IO Int
-uiEventGetCharCode self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_char_code #} (toUIEvent self))
+getCharCode :: (MonadIO m, UIEventClass self) => self -> m Int
+getCharCode self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_char_code #} (toUIEvent self)))
  
-uiEventGetLayerX :: (UIEventClass self) => self -> IO Int
-uiEventGetLayerX self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_layer_x #} (toUIEvent self))
+getLayerX :: (MonadIO m, UIEventClass self) => self -> m Int
+getLayerX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_layer_x #} (toUIEvent self)))
  
-uiEventGetLayerY :: (UIEventClass self) => self -> IO Int
-uiEventGetLayerY self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_layer_y #} (toUIEvent self))
+getLayerY :: (MonadIO m, UIEventClass self) => self -> m Int
+getLayerY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_layer_y #} (toUIEvent self)))
  
-uiEventGetPageX :: (UIEventClass self) => self -> IO Int
-uiEventGetPageX self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_page_x #} (toUIEvent self))
+getPageX :: (MonadIO m, UIEventClass self) => self -> m Int
+getPageX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_page_x #} (toUIEvent self)))
  
-uiEventGetPageY :: (UIEventClass self) => self -> IO Int
-uiEventGetPageY self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_page_y #} (toUIEvent self))
+getPageY :: (MonadIO m, UIEventClass self) => self -> m Int
+getPageY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_page_y #} (toUIEvent self)))
  
-uiEventGetWhich :: (UIEventClass self) => self -> IO Int
-uiEventGetWhich self
-  = fromIntegral <$>
-      ({# call webkit_dom_ui_event_get_which #} (toUIEvent self))
+getWhich :: (MonadIO m, UIEventClass self) => self -> m Int
+getWhich self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_ui_event_get_which #} (toUIEvent self)))

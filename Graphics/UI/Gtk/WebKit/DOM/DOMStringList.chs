@@ -1,39 +1,51 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMStringList
-       (domStringListItem, domStringListContains, domStringListGetLength,
-        DOMStringList, DOMStringListClass, castToDOMStringList,
-        gTypeDOMStringList, toDOMStringList)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMStringList(
+item,
+contains,
+getLength,
+DOMStringList,
+castToDOMStringList,
+gTypeDOMStringList,
+DOMStringListClass,
+toDOMStringList,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-domStringListItem ::
-                  (DOMStringListClass self, GlibString string) =>
-                    self -> Word -> IO string
-domStringListItem self index
-  = ({# call webkit_dom_dom_string_list_item #}
-       (toDOMStringList self)
-       (fromIntegral index))
-      >>=
-      readUTFString
+item ::
+     (MonadIO m, DOMStringListClass self, GlibString string) =>
+       self -> Word -> m string
+item self index
+  = liftIO
+      (({# call webkit_dom_dom_string_list_item #} (toDOMStringList self)
+          (fromIntegral index))
+         >>=
+         readUTFString)
  
-domStringListContains ::
-                      (DOMStringListClass self, GlibString string) =>
-                        self -> string -> IO Bool
-domStringListContains self string
-  = toBool <$>
-      (withUTFString string $
-         \ stringPtr ->
-           {# call webkit_dom_dom_string_list_contains #}
-             (toDOMStringList self)
-             stringPtr)
+contains ::
+         (MonadIO m, DOMStringListClass self, GlibString string) =>
+           self -> string -> m Bool
+contains self string
+  = liftIO
+      (toBool <$>
+         (withUTFString string $
+            \ stringPtr ->
+              {# call webkit_dom_dom_string_list_contains #}
+                (toDOMStringList self)
+                stringPtr))
  
-domStringListGetLength ::
-                       (DOMStringListClass self) => self -> IO Word
-domStringListGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_dom_string_list_get_length #}
-         (toDOMStringList self))
+getLength :: (MonadIO m, DOMStringListClass self) => self -> m Word
+getLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_dom_string_list_get_length #}
+            (toDOMStringList self)))

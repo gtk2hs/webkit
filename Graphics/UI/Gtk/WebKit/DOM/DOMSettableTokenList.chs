@@ -1,31 +1,42 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMSettableTokenList
-       (domSettableTokenListSetValue, domSettableTokenListGetValue,
-        DOMSettableTokenList, DOMSettableTokenListClass,
-        castToDOMSettableTokenList, gTypeDOMSettableTokenList,
-        toDOMSettableTokenList)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMSettableTokenList(
+setValue,
+getValue,
+DOMSettableTokenList,
+castToDOMSettableTokenList,
+gTypeDOMSettableTokenList,
+DOMSettableTokenListClass,
+toDOMSettableTokenList,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-domSettableTokenListSetValue ::
-                             (DOMSettableTokenListClass self, GlibString string) =>
-                               self -> string -> IO ()
-domSettableTokenListSetValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_dom_settable_token_list_set_value #}
-          (toDOMSettableTokenList self)
-          valPtr
+setValue ::
+         (MonadIO m, DOMSettableTokenListClass self, GlibString string) =>
+           self -> string -> m ()
+setValue self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_dom_settable_token_list_set_value #}
+             (toDOMSettableTokenList self)
+             valPtr)
  
-domSettableTokenListGetValue ::
-                             (DOMSettableTokenListClass self, GlibString string) =>
-                               self -> IO string
-domSettableTokenListGetValue self
-  = ({# call webkit_dom_dom_settable_token_list_get_value #}
-       (toDOMSettableTokenList self))
-      >>=
-      readUTFString
+getValue ::
+         (MonadIO m, DOMSettableTokenListClass self, GlibString string) =>
+           self -> m string
+getValue self
+  = liftIO
+      (({# call webkit_dom_dom_settable_token_list_get_value #}
+          (toDOMSettableTokenList self))
+         >>=
+         readUTFString)

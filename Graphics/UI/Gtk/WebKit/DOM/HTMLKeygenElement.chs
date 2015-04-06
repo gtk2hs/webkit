@@ -1,158 +1,195 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement
-       (htmlKeygenElementCheckValidity,
-        htmlKeygenElementSetCustomValidity, htmlKeygenElementSetAutofocus,
-        htmlKeygenElementGetAutofocus, htmlKeygenElementSetChallenge,
-        htmlKeygenElementGetChallenge, htmlKeygenElementSetDisabled,
-        htmlKeygenElementGetDisabled, htmlKeygenElementGetForm,
-        htmlKeygenElementSetKeytype, htmlKeygenElementGetKeytype,
-        htmlKeygenElementSetName, htmlKeygenElementGetName,
-        htmlKeygenElementGetWillValidate, htmlKeygenElementGetValidity,
-        htmlKeygenElementGetValidationMessage, htmlKeygenElementGetLabels,
-        HTMLKeygenElement, HTMLKeygenElementClass, castToHTMLKeygenElement,
-        gTypeHTMLKeygenElement, toHTMLKeygenElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLKeygenElement(
+checkValidity,
+setCustomValidity,
+setAutofocus,
+getAutofocus,
+setChallenge,
+getChallenge,
+setDisabled,
+getDisabled,
+getForm,
+setKeytype,
+getKeytype,
+setName,
+getName,
+getWillValidate,
+getValidity,
+getValidationMessage,
+getLabels,
+HTMLKeygenElement,
+castToHTMLKeygenElement,
+gTypeHTMLKeygenElement,
+HTMLKeygenElementClass,
+toHTMLKeygenElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlKeygenElementCheckValidity ::
-                               (HTMLKeygenElementClass self) => self -> IO Bool
-htmlKeygenElementCheckValidity self
-  = toBool <$>
-      ({# call webkit_dom_html_keygen_element_check_validity #}
-         (toHTMLKeygenElement self))
+checkValidity ::
+              (MonadIO m, HTMLKeygenElementClass self) => self -> m Bool
+checkValidity self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_keygen_element_check_validity #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementSetCustomValidity ::
-                                   (HTMLKeygenElementClass self, GlibString string) =>
-                                     self -> string -> IO ()
-htmlKeygenElementSetCustomValidity self error
-  = withUTFString error $
-      \ errorPtr ->
-        {# call webkit_dom_html_keygen_element_set_custom_validity #}
-          (toHTMLKeygenElement self)
-          errorPtr
+setCustomValidity ::
+                  (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+                    self -> string -> m ()
+setCustomValidity self error
+  = liftIO
+      (withUTFString error $
+         \ errorPtr ->
+           {# call webkit_dom_html_keygen_element_set_custom_validity #}
+             (toHTMLKeygenElement self)
+             errorPtr)
  
-htmlKeygenElementSetAutofocus ::
-                              (HTMLKeygenElementClass self) => self -> Bool -> IO ()
-htmlKeygenElementSetAutofocus self val
-  = {# call webkit_dom_html_keygen_element_set_autofocus #}
-      (toHTMLKeygenElement self)
-      (fromBool val)
+setAutofocus ::
+             (MonadIO m, HTMLKeygenElementClass self) => self -> Bool -> m ()
+setAutofocus self val
+  = liftIO
+      ({# call webkit_dom_html_keygen_element_set_autofocus #}
+         (toHTMLKeygenElement self)
+         (fromBool val))
  
-htmlKeygenElementGetAutofocus ::
-                              (HTMLKeygenElementClass self) => self -> IO Bool
-htmlKeygenElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_keygen_element_get_autofocus #}
-         (toHTMLKeygenElement self))
+getAutofocus ::
+             (MonadIO m, HTMLKeygenElementClass self) => self -> m Bool
+getAutofocus self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_keygen_element_get_autofocus #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementSetChallenge ::
-                              (HTMLKeygenElementClass self, GlibString string) =>
-                                self -> string -> IO ()
-htmlKeygenElementSetChallenge self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_keygen_element_set_challenge #}
-          (toHTMLKeygenElement self)
-          valPtr
+setChallenge ::
+             (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+               self -> string -> m ()
+setChallenge self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_keygen_element_set_challenge #}
+             (toHTMLKeygenElement self)
+             valPtr)
  
-htmlKeygenElementGetChallenge ::
-                              (HTMLKeygenElementClass self, GlibString string) =>
-                                self -> IO string
-htmlKeygenElementGetChallenge self
-  = ({# call webkit_dom_html_keygen_element_get_challenge #}
-       (toHTMLKeygenElement self))
-      >>=
-      readUTFString
+getChallenge ::
+             (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+               self -> m string
+getChallenge self
+  = liftIO
+      (({# call webkit_dom_html_keygen_element_get_challenge #}
+          (toHTMLKeygenElement self))
+         >>=
+         readUTFString)
  
-htmlKeygenElementSetDisabled ::
-                             (HTMLKeygenElementClass self) => self -> Bool -> IO ()
-htmlKeygenElementSetDisabled self val
-  = {# call webkit_dom_html_keygen_element_set_disabled #}
-      (toHTMLKeygenElement self)
-      (fromBool val)
+setDisabled ::
+            (MonadIO m, HTMLKeygenElementClass self) => self -> Bool -> m ()
+setDisabled self val
+  = liftIO
+      ({# call webkit_dom_html_keygen_element_set_disabled #}
+         (toHTMLKeygenElement self)
+         (fromBool val))
  
-htmlKeygenElementGetDisabled ::
-                             (HTMLKeygenElementClass self) => self -> IO Bool
-htmlKeygenElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_keygen_element_get_disabled #}
-         (toHTMLKeygenElement self))
+getDisabled ::
+            (MonadIO m, HTMLKeygenElementClass self) => self -> m Bool
+getDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_keygen_element_get_disabled #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementGetForm ::
-                         (HTMLKeygenElementClass self) => self -> IO (Maybe HTMLFormElement)
-htmlKeygenElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_keygen_element_get_form #}
-         (toHTMLKeygenElement self))
+getForm ::
+        (MonadIO m, HTMLKeygenElementClass self) =>
+          self -> m (Maybe HTMLFormElement)
+getForm self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLFormElement)
+         ({# call webkit_dom_html_keygen_element_get_form #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementSetKeytype ::
-                            (HTMLKeygenElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlKeygenElementSetKeytype self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_keygen_element_set_keytype #}
-          (toHTMLKeygenElement self)
-          valPtr
+setKeytype ::
+           (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+             self -> string -> m ()
+setKeytype self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_keygen_element_set_keytype #}
+             (toHTMLKeygenElement self)
+             valPtr)
  
-htmlKeygenElementGetKeytype ::
-                            (HTMLKeygenElementClass self, GlibString string) =>
-                              self -> IO string
-htmlKeygenElementGetKeytype self
-  = ({# call webkit_dom_html_keygen_element_get_keytype #}
-       (toHTMLKeygenElement self))
-      >>=
-      readUTFString
+getKeytype ::
+           (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+             self -> m string
+getKeytype self
+  = liftIO
+      (({# call webkit_dom_html_keygen_element_get_keytype #}
+          (toHTMLKeygenElement self))
+         >>=
+         readUTFString)
  
-htmlKeygenElementSetName ::
-                         (HTMLKeygenElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlKeygenElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_keygen_element_set_name #}
-          (toHTMLKeygenElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_keygen_element_set_name #}
+             (toHTMLKeygenElement self)
+             valPtr)
  
-htmlKeygenElementGetName ::
-                         (HTMLKeygenElementClass self, GlibString string) =>
-                           self -> IO string
-htmlKeygenElementGetName self
-  = ({# call webkit_dom_html_keygen_element_get_name #}
-       (toHTMLKeygenElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_keygen_element_get_name #}
+          (toHTMLKeygenElement self))
+         >>=
+         readUTFString)
  
-htmlKeygenElementGetWillValidate ::
-                                 (HTMLKeygenElementClass self) => self -> IO Bool
-htmlKeygenElementGetWillValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_keygen_element_get_will_validate #}
-         (toHTMLKeygenElement self))
+getWillValidate ::
+                (MonadIO m, HTMLKeygenElementClass self) => self -> m Bool
+getWillValidate self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_keygen_element_get_will_validate #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementGetValidity ::
-                             (HTMLKeygenElementClass self) => self -> IO (Maybe ValidityState)
-htmlKeygenElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_keygen_element_get_validity #}
-         (toHTMLKeygenElement self))
+getValidity ::
+            (MonadIO m, HTMLKeygenElementClass self) =>
+              self -> m (Maybe ValidityState)
+getValidity self
+  = liftIO
+      (maybeNull (makeNewGObject mkValidityState)
+         ({# call webkit_dom_html_keygen_element_get_validity #}
+            (toHTMLKeygenElement self)))
  
-htmlKeygenElementGetValidationMessage ::
-                                      (HTMLKeygenElementClass self, GlibString string) =>
-                                        self -> IO string
-htmlKeygenElementGetValidationMessage self
-  = ({# call webkit_dom_html_keygen_element_get_validation_message #}
-       (toHTMLKeygenElement self))
-      >>=
-      readUTFString
+getValidationMessage ::
+                     (MonadIO m, HTMLKeygenElementClass self, GlibString string) =>
+                       self -> m string
+getValidationMessage self
+  = liftIO
+      (({# call webkit_dom_html_keygen_element_get_validation_message #}
+          (toHTMLKeygenElement self))
+         >>=
+         readUTFString)
  
-htmlKeygenElementGetLabels ::
-                           (HTMLKeygenElementClass self) => self -> IO (Maybe NodeList)
-htmlKeygenElementGetLabels self
-  = maybeNull (makeNewGObject mkNodeList)
-      ({# call webkit_dom_html_keygen_element_get_labels #}
-         (toHTMLKeygenElement self))
+getLabels ::
+          (MonadIO m, HTMLKeygenElementClass self) =>
+            self -> m (Maybe NodeList)
+getLabels self
+  = liftIO
+      (maybeNull (makeNewGObject mkNodeList)
+         ({# call webkit_dom_html_keygen_element_get_labels #}
+            (toHTMLKeygenElement self)))

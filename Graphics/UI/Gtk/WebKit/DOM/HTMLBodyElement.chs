@@ -1,188 +1,214 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLBodyElement
-       (htmlBodyElementSetALink, htmlBodyElementGetALink,
-        htmlBodyElementSetBackground, htmlBodyElementGetBackground,
-        htmlBodyElementSetBgColor, htmlBodyElementGetBgColor,
-        htmlBodyElementSetLink, htmlBodyElementGetLink,
-        htmlBodyElementSetText, htmlBodyElementGetText,
-        htmlBodyElementSetVLink, htmlBodyElementGetVLink,
-        htmlBodyElementOnbeforeunload, htmlBodyElementOnhashchange,
-        htmlBodyElementOnmessage, htmlBodyElementOnoffline,
-        htmlBodyElementOnonline, htmlBodyElementOnpopstate,
-        htmlBodyElementOnresize, htmlBodyElementOnstorage,
-        htmlBodyElementOnunload, htmlBodyElementOnorientationchange,
-        htmlBodyElementOnblur, htmlBodyElementOnerror,
-        htmlBodyElementOnfocus, htmlBodyElementOnload, HTMLBodyElement,
-        HTMLBodyElementClass, castToHTMLBodyElement, gTypeHTMLBodyElement,
-        toHTMLBodyElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLBodyElement(
+setALink,
+getALink,
+setBackground,
+getBackground,
+setBgColor,
+getBgColor,
+setLink,
+getLink,
+setText,
+getText,
+setVLink,
+getVLink,
+beforeUnload,
+hashChange,
+message,
+offline,
+online,
+popState,
+resize,
+storage,
+unload,
+orientationChange,
+blur,
+error,
+focus,
+load,
+HTMLBodyElement,
+castToHTMLBodyElement,
+gTypeHTMLBodyElement,
+HTMLBodyElementClass,
+toHTMLBodyElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlBodyElementSetALink ::
-                        (HTMLBodyElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlBodyElementSetALink self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_a_link #}
-          (toHTMLBodyElement self)
-          valPtr
+setALink ::
+         (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+           self -> string -> m ()
+setALink self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_a_link #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetALink ::
-                        (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetALink self
-  = ({# call webkit_dom_html_body_element_get_a_link #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getALink ::
+         (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+           self -> m string
+getALink self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_a_link #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementSetBackground ::
-                             (HTMLBodyElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlBodyElementSetBackground self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_background #}
-          (toHTMLBodyElement self)
-          valPtr
+setBackground ::
+              (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+                self -> string -> m ()
+setBackground self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_background #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetBackground ::
-                             (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetBackground self
-  = ({# call webkit_dom_html_body_element_get_background #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getBackground ::
+              (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+                self -> m string
+getBackground self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_background #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementSetBgColor ::
-                          (HTMLBodyElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlBodyElementSetBgColor self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_bg_color #}
-          (toHTMLBodyElement self)
-          valPtr
+setBgColor ::
+           (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+             self -> string -> m ()
+setBgColor self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_bg_color #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetBgColor ::
-                          (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetBgColor self
-  = ({# call webkit_dom_html_body_element_get_bg_color #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getBgColor ::
+           (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+             self -> m string
+getBgColor self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_bg_color #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementSetLink ::
-                       (HTMLBodyElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlBodyElementSetLink self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_link #}
-          (toHTMLBodyElement self)
-          valPtr
+setLink ::
+        (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+          self -> string -> m ()
+setLink self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_link #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetLink ::
-                       (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetLink self
-  = ({# call webkit_dom_html_body_element_get_link #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getLink ::
+        (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+          self -> m string
+getLink self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_link #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementSetText ::
-                       (HTMLBodyElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlBodyElementSetText self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_text #}
-          (toHTMLBodyElement self)
-          valPtr
+setText ::
+        (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+          self -> string -> m ()
+setText self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_text #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetText ::
-                       (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetText self
-  = ({# call webkit_dom_html_body_element_get_text #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getText ::
+        (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+          self -> m string
+getText self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_text #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementSetVLink ::
-                        (HTMLBodyElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlBodyElementSetVLink self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_body_element_set_v_link #}
-          (toHTMLBodyElement self)
-          valPtr
+setVLink ::
+         (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+           self -> string -> m ()
+setVLink self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_body_element_set_v_link #}
+             (toHTMLBodyElement self)
+             valPtr)
  
-htmlBodyElementGetVLink ::
-                        (HTMLBodyElementClass self, GlibString string) => self -> IO string
-htmlBodyElementGetVLink self
-  = ({# call webkit_dom_html_body_element_get_v_link #}
-       (toHTMLBodyElement self))
-      >>=
-      readUTFString
+getVLink ::
+         (MonadIO m, HTMLBodyElementClass self, GlibString string) =>
+           self -> m string
+getVLink self
+  = liftIO
+      (({# call webkit_dom_html_body_element_get_v_link #}
+          (toHTMLBodyElement self))
+         >>=
+         readUTFString)
  
-htmlBodyElementOnbeforeunload ::
-                              (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnbeforeunload = (connect "beforeunload")
+beforeUnload :: (HTMLBodyElementClass self) => EventName self Event
+beforeUnload = EventName "beforeunload"
  
-htmlBodyElementOnhashchange ::
-                            (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnhashchange = (connect "hashchange")
+hashChange :: (HTMLBodyElementClass self) => EventName self Event
+hashChange = EventName "hashchange"
  
-htmlBodyElementOnmessage ::
-                         (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnmessage = (connect "message")
+message :: (HTMLBodyElementClass self) => EventName self Event
+message = EventName "message"
  
-htmlBodyElementOnoffline ::
-                         (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnoffline = (connect "offline")
+offline :: (HTMLBodyElementClass self) => EventName self Event
+offline = EventName "offline"
  
-htmlBodyElementOnonline ::
-                        (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnonline = (connect "online")
+online :: (HTMLBodyElementClass self) => EventName self Event
+online = EventName "online"
  
-htmlBodyElementOnpopstate ::
-                          (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnpopstate = (connect "popstate")
+popState :: (HTMLBodyElementClass self) => EventName self Event
+popState = EventName "popstate"
  
-htmlBodyElementOnresize ::
-                        (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnresize = (connect "resize")
+resize :: (HTMLBodyElementClass self) => EventName self UIEvent
+resize = EventName "resize"
  
-htmlBodyElementOnstorage ::
-                         (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnstorage = (connect "storage")
+storage :: (HTMLBodyElementClass self) => EventName self Event
+storage = EventName "storage"
  
-htmlBodyElementOnunload ::
-                        (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnunload = (connect "unload")
+unload :: (HTMLBodyElementClass self) => EventName self UIEvent
+unload = EventName "unload"
  
-htmlBodyElementOnorientationchange ::
-                                   (HTMLBodyElementClass self) =>
-                                     Signal self (EventM UIEvent self ())
-htmlBodyElementOnorientationchange = (connect "orientationchange")
+orientationChange ::
+                  (HTMLBodyElementClass self) => EventName self Event
+orientationChange = EventName "orientationchange"
  
-htmlBodyElementOnblur ::
-                      (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnblur = (connect "blur")
+blur :: (HTMLBodyElementClass self) => EventName self UIEvent
+blur = EventName "blur"
  
-htmlBodyElementOnerror ::
-                       (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnerror = (connect "error")
+error :: (HTMLBodyElementClass self) => EventName self UIEvent
+error = EventName "error"
  
-htmlBodyElementOnfocus ::
-                       (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnfocus = (connect "focus")
+focus :: (HTMLBodyElementClass self) => EventName self UIEvent
+focus = EventName "focus"
  
-htmlBodyElementOnload ::
-                      (HTMLBodyElementClass self) => Signal self (EventM UIEvent self ())
-htmlBodyElementOnload = (connect "load")
+load :: (HTMLBodyElementClass self) => EventName self UIEvent
+load = EventName "load"

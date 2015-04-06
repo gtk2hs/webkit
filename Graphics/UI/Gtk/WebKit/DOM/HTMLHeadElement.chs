@@ -1,29 +1,42 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLHeadElement
-       (htmlHeadElementSetProfile, htmlHeadElementGetProfile,
-        HTMLHeadElement, HTMLHeadElementClass, castToHTMLHeadElement,
-        gTypeHTMLHeadElement, toHTMLHeadElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLHeadElement(
+setProfile,
+getProfile,
+HTMLHeadElement,
+castToHTMLHeadElement,
+gTypeHTMLHeadElement,
+HTMLHeadElementClass,
+toHTMLHeadElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlHeadElementSetProfile ::
-                          (HTMLHeadElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlHeadElementSetProfile self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_head_element_set_profile #}
-          (toHTMLHeadElement self)
-          valPtr
+setProfile ::
+           (MonadIO m, HTMLHeadElementClass self, GlibString string) =>
+             self -> string -> m ()
+setProfile self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_head_element_set_profile #}
+             (toHTMLHeadElement self)
+             valPtr)
  
-htmlHeadElementGetProfile ::
-                          (HTMLHeadElementClass self, GlibString string) => self -> IO string
-htmlHeadElementGetProfile self
-  = ({# call webkit_dom_html_head_element_get_profile #}
-       (toHTMLHeadElement self))
-      >>=
-      readUTFString
+getProfile ::
+           (MonadIO m, HTMLHeadElementClass self, GlibString string) =>
+             self -> m string
+getProfile self
+  = liftIO
+      (({# call webkit_dom_html_head_element_get_profile #}
+          (toHTMLHeadElement self))
+         >>=
+         readUTFString)

@@ -341,132 +341,152 @@
         WebKitGeolocationPolicyDecision as GeolocationPolicyDecision, webkit_geolocation_policy_decision_get_type if webkit
 
         WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkit-2.2
+        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkit-2.2
+        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-1.10
+        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkit-2.2
+                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-2.2
+        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkit-1.10
+        WebKitDOMAudioTrack as AudioTrack, webkit_dom_audio_track_get_type if webkit-dom
+        WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkitgtk-2.2
         WebKitDOMBlob as Blob, webkit_dom_blob_get_type if webkit-dom
             WebKitDOMFile as File, webkit_dom_file_get_type if webkit-dom
         WebKitDOMCSSRule as CSSRule, webkit_dom_css_rule_get_type if webkit-dom
         WebKitDOMCSSRuleList as CSSRuleList, webkit_dom_css_rule_list_get_type if webkit-dom
         WebKitDOMCSSStyleDeclaration as CSSStyleDeclaration, webkit_dom_css_style_declaration_get_type if webkit-dom
         WebKitDOMCSSValue as CSSValue, webkit_dom_css_value_get_type if webkit-dom
-        WebKitDOMConsole as Console, webkit_dom_console_get_type if webkit-dom
-        WebKitDOMDOMApplicationCache as DOMApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
         WebKitDOMDOMImplementation as DOMImplementation, webkit_dom_dom_implementation_get_type if webkit-dom
         WebKitDOMDOMMimeType as DOMMimeType, webkit_dom_dom_mime_type_get_type if webkit-dom
         WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
-        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkit-2.2
+        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkitgtk-2.2
         WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
         WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
-        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-1.10
+        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
         WebKitDOMDOMSelection as DOMSelection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
             WebKitDOMDOMSettableTokenList as DOMSettableTokenList, webkit_dom_dom_settable_token_list_get_type if webkit-dom
-        WebKitDOMDOMWindow as DOMWindow, webkit_dom_dom_window_get_type if webkit-dom
-        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkit-2.2
+        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkitgtk-2.2
         WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
             WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
+                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkitgtk-2.2
                 WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
-                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-2.2
+                    WebKitDOMWheelEvent as WheelEvent, webkit_dom_wheel_event_get_type if webkit-dom
         WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
+            WebKitDOMAudioTrackList as AudioTrackList, webkit_dom_audio_track_list_get_type if webkit-dom
+            WebKitDOMBatteryManager as BatteryManager, webkit_dom_battery_manager_get_type if webkit-dom
+            WebKitDOMDOMApplicationCache as DOMApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
+            WebKitDOMDOMWindow as DOMWindow, webkit_dom_dom_window_get_type if webkit-dom
+            WebKitDOMMessagePort as MessagePort, webkit_dom_message_port_get_type if webkit-dom
+            WebKitDOMNode as Node, webkit_dom_node_get_type if webkit-dom
+                WebKitDOMAttr as DOMAttr, webkit_dom_attr_get_type if webkit-dom
+                WebKitDOMCharacterData as CharacterData, webkit_dom_character_data_get_type if webkit-dom
+                    WebKitDOMComment as Comment, webkit_dom_comment_get_type if webkit-dom
+                    WebKitDOMProcessingInstruction as ProcessingInstruction, webkit_dom_processing_instruction_get_type if webkit-dom
+                    WebKitDOMText as Text, webkit_dom_text_get_type if webkit-dom
+                        WebKitDOMCDATASection as CDATASection, webkit_dom_cdata_section_get_type if webkit-dom
+                WebKitDOMDocument as Document, webkit_dom_document_get_type if webkit-dom
+                    WebKitDOMHTMLDocument as HTMLDocument, webkit_dom_html_document_get_type if webkit-dom
+                WebKitDOMDocumentFragment as DocumentFragment, webkit_dom_document_fragment_get_type if webkit-dom
+                WebKitDOMDocumentType as DocumentType, webkit_dom_document_type_get_type if webkit-dom
+                WebKitDOMElement as Element, webkit_dom_element_get_type if webkit-dom
+                    WebKitDOMHTMLElement as HTMLElement, webkit_dom_html_element_get_type if webkit-dom
+                        WebKitDOMHTMLAnchorElement as HTMLAnchorElement, webkit_dom_html_anchor_element_get_type if webkit-dom
+                        WebKitDOMHTMLAppletElement as HTMLAppletElement, webkit_dom_html_applet_element_get_type if webkit-dom
+                        WebKitDOMHTMLAreaElement as HTMLAreaElement, webkit_dom_html_area_element_get_type if webkit-dom
+                        WebKitDOMHTMLBRElement as HTMLBRElement, webkit_dom_htmlbr_element_get_type if webkit-dom
+                        WebKitDOMHTMLBaseElement as HTMLBaseElement, webkit_dom_html_base_element_get_type if webkit-dom
+                        WebKitDOMHTMLBaseFontElement as HTMLBaseFontElement, webkit_dom_html_base_font_element_get_type if webkit-dom
+                        WebKitDOMHTMLBodyElement as HTMLBodyElement, webkit_dom_html_body_element_get_type if webkit-dom
+                        WebKitDOMHTMLButtonElement as HTMLButtonElement, webkit_dom_html_button_element_get_type if webkit-dom
+                        WebKitDOMHTMLCanvasElement as HTMLCanvasElement, webkit_dom_html_canvas_element_get_type if webkit-dom
+                        WebKitDOMHTMLDListElement as HTMLDListElement, webkit_dom_htmld_list_element_get_type if webkit-dom
+                        WebKitDOMHTMLDetailsElement as HTMLDetailsElement, webkit_dom_html_details_element_get_type if webkit-dom
+                        WebKitDOMHTMLDirectoryElement as HTMLDirectoryElement, webkit_dom_html_directory_element_get_type if webkit-dom
+                        WebKitDOMHTMLDivElement as HTMLDivElement, webkit_dom_html_div_element_get_type if webkit-dom
+                        WebKitDOMHTMLEmbedElement as HTMLEmbedElement, webkit_dom_html_embed_element_get_type if webkit-dom
+                        WebKitDOMHTMLFieldSetElement as HTMLFieldSetElement, webkit_dom_html_field_set_element_get_type if webkit-dom
+                        WebKitDOMHTMLFontElement as HTMLFontElement, webkit_dom_html_font_element_get_type if webkit-dom
+                        WebKitDOMHTMLFormElement as HTMLFormElement, webkit_dom_html_form_element_get_type if webkit-dom
+                        WebKitDOMHTMLFrameElement as HTMLFrameElement, webkit_dom_html_frame_element_get_type if webkit-dom
+                        WebKitDOMHTMLFrameSetElement as HTMLFrameSetElement, webkit_dom_html_frame_set_element_get_type if webkit-dom
+                        WebKitDOMHTMLHRElement as HTMLHRElement, webkit_dom_htmlhr_element_get_type if webkit-dom
+                        WebKitDOMHTMLHeadElement as HTMLHeadElement, webkit_dom_html_head_element_get_type if webkit-dom
+                        WebKitDOMHTMLHeadingElement as HTMLHeadingElement, webkit_dom_html_heading_element_get_type if webkit-dom
+                        WebKitDOMHTMLHtmlElement as HTMLHtmlElement, webkit_dom_html_html_element_get_type if webkit-dom
+                        WebKitDOMHTMLIFrameElement as HTMLIFrameElement, webkit_dom_html_iframe_element_get_type if webkit-dom
+                        WebKitDOMHTMLImageElement as HTMLImageElement, webkit_dom_html_image_element_get_type if webkit-dom
+                        WebKitDOMHTMLInputElement as HTMLInputElement, webkit_dom_html_input_element_get_type if webkit-dom
+                        WebKitDOMHTMLKeygenElement as HTMLKeygenElement, webkit_dom_html_keygen_element_get_type if webkit-dom
+                        WebKitDOMHTMLLIElement as HTMLLIElement, webkit_dom_htmlli_element_get_type if webkit-dom
+                        WebKitDOMHTMLLabelElement as HTMLLabelElement, webkit_dom_html_label_element_get_type if webkit-dom
+                        WebKitDOMHTMLLegendElement as HTMLLegendElement, webkit_dom_html_legend_element_get_type if webkit-dom
+                        WebKitDOMHTMLLinkElement as HTMLLinkElement, webkit_dom_html_link_element_get_type if webkit-dom
+                        WebKitDOMHTMLMapElement as HTMLMapElement, webkit_dom_html_map_element_get_type if webkit-dom
+                        WebKitDOMHTMLMarqueeElement as HTMLMarqueeElement, webkit_dom_html_marquee_element_get_type if webkit-dom
+                        WebKitDOMHTMLMenuElement as HTMLMenuElement, webkit_dom_html_menu_element_get_type if webkit-dom
+                        WebKitDOMHTMLMetaElement as HTMLMetaElement, webkit_dom_html_meta_element_get_type if webkit-dom
+                        WebKitDOMHTMLModElement as HTMLModElement, webkit_dom_html_mod_element_get_type if webkit-dom
+                        WebKitDOMHTMLOListElement as HTMLOListElement, webkit_dom_htmlo_list_element_get_type if webkit-dom
+                        WebKitDOMHTMLObjectElement as HTMLObjectElement, webkit_dom_html_object_element_get_type if webkit-dom
+                        WebKitDOMHTMLOptGroupElement as HTMLOptGroupElement, webkit_dom_html_opt_group_element_get_type if webkit-dom
+                        WebKitDOMHTMLOptionElement as HTMLOptionElement, webkit_dom_html_option_element_get_type if webkit-dom
+                        WebKitDOMHTMLParagraphElement as HTMLParagraphElement, webkit_dom_html_paragraph_element_get_type if webkit-dom
+                        WebKitDOMHTMLParamElement as HTMLParamElement, webkit_dom_html_param_element_get_type if webkit-dom
+                        WebKitDOMHTMLPreElement as HTMLPreElement, webkit_dom_html_pre_element_get_type if webkit-dom
+                        WebKitDOMHTMLQuoteElement as HTMLQuoteElement, webkit_dom_html_quote_element_get_type if webkit-dom
+                        WebKitDOMHTMLScriptElement as HTMLScriptElement, webkit_dom_html_script_element_get_type if webkit-dom
+                        WebKitDOMHTMLSelectElement as HTMLSelectElement, webkit_dom_html_select_element_get_type if webkit-dom
+                        WebKitDOMHTMLStyleElement as HTMLStyleElement, webkit_dom_html_style_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableCaptionElement as HTMLTableCaptionElement, webkit_dom_html_table_caption_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableCellElement as HTMLTableCellElement, webkit_dom_html_table_cell_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableColElement as HTMLTableColElement, webkit_dom_html_table_col_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableElement as HTMLTableElement, webkit_dom_html_table_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableRowElement as HTMLTableRowElement, webkit_dom_html_table_row_element_get_type if webkit-dom
+                        WebKitDOMHTMLTableSectionElement as HTMLTableSectionElement, webkit_dom_html_table_section_element_get_type if webkit-dom
+                        WebKitDOMHTMLTextAreaElement as HTMLTextAreaElement, webkit_dom_html_text_area_element_get_type if webkit-dom
+                        WebKitDOMHTMLTitleElement as HTMLTitleElement, webkit_dom_html_title_element_get_type if webkit-dom
+                        WebKitDOMHTMLUListElement as HTMLUListElement, webkit_dom_htmlu_list_element_get_type if webkit-dom
+                WebKitDOMEntityReference as EntityReference, webkit_dom_entity_reference_get_type if webkit-dom
+            WebKitDOMPerformance as Performance, webkit_dom_performance_get_type if webkit-dom
+            WebKitDOMTextTrack as TextTrack, webkit_dom_text_track_get_type if webkit-dom
+            WebKitDOMTextTrackCue as TextTrackCue, webkit_dom_text_track_cue_get_type if webkit-dom
+            WebKitDOMTextTrackList as TextTrackList, webkit_dom_text_track_list_get_type if webkit-dom
+            WebKitDOMVideoTrackList as VideoTrackList, webkit_dom_video_track_list_get_type if webkit-dom
+            WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
         WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
         WebKitDOMGeolocation as Geolocation, webkit_dom_geolocation_get_type if webkit-dom
         WebKitDOMHTMLCollection as HTMLCollection, webkit_dom_html_collection_get_type if webkit-dom
             WebKitDOMHTMLOptionsCollection as HTMLOptionsCollection, webkit_dom_html_options_collection_get_type if webkit-dom
+        WebKitDOMHTMLMediaElement as HTMLMediaElement, webkit_dom_html_media_element_get_type if webkit-dom
+            WebKitDOMHTMLAudioElement as HTMLAudioElement, webkit_dom_html_audio_element_get_type if webkit-dom
+            WebKitDOMHTMLVideoElement as HTMLVideoElement, webkit_dom_html_video_element_get_type if webkit-dom
         WebKitDOMHistory as History, webkit_dom_history_get_type if webkit-dom
         WebKitDOMLocation as Location, webkit_dom_location_get_type if webkit-dom
         WebKitDOMMediaError as MediaError, webkit_dom_media_error_get_type if webkit-dom
         WebKitDOMMediaList as MediaList, webkit_dom_media_list_get_type if webkit-dom
         WebKitDOMMediaQueryList as MediaQueryList, webkit_dom_media_query_list_get_type if webkit-dom
-        WebKitDOMMessagePort as MessagePort, webkit_dom_message_port_get_type if webkit-dom
         WebKitDOMNamedNodeMap as NamedNodeMap, webkit_dom_named_node_map_get_type if webkit-dom
         WebKitDOMNavigator as Navigator, webkit_dom_navigator_get_type if webkit-dom
-        WebKitDOMNode as Node, webkit_dom_node_get_type if webkit-dom
-            WebKitDOMAttr as DOMAttr, webkit_dom_attr_get_type if webkit-dom
-            WebKitDOMCharacterData as CharacterData, webkit_dom_character_data_get_type if webkit-dom
-                WebKitDOMComment as Comment, webkit_dom_comment_get_type if webkit-dom
-                WebKitDOMText as Text, webkit_dom_text_get_type if webkit-dom
-                    WebKitDOMCDATASection as CDATASection, webkit_dom_cdata_section_get_type if webkit-dom
-            WebKitDOMDocument as Document, webkit_dom_document_get_type if webkit-dom
-                WebKitDOMHTMLDocument as HTMLDocument, webkit_dom_html_document_get_type if webkit-dom
-            WebKitDOMDocumentFragment as DocumentFragment, webkit_dom_document_fragment_get_type if webkit-dom
-            WebKitDOMDocumentType as DocumentType, webkit_dom_document_type_get_type if webkit-dom
-            WebKitDOMElement as Element, webkit_dom_element_get_type if webkit-dom
-                WebKitDOMHTMLElement as HTMLElement, webkit_dom_html_element_get_type if webkit-dom
-                    WebKitDOMHTMLAnchorElement as HTMLAnchorElement, webkit_dom_html_anchor_element_get_type if webkit-dom
-                    WebKitDOMHTMLAppletElement as HTMLAppletElement, webkit_dom_html_applet_element_get_type if webkit-dom
-                    WebKitDOMHTMLAreaElement as HTMLAreaElement, webkit_dom_html_area_element_get_type if webkit-dom
-                    WebKitDOMHTMLBRElement as HTMLBRElement, webkit_dom_htmlbr_element_get_type if webkit-dom
-                    WebKitDOMHTMLBaseElement as HTMLBaseElement, webkit_dom_html_base_element_get_type if webkit-dom
-                    WebKitDOMHTMLBaseFontElement as HTMLBaseFontElement, webkit_dom_html_base_font_element_get_type if webkit-dom
-                    WebKitDOMHTMLBodyElement as HTMLBodyElement, webkit_dom_html_body_element_get_type if webkit-dom
-                    WebKitDOMHTMLButtonElement as HTMLButtonElement, webkit_dom_html_button_element_get_type if webkit-dom
-                    WebKitDOMHTMLCanvasElement as HTMLCanvasElement, webkit_dom_html_canvas_element_get_type if webkit-dom
-                    WebKitDOMHTMLDListElement as HTMLDListElement, webkit_dom_htmld_list_element_get_type if webkit-dom
-                    WebKitDOMHTMLDetailsElement as HTMLDetailsElement, webkit_dom_html_details_element_get_type if webkit-dom
-                    WebKitDOMHTMLDirectoryElement as HTMLDirectoryElement, webkit_dom_html_directory_element_get_type if webkit-dom
-                    WebKitDOMHTMLDivElement as HTMLDivElement, webkit_dom_html_div_element_get_type if webkit-dom
-                    WebKitDOMHTMLEmbedElement as HTMLEmbedElement, webkit_dom_html_embed_element_get_type if webkit-dom
-                    WebKitDOMHTMLFieldSetElement as HTMLFieldSetElement, webkit_dom_html_field_set_element_get_type if webkit-dom
-                    WebKitDOMHTMLFontElement as HTMLFontElement, webkit_dom_html_font_element_get_type if webkit-dom
-                    WebKitDOMHTMLFormElement as HTMLFormElement, webkit_dom_html_form_element_get_type if webkit-dom
-                    WebKitDOMHTMLFrameElement as HTMLFrameElement, webkit_dom_html_frame_element_get_type if webkit-dom
-                    WebKitDOMHTMLFrameSetElement as HTMLFrameSetElement, webkit_dom_html_frame_set_element_get_type if webkit-dom
-                    WebKitDOMHTMLHRElement as HTMLHRElement, webkit_dom_htmlhr_element_get_type if webkit-dom
-                    WebKitDOMHTMLHeadElement as HTMLHeadElement, webkit_dom_html_head_element_get_type if webkit-dom
-                    WebKitDOMHTMLHeadingElement as HTMLHeadingElement, webkit_dom_html_heading_element_get_type if webkit-dom
-                    WebKitDOMHTMLHtmlElement as HTMLHtmlElement, webkit_dom_html_html_element_get_type if webkit-dom
-                    WebKitDOMHTMLIFrameElement as HTMLIFrameElement, webkit_dom_html_iframe_element_get_type if webkit-dom
-                    WebKitDOMHTMLImageElement as HTMLImageElement, webkit_dom_html_image_element_get_type if webkit-dom
-                    WebKitDOMHTMLInputElement as HTMLInputElement, webkit_dom_html_input_element_get_type if webkit-dom
-                    WebKitDOMHTMLKeygenElement as HTMLKeygenElement, webkit_dom_html_keygen_element_get_type if webkit-dom
-                    WebKitDOMHTMLLIElement as HTMLLIElement, webkit_dom_htmlli_element_get_type if webkit-dom
-                    WebKitDOMHTMLLabelElement as HTMLLabelElement, webkit_dom_html_label_element_get_type if webkit-dom
-                    WebKitDOMHTMLLegendElement as HTMLLegendElement, webkit_dom_html_legend_element_get_type if webkit-dom
-                    WebKitDOMHTMLLinkElement as HTMLLinkElement, webkit_dom_html_link_element_get_type if webkit-dom
-                    WebKitDOMHTMLMapElement as HTMLMapElement, webkit_dom_html_map_element_get_type if webkit-dom
-                    WebKitDOMHTMLMarqueeElement as HTMLMarqueeElement, webkit_dom_html_marquee_element_get_type if webkit-dom
-                    WebKitDOMHTMLMediaElement as HTMLMediaElement, webkit_dom_html_media_element_get_type if webkit-dom
-                        WebKitDOMHTMLAudioElement as HTMLAudioElement, webkit_dom_html_audio_element_get_type if webkit-dom
-                        WebKitDOMHTMLVideoElement as HTMLVideoElement, webkit_dom_html_video_element_get_type if webkit-dom
-                    WebKitDOMHTMLMenuElement as HTMLMenuElement, webkit_dom_html_menu_element_get_type if webkit-dom
-                    WebKitDOMHTMLMetaElement as HTMLMetaElement, webkit_dom_html_meta_element_get_type if webkit-dom
-                    WebKitDOMHTMLModElement as HTMLModElement, webkit_dom_html_mod_element_get_type if webkit-dom
-                    WebKitDOMHTMLOListElement as HTMLOListElement, webkit_dom_htmlo_list_element_get_type if webkit-dom
-                    WebKitDOMHTMLObjectElement as HTMLObjectElement, webkit_dom_html_object_element_get_type if webkit-dom
-                    WebKitDOMHTMLOptGroupElement as HTMLOptGroupElement, webkit_dom_html_opt_group_element_get_type if webkit-dom
-                    WebKitDOMHTMLOptionElement as HTMLOptionElement, webkit_dom_html_option_element_get_type if webkit-dom
-                    WebKitDOMHTMLParagraphElement as HTMLParagraphElement, webkit_dom_html_paragraph_element_get_type if webkit-dom
-                    WebKitDOMHTMLParamElement as HTMLParamElement, webkit_dom_html_param_element_get_type if webkit-dom
-                    WebKitDOMHTMLPreElement as HTMLPreElement, webkit_dom_html_pre_element_get_type if webkit-dom
-                    WebKitDOMHTMLQuoteElement as HTMLQuoteElement, webkit_dom_html_quote_element_get_type if webkit-dom
-                    WebKitDOMHTMLScriptElement as HTMLScriptElement, webkit_dom_html_script_element_get_type if webkit-dom
-                    WebKitDOMHTMLSelectElement as HTMLSelectElement, webkit_dom_html_select_element_get_type if webkit-dom
-                    WebKitDOMHTMLStyleElement as HTMLStyleElement, webkit_dom_html_style_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableCaptionElement as HTMLTableCaptionElement, webkit_dom_html_table_caption_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableCellElement as HTMLTableCellElement, webkit_dom_html_table_cell_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableColElement as HTMLTableColElement, webkit_dom_html_table_col_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableElement as HTMLTableElement, webkit_dom_html_table_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableRowElement as HTMLTableRowElement, webkit_dom_html_table_row_element_get_type if webkit-dom
-                    WebKitDOMHTMLTableSectionElement as HTMLTableSectionElement, webkit_dom_html_table_section_element_get_type if webkit-dom
-                    WebKitDOMHTMLTextAreaElement as HTMLTextAreaElement, webkit_dom_html_text_area_element_get_type if webkit-dom
-                    WebKitDOMHTMLTitleElement as HTMLTitleElement, webkit_dom_html_title_element_get_type if webkit-dom
-                    WebKitDOMHTMLUListElement as HTMLUListElement, webkit_dom_htmlu_list_element_get_type if webkit-dom
-            WebKitDOMEntityReference as EntityReference, webkit_dom_entity_reference_get_type if webkit-dom
-            WebKitDOMProcessingInstruction as ProcessingInstruction, webkit_dom_processing_instruction_get_type if webkit-dom
         WebKitDOMNodeFilter as NodeFilter, webkit_dom_node_filter_get_type if webkit-dom
         WebKitDOMNodeIterator as NodeIterator, webkit_dom_node_iterator_get_type if webkit-dom
         WebKitDOMNodeList as NodeList, webkit_dom_node_list_get_type if webkit-dom
+        WebKitDOMPerformanceNavigation as PerformanceNavigation, webkit_dom_performance_navigation_get_type if webkit-dom
+        WebKitDOMPerformanceTiming as PerformanceTiming, webkit_dom_performance_timing_get_type if webkit-dom
         WebKitDOMRange as DOMRange, webkit_dom_range_get_type if webkit-dom
         WebKitDOMScreen as DOMScreen, webkit_dom_screen_get_type if webkit-dom
         WebKitDOMStorage as Storage, webkit_dom_storage_get_type if webkit-dom
-        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkit-1.10
+        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkitgtk-1.10
+        WebKitDOMStorageQuota as StorageQuota, webkit_dom_storage_quota_get_type if webkit-dom
         WebKitDOMStyleMedia as StyleMedia, webkit_dom_style_media_get_type if webkit-dom
         WebKitDOMStyleSheet as StyleSheet, webkit_dom_style_sheet_get_type if webkit-dom
             WebKitDOMCSSStyleSheet as CSSStyleSheet, webkit_dom_css_style_sheet_get_type if webkit-dom
         WebKitDOMStyleSheetList as StyleSheetList, webkit_dom_style_sheet_list_get_type if webkit-dom
+        WebKitDOMTextTrackCueList as TextTrackCueList, webkit_dom_text_track_cue_list_get_type if webkit-dom
         WebKitDOMTimeRanges as TimeRanges, webkit_dom_time_ranges_get_type if webkit-dom
+        WebKitDOMTouch as Touch, webkit_dom_touch_get_type if webkit-dom
         WebKitDOMTreeWalker as TreeWalker, webkit_dom_tree_walker_get_type if webkit-dom
         WebKitDOMValidityState as ValidityState, webkit_dom_validity_state_get_type if webkit-dom
-        WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
+        WebKitDOMVideoTrack as VideoTrack, webkit_dom_video_track_get_type if webkit-dom
         WebKitDOMWebKitPoint as WebKitPoint, webkit_dom_webkit_point_get_type if webkit-dom
         WebKitDOMXPathExpression as XPathExpression, webkit_dom_xpath_expression_get_type if webkit-dom
         WebKitDOMXPathNSResolver as XPathNSResolver, webkit_dom_xpath_ns_resolver_get_type if webkit-dom

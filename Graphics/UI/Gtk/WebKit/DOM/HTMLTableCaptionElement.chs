@@ -1,31 +1,44 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLTableCaptionElement
-       (htmlTableCaptionElementSetAlign, htmlTableCaptionElementGetAlign,
-        HTMLTableCaptionElement, HTMLTableCaptionElementClass,
-        castToHTMLTableCaptionElement, gTypeHTMLTableCaptionElement,
-        toHTMLTableCaptionElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLTableCaptionElement(
+setAlign,
+getAlign,
+HTMLTableCaptionElement,
+castToHTMLTableCaptionElement,
+gTypeHTMLTableCaptionElement,
+HTMLTableCaptionElementClass,
+toHTMLTableCaptionElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlTableCaptionElementSetAlign ::
-                                (HTMLTableCaptionElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlTableCaptionElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_caption_element_set_align #}
-          (toHTMLTableCaptionElement self)
-          valPtr
+setAlign ::
+         (MonadIO m, HTMLTableCaptionElementClass self,
+          GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_caption_element_set_align #}
+             (toHTMLTableCaptionElement self)
+             valPtr)
  
-htmlTableCaptionElementGetAlign ::
-                                (HTMLTableCaptionElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlTableCaptionElementGetAlign self
-  = ({# call webkit_dom_html_table_caption_element_get_align #}
-       (toHTMLTableCaptionElement self))
-      >>=
-      readUTFString
+getAlign ::
+         (MonadIO m, HTMLTableCaptionElementClass self,
+          GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_table_caption_element_get_align #}
+          (toHTMLTableCaptionElement self))
+         >>=
+         readUTFString)

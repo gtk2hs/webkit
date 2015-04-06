@@ -1,38 +1,52 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLLegendElement
-       (htmlLegendElementGetForm, htmlLegendElementSetAlign,
-        htmlLegendElementGetAlign, HTMLLegendElement,
-        HTMLLegendElementClass, castToHTMLLegendElement,
-        gTypeHTMLLegendElement, toHTMLLegendElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLLegendElement(
+getForm,
+setAlign,
+getAlign,
+HTMLLegendElement,
+castToHTMLLegendElement,
+gTypeHTMLLegendElement,
+HTMLLegendElementClass,
+toHTMLLegendElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlLegendElementGetForm ::
-                         (HTMLLegendElementClass self) => self -> IO (Maybe HTMLFormElement)
-htmlLegendElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_legend_element_get_form #}
-         (toHTMLLegendElement self))
+getForm ::
+        (MonadIO m, HTMLLegendElementClass self) =>
+          self -> m (Maybe HTMLFormElement)
+getForm self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLFormElement)
+         ({# call webkit_dom_html_legend_element_get_form #}
+            (toHTMLLegendElement self)))
  
-htmlLegendElementSetAlign ::
-                          (HTMLLegendElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlLegendElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_legend_element_set_align #}
-          (toHTMLLegendElement self)
-          valPtr
+setAlign ::
+         (MonadIO m, HTMLLegendElementClass self, GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_legend_element_set_align #}
+             (toHTMLLegendElement self)
+             valPtr)
  
-htmlLegendElementGetAlign ::
-                          (HTMLLegendElementClass self, GlibString string) =>
-                            self -> IO string
-htmlLegendElementGetAlign self
-  = ({# call webkit_dom_html_legend_element_get_align #}
-       (toHTMLLegendElement self))
-      >>=
-      readUTFString
+getAlign ::
+         (MonadIO m, HTMLLegendElementClass self, GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_legend_element_get_align #}
+          (toHTMLLegendElement self))
+         >>=
+         readUTFString)

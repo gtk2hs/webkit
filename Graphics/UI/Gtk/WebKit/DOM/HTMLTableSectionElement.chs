@@ -1,123 +1,156 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLTableSectionElement
-       (htmlTableSectionElementInsertRow,
-        htmlTableSectionElementDeleteRow, htmlTableSectionElementSetAlign,
-        htmlTableSectionElementGetAlign, htmlTableSectionElementSetCh,
-        htmlTableSectionElementGetCh, htmlTableSectionElementSetChOff,
-        htmlTableSectionElementGetChOff, htmlTableSectionElementSetVAlign,
-        htmlTableSectionElementGetVAlign, htmlTableSectionElementGetRows,
-        HTMLTableSectionElement, HTMLTableSectionElementClass,
-        castToHTMLTableSectionElement, gTypeHTMLTableSectionElement,
-        toHTMLTableSectionElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLTableSectionElement(
+insertRow,
+deleteRow,
+setAlign,
+getAlign,
+setCh,
+getCh,
+setChOff,
+getChOff,
+setVAlign,
+getVAlign,
+getRows,
+HTMLTableSectionElement,
+castToHTMLTableSectionElement,
+gTypeHTMLTableSectionElement,
+HTMLTableSectionElementClass,
+toHTMLTableSectionElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlTableSectionElementInsertRow ::
-                                 (HTMLTableSectionElementClass self) =>
-                                   self -> Int -> IO (Maybe HTMLElement)
-htmlTableSectionElementInsertRow self index
-  = maybeNull (makeNewGObject mkHTMLElement)
+insertRow ::
+          (MonadIO m, HTMLTableSectionElementClass self) =>
+            self -> Int -> m (Maybe HTMLElement)
+insertRow self index
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_html_table_section_element_insert_row #}
+                (toHTMLTableSectionElement self)
+                (fromIntegral index)
+                errorPtr_))
+ 
+deleteRow ::
+          (MonadIO m, HTMLTableSectionElementClass self) =>
+            self -> Int -> m ()
+deleteRow self index
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_html_table_section_element_insert_row #}
+           {# call webkit_dom_html_table_section_element_delete_row #}
              (toHTMLTableSectionElement self)
              (fromIntegral index)
              errorPtr_)
  
-htmlTableSectionElementDeleteRow ::
-                                 (HTMLTableSectionElementClass self) => self -> Int -> IO ()
-htmlTableSectionElementDeleteRow self index
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_table_section_element_delete_row #}
-          (toHTMLTableSectionElement self)
-          (fromIntegral index)
-          errorPtr_
+setAlign ::
+         (MonadIO m, HTMLTableSectionElementClass self,
+          GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_section_element_set_align #}
+             (toHTMLTableSectionElement self)
+             valPtr)
  
-htmlTableSectionElementSetAlign ::
-                                (HTMLTableSectionElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlTableSectionElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_section_element_set_align #}
-          (toHTMLTableSectionElement self)
-          valPtr
+getAlign ::
+         (MonadIO m, HTMLTableSectionElementClass self,
+          GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_table_section_element_get_align #}
+          (toHTMLTableSectionElement self))
+         >>=
+         readUTFString)
  
-htmlTableSectionElementGetAlign ::
-                                (HTMLTableSectionElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlTableSectionElementGetAlign self
-  = ({# call webkit_dom_html_table_section_element_get_align #}
-       (toHTMLTableSectionElement self))
-      >>=
-      readUTFString
+setCh ::
+      (MonadIO m, HTMLTableSectionElementClass self,
+       GlibString string) =>
+        self -> string -> m ()
+setCh self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_section_element_set_ch #}
+             (toHTMLTableSectionElement self)
+             valPtr)
  
-htmlTableSectionElementSetCh ::
-                             (HTMLTableSectionElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlTableSectionElementSetCh self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_section_element_set_ch #}
-          (toHTMLTableSectionElement self)
-          valPtr
+getCh ::
+      (MonadIO m, HTMLTableSectionElementClass self,
+       GlibString string) =>
+        self -> m string
+getCh self
+  = liftIO
+      (({# call webkit_dom_html_table_section_element_get_ch #}
+          (toHTMLTableSectionElement self))
+         >>=
+         readUTFString)
  
-htmlTableSectionElementGetCh ::
-                             (HTMLTableSectionElementClass self, GlibString string) =>
-                               self -> IO string
-htmlTableSectionElementGetCh self
-  = ({# call webkit_dom_html_table_section_element_get_ch #}
-       (toHTMLTableSectionElement self))
-      >>=
-      readUTFString
+setChOff ::
+         (MonadIO m, HTMLTableSectionElementClass self,
+          GlibString string) =>
+           self -> string -> m ()
+setChOff self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_section_element_set_ch_off #}
+             (toHTMLTableSectionElement self)
+             valPtr)
  
-htmlTableSectionElementSetChOff ::
-                                (HTMLTableSectionElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlTableSectionElementSetChOff self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_section_element_set_ch_off #}
-          (toHTMLTableSectionElement self)
-          valPtr
+getChOff ::
+         (MonadIO m, HTMLTableSectionElementClass self,
+          GlibString string) =>
+           self -> m string
+getChOff self
+  = liftIO
+      (({# call webkit_dom_html_table_section_element_get_ch_off #}
+          (toHTMLTableSectionElement self))
+         >>=
+         readUTFString)
  
-htmlTableSectionElementGetChOff ::
-                                (HTMLTableSectionElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlTableSectionElementGetChOff self
-  = ({# call webkit_dom_html_table_section_element_get_ch_off #}
-       (toHTMLTableSectionElement self))
-      >>=
-      readUTFString
+setVAlign ::
+          (MonadIO m, HTMLTableSectionElementClass self,
+           GlibString string) =>
+            self -> string -> m ()
+setVAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_section_element_set_v_align #}
+             (toHTMLTableSectionElement self)
+             valPtr)
  
-htmlTableSectionElementSetVAlign ::
-                                 (HTMLTableSectionElementClass self, GlibString string) =>
-                                   self -> string -> IO ()
-htmlTableSectionElementSetVAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_section_element_set_v_align #}
-          (toHTMLTableSectionElement self)
-          valPtr
+getVAlign ::
+          (MonadIO m, HTMLTableSectionElementClass self,
+           GlibString string) =>
+            self -> m string
+getVAlign self
+  = liftIO
+      (({# call webkit_dom_html_table_section_element_get_v_align #}
+          (toHTMLTableSectionElement self))
+         >>=
+         readUTFString)
  
-htmlTableSectionElementGetVAlign ::
-                                 (HTMLTableSectionElementClass self, GlibString string) =>
-                                   self -> IO string
-htmlTableSectionElementGetVAlign self
-  = ({# call webkit_dom_html_table_section_element_get_v_align #}
-       (toHTMLTableSectionElement self))
-      >>=
-      readUTFString
- 
-htmlTableSectionElementGetRows ::
-                               (HTMLTableSectionElementClass self) =>
-                                 self -> IO (Maybe HTMLCollection)
-htmlTableSectionElementGetRows self
-  = maybeNull (makeNewGObject mkHTMLCollection)
-      ({# call webkit_dom_html_table_section_element_get_rows #}
-         (toHTMLTableSectionElement self))
+getRows ::
+        (MonadIO m, HTMLTableSectionElementClass self) =>
+          self -> m (Maybe HTMLCollection)
+getRows self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLCollection)
+         ({# call webkit_dom_html_table_section_element_get_rows #}
+            (toHTMLTableSectionElement self)))

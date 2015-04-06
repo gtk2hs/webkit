@@ -1,118 +1,156 @@
-module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent
-       (
-#if WEBKIT_CHECK_VERSION(2,2,2)
-        keyboardEventGetModifierState, keyboardEventInitKeyboardEvent,
-        cKEY_LOCATION_STANDARD, cKEY_LOCATION_LEFT, cKEY_LOCATION_RIGHT,
-        cKEY_LOCATION_NUMPAD, keyboardEventGetKeyIdentifier,
-        keyboardEventGetKeyLocation, keyboardEventGetCtrlKey,
-        keyboardEventGetShiftKey, keyboardEventGetAltKey,
-        keyboardEventGetMetaKey, keyboardEventGetAltGraphKey,
-        KeyboardEvent, KeyboardEventClass, castToKeyboardEvent,
-        gTypeKeyboardEvent, toKeyboardEvent
+module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent(
+getModifierState,
+initKeyboardEvent,
+pattern KEY_LOCATION_STANDARD,
+pattern KEY_LOCATION_LEFT,
+pattern KEY_LOCATION_RIGHT,
+pattern KEY_LOCATION_NUMPAD,
+getKeyIdentifier,
+getKeyLocation,
+getCtrlKey,
+getShiftKey,
+getAltKey,
+getMetaKey,
+getAltGraphKey,
+#if WEBKIT_CHECK_VERSION(99,0,0)
+getKeyCode,
+getCharCode,
 #endif
-       )
-       where
-
-#if WEBKIT_CHECK_VERSION(2,2,2)
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+KeyboardEvent,
+castToKeyboardEvent,
+gTypeKeyboardEvent,
+KeyboardEventClass,
+toKeyboardEvent,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-keyboardEventGetModifierState ::
-                              (KeyboardEventClass self, GlibString string) =>
-                                self -> string -> IO Bool
-keyboardEventGetModifierState self keyIdentifierArg
-  = toBool <$>
-      (withUTFString keyIdentifierArg $
-         \ keyIdentifierArgPtr ->
-           {# call webkit_dom_keyboard_event_get_modifier_state #}
-             (toKeyboardEvent self)
-             keyIdentifierArgPtr)
+getModifierState ::
+                 (MonadIO m, KeyboardEventClass self, GlibString string) =>
+                   self -> string -> m Bool
+getModifierState self keyIdentifierArg
+  = liftIO
+      (toBool <$>
+         (withUTFString keyIdentifierArg $
+            \ keyIdentifierArgPtr ->
+              {# call webkit_dom_keyboard_event_get_modifier_state #}
+                (toKeyboardEvent self)
+                keyIdentifierArgPtr))
  
-keyboardEventInitKeyboardEvent ::
-                               (KeyboardEventClass self, DOMWindowClass view,
-                                GlibString string) =>
-                                 self ->
-                                   string ->
-                                     Bool ->
-                                       Bool ->
-                                         Maybe view ->
-                                           string ->
-                                             Word -> Bool -> Bool -> Bool -> Bool -> Bool -> IO ()
-keyboardEventInitKeyboardEvent self type' canBubble cancelable view
+initKeyboardEvent ::
+                  (MonadIO m, KeyboardEventClass self, DOMWindowClass view,
+                   GlibString string) =>
+                    self ->
+                      string ->
+                        Bool ->
+                          Bool ->
+                            Maybe view ->
+                              string -> Word -> Bool -> Bool -> Bool -> Bool -> Bool -> m ()
+initKeyboardEvent self type' canBubble cancelable view
   keyIdentifier location ctrlKey altKey shiftKey metaKey altGraphKey
-  = withUTFString keyIdentifier $
-      \ keyIdentifierPtr ->
-        withUTFString type' $
-          \ typePtr ->
-            {# call webkit_dom_keyboard_event_init_keyboard_event #}
-              (toKeyboardEvent self)
-              typePtr
-          (fromBool canBubble)
-          (fromBool cancelable)
-          (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
-          keyIdentifierPtr
-      (fromIntegral location)
-      (fromBool ctrlKey)
-      (fromBool altKey)
-      (fromBool shiftKey)
-      (fromBool metaKey)
-      (fromBool altGraphKey)
-cKEY_LOCATION_STANDARD = 0
-cKEY_LOCATION_LEFT = 1
-cKEY_LOCATION_RIGHT = 2
-cKEY_LOCATION_NUMPAD = 3
+  = liftIO
+      (withUTFString keyIdentifier $
+         \ keyIdentifierPtr ->
+           withUTFString type' $
+             \ typePtr ->
+               {# call webkit_dom_keyboard_event_init_keyboard_event #}
+                 (toKeyboardEvent self)
+                 typePtr
+             (fromBool canBubble)
+             (fromBool cancelable)
+             (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+             keyIdentifierPtr
+         (fromIntegral location)
+         (fromBool ctrlKey)
+         (fromBool altKey)
+         (fromBool shiftKey)
+         (fromBool metaKey)
+         (fromBool altGraphKey))
+pattern KEY_LOCATION_STANDARD = 0
+pattern KEY_LOCATION_LEFT = 1
+pattern KEY_LOCATION_RIGHT = 2
+pattern KEY_LOCATION_NUMPAD = 3
  
-keyboardEventGetKeyIdentifier ::
-                              (KeyboardEventClass self, GlibString string) => self -> IO string
-keyboardEventGetKeyIdentifier self
-  = ({# call webkit_dom_keyboard_event_get_key_identifier #}
-       (toKeyboardEvent self))
-      >>=
-      readUTFString
+getKeyIdentifier ::
+                 (MonadIO m, KeyboardEventClass self, GlibString string) =>
+                   self -> m string
+getKeyIdentifier self
+  = liftIO
+      (({# call webkit_dom_keyboard_event_get_key_identifier #}
+          (toKeyboardEvent self))
+         >>=
+         readUTFString)
  
-keyboardEventGetKeyLocation ::
-                            (KeyboardEventClass self) => self -> IO Word
-keyboardEventGetKeyLocation self
-  = fromIntegral <$>
-      ({# call webkit_dom_keyboard_event_get_key_location #}
-         (toKeyboardEvent self))
+getKeyLocation ::
+               (MonadIO m, KeyboardEventClass self) => self -> m Word
+getKeyLocation self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_keyboard_event_get_key_location #}
+            (toKeyboardEvent self)))
  
-keyboardEventGetCtrlKey ::
-                        (KeyboardEventClass self) => self -> IO Bool
-keyboardEventGetCtrlKey self
-  = toBool <$>
-      ({# call webkit_dom_keyboard_event_get_ctrl_key #}
-         (toKeyboardEvent self))
+getCtrlKey ::
+           (MonadIO m, KeyboardEventClass self) => self -> m Bool
+getCtrlKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_keyboard_event_get_ctrl_key #}
+            (toKeyboardEvent self)))
  
-keyboardEventGetShiftKey ::
-                         (KeyboardEventClass self) => self -> IO Bool
-keyboardEventGetShiftKey self
-  = toBool <$>
-      ({# call webkit_dom_keyboard_event_get_shift_key #}
-         (toKeyboardEvent self))
+getShiftKey ::
+            (MonadIO m, KeyboardEventClass self) => self -> m Bool
+getShiftKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_keyboard_event_get_shift_key #}
+            (toKeyboardEvent self)))
  
-keyboardEventGetAltKey ::
-                       (KeyboardEventClass self) => self -> IO Bool
-keyboardEventGetAltKey self
-  = toBool <$>
-      ({# call webkit_dom_keyboard_event_get_alt_key #}
-         (toKeyboardEvent self))
+getAltKey :: (MonadIO m, KeyboardEventClass self) => self -> m Bool
+getAltKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_keyboard_event_get_alt_key #}
+            (toKeyboardEvent self)))
  
-keyboardEventGetMetaKey ::
-                        (KeyboardEventClass self) => self -> IO Bool
-keyboardEventGetMetaKey self
-  = toBool <$>
-      ({# call webkit_dom_keyboard_event_get_meta_key #}
-         (toKeyboardEvent self))
+getMetaKey ::
+           (MonadIO m, KeyboardEventClass self) => self -> m Bool
+getMetaKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_keyboard_event_get_meta_key #}
+            (toKeyboardEvent self)))
  
-keyboardEventGetAltGraphKey ::
-                            (KeyboardEventClass self) => self -> IO Bool
-keyboardEventGetAltGraphKey self
-  = toBool <$>
-      ({# call webkit_dom_keyboard_event_get_alt_graph_key #}
-         (toKeyboardEvent self))
+getAltGraphKey ::
+               (MonadIO m, KeyboardEventClass self) => self -> m Bool
+getAltGraphKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_keyboard_event_get_alt_graph_key #}
+            (toKeyboardEvent self)))
+
+#if WEBKIT_CHECK_VERSION(99,0,0) 
+getKeyCode :: (MonadIO m, KeyboardEventClass self) => self -> m Int
+getKeyCode self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_keyboard_event_get_key_code #}
+            (toKeyboardEvent self)))
+ 
+getCharCode ::
+            (MonadIO m, KeyboardEventClass self) => self -> m Int
+getCharCode self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_keyboard_event_get_char_code #}
+            (toKeyboardEvent self)))
 #endif

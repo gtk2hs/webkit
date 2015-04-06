@@ -1,163 +1,210 @@
-module Graphics.UI.Gtk.WebKit.DOM.MouseEvent
-       (mouseEventInitMouseEvent, mouseEventGetScreenX,
-        mouseEventGetScreenY, mouseEventGetClientX, mouseEventGetClientY,
-        mouseEventGetCtrlKey, mouseEventGetShiftKey, mouseEventGetAltKey,
-        mouseEventGetMetaKey, mouseEventGetButton,
-        mouseEventGetRelatedTarget, mouseEventGetMovementX,
-        mouseEventGetMovementY, mouseEventGetOffsetX, mouseEventGetOffsetY,
-        mouseEventGetX, mouseEventGetY, mouseEventGetFromElement,
-        mouseEventGetToElement, MouseEvent, MouseEventClass,
-        castToMouseEvent, gTypeMouseEvent, toMouseEvent)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.MouseEvent(
+initMouseEvent,
+getScreenX,
+getScreenY,
+getClientX,
+getClientY,
+getCtrlKey,
+getShiftKey,
+getAltKey,
+getMetaKey,
+getButton,
+getRelatedTarget,
+getMovementX,
+getMovementY,
+getOffsetX,
+getOffsetY,
+getX,
+getY,
+getFromElement,
+getToElement,
+MouseEvent,
+castToMouseEvent,
+gTypeMouseEvent,
+MouseEventClass,
+toMouseEvent,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-mouseEventInitMouseEvent ::
-                         (MouseEventClass self, DOMWindowClass view,
-                          EventTargetClass relatedTarget, GlibString string) =>
-                           self ->
-                             string ->
-                               Bool ->
-                                 Bool ->
-                                   Maybe view ->
-                                     Int ->
-                                       Int ->
-                                         Int ->
-                                           Int ->
-                                             Int ->
-                                               Bool ->
-                                                 Bool ->
-                                                   Bool ->
-                                                     Bool -> Word -> Maybe relatedTarget -> IO ()
-mouseEventInitMouseEvent self type' canBubble cancelable view
-  detail screenX screenY clientX clientY ctrlKey altKey shiftKey
-  metaKey button relatedTarget
-  = withUTFString type' $
-      \ typePtr ->
-        {# call webkit_dom_mouse_event_init_mouse_event #}
-          (toMouseEvent self)
-          typePtr
-      (fromBool canBubble)
-      (fromBool cancelable)
-      (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
-      (fromIntegral detail)
-      (fromIntegral screenX)
-      (fromIntegral screenY)
-      (fromIntegral clientX)
-      (fromIntegral clientY)
-      (fromBool ctrlKey)
-      (fromBool altKey)
-      (fromBool shiftKey)
-      (fromBool metaKey)
-      (fromIntegral button)
-      (maybe (EventTarget nullForeignPtr) toEventTarget relatedTarget)
+initMouseEvent ::
+               (MonadIO m, MouseEventClass self, DOMWindowClass view,
+                EventTargetClass relatedTarget, GlibString string) =>
+                 self ->
+                   string ->
+                     Bool ->
+                       Bool ->
+                         Maybe view ->
+                           Int ->
+                             Int ->
+                               Int ->
+                                 Int ->
+                                   Int ->
+                                     Bool ->
+                                       Bool -> Bool -> Bool -> Word -> Maybe relatedTarget -> m ()
+initMouseEvent self type' canBubble cancelable view detail screenX
+  screenY clientX clientY ctrlKey altKey shiftKey metaKey button
+  relatedTarget
+  = liftIO
+      (withUTFString type' $
+         \ typePtr ->
+           {# call webkit_dom_mouse_event_init_mouse_event #}
+             (toMouseEvent self)
+             typePtr
+         (fromBool canBubble)
+         (fromBool cancelable)
+         (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+         (fromIntegral detail)
+         (fromIntegral screenX)
+         (fromIntegral screenY)
+         (fromIntegral clientX)
+         (fromIntegral clientY)
+         (fromBool ctrlKey)
+         (fromBool altKey)
+         (fromBool shiftKey)
+         (fromBool metaKey)
+         (fromIntegral button)
+         (maybe (EventTarget nullForeignPtr) toEventTarget relatedTarget))
  
-mouseEventGetScreenX :: (MouseEventClass self) => self -> IO Int
-mouseEventGetScreenX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_screen_x #}
-         (toMouseEvent self))
+getScreenX :: (MonadIO m, MouseEventClass self) => self -> m Int
+getScreenX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_screen_x #}
+            (toMouseEvent self)))
  
-mouseEventGetScreenY :: (MouseEventClass self) => self -> IO Int
-mouseEventGetScreenY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_screen_y #}
-         (toMouseEvent self))
+getScreenY :: (MonadIO m, MouseEventClass self) => self -> m Int
+getScreenY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_screen_y #}
+            (toMouseEvent self)))
  
-mouseEventGetClientX :: (MouseEventClass self) => self -> IO Int
-mouseEventGetClientX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_client_x #}
-         (toMouseEvent self))
+getClientX :: (MonadIO m, MouseEventClass self) => self -> m Int
+getClientX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_client_x #}
+            (toMouseEvent self)))
  
-mouseEventGetClientY :: (MouseEventClass self) => self -> IO Int
-mouseEventGetClientY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_client_y #}
-         (toMouseEvent self))
+getClientY :: (MonadIO m, MouseEventClass self) => self -> m Int
+getClientY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_client_y #}
+            (toMouseEvent self)))
  
-mouseEventGetCtrlKey :: (MouseEventClass self) => self -> IO Bool
-mouseEventGetCtrlKey self
-  = toBool <$>
-      ({# call webkit_dom_mouse_event_get_ctrl_key #}
-         (toMouseEvent self))
+getCtrlKey :: (MonadIO m, MouseEventClass self) => self -> m Bool
+getCtrlKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_mouse_event_get_ctrl_key #}
+            (toMouseEvent self)))
  
-mouseEventGetShiftKey :: (MouseEventClass self) => self -> IO Bool
-mouseEventGetShiftKey self
-  = toBool <$>
-      ({# call webkit_dom_mouse_event_get_shift_key #}
-         (toMouseEvent self))
+getShiftKey :: (MonadIO m, MouseEventClass self) => self -> m Bool
+getShiftKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_mouse_event_get_shift_key #}
+            (toMouseEvent self)))
  
-mouseEventGetAltKey :: (MouseEventClass self) => self -> IO Bool
-mouseEventGetAltKey self
-  = toBool <$>
-      ({# call webkit_dom_mouse_event_get_alt_key #} (toMouseEvent self))
+getAltKey :: (MonadIO m, MouseEventClass self) => self -> m Bool
+getAltKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_mouse_event_get_alt_key #}
+            (toMouseEvent self)))
  
-mouseEventGetMetaKey :: (MouseEventClass self) => self -> IO Bool
-mouseEventGetMetaKey self
-  = toBool <$>
-      ({# call webkit_dom_mouse_event_get_meta_key #}
-         (toMouseEvent self))
+getMetaKey :: (MonadIO m, MouseEventClass self) => self -> m Bool
+getMetaKey self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_mouse_event_get_meta_key #}
+            (toMouseEvent self)))
  
-mouseEventGetButton :: (MouseEventClass self) => self -> IO Word
-mouseEventGetButton self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_button #} (toMouseEvent self))
+getButton :: (MonadIO m, MouseEventClass self) => self -> m Word
+getButton self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_button #} (toMouseEvent self)))
  
-mouseEventGetRelatedTarget ::
-                           (MouseEventClass self) => self -> IO (Maybe EventTarget)
-mouseEventGetRelatedTarget self
-  = maybeNull (makeNewGObject mkEventTarget)
-      ({# call webkit_dom_mouse_event_get_related_target #}
-         (toMouseEvent self))
+getRelatedTarget ::
+                 (MonadIO m, MouseEventClass self) => self -> m (Maybe EventTarget)
+getRelatedTarget self
+  = liftIO
+      (maybeNull (makeNewGObject mkEventTarget)
+         ({# call webkit_dom_mouse_event_get_related_target #}
+            (toMouseEvent self)))
  
-mouseEventGetMovementX :: (MouseEventClass self) => self -> IO Int
-mouseEventGetMovementX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_webkit_movement_x #}
-         (toMouseEvent self))
+getMovementX :: (MonadIO m, MouseEventClass self) => self -> m Int
+getMovementX self
+  = liftIO
+      (fromIntegral <$>
+#if WEBKIT_CHECK_VERSION(2,6,0)
+         ({# call webkit_dom_mouse_event_get_movement_x #}
+#else
+         ({# call webkit_dom_mouse_event_get_webkit_movement_x #}
+#endif
+            (toMouseEvent self)))
  
-mouseEventGetMovementY :: (MouseEventClass self) => self -> IO Int
-mouseEventGetMovementY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_webkit_movement_y #}
-         (toMouseEvent self))
+getMovementY :: (MonadIO m, MouseEventClass self) => self -> m Int
+getMovementY self
+  = liftIO
+      (fromIntegral <$>
+#if WEBKIT_CHECK_VERSION(2,6,0)
+         ({# call webkit_dom_mouse_event_get_movement_y #}
+#else
+         ({# call webkit_dom_mouse_event_get_webkit_movement_y #}
+#endif
+            (toMouseEvent self)))
  
-mouseEventGetOffsetX :: (MouseEventClass self) => self -> IO Int
-mouseEventGetOffsetX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_offset_x #}
-         (toMouseEvent self))
+getOffsetX :: (MonadIO m, MouseEventClass self) => self -> m Int
+getOffsetX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_offset_x #}
+            (toMouseEvent self)))
  
-mouseEventGetOffsetY :: (MouseEventClass self) => self -> IO Int
-mouseEventGetOffsetY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_offset_y #}
-         (toMouseEvent self))
+getOffsetY :: (MonadIO m, MouseEventClass self) => self -> m Int
+getOffsetY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_offset_y #}
+            (toMouseEvent self)))
  
-mouseEventGetX :: (MouseEventClass self) => self -> IO Int
-mouseEventGetX self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_x #} (toMouseEvent self))
+getX :: (MonadIO m, MouseEventClass self) => self -> m Int
+getX self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_x #} (toMouseEvent self)))
  
-mouseEventGetY :: (MouseEventClass self) => self -> IO Int
-mouseEventGetY self
-  = fromIntegral <$>
-      ({# call webkit_dom_mouse_event_get_y #} (toMouseEvent self))
+getY :: (MonadIO m, MouseEventClass self) => self -> m Int
+getY self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_mouse_event_get_y #} (toMouseEvent self)))
  
-mouseEventGetFromElement ::
-                         (MouseEventClass self) => self -> IO (Maybe Node)
-mouseEventGetFromElement self
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_mouse_event_get_from_element #}
-         (toMouseEvent self))
+getFromElement ::
+               (MonadIO m, MouseEventClass self) => self -> m (Maybe Node)
+getFromElement self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         ({# call webkit_dom_mouse_event_get_from_element #}
+            (toMouseEvent self)))
  
-mouseEventGetToElement ::
-                       (MouseEventClass self) => self -> IO (Maybe Node)
-mouseEventGetToElement self
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_mouse_event_get_to_element #}
-         (toMouseEvent self))
+getToElement ::
+             (MonadIO m, MouseEventClass self) => self -> m (Maybe Node)
+getToElement self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         ({# call webkit_dom_mouse_event_get_to_element #}
+            (toMouseEvent self)))

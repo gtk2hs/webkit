@@ -1,33 +1,47 @@
-module Graphics.UI.Gtk.WebKit.DOM.WebKitPoint
-       (webKitPointSetX, webKitPointGetX, webKitPointSetY,
-        webKitPointGetY, WebKitPoint, WebKitPointClass, castToWebKitPoint,
-        gTypeWebKitPoint, toWebKitPoint)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.WebKitPoint(
+setX,
+getX,
+setY,
+getY,
+WebKitPoint,
+castToWebKitPoint,
+gTypeWebKitPoint,
+WebKitPointClass,
+toWebKitPoint,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-webKitPointSetX ::
-                (WebKitPointClass self) => self -> Float -> IO ()
-webKitPointSetX self val
-  = {# call webkit_dom_webkit_point_set_x #} (toWebKitPoint self)
-      (realToFrac val)
+setX :: (MonadIO m, WebKitPointClass self) => self -> Float -> m ()
+setX self val
+  = liftIO
+      ({# call webkit_dom_webkit_point_set_x #} (toWebKitPoint self)
+         (realToFrac val))
  
-webKitPointGetX :: (WebKitPointClass self) => self -> IO Float
-webKitPointGetX self
-  = realToFrac <$>
-      ({# call webkit_dom_webkit_point_get_x #} (toWebKitPoint self))
+getX :: (MonadIO m, WebKitPointClass self) => self -> m Float
+getX self
+  = liftIO
+      (realToFrac <$>
+         ({# call webkit_dom_webkit_point_get_x #} (toWebKitPoint self)))
  
-webKitPointSetY ::
-                (WebKitPointClass self) => self -> Float -> IO ()
-webKitPointSetY self val
-  = {# call webkit_dom_webkit_point_set_y #} (toWebKitPoint self)
-      (realToFrac val)
+setY :: (MonadIO m, WebKitPointClass self) => self -> Float -> m ()
+setY self val
+  = liftIO
+      ({# call webkit_dom_webkit_point_set_y #} (toWebKitPoint self)
+         (realToFrac val))
  
-webKitPointGetY :: (WebKitPointClass self) => self -> IO Float
-webKitPointGetY self
-  = realToFrac <$>
-      ({# call webkit_dom_webkit_point_get_y #} (toWebKitPoint self))
+getY :: (MonadIO m, WebKitPointClass self) => self -> m Float
+getY self
+  = liftIO
+      (realToFrac <$>
+         ({# call webkit_dom_webkit_point_get_y #} (toWebKitPoint self)))

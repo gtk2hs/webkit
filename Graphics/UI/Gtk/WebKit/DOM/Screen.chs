@@ -1,52 +1,76 @@
-module Graphics.UI.Gtk.WebKit.DOM.Screen
-       (screenGetHeight, screenGetWidth, screenGetColorDepth,
-        screenGetPixelDepth, screenGetAvailLeft, screenGetAvailTop,
-        screenGetAvailHeight, screenGetAvailWidth, DOMScreen,
-        DOMScreenClass, castToDOMScreen, gTypeDOMScreen, toDOMScreen)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.Screen(
+getHeight,
+getWidth,
+getColorDepth,
+getPixelDepth,
+getAvailLeft,
+getAvailTop,
+getAvailHeight,
+getAvailWidth,
+DOMScreen,
+castToDOMScreen,
+gTypeDOMScreen,
+DOMScreenClass,
+toDOMScreen,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-screenGetHeight :: (DOMScreenClass self) => self -> IO Word
-screenGetHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_height #} (toDOMScreen self))
+getHeight :: (MonadIO m, DOMScreenClass self) => self -> m Word
+getHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_height #} (toDOMScreen self)))
  
-screenGetWidth :: (DOMScreenClass self) => self -> IO Word
-screenGetWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_width #} (toDOMScreen self))
+getWidth :: (MonadIO m, DOMScreenClass self) => self -> m Word
+getWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_width #} (toDOMScreen self)))
  
-screenGetColorDepth :: (DOMScreenClass self) => self -> IO Word
-screenGetColorDepth self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_color_depth #} (toDOMScreen self))
+getColorDepth :: (MonadIO m, DOMScreenClass self) => self -> m Word
+getColorDepth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_color_depth #} (toDOMScreen self)))
  
-screenGetPixelDepth :: (DOMScreenClass self) => self -> IO Word
-screenGetPixelDepth self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_pixel_depth #} (toDOMScreen self))
+getPixelDepth :: (MonadIO m, DOMScreenClass self) => self -> m Word
+getPixelDepth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_pixel_depth #} (toDOMScreen self)))
  
-screenGetAvailLeft :: (DOMScreenClass self) => self -> IO Int
-screenGetAvailLeft self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_avail_left #} (toDOMScreen self))
+getAvailLeft :: (MonadIO m, DOMScreenClass self) => self -> m Int
+getAvailLeft self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_avail_left #} (toDOMScreen self)))
  
-screenGetAvailTop :: (DOMScreenClass self) => self -> IO Int
-screenGetAvailTop self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_avail_top #} (toDOMScreen self))
+getAvailTop :: (MonadIO m, DOMScreenClass self) => self -> m Int
+getAvailTop self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_avail_top #} (toDOMScreen self)))
  
-screenGetAvailHeight :: (DOMScreenClass self) => self -> IO Word
-screenGetAvailHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_avail_height #} (toDOMScreen self))
+getAvailHeight ::
+               (MonadIO m, DOMScreenClass self) => self -> m Word
+getAvailHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_avail_height #} (toDOMScreen self)))
  
-screenGetAvailWidth :: (DOMScreenClass self) => self -> IO Word
-screenGetAvailWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_screen_get_avail_width #} (toDOMScreen self))
+getAvailWidth :: (MonadIO m, DOMScreenClass self) => self -> m Word
+getAvailWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_screen_get_avail_width #} (toDOMScreen self)))

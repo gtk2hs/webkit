@@ -1,184 +1,216 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLScriptElement
-       (htmlScriptElementSetText, htmlScriptElementGetText,
-        htmlScriptElementSetHtmlFor, htmlScriptElementGetHtmlFor,
-        htmlScriptElementSetEvent, htmlScriptElementGetEvent,
-        htmlScriptElementSetCharset, htmlScriptElementGetCharset,
-        htmlScriptElementSetAsync, htmlScriptElementGetAsync,
-        htmlScriptElementSetDefer, htmlScriptElementGetDefer,
-        htmlScriptElementSetSrc, htmlScriptElementGetSrc,
-#if WEBKIT_CHECK_VERSION(1,10,0)
-        htmlScriptElementSetCrossOrigin, htmlScriptElementGetCrossOrigin,
-        htmlScriptElementSetNonce, htmlScriptElementGetNonce,
-#endif
-        HTMLScriptElement, HTMLScriptElementClass, castToHTMLScriptElement,
-        gTypeHTMLScriptElement, toHTMLScriptElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLScriptElement(
+setText,
+getText,
+setHtmlFor,
+getHtmlFor,
+setEvent,
+getEvent,
+setCharset,
+getCharset,
+setAsync,
+getAsync,
+setDefer,
+getDefer,
+setSrc,
+getSrc,
+setCrossOrigin,
+getCrossOrigin,
+setNonce,
+getNonce,
+HTMLScriptElement,
+castToHTMLScriptElement,
+gTypeHTMLScriptElement,
+HTMLScriptElementClass,
+toHTMLScriptElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlScriptElementSetText ::
-                         (HTMLScriptElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlScriptElementSetText self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_text #}
-          (toHTMLScriptElement self)
-          valPtr
+setText ::
+        (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+          self -> string -> m ()
+setText self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_text #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetText ::
-                         (HTMLScriptElementClass self, GlibString string) =>
-                           self -> IO string
-htmlScriptElementGetText self
-  = ({# call webkit_dom_html_script_element_get_text #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getText ::
+        (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+          self -> m string
+getText self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_text #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-htmlScriptElementSetHtmlFor ::
-                            (HTMLScriptElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlScriptElementSetHtmlFor self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_html_for #}
-          (toHTMLScriptElement self)
-          valPtr
+setHtmlFor ::
+           (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+             self -> string -> m ()
+setHtmlFor self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_html_for #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetHtmlFor ::
-                            (HTMLScriptElementClass self, GlibString string) =>
-                              self -> IO string
-htmlScriptElementGetHtmlFor self
-  = ({# call webkit_dom_html_script_element_get_html_for #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getHtmlFor ::
+           (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+             self -> m string
+getHtmlFor self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_html_for #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-htmlScriptElementSetEvent ::
-                          (HTMLScriptElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlScriptElementSetEvent self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_event #}
-          (toHTMLScriptElement self)
-          valPtr
+setEvent ::
+         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+           self -> string -> m ()
+setEvent self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_event #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetEvent ::
-                          (HTMLScriptElementClass self, GlibString string) =>
-                            self -> IO string
-htmlScriptElementGetEvent self
-  = ({# call webkit_dom_html_script_element_get_event #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getEvent ::
+         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+           self -> m string
+getEvent self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_event #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-htmlScriptElementSetCharset ::
-                            (HTMLScriptElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlScriptElementSetCharset self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_charset #}
-          (toHTMLScriptElement self)
-          valPtr
+setCharset ::
+           (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+             self -> string -> m ()
+setCharset self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_charset #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetCharset ::
-                            (HTMLScriptElementClass self, GlibString string) =>
-                              self -> IO string
-htmlScriptElementGetCharset self
-  = ({# call webkit_dom_html_script_element_get_charset #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getCharset ::
+           (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+             self -> m string
+getCharset self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_charset #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-htmlScriptElementSetAsync ::
-                          (HTMLScriptElementClass self) => self -> Bool -> IO ()
-htmlScriptElementSetAsync self val
-  = {# call webkit_dom_html_script_element_set_async #}
-      (toHTMLScriptElement self)
-      (fromBool val)
+setAsync ::
+         (MonadIO m, HTMLScriptElementClass self) => self -> Bool -> m ()
+setAsync self val
+  = liftIO
+      ({# call webkit_dom_html_script_element_set_async #}
+         (toHTMLScriptElement self)
+         (fromBool val))
  
-htmlScriptElementGetAsync ::
-                          (HTMLScriptElementClass self) => self -> IO Bool
-htmlScriptElementGetAsync self
-  = toBool <$>
-      ({# call webkit_dom_html_script_element_get_async #}
-         (toHTMLScriptElement self))
+getAsync ::
+         (MonadIO m, HTMLScriptElementClass self) => self -> m Bool
+getAsync self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_script_element_get_async #}
+            (toHTMLScriptElement self)))
  
-htmlScriptElementSetDefer ::
-                          (HTMLScriptElementClass self) => self -> Bool -> IO ()
-htmlScriptElementSetDefer self val
-  = {# call webkit_dom_html_script_element_set_defer #}
-      (toHTMLScriptElement self)
-      (fromBool val)
+setDefer ::
+         (MonadIO m, HTMLScriptElementClass self) => self -> Bool -> m ()
+setDefer self val
+  = liftIO
+      ({# call webkit_dom_html_script_element_set_defer #}
+         (toHTMLScriptElement self)
+         (fromBool val))
  
-htmlScriptElementGetDefer ::
-                          (HTMLScriptElementClass self) => self -> IO Bool
-htmlScriptElementGetDefer self
-  = toBool <$>
-      ({# call webkit_dom_html_script_element_get_defer #}
-         (toHTMLScriptElement self))
+getDefer ::
+         (MonadIO m, HTMLScriptElementClass self) => self -> m Bool
+getDefer self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_script_element_get_defer #}
+            (toHTMLScriptElement self)))
  
-htmlScriptElementSetSrc ::
-                        (HTMLScriptElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlScriptElementSetSrc self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_src #}
-          (toHTMLScriptElement self)
-          valPtr
+setSrc ::
+       (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+         self -> string -> m ()
+setSrc self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_src #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetSrc ::
-                        (HTMLScriptElementClass self, GlibString string) =>
-                          self -> IO string
-htmlScriptElementGetSrc self
-  = ({# call webkit_dom_html_script_element_get_src #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getSrc ::
+       (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+         self -> m string
+getSrc self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_src #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-#if WEBKIT_CHECK_VERSION(1,10,0)
-htmlScriptElementSetCrossOrigin ::
-                                (HTMLScriptElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlScriptElementSetCrossOrigin self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_cross_origin #}
-          (toHTMLScriptElement self)
-          valPtr
+setCrossOrigin ::
+               (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setCrossOrigin self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_cross_origin #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetCrossOrigin ::
-                                (HTMLScriptElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlScriptElementGetCrossOrigin self
-  = ({# call webkit_dom_html_script_element_get_cross_origin #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
+getCrossOrigin ::
+               (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+                 self -> m string
+getCrossOrigin self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_cross_origin #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)
  
-htmlScriptElementSetNonce ::
-                          (HTMLScriptElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlScriptElementSetNonce self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_script_element_set_nonce #}
-          (toHTMLScriptElement self)
-          valPtr
+setNonce ::
+         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+           self -> string -> m ()
+setNonce self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_script_element_set_nonce #}
+             (toHTMLScriptElement self)
+             valPtr)
  
-htmlScriptElementGetNonce ::
-                          (HTMLScriptElementClass self, GlibString string) =>
-                            self -> IO string
-htmlScriptElementGetNonce self
-  = ({# call webkit_dom_html_script_element_get_nonce #}
-       (toHTMLScriptElement self))
-      >>=
-      readUTFString
-#endif
+getNonce ::
+         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
+           self -> m string
+getNonce self
+  = liftIO
+      (({# call webkit_dom_html_script_element_get_nonce #}
+          (toHTMLScriptElement self))
+         >>=
+         readUTFString)

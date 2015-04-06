@@ -1,25 +1,37 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLMenuElement
-       (htmlMenuElementSetCompact, htmlMenuElementGetCompact,
-        HTMLMenuElement, HTMLMenuElementClass, castToHTMLMenuElement,
-        gTypeHTMLMenuElement, toHTMLMenuElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLMenuElement(
+setCompact,
+getCompact,
+HTMLMenuElement,
+castToHTMLMenuElement,
+gTypeHTMLMenuElement,
+HTMLMenuElementClass,
+toHTMLMenuElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlMenuElementSetCompact ::
-                          (HTMLMenuElementClass self) => self -> Bool -> IO ()
-htmlMenuElementSetCompact self val
-  = {# call webkit_dom_html_menu_element_set_compact #}
-      (toHTMLMenuElement self)
-      (fromBool val)
+setCompact ::
+           (MonadIO m, HTMLMenuElementClass self) => self -> Bool -> m ()
+setCompact self val
+  = liftIO
+      ({# call webkit_dom_html_menu_element_set_compact #}
+         (toHTMLMenuElement self)
+         (fromBool val))
  
-htmlMenuElementGetCompact ::
-                          (HTMLMenuElementClass self) => self -> IO Bool
-htmlMenuElementGetCompact self
-  = toBool <$>
-      ({# call webkit_dom_html_menu_element_get_compact #}
-         (toHTMLMenuElement self))
+getCompact ::
+           (MonadIO m, HTMLMenuElementClass self) => self -> m Bool
+getCompact self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_menu_element_get_compact #}
+            (toHTMLMenuElement self)))

@@ -1,28 +1,34 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS
-       (
-#if WEBKIT_CHECK_VERSION(2,2,2)
-        domWindowCSSSupports, DOMWindowCSS, DOMWindowCSSClass,
-        castToDOMWindowCSS, gTypeDOMWindowCSS, toDOMWindowCSS
-#endif
-       ) where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS(
+supports2,
+DOMWindowCSS,
+castToDOMWindowCSS,
+gTypeDOMWindowCSS,
+DOMWindowCSSClass,
+toDOMWindowCSS,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-#if WEBKIT_CHECK_VERSION(2,2,2)
-domWindowCSSSupports ::
-                     (DOMWindowCSSClass self, GlibString string) =>
-                       self -> string -> string -> IO Bool
-domWindowCSSSupports self property value
-  = toBool <$>
-      (withUTFString value $
-         \ valuePtr ->
-           withUTFString property $
-             \ propertyPtr ->
-               {# call webkit_dom_dom_window_css_supports #} (toDOMWindowCSS self)
-                 propertyPtr
-             valuePtr)
-#endif
+supports2 ::
+          (MonadIO m, DOMWindowCSSClass self, GlibString string) =>
+            self -> string -> string -> m Bool
+supports2 self property value
+  = liftIO
+      (toBool <$>
+         (withUTFString value $
+            \ valuePtr ->
+              withUTFString property $
+                \ propertyPtr ->
+                  {# call webkit_dom_dom_window_css_supports #} (toDOMWindowCSS self)
+                    propertyPtr
+                valuePtr))

@@ -1,25 +1,37 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLUListElement
-       (htmluListElementSetCompact, htmluListElementGetCompact,
-        HTMLUListElement, HTMLUListElementClass, castToHTMLUListElement,
-        gTypeHTMLUListElement, toHTMLUListElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLUListElement(
+setCompact,
+getCompact,
+HTMLUListElement,
+castToHTMLUListElement,
+gTypeHTMLUListElement,
+HTMLUListElementClass,
+toHTMLUListElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmluListElementSetCompact ::
-                           (HTMLUListElementClass self) => self -> Bool -> IO ()
-htmluListElementSetCompact self val
-  = {# call webkit_dom_htmlu_list_element_set_compact #}
-      (toHTMLUListElement self)
-      (fromBool val)
+setCompact ::
+           (MonadIO m, HTMLUListElementClass self) => self -> Bool -> m ()
+setCompact self val
+  = liftIO
+      ({# call webkit_dom_htmlu_list_element_set_compact #}
+         (toHTMLUListElement self)
+         (fromBool val))
  
-htmluListElementGetCompact ::
-                           (HTMLUListElementClass self) => self -> IO Bool
-htmluListElementGetCompact self
-  = toBool <$>
-      ({# call webkit_dom_htmlu_list_element_get_compact #}
-         (toHTMLUListElement self))
+getCompact ::
+           (MonadIO m, HTMLUListElementClass self) => self -> m Bool
+getCompact self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_htmlu_list_element_get_compact #}
+            (toHTMLUListElement self)))

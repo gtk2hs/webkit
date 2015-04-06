@@ -1,224 +1,265 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement
-       (htmlMarqueeElementStart, htmlMarqueeElementStop,
-        htmlMarqueeElementSetBehavior, htmlMarqueeElementGetBehavior,
-        htmlMarqueeElementSetBgColor, htmlMarqueeElementGetBgColor,
-        htmlMarqueeElementSetDirection, htmlMarqueeElementGetDirection,
-        htmlMarqueeElementSetHeight, htmlMarqueeElementGetHeight,
-        htmlMarqueeElementSetHspace, htmlMarqueeElementGetHspace,
-        htmlMarqueeElementSetLoop, htmlMarqueeElementGetLoop,
-        htmlMarqueeElementSetScrollAmount,
-        htmlMarqueeElementGetScrollAmount,
-        htmlMarqueeElementSetScrollDelay, htmlMarqueeElementGetScrollDelay,
-        htmlMarqueeElementSetTrueSpeed, htmlMarqueeElementGetTrueSpeed,
-        htmlMarqueeElementSetVspace, htmlMarqueeElementGetVspace,
-        htmlMarqueeElementSetWidth, htmlMarqueeElementGetWidth,
-        HTMLMarqueeElement, HTMLMarqueeElementClass,
-        castToHTMLMarqueeElement, gTypeHTMLMarqueeElement,
-        toHTMLMarqueeElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLMarqueeElement(
+start,
+stop,
+setBehavior,
+getBehavior,
+setBgColor,
+getBgColor,
+setDirection,
+getDirection,
+setHeight,
+getHeight,
+setHspace,
+getHspace,
+setLoop,
+getLoop,
+setScrollAmount,
+getScrollAmount,
+setScrollDelay,
+getScrollDelay,
+setTrueSpeed,
+getTrueSpeed,
+setVspace,
+getVspace,
+setWidth,
+getWidth,
+HTMLMarqueeElement,
+castToHTMLMarqueeElement,
+gTypeHTMLMarqueeElement,
+HTMLMarqueeElementClass,
+toHTMLMarqueeElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlMarqueeElementStart ::
-                        (HTMLMarqueeElementClass self) => self -> IO ()
-htmlMarqueeElementStart self
-  = {# call webkit_dom_html_marquee_element_start #}
-      (toHTMLMarqueeElement self)
- 
-htmlMarqueeElementStop ::
-                       (HTMLMarqueeElementClass self) => self -> IO ()
-htmlMarqueeElementStop self
-  = {# call webkit_dom_html_marquee_element_stop #}
-      (toHTMLMarqueeElement self)
- 
-htmlMarqueeElementSetBehavior ::
-                              (HTMLMarqueeElementClass self, GlibString string) =>
-                                self -> string -> IO ()
-htmlMarqueeElementSetBehavior self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_marquee_element_set_behavior #}
-          (toHTMLMarqueeElement self)
-          valPtr
- 
-htmlMarqueeElementGetBehavior ::
-                              (HTMLMarqueeElementClass self, GlibString string) =>
-                                self -> IO string
-htmlMarqueeElementGetBehavior self
-  = ({# call webkit_dom_html_marquee_element_get_behavior #}
-       (toHTMLMarqueeElement self))
-      >>=
-      readUTFString
- 
-htmlMarqueeElementSetBgColor ::
-                             (HTMLMarqueeElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlMarqueeElementSetBgColor self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_marquee_element_set_bg_color #}
-          (toHTMLMarqueeElement self)
-          valPtr
- 
-htmlMarqueeElementGetBgColor ::
-                             (HTMLMarqueeElementClass self, GlibString string) =>
-                               self -> IO string
-htmlMarqueeElementGetBgColor self
-  = ({# call webkit_dom_html_marquee_element_get_bg_color #}
-       (toHTMLMarqueeElement self))
-      >>=
-      readUTFString
- 
-htmlMarqueeElementSetDirection ::
-                               (HTMLMarqueeElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlMarqueeElementSetDirection self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_marquee_element_set_direction #}
-          (toHTMLMarqueeElement self)
-          valPtr
- 
-htmlMarqueeElementGetDirection ::
-                               (HTMLMarqueeElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlMarqueeElementGetDirection self
-  = ({# call webkit_dom_html_marquee_element_get_direction #}
-       (toHTMLMarqueeElement self))
-      >>=
-      readUTFString
- 
-htmlMarqueeElementSetHeight ::
-                            (HTMLMarqueeElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlMarqueeElementSetHeight self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_marquee_element_set_height #}
-          (toHTMLMarqueeElement self)
-          valPtr
- 
-htmlMarqueeElementGetHeight ::
-                            (HTMLMarqueeElementClass self, GlibString string) =>
-                              self -> IO string
-htmlMarqueeElementGetHeight self
-  = ({# call webkit_dom_html_marquee_element_get_height #}
-       (toHTMLMarqueeElement self))
-      >>=
-      readUTFString
- 
-htmlMarqueeElementSetHspace ::
-                            (HTMLMarqueeElementClass self) => self -> Word -> IO ()
-htmlMarqueeElementSetHspace self val
-  = {# call webkit_dom_html_marquee_element_set_hspace #}
-      (toHTMLMarqueeElement self)
-      (fromIntegral val)
- 
-htmlMarqueeElementGetHspace ::
-                            (HTMLMarqueeElementClass self) => self -> IO Word
-htmlMarqueeElementGetHspace self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_marquee_element_get_hspace #}
+start :: (MonadIO m, HTMLMarqueeElementClass self) => self -> m ()
+start self
+  = liftIO
+      ({# call webkit_dom_html_marquee_element_start #}
          (toHTMLMarqueeElement self))
  
-htmlMarqueeElementSetLoop ::
-                          (HTMLMarqueeElementClass self) => self -> Int -> IO ()
-htmlMarqueeElementSetLoop self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_marquee_element_set_loop #}
-          (toHTMLMarqueeElement self)
-          (fromIntegral val)
-          errorPtr_
- 
-htmlMarqueeElementGetLoop ::
-                          (HTMLMarqueeElementClass self) => self -> IO Int
-htmlMarqueeElementGetLoop self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_marquee_element_get_loop #}
+stop :: (MonadIO m, HTMLMarqueeElementClass self) => self -> m ()
+stop self
+  = liftIO
+      ({# call webkit_dom_html_marquee_element_stop #}
          (toHTMLMarqueeElement self))
  
-htmlMarqueeElementSetScrollAmount ::
-                                  (HTMLMarqueeElementClass self) => self -> Int -> IO ()
-htmlMarqueeElementSetScrollAmount self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_marquee_element_set_scroll_amount #}
-          (toHTMLMarqueeElement self)
-          (fromIntegral val)
-          errorPtr_
+setBehavior ::
+            (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+              self -> string -> m ()
+setBehavior self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_marquee_element_set_behavior #}
+             (toHTMLMarqueeElement self)
+             valPtr)
  
-htmlMarqueeElementGetScrollAmount ::
-                                  (HTMLMarqueeElementClass self) => self -> IO Int
-htmlMarqueeElementGetScrollAmount self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_marquee_element_get_scroll_amount #}
-         (toHTMLMarqueeElement self))
+getBehavior ::
+            (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+              self -> m string
+getBehavior self
+  = liftIO
+      (({# call webkit_dom_html_marquee_element_get_behavior #}
+          (toHTMLMarqueeElement self))
+         >>=
+         readUTFString)
  
-htmlMarqueeElementSetScrollDelay ::
-                                 (HTMLMarqueeElementClass self) => self -> Int -> IO ()
-htmlMarqueeElementSetScrollDelay self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_marquee_element_set_scroll_delay #}
-          (toHTMLMarqueeElement self)
-          (fromIntegral val)
-          errorPtr_
+setBgColor ::
+           (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+             self -> string -> m ()
+setBgColor self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_marquee_element_set_bg_color #}
+             (toHTMLMarqueeElement self)
+             valPtr)
  
-htmlMarqueeElementGetScrollDelay ::
-                                 (HTMLMarqueeElementClass self) => self -> IO Int
-htmlMarqueeElementGetScrollDelay self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_marquee_element_get_scroll_delay #}
-         (toHTMLMarqueeElement self))
+getBgColor ::
+           (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+             self -> m string
+getBgColor self
+  = liftIO
+      (({# call webkit_dom_html_marquee_element_get_bg_color #}
+          (toHTMLMarqueeElement self))
+         >>=
+         readUTFString)
  
-htmlMarqueeElementSetTrueSpeed ::
-                               (HTMLMarqueeElementClass self) => self -> Bool -> IO ()
-htmlMarqueeElementSetTrueSpeed self val
-  = {# call webkit_dom_html_marquee_element_set_true_speed #}
-      (toHTMLMarqueeElement self)
-      (fromBool val)
+setDirection ::
+             (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+               self -> string -> m ()
+setDirection self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_marquee_element_set_direction #}
+             (toHTMLMarqueeElement self)
+             valPtr)
  
-htmlMarqueeElementGetTrueSpeed ::
-                               (HTMLMarqueeElementClass self) => self -> IO Bool
-htmlMarqueeElementGetTrueSpeed self
-  = toBool <$>
-      ({# call webkit_dom_html_marquee_element_get_true_speed #}
-         (toHTMLMarqueeElement self))
+getDirection ::
+             (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+               self -> m string
+getDirection self
+  = liftIO
+      (({# call webkit_dom_html_marquee_element_get_direction #}
+          (toHTMLMarqueeElement self))
+         >>=
+         readUTFString)
  
-htmlMarqueeElementSetVspace ::
-                            (HTMLMarqueeElementClass self) => self -> Word -> IO ()
-htmlMarqueeElementSetVspace self val
-  = {# call webkit_dom_html_marquee_element_set_vspace #}
-      (toHTMLMarqueeElement self)
-      (fromIntegral val)
+setHeight ::
+          (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+            self -> string -> m ()
+setHeight self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_marquee_element_set_height #}
+             (toHTMLMarqueeElement self)
+             valPtr)
  
-htmlMarqueeElementGetVspace ::
-                            (HTMLMarqueeElementClass self) => self -> IO Word
-htmlMarqueeElementGetVspace self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_marquee_element_get_vspace #}
-         (toHTMLMarqueeElement self))
+getHeight ::
+          (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+            self -> m string
+getHeight self
+  = liftIO
+      (({# call webkit_dom_html_marquee_element_get_height #}
+          (toHTMLMarqueeElement self))
+         >>=
+         readUTFString)
  
-htmlMarqueeElementSetWidth ::
-                           (HTMLMarqueeElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlMarqueeElementSetWidth self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_marquee_element_set_width #}
-          (toHTMLMarqueeElement self)
-          valPtr
+setHspace ::
+          (MonadIO m, HTMLMarqueeElementClass self) => self -> Word -> m ()
+setHspace self val
+  = liftIO
+      ({# call webkit_dom_html_marquee_element_set_hspace #}
+         (toHTMLMarqueeElement self)
+         (fromIntegral val))
  
-htmlMarqueeElementGetWidth ::
-                           (HTMLMarqueeElementClass self, GlibString string) =>
-                             self -> IO string
-htmlMarqueeElementGetWidth self
-  = ({# call webkit_dom_html_marquee_element_get_width #}
-       (toHTMLMarqueeElement self))
-      >>=
-      readUTFString
+getHspace ::
+          (MonadIO m, HTMLMarqueeElementClass self) => self -> m Word
+getHspace self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_marquee_element_get_hspace #}
+            (toHTMLMarqueeElement self)))
+ 
+setLoop ::
+        (MonadIO m, HTMLMarqueeElementClass self) => self -> Int -> m ()
+setLoop self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_marquee_element_set_loop #}
+             (toHTMLMarqueeElement self)
+             (fromIntegral val)
+             errorPtr_)
+ 
+getLoop ::
+        (MonadIO m, HTMLMarqueeElementClass self) => self -> m Int
+getLoop self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_marquee_element_get_loop #}
+            (toHTMLMarqueeElement self)))
+ 
+setScrollAmount ::
+                (MonadIO m, HTMLMarqueeElementClass self) => self -> Int -> m ()
+setScrollAmount self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_marquee_element_set_scroll_amount #}
+             (toHTMLMarqueeElement self)
+             (fromIntegral val)
+             errorPtr_)
+ 
+getScrollAmount ::
+                (MonadIO m, HTMLMarqueeElementClass self) => self -> m Int
+getScrollAmount self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_marquee_element_get_scroll_amount #}
+            (toHTMLMarqueeElement self)))
+ 
+setScrollDelay ::
+               (MonadIO m, HTMLMarqueeElementClass self) => self -> Int -> m ()
+setScrollDelay self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_marquee_element_set_scroll_delay #}
+             (toHTMLMarqueeElement self)
+             (fromIntegral val)
+             errorPtr_)
+ 
+getScrollDelay ::
+               (MonadIO m, HTMLMarqueeElementClass self) => self -> m Int
+getScrollDelay self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_marquee_element_get_scroll_delay #}
+            (toHTMLMarqueeElement self)))
+ 
+setTrueSpeed ::
+             (MonadIO m, HTMLMarqueeElementClass self) => self -> Bool -> m ()
+setTrueSpeed self val
+  = liftIO
+      ({# call webkit_dom_html_marquee_element_set_true_speed #}
+         (toHTMLMarqueeElement self)
+         (fromBool val))
+ 
+getTrueSpeed ::
+             (MonadIO m, HTMLMarqueeElementClass self) => self -> m Bool
+getTrueSpeed self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_marquee_element_get_true_speed #}
+            (toHTMLMarqueeElement self)))
+ 
+setVspace ::
+          (MonadIO m, HTMLMarqueeElementClass self) => self -> Word -> m ()
+setVspace self val
+  = liftIO
+      ({# call webkit_dom_html_marquee_element_set_vspace #}
+         (toHTMLMarqueeElement self)
+         (fromIntegral val))
+ 
+getVspace ::
+          (MonadIO m, HTMLMarqueeElementClass self) => self -> m Word
+getVspace self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_marquee_element_get_vspace #}
+            (toHTMLMarqueeElement self)))
+ 
+setWidth ::
+         (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+           self -> string -> m ()
+setWidth self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_marquee_element_set_width #}
+             (toHTMLMarqueeElement self)
+             valPtr)
+ 
+getWidth ::
+         (MonadIO m, HTMLMarqueeElementClass self, GlibString string) =>
+           self -> m string
+getWidth self
+  = liftIO
+      (({# call webkit_dom_html_marquee_element_get_width #}
+          (toHTMLMarqueeElement self))
+         >>=
+         readUTFString)

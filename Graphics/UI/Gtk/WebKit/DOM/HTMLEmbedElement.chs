@@ -1,100 +1,124 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement
-       (htmlEmbedElementSetAlign, htmlEmbedElementGetAlign,
-        htmlEmbedElementSetHeight, htmlEmbedElementGetHeight,
-        htmlEmbedElementSetName, htmlEmbedElementGetName,
-        htmlEmbedElementSetSrc, htmlEmbedElementGetSrc,
-        htmlEmbedElementSetWidth, htmlEmbedElementGetWidth,
-        HTMLEmbedElement, HTMLEmbedElementClass, castToHTMLEmbedElement,
-        gTypeHTMLEmbedElement, toHTMLEmbedElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLEmbedElement(
+setAlign,
+getAlign,
+setHeight,
+getHeight,
+setName,
+getName,
+setSrc,
+getSrc,
+setWidth,
+getWidth,
+HTMLEmbedElement,
+castToHTMLEmbedElement,
+gTypeHTMLEmbedElement,
+HTMLEmbedElementClass,
+toHTMLEmbedElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlEmbedElementSetAlign ::
-                         (HTMLEmbedElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlEmbedElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_embed_element_set_align #}
-          (toHTMLEmbedElement self)
-          valPtr
+setAlign ::
+         (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_embed_element_set_align #}
+             (toHTMLEmbedElement self)
+             valPtr)
  
-htmlEmbedElementGetAlign ::
-                         (HTMLEmbedElementClass self, GlibString string) =>
-                           self -> IO string
-htmlEmbedElementGetAlign self
-  = ({# call webkit_dom_html_embed_element_get_align #}
-       (toHTMLEmbedElement self))
-      >>=
-      readUTFString
+getAlign ::
+         (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_embed_element_get_align #}
+          (toHTMLEmbedElement self))
+         >>=
+         readUTFString)
  
-htmlEmbedElementSetHeight ::
-                          (HTMLEmbedElementClass self) => self -> Int -> IO ()
-htmlEmbedElementSetHeight self val
-  = {# call webkit_dom_html_embed_element_set_height #}
-      (toHTMLEmbedElement self)
-      (fromIntegral val)
+setHeight ::
+          (MonadIO m, HTMLEmbedElementClass self) => self -> Int -> m ()
+setHeight self val
+  = liftIO
+      ({# call webkit_dom_html_embed_element_set_height #}
+         (toHTMLEmbedElement self)
+         (fromIntegral val))
  
-htmlEmbedElementGetHeight ::
-                          (HTMLEmbedElementClass self) => self -> IO Int
-htmlEmbedElementGetHeight self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_embed_element_get_height #}
-         (toHTMLEmbedElement self))
+getHeight ::
+          (MonadIO m, HTMLEmbedElementClass self) => self -> m Int
+getHeight self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_embed_element_get_height #}
+            (toHTMLEmbedElement self)))
  
-htmlEmbedElementSetName ::
-                        (HTMLEmbedElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlEmbedElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_embed_element_set_name #}
-          (toHTMLEmbedElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_embed_element_set_name #}
+             (toHTMLEmbedElement self)
+             valPtr)
  
-htmlEmbedElementGetName ::
-                        (HTMLEmbedElementClass self, GlibString string) =>
-                          self -> IO string
-htmlEmbedElementGetName self
-  = ({# call webkit_dom_html_embed_element_get_name #}
-       (toHTMLEmbedElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_embed_element_get_name #}
+          (toHTMLEmbedElement self))
+         >>=
+         readUTFString)
  
-htmlEmbedElementSetSrc ::
-                       (HTMLEmbedElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlEmbedElementSetSrc self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_embed_element_set_src #}
-          (toHTMLEmbedElement self)
-          valPtr
+setSrc ::
+       (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+         self -> string -> m ()
+setSrc self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_embed_element_set_src #}
+             (toHTMLEmbedElement self)
+             valPtr)
  
-htmlEmbedElementGetSrc ::
-                       (HTMLEmbedElementClass self, GlibString string) =>
-                         self -> IO string
-htmlEmbedElementGetSrc self
-  = ({# call webkit_dom_html_embed_element_get_src #}
-       (toHTMLEmbedElement self))
-      >>=
-      readUTFString
+getSrc ::
+       (MonadIO m, HTMLEmbedElementClass self, GlibString string) =>
+         self -> m string
+getSrc self
+  = liftIO
+      (({# call webkit_dom_html_embed_element_get_src #}
+          (toHTMLEmbedElement self))
+         >>=
+         readUTFString)
  
-htmlEmbedElementSetWidth ::
-                         (HTMLEmbedElementClass self) => self -> Int -> IO ()
-htmlEmbedElementSetWidth self val
-  = {# call webkit_dom_html_embed_element_set_width #}
-      (toHTMLEmbedElement self)
-      (fromIntegral val)
+setWidth ::
+         (MonadIO m, HTMLEmbedElementClass self) => self -> Int -> m ()
+setWidth self val
+  = liftIO
+      ({# call webkit_dom_html_embed_element_set_width #}
+         (toHTMLEmbedElement self)
+         (fromIntegral val))
  
-htmlEmbedElementGetWidth ::
-                         (HTMLEmbedElementClass self) => self -> IO Int
-htmlEmbedElementGetWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_embed_element_get_width #}
-         (toHTMLEmbedElement self))
+getWidth ::
+         (MonadIO m, HTMLEmbedElementClass self) => self -> m Int
+getWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_embed_element_get_width #}
+            (toHTMLEmbedElement self)))

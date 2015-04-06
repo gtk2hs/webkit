@@ -1,26 +1,37 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLDirectoryElement
-       (htmlDirectoryElementSetCompact, htmlDirectoryElementGetCompact,
-        HTMLDirectoryElement, HTMLDirectoryElementClass,
-        castToHTMLDirectoryElement, gTypeHTMLDirectoryElement,
-        toHTMLDirectoryElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLDirectoryElement(
+setCompact,
+getCompact,
+HTMLDirectoryElement,
+castToHTMLDirectoryElement,
+gTypeHTMLDirectoryElement,
+HTMLDirectoryElementClass,
+toHTMLDirectoryElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlDirectoryElementSetCompact ::
-                               (HTMLDirectoryElementClass self) => self -> Bool -> IO ()
-htmlDirectoryElementSetCompact self val
-  = {# call webkit_dom_html_directory_element_set_compact #}
-      (toHTMLDirectoryElement self)
-      (fromBool val)
+setCompact ::
+           (MonadIO m, HTMLDirectoryElementClass self) => self -> Bool -> m ()
+setCompact self val
+  = liftIO
+      ({# call webkit_dom_html_directory_element_set_compact #}
+         (toHTMLDirectoryElement self)
+         (fromBool val))
  
-htmlDirectoryElementGetCompact ::
-                               (HTMLDirectoryElementClass self) => self -> IO Bool
-htmlDirectoryElementGetCompact self
-  = toBool <$>
-      ({# call webkit_dom_html_directory_element_get_compact #}
-         (toHTMLDirectoryElement self))
+getCompact ::
+           (MonadIO m, HTMLDirectoryElementClass self) => self -> m Bool
+getCompact self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_directory_element_get_compact #}
+            (toHTMLDirectoryElement self)))

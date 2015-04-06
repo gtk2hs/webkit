@@ -1,8 +1,11 @@
 module Graphics.UI.Gtk.WebKit.DOM.EventM
 (
-  Signal (..)
-, EventM (..)
-, target
+  EventM (..)
+, EventName (..)
+, newListener
+, addListener
+, removeListener
+, on
 , event
 , eventTarget
 , eventCurrentTarget
@@ -53,214 +56,219 @@ module Graphics.UI.Gtk.WebKit.DOM.EventM
 , mouseXY
 , mouseFromElement
 , mouseToElement
-, connect
 )
 where
+import           Control.Applicative ((<$>))
+import           Control.Monad.Reader (ReaderT, ask, runReaderT)
+import           Control.Monad.Trans (MonadIO(..))
+import           System.IO.Unsafe (unsafePerformIO)
+import           System.Glib.FFI (CString)
+import           System.Glib.UTFString (GlibString(..))
+import           Graphics.UI.Gtk.WebKit.Types
+import qualified Graphics.UI.Gtk.WebKit.DOM.Event as Event
+import qualified Graphics.UI.Gtk.WebKit.DOM.UIEvent as UIEvent
+import qualified Graphics.UI.Gtk.WebKit.DOM.MouseEvent as MouseEvent
+import           Graphics.UI.Gtk.WebKit.DOM.EventTarget
+import           Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
+import           Data.Word (Word)
 
-import Control.Applicative ((<$>))
-import Control.Monad.Reader ( ReaderT, ask, runReaderT )
-import Control.Monad.Trans ( liftIO )
-import Control.Monad ( void )
-import Graphics.UI.Gtk.WebKit.Types
-import Graphics.UI.Gtk.WebKit.DOM.Event
-import Graphics.UI.Gtk.WebKit.DOM.UIEvent
-import Graphics.UI.Gtk.WebKit.DOM.MouseEvent
-import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
-import Data.Word (Word)
-import qualified Data.Text as T (pack)
+type EventM t e = ReaderT e IO
 
-type Signal target callback = target -> callback -> IO (IO ())
+newListener :: (EventClass e) => EventM t e () -> IO (SaferEventListener t e)
+newListener f = SaferEventListener <$> eventListenerNew (runReaderT f)
 
-type EventM e t a = ReaderT (t, e) IO a
+addListener :: (EventTargetClass t, EventClass e) => t -> EventName t e -> SaferEventListener t e -> Bool -> IO ()
+addListener target (EventName eventName) (SaferEventListener l) useCapture =
+    addEventListener target eventName (Just l) useCapture
 
-target :: EventM e t t
-target = fst <$> ask
+removeListener :: (EventTargetClass t, EventClass e) => t -> EventName t e -> SaferEventListener t e -> Bool -> IO ()
+removeListener target (EventName eventName) (SaferEventListener l) useCapture =
+    removeEventListener target eventName (Just l) useCapture
 
-event :: EventM e t e
-event = snd <$> ask
+on :: (EventTargetClass t, EventClass e) => t -> EventName t e -> EventM t e () -> IO (IO ())
+on target eventName callback = do
+    l <- newListener callback
+    addListener target eventName l False
+    return (removeListener target eventName l False)
 
-eventTarget :: EventClass e => EventM e t (Maybe EventTarget)
-eventTarget = event >>= (liftIO . eventGetTarget)
+target :: (EventClass e, GObjectClass t) => EventM t e (Maybe t)
+target = (fmap (unsafeCastGObject . toGObject)) <$> (ask >>= Event.getTarget)
 
-eventCurrentTarget :: EventClass e => EventM e t (Maybe EventTarget)
-eventCurrentTarget = event >>= (liftIO . eventGetCurrentTarget)
+event :: EventM t e e
+event = ask
 
-eventPhase :: EventClass e => EventM e t Word
-eventPhase = event >>= (liftIO . eventGetEventPhase)
+eventTarget :: EventClass e => EventM t e (Maybe EventTarget)
+eventTarget = event >>= Event.getTarget
 
-bubbles :: EventClass e => EventM e t Bool
-bubbles = event >>= (liftIO . eventGetBubbles)
+eventCurrentTarget :: EventClass e => EventM t e (Maybe EventTarget)
+eventCurrentTarget = event >>= Event.getCurrentTarget
 
-cancelable :: EventClass e => EventM e t Bool
-cancelable = event >>= (liftIO . eventGetCancelable)
+eventPhase :: EventClass e => EventM t e Word
+eventPhase = event >>= Event.getEventPhase
 
-timeStamp :: EventClass e => EventM e t Word
-timeStamp = event >>= (liftIO . eventGetTimeStamp)
+bubbles :: EventClass e => EventM t e Bool
+bubbles = event >>= Event.getBubbles
 
-stopPropagation :: EventClass e => EventM e t ()
-stopPropagation = event >>= (liftIO . eventStopPropagation)
+cancelable :: EventClass e => EventM t e Bool
+cancelable = event >>= Event.getCancelable
 
-preventDefault :: EventClass e => EventM e t ()
-preventDefault = event >>= (liftIO . eventPreventDefault)
+timeStamp :: EventClass e => EventM t e Word
+timeStamp = event >>= Event.getTimeStamp
 
-defaultPrevented :: EventClass e => EventM e t Bool
-defaultPrevented = event >>= (liftIO . eventGetDefaultPrevented)
+stopPropagation :: EventClass e => EventM t e ()
+stopPropagation = event >>= Event.stopPropagation
 
-stopImmediatePropagation :: EventClass e => EventM e t ()
-stopImmediatePropagation = event >>= (liftIO . eventStopImmediatePropagation)
+preventDefault :: EventClass e => EventM t e ()
+preventDefault = event >>= Event.preventDefault
 
-srcElement :: EventClass e => EventM e t (Maybe EventTarget)
-srcElement = event >>= (liftIO . eventGetSrcElement)
+defaultPrevented :: EventClass e => EventM t e Bool
+defaultPrevented = event >>= Event.getDefaultPrevented
 
-getCancelBubble :: EventClass e => EventM e t Bool
-getCancelBubble = event >>= (liftIO . eventGetCancelBubble)
+stopImmediatePropagation :: EventClass e => EventM t e ()
+stopImmediatePropagation = event >>= Event.stopImmediatePropagation
 
-cancelBubble :: EventClass e => Bool -> EventM e t ()
-cancelBubble f = event >>= (liftIO . flip eventSetCancelBubble f)
+srcElement :: EventClass e => EventM t e (Maybe EventTarget)
+srcElement = event >>= Event.getSrcElement
 
-getReturnValue :: EventClass e => EventM e t Bool
-getReturnValue = event >>= (liftIO . eventGetReturnValue)
+getCancelBubble :: EventClass e => EventM t e Bool
+getCancelBubble = event >>= Event.getCancelBubble
 
-returnValue :: EventClass e => Bool -> EventM e t ()
-returnValue f = event >>= (liftIO . flip eventSetReturnValue f)
+cancelBubble :: EventClass e => Bool -> EventM t e ()
+cancelBubble f = event >>= flip Event.setCancelBubble f
 
-uiView :: UIEventClass e => EventM e t (Maybe DOMWindow)
-uiView = event >>= (liftIO . uiEventGetView)
+getReturnValue :: EventClass e => EventM t e Bool
+getReturnValue = event >>= Event.getReturnValue
 
-uiDetail :: UIEventClass e => EventM e t Int
-uiDetail = event >>= (liftIO . uiEventGetDetail)
+returnValue :: EventClass e => Bool -> EventM t e ()
+returnValue f = event >>= flip Event.setReturnValue f
 
-uiKeyCode :: UIEventClass e => EventM e t Int
-uiKeyCode = event >>= (liftIO . uiEventGetKeyCode)
+uiView :: UIEventClass e => EventM t e (Maybe DOMWindow)
+uiView = event >>= UIEvent.getView
 
-uiCharCode :: UIEventClass e => EventM e t Int
-uiCharCode = event >>= (liftIO . uiEventGetCharCode)
+uiDetail :: UIEventClass e => EventM t e Int
+uiDetail = event >>= UIEvent.getDetail
 
-uiLayerX :: UIEventClass e => EventM e t Int
-uiLayerX = event >>= (liftIO . uiEventGetLayerX)
+uiKeyCode :: UIEventClass e => EventM t e Int
+uiKeyCode = event >>= UIEvent.getKeyCode
 
-uiLayerY :: UIEventClass e => EventM e t Int
-uiLayerY = event >>= (liftIO . uiEventGetLayerY)
+uiCharCode :: UIEventClass e => EventM t e Int
+uiCharCode = event >>= UIEvent.getCharCode
 
-uiLayerXY :: UIEventClass e => EventM e t (Int, Int)
+uiLayerX :: UIEventClass e => EventM t e Int
+uiLayerX = event >>= UIEvent.getLayerX
+
+uiLayerY :: UIEventClass e => EventM t e Int
+uiLayerY = event >>= UIEvent.getLayerY
+
+uiLayerXY :: UIEventClass e => EventM t e (Int, Int)
 uiLayerXY = do
-  e <- event
-  liftIO $ do
-    x <- uiEventGetLayerX e
-    y <- uiEventGetLayerY e
+    e <- event
+    x <- UIEvent.getLayerX e
+    y <- UIEvent.getLayerY e
     return (x, y)
 
-uiPageX :: UIEventClass e => EventM e t Int
-uiPageX = event >>= (liftIO . uiEventGetPageX)
+uiPageX :: UIEventClass e => EventM t e Int
+uiPageX = event >>= UIEvent.getPageX
 
-uiPageY :: UIEventClass e => EventM e t Int
-uiPageY = event >>= (liftIO . uiEventGetPageY)
+uiPageY :: UIEventClass e => EventM t e Int
+uiPageY = event >>= UIEvent.getPageY
 
-uiPageXY :: UIEventClass e => EventM e t (Int, Int)
+uiPageXY :: UIEventClass e => EventM t e (Int, Int)
 uiPageXY = do
-  e <- event
-  liftIO $ do
-    x <- uiEventGetPageX e
-    y <- uiEventGetPageY e
+    e <- event
+    x <- UIEvent.getPageX e
+    y <- UIEvent.getPageY e
     return (x, y)
 
-uiWhich :: UIEventClass e => EventM e t Int
-uiWhich = event >>= (liftIO . uiEventGetWhich)
+uiWhich :: UIEventClass e => EventM t e Int
+uiWhich = event >>= UIEvent.getWhich
 
-mouseScreenX :: MouseEventClass e => EventM e t Int
-mouseScreenX = event >>= (liftIO . mouseEventGetScreenX)
+mouseScreenX :: MouseEventClass e => EventM t e Int
+mouseScreenX = event >>= MouseEvent.getScreenX
 
-mouseScreenY :: MouseEventClass e => EventM e t Int
-mouseScreenY = event >>= (liftIO . mouseEventGetScreenY)
+mouseScreenY :: MouseEventClass e => EventM t e Int
+mouseScreenY = event >>= MouseEvent.getScreenY
 
-mouseScreenXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseScreenXY :: MouseEventClass e => EventM t e (Int, Int)
 mouseScreenXY = do
-  e <- event
-  liftIO $ do
-    x <- mouseEventGetScreenX e
-    y <- mouseEventGetScreenY e
+    e <- event
+    x <- MouseEvent.getScreenX e
+    y <- MouseEvent.getScreenY e
     return (x, y)
 
-mouseClientX :: MouseEventClass e => EventM e t Int
-mouseClientX = event >>= (liftIO . mouseEventGetClientX)
+mouseClientX :: MouseEventClass e => EventM t e Int
+mouseClientX = event >>= MouseEvent.getClientX
 
-mouseClientY :: MouseEventClass e => EventM e t Int
-mouseClientY = event >>= (liftIO . mouseEventGetClientY)
+mouseClientY :: MouseEventClass e => EventM t e Int
+mouseClientY = event >>= MouseEvent.getClientY
 
-mouseClientXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseClientXY :: MouseEventClass e => EventM t e (Int, Int)
 mouseClientXY = do
-  e <- event
-  liftIO $ do
-    x <- mouseEventGetClientX e
-    y <- mouseEventGetClientY e
+    e <- event
+    x <- MouseEvent.getClientX e
+    y <- MouseEvent.getClientY e
     return (x, y)
 
-mouseMovementX :: MouseEventClass e => EventM e t Int
-mouseMovementX = event >>= (liftIO . mouseEventGetMovementX)
+mouseMovementX :: MouseEventClass e => EventM t e Int
+mouseMovementX = event >>= MouseEvent.getMovementX
 
-mouseMovementY :: MouseEventClass e => EventM e t Int
-mouseMovementY = event >>= (liftIO . mouseEventGetMovementY)
+mouseMovementY :: MouseEventClass e => EventM t e Int
+mouseMovementY = event >>= MouseEvent.getMovementY
 
-mouseMovementXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseMovementXY :: MouseEventClass e => EventM t e (Int, Int)
 mouseMovementXY = do
-  e <- event
-  liftIO $ do
-    x <- mouseEventGetMovementX e
-    y <- mouseEventGetMovementY e
+    e <- event
+    x <- MouseEvent.getMovementX e
+    y <- MouseEvent.getMovementY e
     return (x, y)
 
-mouseCtrlKey :: MouseEventClass e => EventM e t Bool
-mouseCtrlKey = event >>= (liftIO . mouseEventGetCtrlKey)
+mouseCtrlKey :: MouseEventClass e => EventM t e Bool
+mouseCtrlKey = event >>= MouseEvent.getCtrlKey
 
-mouseShiftKey :: MouseEventClass e => EventM e t Bool
-mouseShiftKey = event >>= (liftIO . mouseEventGetShiftKey)
+mouseShiftKey :: MouseEventClass e => EventM t e Bool
+mouseShiftKey = event >>= MouseEvent.getShiftKey
 
-mouseAltKey :: MouseEventClass e => EventM e t Bool
-mouseAltKey = event >>= (liftIO . mouseEventGetAltKey)
+mouseAltKey :: MouseEventClass e => EventM t e Bool
+mouseAltKey = event >>= MouseEvent.getAltKey
 
-mouseMetaKey :: MouseEventClass e => EventM e t Bool
-mouseMetaKey = event >>= (liftIO . mouseEventGetMetaKey)
+mouseMetaKey :: MouseEventClass e => EventM t e Bool
+mouseMetaKey = event >>= MouseEvent.getMetaKey
 
-mouseButton :: MouseEventClass e => EventM e t Word
-mouseButton = event >>= (liftIO . mouseEventGetButton)
+mouseButton :: MouseEventClass e => EventM t e Word
+mouseButton = event >>= MouseEvent.getButton
 
-mouseRelatedTarget :: MouseEventClass e => EventM e t (Maybe EventTarget)
-mouseRelatedTarget = event >>= (liftIO . mouseEventGetRelatedTarget)
+mouseRelatedTarget :: MouseEventClass e => EventM t e (Maybe EventTarget)
+mouseRelatedTarget = event >>= MouseEvent.getRelatedTarget
 
-mouseOffsetX :: MouseEventClass e => EventM e t Int
-mouseOffsetX = event >>= (liftIO . mouseEventGetOffsetX)
+mouseOffsetX :: MouseEventClass e => EventM t e Int
+mouseOffsetX = event >>= MouseEvent.getOffsetX
 
-mouseOffsetY :: MouseEventClass e => EventM e t Int
-mouseOffsetY = event >>= (liftIO . mouseEventGetOffsetY)
+mouseOffsetY :: MouseEventClass e => EventM t e Int
+mouseOffsetY = event >>= MouseEvent.getOffsetY
 
-mouseOffsetXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseOffsetXY :: MouseEventClass e => EventM t e (Int, Int)
 mouseOffsetXY = do
-  e <- event
-  liftIO $ do
-    x <- mouseEventGetOffsetX e
-    y <- mouseEventGetOffsetY e
+    e <- event
+    x <- MouseEvent.getOffsetX e
+    y <- MouseEvent.getOffsetY e
     return (x, y)
 
-mouseX :: MouseEventClass e => EventM e t Int
-mouseX = event >>= (liftIO . mouseEventGetX)
+mouseX :: MouseEventClass e => EventM t e Int
+mouseX = event >>= MouseEvent.getX
 
-mouseY :: MouseEventClass e => EventM e t Int
-mouseY = event >>= (liftIO . mouseEventGetY)
+mouseY :: MouseEventClass e => EventM t e Int
+mouseY = event >>= MouseEvent.getY
 
-mouseXY :: MouseEventClass e => EventM e t (Int, Int)
+mouseXY :: MouseEventClass e => EventM t e (Int, Int)
 mouseXY = do
-  e <- event
-  liftIO $ do
-    x <- mouseEventGetX e
-    y <- mouseEventGetY e
+    e <- event
+    x <- MouseEvent.getX e
+    y <- MouseEvent.getY e
     return (x, y)
 
-mouseFromElement :: MouseEventClass e => EventM e t (Maybe Node)
-mouseFromElement = event >>= (liftIO . mouseEventGetFromElement)
+mouseFromElement :: MouseEventClass e => EventM t e (Maybe Node)
+mouseFromElement = event >>= MouseEvent.getFromElement
 
-mouseToElement :: MouseEventClass e => EventM e t (Maybe Node)
-mouseToElement = event >>= (liftIO . mouseEventGetToElement)
+mouseToElement :: MouseEventClass e => EventM t e (Maybe Node)
+mouseToElement = event >>= MouseEvent.getToElement
 
-connect :: (GObjectClass t, EventClass e) => String -> t -> EventM e t () -> IO (IO ())
-connect eventName target callback = do
-  eventTargetAddEventListener target (T.pack eventName) False $ curry (runReaderT callback)

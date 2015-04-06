@@ -1,234 +1,282 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLButtonElement
-       (htmlButtonElementCheckValidity,
-        htmlButtonElementSetCustomValidity, htmlButtonElementSetAutofocus,
-        htmlButtonElementGetAutofocus, htmlButtonElementSetDisabled,
-        htmlButtonElementGetDisabled, htmlButtonElementGetForm,
-        htmlButtonElementSetFormAction, htmlButtonElementGetFormAction,
-        htmlButtonElementSetFormEnctype, htmlButtonElementGetFormEnctype,
-        htmlButtonElementSetFormMethod, htmlButtonElementGetFormMethod,
-        htmlButtonElementSetFormNoValidate,
-        htmlButtonElementGetFormNoValidate, htmlButtonElementSetFormTarget,
-        htmlButtonElementGetFormTarget, htmlButtonElementSetName,
-        htmlButtonElementGetName, htmlButtonElementSetValue,
-        htmlButtonElementGetValue, htmlButtonElementGetWillValidate,
-        htmlButtonElementGetValidity,
-        htmlButtonElementGetValidationMessage, htmlButtonElementGetLabels,
-        HTMLButtonElement, HTMLButtonElementClass, castToHTMLButtonElement,
-        gTypeHTMLButtonElement, toHTMLButtonElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLButtonElement(
+checkValidity,
+setCustomValidity,
+setAutofocus,
+getAutofocus,
+setDisabled,
+getDisabled,
+getForm,
+setFormAction,
+getFormAction,
+setFormEnctype,
+getFormEnctype,
+setFormMethod,
+getFormMethod,
+setFormNoValidate,
+getFormNoValidate,
+setFormTarget,
+getFormTarget,
+setName,
+getName,
+setValue,
+getValue,
+getWillValidate,
+getValidity,
+getValidationMessage,
+getLabels,
+HTMLButtonElement,
+castToHTMLButtonElement,
+gTypeHTMLButtonElement,
+HTMLButtonElementClass,
+toHTMLButtonElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlButtonElementCheckValidity ::
-                               (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementCheckValidity self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_check_validity #}
-         (toHTMLButtonElement self))
+checkValidity ::
+              (MonadIO m, HTMLButtonElementClass self) => self -> m Bool
+checkValidity self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_button_element_check_validity #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementSetCustomValidity ::
-                                   (HTMLButtonElementClass self, GlibString string) =>
-                                     self -> string -> IO ()
-htmlButtonElementSetCustomValidity self error
-  = withUTFString error $
-      \ errorPtr ->
-        {# call webkit_dom_html_button_element_set_custom_validity #}
-          (toHTMLButtonElement self)
-          errorPtr
+setCustomValidity ::
+                  (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                    self -> string -> m ()
+setCustomValidity self error
+  = liftIO
+      (withUTFString error $
+         \ errorPtr ->
+           {# call webkit_dom_html_button_element_set_custom_validity #}
+             (toHTMLButtonElement self)
+             errorPtr)
  
-htmlButtonElementSetAutofocus ::
-                              (HTMLButtonElementClass self) => self -> Bool -> IO ()
-htmlButtonElementSetAutofocus self val
-  = {# call webkit_dom_html_button_element_set_autofocus #}
-      (toHTMLButtonElement self)
-      (fromBool val)
+setAutofocus ::
+             (MonadIO m, HTMLButtonElementClass self) => self -> Bool -> m ()
+setAutofocus self val
+  = liftIO
+      ({# call webkit_dom_html_button_element_set_autofocus #}
+         (toHTMLButtonElement self)
+         (fromBool val))
  
-htmlButtonElementGetAutofocus ::
-                              (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_autofocus #}
-         (toHTMLButtonElement self))
+getAutofocus ::
+             (MonadIO m, HTMLButtonElementClass self) => self -> m Bool
+getAutofocus self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_button_element_get_autofocus #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementSetDisabled ::
-                             (HTMLButtonElementClass self) => self -> Bool -> IO ()
-htmlButtonElementSetDisabled self val
-  = {# call webkit_dom_html_button_element_set_disabled #}
-      (toHTMLButtonElement self)
-      (fromBool val)
+setDisabled ::
+            (MonadIO m, HTMLButtonElementClass self) => self -> Bool -> m ()
+setDisabled self val
+  = liftIO
+      ({# call webkit_dom_html_button_element_set_disabled #}
+         (toHTMLButtonElement self)
+         (fromBool val))
  
-htmlButtonElementGetDisabled ::
-                             (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_disabled #}
-         (toHTMLButtonElement self))
+getDisabled ::
+            (MonadIO m, HTMLButtonElementClass self) => self -> m Bool
+getDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_button_element_get_disabled #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementGetForm ::
-                         (HTMLButtonElementClass self) => self -> IO (Maybe HTMLFormElement)
-htmlButtonElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_button_element_get_form #}
-         (toHTMLButtonElement self))
+getForm ::
+        (MonadIO m, HTMLButtonElementClass self) =>
+          self -> m (Maybe HTMLFormElement)
+getForm self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLFormElement)
+         ({# call webkit_dom_html_button_element_get_form #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementSetFormAction ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlButtonElementSetFormAction self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_form_action #}
-          (toHTMLButtonElement self)
-          valPtr
+setFormAction ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> string -> m ()
+setFormAction self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_form_action #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetFormAction ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlButtonElementGetFormAction self
-  = ({# call webkit_dom_html_button_element_get_form_action #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getFormAction ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> m string
+getFormAction self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_form_action #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementSetFormEnctype ::
-                                (HTMLButtonElementClass self, GlibString string) =>
-                                  self -> string -> IO ()
-htmlButtonElementSetFormEnctype self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_form_enctype #}
-          (toHTMLButtonElement self)
-          valPtr
+setFormEnctype ::
+               (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setFormEnctype self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_form_enctype #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetFormEnctype ::
-                                (HTMLButtonElementClass self, GlibString string) =>
-                                  self -> IO string
-htmlButtonElementGetFormEnctype self
-  = ({# call webkit_dom_html_button_element_get_form_enctype #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getFormEnctype ::
+               (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                 self -> m string
+getFormEnctype self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_form_enctype #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementSetFormMethod ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlButtonElementSetFormMethod self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_form_method #}
-          (toHTMLButtonElement self)
-          valPtr
+setFormMethod ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> string -> m ()
+setFormMethod self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_form_method #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetFormMethod ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlButtonElementGetFormMethod self
-  = ({# call webkit_dom_html_button_element_get_form_method #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getFormMethod ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> m string
+getFormMethod self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_form_method #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementSetFormNoValidate ::
-                                   (HTMLButtonElementClass self) => self -> Bool -> IO ()
-htmlButtonElementSetFormNoValidate self val
-  = {# call webkit_dom_html_button_element_set_form_no_validate #}
-      (toHTMLButtonElement self)
-      (fromBool val)
+setFormNoValidate ::
+                  (MonadIO m, HTMLButtonElementClass self) => self -> Bool -> m ()
+setFormNoValidate self val
+  = liftIO
+      ({# call webkit_dom_html_button_element_set_form_no_validate #}
+         (toHTMLButtonElement self)
+         (fromBool val))
  
-htmlButtonElementGetFormNoValidate ::
-                                   (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetFormNoValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_form_no_validate #}
-         (toHTMLButtonElement self))
+getFormNoValidate ::
+                  (MonadIO m, HTMLButtonElementClass self) => self -> m Bool
+getFormNoValidate self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_button_element_get_form_no_validate #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementSetFormTarget ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlButtonElementSetFormTarget self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_form_target #}
-          (toHTMLButtonElement self)
-          valPtr
+setFormTarget ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> string -> m ()
+setFormTarget self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_form_target #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetFormTarget ::
-                               (HTMLButtonElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlButtonElementGetFormTarget self
-  = ({# call webkit_dom_html_button_element_get_form_target #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getFormTarget ::
+              (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                self -> m string
+getFormTarget self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_form_target #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementSetName ::
-                         (HTMLButtonElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlButtonElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_name #}
-          (toHTMLButtonElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_name #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetName ::
-                         (HTMLButtonElementClass self, GlibString string) =>
-                           self -> IO string
-htmlButtonElementGetName self
-  = ({# call webkit_dom_html_button_element_get_name #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_name #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementSetValue ::
-                          (HTMLButtonElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlButtonElementSetValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_button_element_set_value #}
-          (toHTMLButtonElement self)
-          valPtr
+setValue ::
+         (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+           self -> string -> m ()
+setValue self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_button_element_set_value #}
+             (toHTMLButtonElement self)
+             valPtr)
  
-htmlButtonElementGetValue ::
-                          (HTMLButtonElementClass self, GlibString string) =>
-                            self -> IO string
-htmlButtonElementGetValue self
-  = ({# call webkit_dom_html_button_element_get_value #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getValue ::
+         (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+           self -> m string
+getValue self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_value #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementGetWillValidate ::
-                                 (HTMLButtonElementClass self) => self -> IO Bool
-htmlButtonElementGetWillValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_button_element_get_will_validate #}
-         (toHTMLButtonElement self))
+getWillValidate ::
+                (MonadIO m, HTMLButtonElementClass self) => self -> m Bool
+getWillValidate self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_button_element_get_will_validate #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementGetValidity ::
-                             (HTMLButtonElementClass self) => self -> IO (Maybe ValidityState)
-htmlButtonElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_button_element_get_validity #}
-         (toHTMLButtonElement self))
+getValidity ::
+            (MonadIO m, HTMLButtonElementClass self) =>
+              self -> m (Maybe ValidityState)
+getValidity self
+  = liftIO
+      (maybeNull (makeNewGObject mkValidityState)
+         ({# call webkit_dom_html_button_element_get_validity #}
+            (toHTMLButtonElement self)))
  
-htmlButtonElementGetValidationMessage ::
-                                      (HTMLButtonElementClass self, GlibString string) =>
-                                        self -> IO string
-htmlButtonElementGetValidationMessage self
-  = ({# call webkit_dom_html_button_element_get_validation_message #}
-       (toHTMLButtonElement self))
-      >>=
-      readUTFString
+getValidationMessage ::
+                     (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
+                       self -> m string
+getValidationMessage self
+  = liftIO
+      (({# call webkit_dom_html_button_element_get_validation_message #}
+          (toHTMLButtonElement self))
+         >>=
+         readUTFString)
  
-htmlButtonElementGetLabels ::
-                           (HTMLButtonElementClass self) => self -> IO (Maybe NodeList)
-htmlButtonElementGetLabels self
-  = maybeNull (makeNewGObject mkNodeList)
-      ({# call webkit_dom_html_button_element_get_labels #}
-         (toHTMLButtonElement self))
+getLabels ::
+          (MonadIO m, HTMLButtonElementClass self) =>
+            self -> m (Maybe NodeList)
+getLabels self
+  = liftIO
+      (maybeNull (makeNewGObject mkNodeList)
+         ({# call webkit_dom_html_button_element_get_labels #}
+            (toHTMLButtonElement self)))

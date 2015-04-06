@@ -1,348 +1,414 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLTableElement
-       (htmlTableElementCreateTHead, htmlTableElementDeleteTHead,
-        htmlTableElementCreateTFoot, htmlTableElementDeleteTFoot,
-#if WEBKIT_CHECK_VERSION(1,10,0)
-        htmlTableElementCreateTBody,
-#endif
-        htmlTableElementCreateCaption,
-        htmlTableElementDeleteCaption, htmlTableElementInsertRow,
-        htmlTableElementDeleteRow, htmlTableElementSetCaption,
-        htmlTableElementGetCaption, htmlTableElementSetTHead,
-        htmlTableElementGetTHead, htmlTableElementSetTFoot,
-        htmlTableElementGetTFoot, htmlTableElementGetRows,
-        htmlTableElementGetTBodies, htmlTableElementSetAlign,
-        htmlTableElementGetAlign, htmlTableElementSetBgColor,
-        htmlTableElementGetBgColor, htmlTableElementSetBorder,
-        htmlTableElementGetBorder, htmlTableElementSetCellPadding,
-        htmlTableElementGetCellPadding, htmlTableElementSetCellSpacing,
-        htmlTableElementGetCellSpacing, htmlTableElementSetFrame,
-        htmlTableElementGetFrame, htmlTableElementSetRules,
-        htmlTableElementGetRules, htmlTableElementSetSummary,
-        htmlTableElementGetSummary, htmlTableElementSetWidth,
-        htmlTableElementGetWidth, HTMLTableElement, HTMLTableElementClass,
-        castToHTMLTableElement, gTypeHTMLTableElement, toHTMLTableElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLTableElement(
+createTHead,
+deleteTHead,
+createTFoot,
+deleteTFoot,
+createTBody,
+createCaption,
+deleteCaption,
+insertRow,
+deleteRow,
+setCaption,
+getCaption,
+setTHead,
+getTHead,
+setTFoot,
+getTFoot,
+getRows,
+getTBodies,
+setAlign,
+getAlign,
+setBgColor,
+getBgColor,
+setBorder,
+getBorder,
+setCellPadding,
+getCellPadding,
+setCellSpacing,
+getCellSpacing,
+setFrame,
+getFrame,
+setRules,
+getRules,
+setSummary,
+getSummary,
+setWidth,
+getWidth,
+HTMLTableElement,
+castToHTMLTableElement,
+gTypeHTMLTableElement,
+HTMLTableElementClass,
+toHTMLTableElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlTableElementCreateTHead ::
-                            (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
-htmlTableElementCreateTHead self
-  = maybeNull (makeNewGObject mkHTMLElement)
-      ({# call webkit_dom_html_table_element_create_t_head #}
+createTHead ::
+            (MonadIO m, HTMLTableElementClass self) =>
+              self -> m (Maybe HTMLElement)
+createTHead self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         ({# call webkit_dom_html_table_element_create_t_head #}
+            (toHTMLTableElement self)))
+ 
+deleteTHead ::
+            (MonadIO m, HTMLTableElementClass self) => self -> m ()
+deleteTHead self
+  = liftIO
+      ({# call webkit_dom_html_table_element_delete_t_head #}
          (toHTMLTableElement self))
  
-htmlTableElementDeleteTHead ::
-                            (HTMLTableElementClass self) => self -> IO ()
-htmlTableElementDeleteTHead self
-  = {# call webkit_dom_html_table_element_delete_t_head #}
-      (toHTMLTableElement self)
+createTFoot ::
+            (MonadIO m, HTMLTableElementClass self) =>
+              self -> m (Maybe HTMLElement)
+createTFoot self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         ({# call webkit_dom_html_table_element_create_t_foot #}
+            (toHTMLTableElement self)))
  
-htmlTableElementCreateTFoot ::
-                            (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
-htmlTableElementCreateTFoot self
-  = maybeNull (makeNewGObject mkHTMLElement)
-      ({# call webkit_dom_html_table_element_create_t_foot #}
+deleteTFoot ::
+            (MonadIO m, HTMLTableElementClass self) => self -> m ()
+deleteTFoot self
+  = liftIO
+      ({# call webkit_dom_html_table_element_delete_t_foot #}
          (toHTMLTableElement self))
  
-htmlTableElementDeleteTFoot ::
-                            (HTMLTableElementClass self) => self -> IO ()
-htmlTableElementDeleteTFoot self
-  = {# call webkit_dom_html_table_element_delete_t_foot #}
-      (toHTMLTableElement self)
+createTBody ::
+            (MonadIO m, HTMLTableElementClass self) =>
+              self -> m (Maybe HTMLElement)
+createTBody self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         ({# call webkit_dom_html_table_element_create_t_body #}
+            (toHTMLTableElement self)))
  
-#if WEBKIT_CHECK_VERSION(1,10,0)
-htmlTableElementCreateTBody ::
-                            (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
-htmlTableElementCreateTBody self
-  = maybeNull (makeNewGObject mkHTMLElement)
-      ({# call webkit_dom_html_table_element_create_t_body #}
+createCaption ::
+              (MonadIO m, HTMLTableElementClass self) =>
+                self -> m (Maybe HTMLElement)
+createCaption self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         ({# call webkit_dom_html_table_element_create_caption #}
+            (toHTMLTableElement self)))
+ 
+deleteCaption ::
+              (MonadIO m, HTMLTableElementClass self) => self -> m ()
+deleteCaption self
+  = liftIO
+      ({# call webkit_dom_html_table_element_delete_caption #}
          (toHTMLTableElement self))
-#endif
  
-htmlTableElementCreateCaption ::
-                              (HTMLTableElementClass self) => self -> IO (Maybe HTMLElement)
-htmlTableElementCreateCaption self
-  = maybeNull (makeNewGObject mkHTMLElement)
-      ({# call webkit_dom_html_table_element_create_caption #}
-         (toHTMLTableElement self))
+insertRow ::
+          (MonadIO m, HTMLTableElementClass self) =>
+            self -> Int -> m (Maybe HTMLElement)
+insertRow self index
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLElement)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_html_table_element_insert_row #}
+                (toHTMLTableElement self)
+                (fromIntegral index)
+                errorPtr_))
  
-htmlTableElementDeleteCaption ::
-                              (HTMLTableElementClass self) => self -> IO ()
-htmlTableElementDeleteCaption self
-  = {# call webkit_dom_html_table_element_delete_caption #}
-      (toHTMLTableElement self)
- 
-htmlTableElementInsertRow ::
-                          (HTMLTableElementClass self) =>
-                            self -> Int -> IO (Maybe HTMLElement)
-htmlTableElementInsertRow self index
-  = maybeNull (makeNewGObject mkHTMLElement)
+deleteRow ::
+          (MonadIO m, HTMLTableElementClass self) => self -> Int -> m ()
+deleteRow self index
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_html_table_element_insert_row #}
+           {# call webkit_dom_html_table_element_delete_row #}
              (toHTMLTableElement self)
              (fromIntegral index)
              errorPtr_)
  
-htmlTableElementDeleteRow ::
-                          (HTMLTableElementClass self) => self -> Int -> IO ()
-htmlTableElementDeleteRow self index
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_table_element_delete_row #}
-          (toHTMLTableElement self)
-          (fromIntegral index)
-          errorPtr_
+setCaption ::
+           (MonadIO m, HTMLTableCaptionElementClass val,
+            HTMLTableElementClass self) =>
+             self -> Maybe val -> m ()
+setCaption self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_table_element_set_caption #}
+             (toHTMLTableElement self)
+             (maybe (HTMLTableCaptionElement nullForeignPtr)
+                toHTMLTableCaptionElement
+                val)
+             errorPtr_)
  
-htmlTableElementSetCaption ::
-                           (HTMLTableCaptionElementClass val, HTMLTableElementClass self) =>
-                             self -> Maybe val -> IO ()
-htmlTableElementSetCaption self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_table_element_set_caption #}
-          (toHTMLTableElement self)
-          (maybe (HTMLTableCaptionElement nullForeignPtr)
-             toHTMLTableCaptionElement
-             val)
-          errorPtr_
+getCaption ::
+           (MonadIO m, HTMLTableElementClass self) =>
+             self -> m (Maybe HTMLTableCaptionElement)
+getCaption self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLTableCaptionElement)
+         ({# call webkit_dom_html_table_element_get_caption #}
+            (toHTMLTableElement self)))
  
-htmlTableElementGetCaption ::
-                           (HTMLTableElementClass self) =>
-                             self -> IO (Maybe HTMLTableCaptionElement)
-htmlTableElementGetCaption self
-  = maybeNull (makeNewGObject mkHTMLTableCaptionElement)
-      ({# call webkit_dom_html_table_element_get_caption #}
-         (toHTMLTableElement self))
+setTHead ::
+         (MonadIO m, HTMLTableSectionElementClass val,
+          HTMLTableElementClass self) =>
+           self -> Maybe val -> m ()
+setTHead self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_table_element_set_t_head #}
+             (toHTMLTableElement self)
+             (maybe (HTMLTableSectionElement nullForeignPtr)
+                toHTMLTableSectionElement
+                val)
+             errorPtr_)
  
-htmlTableElementSetTHead ::
-                         (HTMLTableSectionElementClass val, HTMLTableElementClass self) =>
-                           self -> Maybe val -> IO ()
-htmlTableElementSetTHead self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_table_element_set_t_head #}
-          (toHTMLTableElement self)
-          (maybe (HTMLTableSectionElement nullForeignPtr)
-             toHTMLTableSectionElement
-             val)
-          errorPtr_
+getTHead ::
+         (MonadIO m, HTMLTableElementClass self) =>
+           self -> m (Maybe HTMLTableSectionElement)
+getTHead self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLTableSectionElement)
+         ({# call webkit_dom_html_table_element_get_t_head #}
+            (toHTMLTableElement self)))
  
-htmlTableElementGetTHead ::
-                         (HTMLTableElementClass self) =>
-                           self -> IO (Maybe HTMLTableSectionElement)
-htmlTableElementGetTHead self
-  = maybeNull (makeNewGObject mkHTMLTableSectionElement)
-      ({# call webkit_dom_html_table_element_get_t_head #}
-         (toHTMLTableElement self))
+setTFoot ::
+         (MonadIO m, HTMLTableSectionElementClass val,
+          HTMLTableElementClass self) =>
+           self -> Maybe val -> m ()
+setTFoot self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_table_element_set_t_foot #}
+             (toHTMLTableElement self)
+             (maybe (HTMLTableSectionElement nullForeignPtr)
+                toHTMLTableSectionElement
+                val)
+             errorPtr_)
  
-htmlTableElementSetTFoot ::
-                         (HTMLTableSectionElementClass val, HTMLTableElementClass self) =>
-                           self -> Maybe val -> IO ()
-htmlTableElementSetTFoot self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_table_element_set_t_foot #}
-          (toHTMLTableElement self)
-          (maybe (HTMLTableSectionElement nullForeignPtr)
-             toHTMLTableSectionElement
-             val)
-          errorPtr_
+getTFoot ::
+         (MonadIO m, HTMLTableElementClass self) =>
+           self -> m (Maybe HTMLTableSectionElement)
+getTFoot self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLTableSectionElement)
+         ({# call webkit_dom_html_table_element_get_t_foot #}
+            (toHTMLTableElement self)))
  
-htmlTableElementGetTFoot ::
-                         (HTMLTableElementClass self) =>
-                           self -> IO (Maybe HTMLTableSectionElement)
-htmlTableElementGetTFoot self
-  = maybeNull (makeNewGObject mkHTMLTableSectionElement)
-      ({# call webkit_dom_html_table_element_get_t_foot #}
-         (toHTMLTableElement self))
+getRows ::
+        (MonadIO m, HTMLTableElementClass self) =>
+          self -> m (Maybe HTMLCollection)
+getRows self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLCollection)
+         ({# call webkit_dom_html_table_element_get_rows #}
+            (toHTMLTableElement self)))
  
-htmlTableElementGetRows ::
-                        (HTMLTableElementClass self) => self -> IO (Maybe HTMLCollection)
-htmlTableElementGetRows self
-  = maybeNull (makeNewGObject mkHTMLCollection)
-      ({# call webkit_dom_html_table_element_get_rows #}
-         (toHTMLTableElement self))
+getTBodies ::
+           (MonadIO m, HTMLTableElementClass self) =>
+             self -> m (Maybe HTMLCollection)
+getTBodies self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLCollection)
+         ({# call webkit_dom_html_table_element_get_t_bodies #}
+            (toHTMLTableElement self)))
  
-htmlTableElementGetTBodies ::
-                           (HTMLTableElementClass self) => self -> IO (Maybe HTMLCollection)
-htmlTableElementGetTBodies self
-  = maybeNull (makeNewGObject mkHTMLCollection)
-      ({# call webkit_dom_html_table_element_get_t_bodies #}
-         (toHTMLTableElement self))
+setAlign ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_align #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetAlign ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlTableElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_align #}
-          (toHTMLTableElement self)
-          valPtr
+getAlign ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_align #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetAlign ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> IO string
-htmlTableElementGetAlign self
-  = ({# call webkit_dom_html_table_element_get_align #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setBgColor ::
+           (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+             self -> string -> m ()
+setBgColor self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_bg_color #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetBgColor ::
-                           (HTMLTableElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlTableElementSetBgColor self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_bg_color #}
-          (toHTMLTableElement self)
-          valPtr
+getBgColor ::
+           (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+             self -> m string
+getBgColor self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_bg_color #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetBgColor ::
-                           (HTMLTableElementClass self, GlibString string) =>
-                             self -> IO string
-htmlTableElementGetBgColor self
-  = ({# call webkit_dom_html_table_element_get_bg_color #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setBorder ::
+          (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+            self -> string -> m ()
+setBorder self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_border #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetBorder ::
-                          (HTMLTableElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlTableElementSetBorder self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_border #}
-          (toHTMLTableElement self)
-          valPtr
+getBorder ::
+          (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+            self -> m string
+getBorder self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_border #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetBorder ::
-                          (HTMLTableElementClass self, GlibString string) =>
-                            self -> IO string
-htmlTableElementGetBorder self
-  = ({# call webkit_dom_html_table_element_get_border #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setCellPadding ::
+               (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setCellPadding self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_cell_padding #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetCellPadding ::
-                               (HTMLTableElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlTableElementSetCellPadding self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_cell_padding #}
-          (toHTMLTableElement self)
-          valPtr
+getCellPadding ::
+               (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+                 self -> m string
+getCellPadding self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_cell_padding #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetCellPadding ::
-                               (HTMLTableElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlTableElementGetCellPadding self
-  = ({# call webkit_dom_html_table_element_get_cell_padding #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setCellSpacing ::
+               (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setCellSpacing self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_cell_spacing #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetCellSpacing ::
-                               (HTMLTableElementClass self, GlibString string) =>
-                                 self -> string -> IO ()
-htmlTableElementSetCellSpacing self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_cell_spacing #}
-          (toHTMLTableElement self)
-          valPtr
+getCellSpacing ::
+               (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+                 self -> m string
+getCellSpacing self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_cell_spacing #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetCellSpacing ::
-                               (HTMLTableElementClass self, GlibString string) =>
-                                 self -> IO string
-htmlTableElementGetCellSpacing self
-  = ({# call webkit_dom_html_table_element_get_cell_spacing #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setFrame ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> string -> m ()
+setFrame self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_frame #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetFrame ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlTableElementSetFrame self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_frame #}
-          (toHTMLTableElement self)
-          valPtr
+getFrame ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> m string
+getFrame self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_frame #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetFrame ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> IO string
-htmlTableElementGetFrame self
-  = ({# call webkit_dom_html_table_element_get_frame #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setRules ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> string -> m ()
+setRules self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_rules #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetRules ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlTableElementSetRules self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_rules #}
-          (toHTMLTableElement self)
-          valPtr
+getRules ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> m string
+getRules self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_rules #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetRules ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> IO string
-htmlTableElementGetRules self
-  = ({# call webkit_dom_html_table_element_get_rules #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setSummary ::
+           (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+             self -> string -> m ()
+setSummary self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_summary #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetSummary ::
-                           (HTMLTableElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlTableElementSetSummary self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_summary #}
-          (toHTMLTableElement self)
-          valPtr
+getSummary ::
+           (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+             self -> m string
+getSummary self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_summary #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)
  
-htmlTableElementGetSummary ::
-                           (HTMLTableElementClass self, GlibString string) =>
-                             self -> IO string
-htmlTableElementGetSummary self
-  = ({# call webkit_dom_html_table_element_get_summary #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+setWidth ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> string -> m ()
+setWidth self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_table_element_set_width #}
+             (toHTMLTableElement self)
+             valPtr)
  
-htmlTableElementSetWidth ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlTableElementSetWidth self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_table_element_set_width #}
-          (toHTMLTableElement self)
-          valPtr
- 
-htmlTableElementGetWidth ::
-                         (HTMLTableElementClass self, GlibString string) =>
-                           self -> IO string
-htmlTableElementGetWidth self
-  = ({# call webkit_dom_html_table_element_get_width #}
-       (toHTMLTableElement self))
-      >>=
-      readUTFString
+getWidth ::
+         (MonadIO m, HTMLTableElementClass self, GlibString string) =>
+           self -> m string
+getWidth self
+  = liftIO
+      (({# call webkit_dom_html_table_element_get_width #}
+          (toHTMLTableElement self))
+         >>=
+         readUTFString)

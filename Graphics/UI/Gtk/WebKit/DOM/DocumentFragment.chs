@@ -1,39 +1,51 @@
-module Graphics.UI.Gtk.WebKit.DOM.DocumentFragment
-       (documentFragmentQuerySelector, documentFragmentQuerySelectorAll,
-        DocumentFragment, DocumentFragmentClass, castToDocumentFragment,
-        gTypeDocumentFragment, toDocumentFragment)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DocumentFragment(
+querySelector,
+querySelectorAll,
+DocumentFragment,
+castToDocumentFragment,
+gTypeDocumentFragment,
+DocumentFragmentClass,
+toDocumentFragment,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-documentFragmentQuerySelector ::
-                              (DocumentFragmentClass self, GlibString string) =>
-                                self -> string -> IO (Maybe Element)
-documentFragmentQuerySelector self selectors
-  = maybeNull (makeNewGObject mkElement)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString selectors $
-             \ selectorsPtr ->
-               {# call webkit_dom_document_fragment_query_selector #}
-                 (toDocumentFragment self)
-                 selectorsPtr
-             errorPtr_)
+querySelector ::
+              (MonadIO m, DocumentFragmentClass self, GlibString string) =>
+                self -> string -> m (Maybe Element)
+querySelector self selectors
+  = liftIO
+      (maybeNull (makeNewGObject mkElement)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString selectors $
+                \ selectorsPtr ->
+                  {# call webkit_dom_document_fragment_query_selector #}
+                    (toDocumentFragment self)
+                    selectorsPtr
+                errorPtr_))
  
-documentFragmentQuerySelectorAll ::
-                                 (DocumentFragmentClass self, GlibString string) =>
-                                   self -> string -> IO (Maybe NodeList)
-documentFragmentQuerySelectorAll self selectors
-  = maybeNull (makeNewGObject mkNodeList)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString selectors $
-             \ selectorsPtr ->
-               {# call webkit_dom_document_fragment_query_selector_all #}
-                 (toDocumentFragment self)
-                 selectorsPtr
-             errorPtr_)
+querySelectorAll ::
+                 (MonadIO m, DocumentFragmentClass self, GlibString string) =>
+                   self -> string -> m (Maybe NodeList)
+querySelectorAll self selectors
+  = liftIO
+      (maybeNull (makeNewGObject mkNodeList)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString selectors $
+                \ selectorsPtr ->
+                  {# call webkit_dom_document_fragment_query_selector_all #}
+                    (toDocumentFragment self)
+                    selectorsPtr
+                errorPtr_))

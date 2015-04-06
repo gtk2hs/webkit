@@ -1,129 +1,124 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameSetElement
-       (htmlFrameSetElementSetCols, htmlFrameSetElementGetCols,
-        htmlFrameSetElementSetRows, htmlFrameSetElementGetRows,
-        htmlFrameSetElementOnbeforeunload, htmlFrameSetElementOnhashchange,
-        htmlFrameSetElementOnmessage, htmlFrameSetElementOnoffline,
-        htmlFrameSetElementOnonline, htmlFrameSetElementOnpopstate,
-        htmlFrameSetElementOnresize, htmlFrameSetElementOnstorage,
-        htmlFrameSetElementOnunload,
-        htmlFrameSetElementOnorientationchange, htmlFrameSetElementOnblur,
-        htmlFrameSetElementOnerror, htmlFrameSetElementOnfocus,
-        htmlFrameSetElementOnload, HTMLFrameSetElement,
-        HTMLFrameSetElementClass, castToHTMLFrameSetElement,
-        gTypeHTMLFrameSetElement, toHTMLFrameSetElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLFrameSetElement(
+setCols,
+getCols,
+setRows,
+getRows,
+beforeUnload,
+hashChange,
+message,
+offline,
+online,
+popState,
+resize,
+storage,
+unload,
+orientationChange,
+blur,
+error,
+focus,
+load,
+HTMLFrameSetElement,
+castToHTMLFrameSetElement,
+gTypeHTMLFrameSetElement,
+HTMLFrameSetElementClass,
+toHTMLFrameSetElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlFrameSetElementSetCols ::
-                           (HTMLFrameSetElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlFrameSetElementSetCols self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_set_element_set_cols #}
-          (toHTMLFrameSetElement self)
-          valPtr
+setCols ::
+        (MonadIO m, HTMLFrameSetElementClass self, GlibString string) =>
+          self -> string -> m ()
+setCols self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_set_element_set_cols #}
+             (toHTMLFrameSetElement self)
+             valPtr)
  
-htmlFrameSetElementGetCols ::
-                           (HTMLFrameSetElementClass self, GlibString string) =>
-                             self -> IO string
-htmlFrameSetElementGetCols self
-  = ({# call webkit_dom_html_frame_set_element_get_cols #}
-       (toHTMLFrameSetElement self))
-      >>=
-      readUTFString
+getCols ::
+        (MonadIO m, HTMLFrameSetElementClass self, GlibString string) =>
+          self -> m string
+getCols self
+  = liftIO
+      (({# call webkit_dom_html_frame_set_element_get_cols #}
+          (toHTMLFrameSetElement self))
+         >>=
+         readUTFString)
  
-htmlFrameSetElementSetRows ::
-                           (HTMLFrameSetElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlFrameSetElementSetRows self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_frame_set_element_set_rows #}
-          (toHTMLFrameSetElement self)
-          valPtr
+setRows ::
+        (MonadIO m, HTMLFrameSetElementClass self, GlibString string) =>
+          self -> string -> m ()
+setRows self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_frame_set_element_set_rows #}
+             (toHTMLFrameSetElement self)
+             valPtr)
  
-htmlFrameSetElementGetRows ::
-                           (HTMLFrameSetElementClass self, GlibString string) =>
-                             self -> IO string
-htmlFrameSetElementGetRows self
-  = ({# call webkit_dom_html_frame_set_element_get_rows #}
-       (toHTMLFrameSetElement self))
-      >>=
-      readUTFString
+getRows ::
+        (MonadIO m, HTMLFrameSetElementClass self, GlibString string) =>
+          self -> m string
+getRows self
+  = liftIO
+      (({# call webkit_dom_html_frame_set_element_get_rows #}
+          (toHTMLFrameSetElement self))
+         >>=
+         readUTFString)
  
-htmlFrameSetElementOnbeforeunload ::
-                                  (HTMLFrameSetElementClass self) =>
-                                    Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnbeforeunload = (connect "beforeunload")
+beforeUnload ::
+             (HTMLFrameSetElementClass self) => EventName self Event
+beforeUnload = EventName "beforeunload"
  
-htmlFrameSetElementOnhashchange ::
-                                (HTMLFrameSetElementClass self) =>
-                                  Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnhashchange = (connect "hashchange")
+hashChange ::
+           (HTMLFrameSetElementClass self) => EventName self Event
+hashChange = EventName "hashchange"
  
-htmlFrameSetElementOnmessage ::
-                             (HTMLFrameSetElementClass self) =>
-                               Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnmessage = (connect "message")
+message :: (HTMLFrameSetElementClass self) => EventName self Event
+message = EventName "message"
  
-htmlFrameSetElementOnoffline ::
-                             (HTMLFrameSetElementClass self) =>
-                               Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnoffline = (connect "offline")
+offline :: (HTMLFrameSetElementClass self) => EventName self Event
+offline = EventName "offline"
  
-htmlFrameSetElementOnonline ::
-                            (HTMLFrameSetElementClass self) =>
-                              Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnonline = (connect "online")
+online :: (HTMLFrameSetElementClass self) => EventName self Event
+online = EventName "online"
  
-htmlFrameSetElementOnpopstate ::
-                              (HTMLFrameSetElementClass self) =>
-                                Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnpopstate = (connect "popstate")
+popState :: (HTMLFrameSetElementClass self) => EventName self Event
+popState = EventName "popstate"
  
-htmlFrameSetElementOnresize ::
-                            (HTMLFrameSetElementClass self) =>
-                              Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnresize = (connect "resize")
+resize :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+resize = EventName "resize"
  
-htmlFrameSetElementOnstorage ::
-                             (HTMLFrameSetElementClass self) =>
-                               Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnstorage = (connect "storage")
+storage :: (HTMLFrameSetElementClass self) => EventName self Event
+storage = EventName "storage"
  
-htmlFrameSetElementOnunload ::
-                            (HTMLFrameSetElementClass self) =>
-                              Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnunload = (connect "unload")
+unload :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+unload = EventName "unload"
  
-htmlFrameSetElementOnorientationchange ::
-                                       (HTMLFrameSetElementClass self) =>
-                                         Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnorientationchange
-  = (connect "orientationchange")
+orientationChange ::
+                  (HTMLFrameSetElementClass self) => EventName self Event
+orientationChange = EventName "orientationchange"
  
-htmlFrameSetElementOnblur ::
-                          (HTMLFrameSetElementClass self) =>
-                            Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnblur = (connect "blur")
+blur :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+blur = EventName "blur"
  
-htmlFrameSetElementOnerror ::
-                           (HTMLFrameSetElementClass self) =>
-                             Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnerror = (connect "error")
+error :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+error = EventName "error"
  
-htmlFrameSetElementOnfocus ::
-                           (HTMLFrameSetElementClass self) =>
-                             Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnfocus = (connect "focus")
+focus :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+focus = EventName "focus"
  
-htmlFrameSetElementOnload ::
-                          (HTMLFrameSetElementClass self) =>
-                            Signal self (EventM UIEvent self ())
-htmlFrameSetElementOnload = (connect "load")
+load :: (HTMLFrameSetElementClass self) => EventName self UIEvent
+load = EventName "load"

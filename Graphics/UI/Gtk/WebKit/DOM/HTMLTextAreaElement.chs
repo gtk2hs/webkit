@@ -1,405 +1,511 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement
-       (htmlTextAreaElementCheckValidity,
-        htmlTextAreaElementSetCustomValidity, htmlTextAreaElementSelect,
-#if WEBKIT_CHECK_VERSION(2,2,2)
-        htmlTextAreaElementSetRangeText,
-#endif
-        htmlTextAreaElementSetSelectionRange,
-        htmlTextAreaElementSetAutofocus, htmlTextAreaElementGetAutofocus,
-        htmlTextAreaElementSetCols, htmlTextAreaElementGetCols,
-        htmlTextAreaElementSetDirName, htmlTextAreaElementGetDirName,
-        htmlTextAreaElementSetDisabled, htmlTextAreaElementGetDisabled,
-        htmlTextAreaElementGetForm, htmlTextAreaElementSetMaxLength,
-        htmlTextAreaElementGetMaxLength, htmlTextAreaElementSetName,
-        htmlTextAreaElementGetName, htmlTextAreaElementSetPlaceholder,
-        htmlTextAreaElementGetPlaceholder, htmlTextAreaElementSetReadOnly,
-        htmlTextAreaElementGetReadOnly, htmlTextAreaElementSetRequired,
-        htmlTextAreaElementGetRequired, htmlTextAreaElementSetRows,
-        htmlTextAreaElementGetRows, htmlTextAreaElementSetWrap,
-        htmlTextAreaElementGetWrap, htmlTextAreaElementSetDefaultValue,
-        htmlTextAreaElementGetDefaultValue, htmlTextAreaElementSetValue,
-        htmlTextAreaElementGetValue, htmlTextAreaElementGetTextLength,
-        htmlTextAreaElementGetWillValidate, htmlTextAreaElementGetValidity,
-        htmlTextAreaElementGetValidationMessage,
-        htmlTextAreaElementGetLabels, htmlTextAreaElementSetSelectionStart,
-        htmlTextAreaElementGetSelectionStart,
-        htmlTextAreaElementSetSelectionEnd,
-        htmlTextAreaElementGetSelectionEnd,
-        htmlTextAreaElementSetSelectionDirection,
-        htmlTextAreaElementGetSelectionDirection, HTMLTextAreaElement,
-        HTMLTextAreaElementClass, castToHTMLTextAreaElement,
-        gTypeHTMLTextAreaElement, toHTMLTextAreaElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement(
+checkValidity,
+setCustomValidity,
+select,
+setRangeText4,
+setSelectionRange,
+setAutofocus,
+getAutofocus,
+setCols,
+getCols,
+setDirName,
+getDirName,
+setDisabled,
+getDisabled,
+getForm,
+setMaxLength,
+getMaxLength,
+setName,
+getName,
+setPlaceholder,
+getPlaceholder,
+setReadOnly,
+getReadOnly,
+setRequired,
+getRequired,
+setRows,
+getRows,
+setWrap,
+getWrap,
+setDefaultValue,
+getDefaultValue,
+setValue,
+getValue,
+getTextLength,
+getWillValidate,
+getValidity,
+getValidationMessage,
+getLabels,
+setSelectionStart,
+getSelectionStart,
+setSelectionEnd,
+getSelectionEnd,
+setSelectionDirection,
+getSelectionDirection,
+setAutocorrect,
+getAutocorrect,
+setAutocapitalize,
+getAutocapitalize,
+HTMLTextAreaElement,
+castToHTMLTextAreaElement,
+gTypeHTMLTextAreaElement,
+HTMLTextAreaElementClass,
+toHTMLTextAreaElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
- 
-htmlTextAreaElementCheckValidity ::
-                                 (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementCheckValidity self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_check_validity #}
-         (toHTMLTextAreaElement self))
- 
-htmlTextAreaElementSetCustomValidity ::
-                                     (HTMLTextAreaElementClass self, GlibString string) =>
-                                       self -> string -> IO ()
-htmlTextAreaElementSetCustomValidity self error
-  = withUTFString error $
-      \ errorPtr ->
-        {# call webkit_dom_html_text_area_element_set_custom_validity #}
-          (toHTMLTextAreaElement self)
-          errorPtr
- 
-htmlTextAreaElementSelect ::
-                          (HTMLTextAreaElementClass self) => self -> IO ()
-htmlTextAreaElementSelect self
-  = {# call webkit_dom_html_text_area_element_select #}
-      (toHTMLTextAreaElement self)
- 
-#if WEBKIT_CHECK_VERSION(2,2,2)
-htmlTextAreaElementSetRangeText ::
-                                (HTMLTextAreaElementClass self, GlibString string) =>
-                                  self -> string -> Word -> Word -> string -> IO ()
-htmlTextAreaElementSetRangeText self replacement start end
-  selectionMode
-  = propagateGError $
-      \ errorPtr_ ->
-        withUTFString selectionMode $
-          \ selectionModePtr ->
-            withUTFString replacement $
-              \ replacementPtr ->
-                {# call webkit_dom_html_text_area_element_set_range_text #}
-                  (toHTMLTextAreaElement self)
-                  replacementPtr
-              (fromIntegral start)
-              (fromIntegral end)
-              selectionModePtr
-          errorPtr_
-#endif
+import Graphics.UI.Gtk.WebKit.DOM.Enums
 
-htmlTextAreaElementSetSelectionRange ::
-                                     (HTMLTextAreaElementClass self, GlibString string) =>
-                                       self -> Int -> Int -> string -> IO ()
-htmlTextAreaElementSetSelectionRange self start end direction
-  = withUTFString direction $
-      \ directionPtr ->
-        {# call webkit_dom_html_text_area_element_set_selection_range #}
-          (toHTMLTextAreaElement self)
-          (fromIntegral start)
-          (fromIntegral end)
-          directionPtr
  
-htmlTextAreaElementSetAutofocus ::
-                                (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
-htmlTextAreaElementSetAutofocus self val
-  = {# call webkit_dom_html_text_area_element_set_autofocus #}
-      (toHTMLTextAreaElement self)
-      (fromBool val)
+checkValidity ::
+              (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+checkValidity self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_check_validity #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementGetAutofocus ::
-                                (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetAutofocus self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_autofocus #}
+setCustomValidity ::
+                  (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                    self -> string -> m ()
+setCustomValidity self error
+  = liftIO
+      (withUTFString error $
+         \ errorPtr ->
+           {# call webkit_dom_html_text_area_element_set_custom_validity #}
+             (toHTMLTextAreaElement self)
+             errorPtr)
+ 
+select ::
+       (MonadIO m, HTMLTextAreaElementClass self) => self -> m ()
+select self
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_select #}
          (toHTMLTextAreaElement self))
  
-htmlTextAreaElementSetCols ::
-                           (HTMLTextAreaElementClass self) => self -> Int -> IO ()
-htmlTextAreaElementSetCols self val
-  = {# call webkit_dom_html_text_area_element_set_cols #}
-      (toHTMLTextAreaElement self)
-      (fromIntegral val)
+setRangeText4 ::
+              (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                self -> string -> Word -> Word -> string -> m ()
+setRangeText4 self replacement start end selectionMode
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           withUTFString selectionMode $
+             \ selectionModePtr ->
+               withUTFString replacement $
+                 \ replacementPtr ->
+                   {# call webkit_dom_html_text_area_element_set_range_text #}
+                     (toHTMLTextAreaElement self)
+                     replacementPtr
+                 (fromIntegral start)
+                 (fromIntegral end)
+                 selectionModePtr
+             errorPtr_)
  
-htmlTextAreaElementGetCols ::
-                           (HTMLTextAreaElementClass self) => self -> IO Int
-htmlTextAreaElementGetCols self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_cols #}
-         (toHTMLTextAreaElement self))
+setSelectionRange ::
+                  (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                    self -> Int -> Int -> string -> m ()
+setSelectionRange self start end direction
+  = liftIO
+      (withUTFString direction $
+         \ directionPtr ->
+           {# call webkit_dom_html_text_area_element_set_selection_range #}
+             (toHTMLTextAreaElement self)
+             (fromIntegral start)
+             (fromIntegral end)
+             directionPtr)
  
-htmlTextAreaElementSetDirName ::
-                              (HTMLTextAreaElementClass self, GlibString string) =>
-                                self -> string -> IO ()
-htmlTextAreaElementSetDirName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_dir_name #}
-          (toHTMLTextAreaElement self)
-          valPtr
+setAutofocus ::
+             (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
+setAutofocus self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_autofocus #}
+         (toHTMLTextAreaElement self)
+         (fromBool val))
  
-htmlTextAreaElementGetDirName ::
-                              (HTMLTextAreaElementClass self, GlibString string) =>
-                                self -> IO string
-htmlTextAreaElementGetDirName self
-  = ({# call webkit_dom_html_text_area_element_get_dir_name #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getAutofocus ::
+             (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getAutofocus self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_autofocus #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetDisabled ::
-                               (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
-htmlTextAreaElementSetDisabled self val
-  = {# call webkit_dom_html_text_area_element_set_disabled #}
-      (toHTMLTextAreaElement self)
-      (fromBool val)
+setCols ::
+        (MonadIO m, HTMLTextAreaElementClass self) => self -> Int -> m ()
+setCols self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_cols #}
+         (toHTMLTextAreaElement self)
+         (fromIntegral val))
  
-htmlTextAreaElementGetDisabled ::
-                               (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_disabled #}
-         (toHTMLTextAreaElement self))
+getCols ::
+        (MonadIO m, HTMLTextAreaElementClass self) => self -> m Int
+getCols self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_cols #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementGetForm ::
-                           (HTMLTextAreaElementClass self) =>
-                             self -> IO (Maybe HTMLFormElement)
-htmlTextAreaElementGetForm self
-  = maybeNull (makeNewGObject mkHTMLFormElement)
-      ({# call webkit_dom_html_text_area_element_get_form #}
-         (toHTMLTextAreaElement self))
+setDirName ::
+           (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+             self -> string -> m ()
+setDirName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_dir_name #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementSetMaxLength ::
-                                (HTMLTextAreaElementClass self) => self -> Int -> IO ()
-htmlTextAreaElementSetMaxLength self val
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_html_text_area_element_set_max_length #}
-          (toHTMLTextAreaElement self)
-          (fromIntegral val)
-          errorPtr_
+getDirName ::
+           (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+             self -> m string
+getDirName self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_dir_name #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementGetMaxLength ::
-                                (HTMLTextAreaElementClass self) => self -> IO Int
-htmlTextAreaElementGetMaxLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_max_length #}
-         (toHTMLTextAreaElement self))
+setDisabled ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
+setDisabled self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_disabled #}
+         (toHTMLTextAreaElement self)
+         (fromBool val))
  
-htmlTextAreaElementSetName ::
-                           (HTMLTextAreaElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlTextAreaElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_name #}
-          (toHTMLTextAreaElement self)
-          valPtr
+getDisabled ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_disabled #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementGetName ::
-                           (HTMLTextAreaElementClass self, GlibString string) =>
-                             self -> IO string
-htmlTextAreaElementGetName self
-  = ({# call webkit_dom_html_text_area_element_get_name #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getForm ::
+        (MonadIO m, HTMLTextAreaElementClass self) =>
+          self -> m (Maybe HTMLFormElement)
+getForm self
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLFormElement)
+         ({# call webkit_dom_html_text_area_element_get_form #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetPlaceholder ::
-                                  (HTMLTextAreaElementClass self, GlibString string) =>
-                                    self -> string -> IO ()
-htmlTextAreaElementSetPlaceholder self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_placeholder #}
-          (toHTMLTextAreaElement self)
-          valPtr
+setMaxLength ::
+             (MonadIO m, HTMLTextAreaElementClass self) => self -> Int -> m ()
+setMaxLength self val
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_html_text_area_element_set_max_length #}
+             (toHTMLTextAreaElement self)
+             (fromIntegral val)
+             errorPtr_)
  
-htmlTextAreaElementGetPlaceholder ::
-                                  (HTMLTextAreaElementClass self, GlibString string) =>
-                                    self -> IO string
-htmlTextAreaElementGetPlaceholder self
-  = ({# call webkit_dom_html_text_area_element_get_placeholder #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getMaxLength ::
+             (MonadIO m, HTMLTextAreaElementClass self) => self -> m Int
+getMaxLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_max_length #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetReadOnly ::
-                               (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
-htmlTextAreaElementSetReadOnly self val
-  = {# call webkit_dom_html_text_area_element_set_read_only #}
-      (toHTMLTextAreaElement self)
-      (fromBool val)
+setName ::
+        (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_name #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementGetReadOnly ::
-                               (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetReadOnly self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_read_only #}
-         (toHTMLTextAreaElement self))
+getName ::
+        (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_name #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementSetRequired ::
-                               (HTMLTextAreaElementClass self) => self -> Bool -> IO ()
-htmlTextAreaElementSetRequired self val
-  = {# call webkit_dom_html_text_area_element_set_required #}
-      (toHTMLTextAreaElement self)
-      (fromBool val)
+setPlaceholder ::
+               (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                 self -> string -> m ()
+setPlaceholder self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_placeholder #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementGetRequired ::
-                               (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetRequired self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_required #}
-         (toHTMLTextAreaElement self))
+getPlaceholder ::
+               (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                 self -> m string
+getPlaceholder self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_placeholder #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementSetRows ::
-                           (HTMLTextAreaElementClass self) => self -> Int -> IO ()
-htmlTextAreaElementSetRows self val
-  = {# call webkit_dom_html_text_area_element_set_rows #}
-      (toHTMLTextAreaElement self)
-      (fromIntegral val)
+setReadOnly ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
+setReadOnly self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_read_only #}
+         (toHTMLTextAreaElement self)
+         (fromBool val))
  
-htmlTextAreaElementGetRows ::
-                           (HTMLTextAreaElementClass self) => self -> IO Int
-htmlTextAreaElementGetRows self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_rows #}
-         (toHTMLTextAreaElement self))
+getReadOnly ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getReadOnly self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_read_only #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetWrap ::
-                           (HTMLTextAreaElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlTextAreaElementSetWrap self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_wrap #}
-          (toHTMLTextAreaElement self)
-          valPtr
+setRequired ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
+setRequired self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_required #}
+         (toHTMLTextAreaElement self)
+         (fromBool val))
  
-htmlTextAreaElementGetWrap ::
-                           (HTMLTextAreaElementClass self, GlibString string) =>
-                             self -> IO string
-htmlTextAreaElementGetWrap self
-  = ({# call webkit_dom_html_text_area_element_get_wrap #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getRequired ::
+            (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getRequired self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_required #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetDefaultValue ::
-                                   (HTMLTextAreaElementClass self, GlibString string) =>
-                                     self -> string -> IO ()
-htmlTextAreaElementSetDefaultValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_default_value #}
-          (toHTMLTextAreaElement self)
-          valPtr
+setRows ::
+        (MonadIO m, HTMLTextAreaElementClass self) => self -> Int -> m ()
+setRows self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_rows #}
+         (toHTMLTextAreaElement self)
+         (fromIntegral val))
  
-htmlTextAreaElementGetDefaultValue ::
-                                   (HTMLTextAreaElementClass self, GlibString string) =>
-                                     self -> IO string
-htmlTextAreaElementGetDefaultValue self
-  = ({# call webkit_dom_html_text_area_element_get_default_value #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getRows ::
+        (MonadIO m, HTMLTextAreaElementClass self) => self -> m Int
+getRows self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_rows #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetValue ::
-                            (HTMLTextAreaElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlTextAreaElementSetValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_value #}
-          (toHTMLTextAreaElement self)
-          valPtr
+setWrap ::
+        (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+          self -> string -> m ()
+setWrap self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_wrap #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementGetValue ::
-                            (HTMLTextAreaElementClass self, GlibString string) =>
-                              self -> IO string
-htmlTextAreaElementGetValue self
-  = ({# call webkit_dom_html_text_area_element_get_value #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getWrap ::
+        (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+          self -> m string
+getWrap self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_wrap #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementGetTextLength ::
-                                 (HTMLTextAreaElementClass self) => self -> IO Word
-htmlTextAreaElementGetTextLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_text_length #}
-         (toHTMLTextAreaElement self))
+setDefaultValue ::
+                (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                  self -> string -> m ()
+setDefaultValue self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_default_value #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementGetWillValidate ::
-                                   (HTMLTextAreaElementClass self) => self -> IO Bool
-htmlTextAreaElementGetWillValidate self
-  = toBool <$>
-      ({# call webkit_dom_html_text_area_element_get_will_validate #}
-         (toHTMLTextAreaElement self))
+getDefaultValue ::
+                (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                  self -> m string
+getDefaultValue self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_default_value #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementGetValidity ::
-                               (HTMLTextAreaElementClass self) => self -> IO (Maybe ValidityState)
-htmlTextAreaElementGetValidity self
-  = maybeNull (makeNewGObject mkValidityState)
-      ({# call webkit_dom_html_text_area_element_get_validity #}
-         (toHTMLTextAreaElement self))
+setValue ::
+         (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+           self -> string -> m ()
+setValue self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_value #}
+             (toHTMLTextAreaElement self)
+             valPtr)
  
-htmlTextAreaElementGetValidationMessage ::
-                                        (HTMLTextAreaElementClass self, GlibString string) =>
-                                          self -> IO string
-htmlTextAreaElementGetValidationMessage self
-  = ({# call webkit_dom_html_text_area_element_get_validation_message
-       #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getValue ::
+         (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+           self -> m string
+getValue self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_value #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementGetLabels ::
-                             (HTMLTextAreaElementClass self) => self -> IO (Maybe NodeList)
-htmlTextAreaElementGetLabels self
-  = maybeNull (makeNewGObject mkNodeList)
-      ({# call webkit_dom_html_text_area_element_get_labels #}
-         (toHTMLTextAreaElement self))
+getTextLength ::
+              (MonadIO m, HTMLTextAreaElementClass self) => self -> m Word
+getTextLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_text_length #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetSelectionStart ::
-                                     (HTMLTextAreaElementClass self) => self -> Int -> IO ()
-htmlTextAreaElementSetSelectionStart self val
-  = {# call webkit_dom_html_text_area_element_set_selection_start #}
-      (toHTMLTextAreaElement self)
-      (fromIntegral val)
+getWillValidate ::
+                (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getWillValidate self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_will_validate #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementGetSelectionStart ::
-                                     (HTMLTextAreaElementClass self) => self -> IO Int
-htmlTextAreaElementGetSelectionStart self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_selection_start #}
-         (toHTMLTextAreaElement self))
+getValidity ::
+            (MonadIO m, HTMLTextAreaElementClass self) =>
+              self -> m (Maybe ValidityState)
+getValidity self
+  = liftIO
+      (maybeNull (makeNewGObject mkValidityState)
+         ({# call webkit_dom_html_text_area_element_get_validity #}
+            (toHTMLTextAreaElement self)))
  
-htmlTextAreaElementSetSelectionEnd ::
-                                   (HTMLTextAreaElementClass self) => self -> Int -> IO ()
-htmlTextAreaElementSetSelectionEnd self val
-  = {# call webkit_dom_html_text_area_element_set_selection_end #}
-      (toHTMLTextAreaElement self)
-      (fromIntegral val)
- 
-htmlTextAreaElementGetSelectionEnd ::
-                                   (HTMLTextAreaElementClass self) => self -> IO Int
-htmlTextAreaElementGetSelectionEnd self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_text_area_element_get_selection_end #}
-         (toHTMLTextAreaElement self))
- 
-htmlTextAreaElementSetSelectionDirection ::
-                                         (HTMLTextAreaElementClass self, GlibString string) =>
-                                           self -> string -> IO ()
-htmlTextAreaElementSetSelectionDirection self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_text_area_element_set_selection_direction
+getValidationMessage ::
+                     (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                       self -> m string
+getValidationMessage self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_validation_message
           #}
-          (toHTMLTextAreaElement self)
-          valPtr
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
  
-htmlTextAreaElementGetSelectionDirection ::
-                                         (HTMLTextAreaElementClass self, GlibString string) =>
-                                           self -> IO string
-htmlTextAreaElementGetSelectionDirection self
-  = ({# call
-       webkit_dom_html_text_area_element_get_selection_direction
-       #}
-       (toHTMLTextAreaElement self))
-      >>=
-      readUTFString
+getLabels ::
+          (MonadIO m, HTMLTextAreaElementClass self) =>
+            self -> m (Maybe NodeList)
+getLabels self
+  = liftIO
+      (maybeNull (makeNewGObject mkNodeList)
+         ({# call webkit_dom_html_text_area_element_get_labels #}
+            (toHTMLTextAreaElement self)))
+ 
+setSelectionStart ::
+                  (MonadIO m, HTMLTextAreaElementClass self) => self -> Int -> m ()
+setSelectionStart self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_selection_start #}
+         (toHTMLTextAreaElement self)
+         (fromIntegral val))
+ 
+getSelectionStart ::
+                  (MonadIO m, HTMLTextAreaElementClass self) => self -> m Int
+getSelectionStart self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_selection_start #}
+            (toHTMLTextAreaElement self)))
+ 
+setSelectionEnd ::
+                (MonadIO m, HTMLTextAreaElementClass self) => self -> Int -> m ()
+setSelectionEnd self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_selection_end #}
+         (toHTMLTextAreaElement self)
+         (fromIntegral val))
+ 
+getSelectionEnd ::
+                (MonadIO m, HTMLTextAreaElementClass self) => self -> m Int
+getSelectionEnd self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_text_area_element_get_selection_end #}
+            (toHTMLTextAreaElement self)))
+ 
+setSelectionDirection ::
+                      (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                        self -> string -> m ()
+setSelectionDirection self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_selection_direction
+             #}
+             (toHTMLTextAreaElement self)
+             valPtr)
+ 
+getSelectionDirection ::
+                      (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                        self -> m string
+getSelectionDirection self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_selection_direction
+          #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)
+ 
+setAutocorrect ::
+               (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
+setAutocorrect self val
+  = liftIO
+      ({# call webkit_dom_html_text_area_element_set_autocorrect #}
+         (toHTMLTextAreaElement self)
+         (fromBool val))
+ 
+getAutocorrect ::
+               (MonadIO m, HTMLTextAreaElementClass self) => self -> m Bool
+getAutocorrect self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_text_area_element_get_autocorrect #}
+            (toHTMLTextAreaElement self)))
+ 
+setAutocapitalize ::
+                  (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                    self -> string -> m ()
+setAutocapitalize self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_text_area_element_set_autocapitalize #}
+             (toHTMLTextAreaElement self)
+             valPtr)
+ 
+getAutocapitalize ::
+                  (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
+                    self -> m string
+getAutocapitalize self
+  = liftIO
+      (({# call webkit_dom_html_text_area_element_get_autocapitalize #}
+          (toHTMLTextAreaElement self))
+         >>=
+         readUTFString)

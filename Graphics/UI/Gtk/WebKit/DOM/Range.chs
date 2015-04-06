@@ -1,330 +1,402 @@
-module Graphics.UI.Gtk.WebKit.DOM.Range
-       (rangeSetStart, rangeSetEnd, rangeSetStartBefore,
-        rangeSetStartAfter, rangeSetEndBefore, rangeSetEndAfter,
-        rangeCollapse, rangeSelectNode, rangeSelectNodeContents,
-        rangeCompareBoundaryPoints, rangeDeleteContents,
-        rangeExtractContents, rangeCloneContents, rangeInsertNode,
-        rangeSurroundContents, rangeCloneRange, rangeToString, rangeDetach,
-        rangeCreateContextualFragment, rangeIntersectsNode,
-        rangeCompareNode, rangeComparePoint, rangeIsPointInRange,
-        rangeExpand, cSTART_TO_START, cSTART_TO_END, cEND_TO_END,
-        cEND_TO_START, cNODE_BEFORE, cNODE_AFTER, cNODE_BEFORE_AND_AFTER,
-        cNODE_INSIDE, rangeGetStartContainer, rangeGetStartOffset,
-        rangeGetEndContainer, rangeGetEndOffset, rangeGetCollapsed,
-        rangeGetCommonAncestorContainer, rangeGetText, DOMRange,
-        DOMRangeClass, castToDOMRange, gTypeDOMRange, toDOMRange)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.Range(
+setStart,
+setEnd,
+setStartBefore,
+setStartAfter,
+setEndBefore,
+setEndAfter,
+collapse,
+selectNode,
+selectNodeContents,
+compareBoundaryPoints,
+deleteContents,
+extractContents,
+cloneContents,
+insertNode,
+surroundContents,
+cloneRange,
+toString,
+detach,
+createContextualFragment,
+intersectsNode,
+compareNode,
+comparePoint,
+isPointInRange,
+expand,
+pattern START_TO_START,
+pattern START_TO_END,
+pattern END_TO_END,
+pattern END_TO_START,
+pattern NODE_BEFORE,
+pattern NODE_AFTER,
+pattern NODE_BEFORE_AND_AFTER,
+pattern NODE_INSIDE,
+getStartContainer,
+getStartOffset,
+getEndContainer,
+getEndOffset,
+getCollapsed,
+getCommonAncestorContainer,
+getText,
+DOMRange,
+castToDOMRange,
+gTypeDOMRange,
+DOMRangeClass,
+toDOMRange,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-rangeSetStart ::
-              (DOMRangeClass self, NodeClass refNode) =>
-                self -> Maybe refNode -> Int -> IO ()
-rangeSetStart self refNode offset
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_start #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          (fromIntegral offset)
-          errorPtr_
- 
-rangeSetEnd ::
-            (DOMRangeClass self, NodeClass refNode) =>
-              self -> Maybe refNode -> Int -> IO ()
-rangeSetEnd self refNode offset
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_end #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          (fromIntegral offset)
-          errorPtr_
- 
-rangeSetStartBefore ::
-                    (DOMRangeClass self, NodeClass refNode) =>
-                      self -> Maybe refNode -> IO ()
-rangeSetStartBefore self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_start_before #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeSetStartAfter ::
-                   (DOMRangeClass self, NodeClass refNode) =>
-                     self -> Maybe refNode -> IO ()
-rangeSetStartAfter self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_start_after #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeSetEndBefore ::
-                  (DOMRangeClass self, NodeClass refNode) =>
-                    self -> Maybe refNode -> IO ()
-rangeSetEndBefore self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_end_before #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeSetEndAfter ::
-                 (DOMRangeClass self, NodeClass refNode) =>
-                   self -> Maybe refNode -> IO ()
-rangeSetEndAfter self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_set_end_after #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeCollapse :: (DOMRangeClass self) => self -> Bool -> IO ()
-rangeCollapse self toStart
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_collapse #} (toDOMRange self)
-          (fromBool toStart)
-          errorPtr_
- 
-rangeSelectNode ::
-                (DOMRangeClass self, NodeClass refNode) =>
-                  self -> Maybe refNode -> IO ()
-rangeSelectNode self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_select_node #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeSelectNodeContents ::
-                        (DOMRangeClass self, NodeClass refNode) =>
-                          self -> Maybe refNode -> IO ()
-rangeSelectNodeContents self refNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_select_node_contents #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode refNode)
-          errorPtr_
- 
-rangeCompareBoundaryPoints ::
-                           (DOMRangeClass self, DOMRangeClass sourceRange) =>
-                             self -> Word -> Maybe sourceRange -> IO Int
-rangeCompareBoundaryPoints self how sourceRange
-  = fromIntegral <$>
+setStart ::
+         (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+           self -> Maybe refNode -> Int -> m ()
+setStart self refNode offset
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_compare_boundary_points #}
-             (toDOMRange self)
-             (fromIntegral how)
-             (maybe (DOMRange nullForeignPtr) toDOMRange sourceRange)
-             errorPtr_)
- 
-rangeDeleteContents :: (DOMRangeClass self) => self -> IO ()
-rangeDeleteContents self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_delete_contents #} (toDOMRange self)
-          errorPtr_
- 
-rangeExtractContents ::
-                     (DOMRangeClass self) => self -> IO (Maybe DocumentFragment)
-rangeExtractContents self
-  = maybeNull (makeNewGObject mkDocumentFragment)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_extract_contents #} (toDOMRange self)
-             errorPtr_)
- 
-rangeCloneContents ::
-                   (DOMRangeClass self) => self -> IO (Maybe DocumentFragment)
-rangeCloneContents self
-  = maybeNull (makeNewGObject mkDocumentFragment)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_clone_contents #} (toDOMRange self)
-             errorPtr_)
- 
-rangeInsertNode ::
-                (DOMRangeClass self, NodeClass newNode) =>
-                  self -> Maybe newNode -> IO ()
-rangeInsertNode self newNode
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_insert_node #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode newNode)
-          errorPtr_
- 
-rangeSurroundContents ::
-                      (DOMRangeClass self, NodeClass newParent) =>
-                        self -> Maybe newParent -> IO ()
-rangeSurroundContents self newParent
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_surround_contents #} (toDOMRange self)
-          (maybe (Node nullForeignPtr) toNode newParent)
-          errorPtr_
- 
-rangeCloneRange ::
-                (DOMRangeClass self) => self -> IO (Maybe DOMRange)
-rangeCloneRange self
-  = maybeNull (makeNewGObject mkDOMRange)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_clone_range #} (toDOMRange self)
-             errorPtr_)
- 
-rangeToString ::
-              (DOMRangeClass self, GlibString string) => self -> IO string
-rangeToString self
-  = (propagateGError $
-       \ errorPtr_ ->
-         {# call webkit_dom_range_to_string #} (toDOMRange self) errorPtr_)
-      >>=
-      readUTFString
- 
-rangeDetach :: (DOMRangeClass self) => self -> IO ()
-rangeDetach self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_range_detach #} (toDOMRange self) errorPtr_
- 
-rangeCreateContextualFragment ::
-                              (DOMRangeClass self, GlibString string) =>
-                                self -> string -> IO (Maybe DocumentFragment)
-rangeCreateContextualFragment self html
-  = maybeNull (makeNewGObject mkDocumentFragment)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString html $
-             \ htmlPtr ->
-               {# call webkit_dom_range_create_contextual_fragment #}
-                 (toDOMRange self)
-                 htmlPtr
-             errorPtr_)
- 
-rangeIntersectsNode ::
-                    (DOMRangeClass self, NodeClass refNode) =>
-                      self -> Maybe refNode -> IO Bool
-rangeIntersectsNode self refNode
-  = toBool <$>
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_intersects_node #} (toDOMRange self)
-             (maybe (Node nullForeignPtr) toNode refNode)
-             errorPtr_)
- 
-rangeCompareNode ::
-                 (DOMRangeClass self, NodeClass refNode) =>
-                   self -> Maybe refNode -> IO Int
-rangeCompareNode self refNode
-  = fromIntegral <$>
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_compare_node #} (toDOMRange self)
-             (maybe (Node nullForeignPtr) toNode refNode)
-             errorPtr_)
- 
-rangeComparePoint ::
-                  (DOMRangeClass self, NodeClass refNode) =>
-                    self -> Maybe refNode -> Int -> IO Int
-rangeComparePoint self refNode offset
-  = fromIntegral <$>
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_range_compare_point #} (toDOMRange self)
+           {# call webkit_dom_range_set_start #} (toDOMRange self)
              (maybe (Node nullForeignPtr) toNode refNode)
              (fromIntegral offset)
              errorPtr_)
  
-rangeIsPointInRange ::
-                    (DOMRangeClass self, NodeClass refNode) =>
-                      self -> Maybe refNode -> Int -> IO Bool
-rangeIsPointInRange self refNode offset
-  = toBool <$>
+setEnd ::
+       (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+         self -> Maybe refNode -> Int -> m ()
+setEnd self refNode offset
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_is_point_in_range #} (toDOMRange self)
+           {# call webkit_dom_range_set_end #} (toDOMRange self)
              (maybe (Node nullForeignPtr) toNode refNode)
              (fromIntegral offset)
              errorPtr_)
  
-rangeExpand ::
-            (DOMRangeClass self, GlibString string) => self -> string -> IO ()
-rangeExpand self unit
-  = propagateGError $
-      \ errorPtr_ ->
-        withUTFString unit $
-          \ unitPtr ->
-            {# call webkit_dom_range_expand #} (toDOMRange self) unitPtr
-          errorPtr_
-cSTART_TO_START = 0
-cSTART_TO_END = 1
-cEND_TO_END = 2
-cEND_TO_START = 3
-cNODE_BEFORE = 0
-cNODE_AFTER = 1
-cNODE_BEFORE_AND_AFTER = 2
-cNODE_INSIDE = 3
- 
-rangeGetStartContainer ::
-                       (DOMRangeClass self) => self -> IO (Maybe Node)
-rangeGetStartContainer self
-  = maybeNull (makeNewGObject mkNode)
+setStartBefore ::
+               (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+                 self -> Maybe refNode -> m ()
+setStartBefore self refNode
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_start_container #} (toDOMRange self)
+           {# call webkit_dom_range_set_start_before #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
              errorPtr_)
  
-rangeGetStartOffset :: (DOMRangeClass self) => self -> IO Int
-rangeGetStartOffset self
-  = fromIntegral <$>
+setStartAfter ::
+              (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+                self -> Maybe refNode -> m ()
+setStartAfter self refNode
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_start_offset #} (toDOMRange self)
+           {# call webkit_dom_range_set_start_after #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
              errorPtr_)
  
-rangeGetEndContainer ::
-                     (DOMRangeClass self) => self -> IO (Maybe Node)
-rangeGetEndContainer self
-  = maybeNull (makeNewGObject mkNode)
+setEndBefore ::
+             (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+               self -> Maybe refNode -> m ()
+setEndBefore self refNode
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_end_container #} (toDOMRange self)
+           {# call webkit_dom_range_set_end_before #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
              errorPtr_)
  
-rangeGetEndOffset :: (DOMRangeClass self) => self -> IO Int
-rangeGetEndOffset self
-  = fromIntegral <$>
+setEndAfter ::
+            (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+              self -> Maybe refNode -> m ()
+setEndAfter self refNode
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_end_offset #} (toDOMRange self)
+           {# call webkit_dom_range_set_end_after #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
              errorPtr_)
  
-rangeGetCollapsed :: (DOMRangeClass self) => self -> IO Bool
-rangeGetCollapsed self
-  = toBool <$>
+collapse :: (MonadIO m, DOMRangeClass self) => self -> Bool -> m ()
+collapse self toStart
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_collapsed #} (toDOMRange self)
+           {# call webkit_dom_range_collapse #} (toDOMRange self)
+             (fromBool toStart)
              errorPtr_)
  
-rangeGetCommonAncestorContainer ::
-                                (DOMRangeClass self) => self -> IO (Maybe Node)
-rangeGetCommonAncestorContainer self
-  = maybeNull (makeNewGObject mkNode)
+selectNode ::
+           (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+             self -> Maybe refNode -> m ()
+selectNode self refNode
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_range_get_common_ancestor_container #}
-             (toDOMRange self)
+           {# call webkit_dom_range_select_node #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
              errorPtr_)
  
-rangeGetText ::
-             (DOMRangeClass self, GlibString string) => self -> IO string
-rangeGetText self
-  = ({# call webkit_dom_range_get_text #} (toDOMRange self)) >>=
-      readUTFString
+selectNodeContents ::
+                   (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+                     self -> Maybe refNode -> m ()
+selectNodeContents self refNode
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_range_select_node_contents #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode refNode)
+             errorPtr_)
+ 
+compareBoundaryPoints ::
+                      (MonadIO m, DOMRangeClass self, DOMRangeClass sourceRange) =>
+                        self -> Word -> Maybe sourceRange -> m Int
+compareBoundaryPoints self how sourceRange
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_compare_boundary_points #}
+                (toDOMRange self)
+                (fromIntegral how)
+                (maybe (DOMRange nullForeignPtr) toDOMRange sourceRange)
+                errorPtr_))
+ 
+deleteContents :: (MonadIO m, DOMRangeClass self) => self -> m ()
+deleteContents self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_range_delete_contents #} (toDOMRange self)
+             errorPtr_)
+ 
+extractContents ::
+                (MonadIO m, DOMRangeClass self) =>
+                  self -> m (Maybe DocumentFragment)
+extractContents self
+  = liftIO
+      (maybeNull (makeNewGObject mkDocumentFragment)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_extract_contents #} (toDOMRange self)
+                errorPtr_))
+ 
+cloneContents ::
+              (MonadIO m, DOMRangeClass self) =>
+                self -> m (Maybe DocumentFragment)
+cloneContents self
+  = liftIO
+      (maybeNull (makeNewGObject mkDocumentFragment)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_clone_contents #} (toDOMRange self)
+                errorPtr_))
+ 
+insertNode ::
+           (MonadIO m, DOMRangeClass self, NodeClass newNode) =>
+             self -> Maybe newNode -> m ()
+insertNode self newNode
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_range_insert_node #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode newNode)
+             errorPtr_)
+ 
+surroundContents ::
+                 (MonadIO m, DOMRangeClass self, NodeClass newParent) =>
+                   self -> Maybe newParent -> m ()
+surroundContents self newParent
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_range_surround_contents #} (toDOMRange self)
+             (maybe (Node nullForeignPtr) toNode newParent)
+             errorPtr_)
+ 
+cloneRange ::
+           (MonadIO m, DOMRangeClass self) => self -> m (Maybe DOMRange)
+cloneRange self
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMRange)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_clone_range #} (toDOMRange self)
+                errorPtr_))
+ 
+toString ::
+         (MonadIO m, DOMRangeClass self, GlibString string) =>
+           self -> m string
+toString self
+  = liftIO
+      ((propagateGError $
+          \ errorPtr_ ->
+            {# call webkit_dom_range_to_string #} (toDOMRange self) errorPtr_)
+         >>=
+         readUTFString)
+ 
+detach :: (MonadIO m, DOMRangeClass self) => self -> m ()
+detach self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_range_detach #} (toDOMRange self) errorPtr_)
+ 
+createContextualFragment ::
+                         (MonadIO m, DOMRangeClass self, GlibString string) =>
+                           self -> string -> m (Maybe DocumentFragment)
+createContextualFragment self html
+  = liftIO
+      (maybeNull (makeNewGObject mkDocumentFragment)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString html $
+                \ htmlPtr ->
+                  {# call webkit_dom_range_create_contextual_fragment #}
+                    (toDOMRange self)
+                    htmlPtr
+                errorPtr_))
+ 
+intersectsNode ::
+               (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+                 self -> Maybe refNode -> m Bool
+intersectsNode self refNode
+  = liftIO
+      (toBool <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_intersects_node #} (toDOMRange self)
+                (maybe (Node nullForeignPtr) toNode refNode)
+                errorPtr_))
+ 
+compareNode ::
+            (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+              self -> Maybe refNode -> m Int
+compareNode self refNode
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_compare_node #} (toDOMRange self)
+                (maybe (Node nullForeignPtr) toNode refNode)
+                errorPtr_))
+ 
+comparePoint ::
+             (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+               self -> Maybe refNode -> Int -> m Int
+comparePoint self refNode offset
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_compare_point #} (toDOMRange self)
+                (maybe (Node nullForeignPtr) toNode refNode)
+                (fromIntegral offset)
+                errorPtr_))
+ 
+isPointInRange ::
+               (MonadIO m, DOMRangeClass self, NodeClass refNode) =>
+                 self -> Maybe refNode -> Int -> m Bool
+isPointInRange self refNode offset
+  = liftIO
+      (toBool <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_is_point_in_range #} (toDOMRange self)
+                (maybe (Node nullForeignPtr) toNode refNode)
+                (fromIntegral offset)
+                errorPtr_))
+ 
+expand ::
+       (MonadIO m, DOMRangeClass self, GlibString string) =>
+         self -> string -> m ()
+expand self unit
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           withUTFString unit $
+             \ unitPtr ->
+               {# call webkit_dom_range_expand #} (toDOMRange self) unitPtr
+             errorPtr_)
+pattern START_TO_START = 0
+pattern START_TO_END = 1
+pattern END_TO_END = 2
+pattern END_TO_START = 3
+pattern NODE_BEFORE = 0
+pattern NODE_AFTER = 1
+pattern NODE_BEFORE_AND_AFTER = 2
+pattern NODE_INSIDE = 3
+ 
+getStartContainer ::
+                  (MonadIO m, DOMRangeClass self) => self -> m (Maybe Node)
+getStartContainer self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_start_container #} (toDOMRange self)
+                errorPtr_))
+ 
+getStartOffset :: (MonadIO m, DOMRangeClass self) => self -> m Int
+getStartOffset self
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_start_offset #} (toDOMRange self)
+                errorPtr_))
+ 
+getEndContainer ::
+                (MonadIO m, DOMRangeClass self) => self -> m (Maybe Node)
+getEndContainer self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_end_container #} (toDOMRange self)
+                errorPtr_))
+ 
+getEndOffset :: (MonadIO m, DOMRangeClass self) => self -> m Int
+getEndOffset self
+  = liftIO
+      (fromIntegral <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_end_offset #} (toDOMRange self)
+                errorPtr_))
+ 
+getCollapsed :: (MonadIO m, DOMRangeClass self) => self -> m Bool
+getCollapsed self
+  = liftIO
+      (toBool <$>
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_collapsed #} (toDOMRange self)
+                errorPtr_))
+ 
+getCommonAncestorContainer ::
+                           (MonadIO m, DOMRangeClass self) => self -> m (Maybe Node)
+getCommonAncestorContainer self
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_range_get_common_ancestor_container #}
+                (toDOMRange self)
+                errorPtr_))
+ 
+getText ::
+        (MonadIO m, DOMRangeClass self, GlibString string) =>
+          self -> m string
+getText self
+  = liftIO
+      (({# call webkit_dom_range_get_text #} (toDOMRange self)) >>=
+         readUTFString)

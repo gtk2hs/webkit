@@ -1,108 +1,129 @@
-module Graphics.UI.Gtk.WebKit.DOM.NamedNodeMap
-       (namedNodeMapGetNamedItem, namedNodeMapSetNamedItem,
-        namedNodeMapRemoveNamedItem, namedNodeMapItem,
-        namedNodeMapGetNamedItemNS, namedNodeMapSetNamedItemNS,
-        namedNodeMapRemoveNamedItemNS, namedNodeMapGetLength, NamedNodeMap,
-        NamedNodeMapClass, castToNamedNodeMap, gTypeNamedNodeMap,
-        toNamedNodeMap)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.NamedNodeMap(
+getNamedItem,
+setNamedItem,
+removeNamedItem,
+item,
+getNamedItemNS,
+setNamedItemNS,
+removeNamedItemNS,
+getLength,
+NamedNodeMap,
+castToNamedNodeMap,
+gTypeNamedNodeMap,
+NamedNodeMapClass,
+toNamedNodeMap,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-namedNodeMapGetNamedItem ::
-                         (NamedNodeMapClass self, GlibString string) =>
-                           self -> string -> IO (Maybe Node)
-namedNodeMapGetNamedItem self name
-  = maybeNull (makeNewGObject mkNode)
-      (withUTFString name $
-         \ namePtr ->
-           {# call webkit_dom_named_node_map_get_named_item #}
-             (toNamedNodeMap self)
-             namePtr)
+getNamedItem ::
+             (MonadIO m, NamedNodeMapClass self, GlibString string) =>
+               self -> string -> m (Maybe Node)
+getNamedItem self name
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (withUTFString name $
+            \ namePtr ->
+              {# call webkit_dom_named_node_map_get_named_item #}
+                (toNamedNodeMap self)
+                namePtr))
  
-namedNodeMapSetNamedItem ::
-                         (NamedNodeMapClass self, NodeClass node) =>
-                           self -> Maybe node -> IO (Maybe Node)
-namedNodeMapSetNamedItem self node
-  = maybeNull (makeNewGObject mkNode)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_named_node_map_set_named_item #}
-             (toNamedNodeMap self)
-             (maybe (Node nullForeignPtr) toNode node)
-             errorPtr_)
+setNamedItem ::
+             (MonadIO m, NamedNodeMapClass self, NodeClass node) =>
+               self -> Maybe node -> m (Maybe Node)
+setNamedItem self node
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_named_node_map_set_named_item #}
+                (toNamedNodeMap self)
+                (maybe (Node nullForeignPtr) toNode node)
+                errorPtr_))
  
-namedNodeMapRemoveNamedItem ::
-                            (NamedNodeMapClass self, GlibString string) =>
-                              self -> string -> IO (Maybe Node)
-namedNodeMapRemoveNamedItem self name
-  = maybeNull (makeNewGObject mkNode)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString name $
-             \ namePtr ->
-               {# call webkit_dom_named_node_map_remove_named_item #}
-                 (toNamedNodeMap self)
-                 namePtr
-             errorPtr_)
+removeNamedItem ::
+                (MonadIO m, NamedNodeMapClass self, GlibString string) =>
+                  self -> string -> m (Maybe Node)
+removeNamedItem self name
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString name $
+                \ namePtr ->
+                  {# call webkit_dom_named_node_map_remove_named_item #}
+                    (toNamedNodeMap self)
+                    namePtr
+                errorPtr_))
  
-namedNodeMapItem ::
-                 (NamedNodeMapClass self) => self -> Word -> IO (Maybe Node)
-namedNodeMapItem self index
-  = maybeNull (makeNewGObject mkNode)
-      ({# call webkit_dom_named_node_map_item #} (toNamedNodeMap self)
-         (fromIntegral index))
+item ::
+     (MonadIO m, NamedNodeMapClass self) =>
+       self -> Word -> m (Maybe Node)
+item self index
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         ({# call webkit_dom_named_node_map_item #} (toNamedNodeMap self)
+            (fromIntegral index)))
  
-namedNodeMapGetNamedItemNS ::
-                           (NamedNodeMapClass self, GlibString string) =>
-                             self -> string -> string -> IO (Maybe Node)
-namedNodeMapGetNamedItemNS self namespaceURI localName
-  = maybeNull (makeNewGObject mkNode)
-      (withUTFString localName $
-         \ localNamePtr ->
-           withUTFString namespaceURI $
-             \ namespaceURIPtr ->
-               {# call webkit_dom_named_node_map_get_named_item_ns #}
-                 (toNamedNodeMap self)
-                 namespaceURIPtr
-             localNamePtr)
+getNamedItemNS ::
+               (MonadIO m, NamedNodeMapClass self, GlibString string) =>
+                 self -> string -> string -> m (Maybe Node)
+getNamedItemNS self namespaceURI localName
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (withUTFString localName $
+            \ localNamePtr ->
+              withUTFString namespaceURI $
+                \ namespaceURIPtr ->
+                  {# call webkit_dom_named_node_map_get_named_item_ns #}
+                    (toNamedNodeMap self)
+                    namespaceURIPtr
+                localNamePtr))
  
-namedNodeMapSetNamedItemNS ::
-                           (NamedNodeMapClass self, NodeClass node) =>
-                             self -> Maybe node -> IO (Maybe Node)
-namedNodeMapSetNamedItemNS self node
-  = maybeNull (makeNewGObject mkNode)
-      (propagateGError $
-         \ errorPtr_ ->
-           {# call webkit_dom_named_node_map_set_named_item_ns #}
-             (toNamedNodeMap self)
-             (maybe (Node nullForeignPtr) toNode node)
-             errorPtr_)
+setNamedItemNS ::
+               (MonadIO m, NamedNodeMapClass self, NodeClass node) =>
+                 self -> Maybe node -> m (Maybe Node)
+setNamedItemNS self node
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              {# call webkit_dom_named_node_map_set_named_item_ns #}
+                (toNamedNodeMap self)
+                (maybe (Node nullForeignPtr) toNode node)
+                errorPtr_))
  
-namedNodeMapRemoveNamedItemNS ::
-                              (NamedNodeMapClass self, GlibString string) =>
-                                self -> string -> string -> IO (Maybe Node)
-namedNodeMapRemoveNamedItemNS self namespaceURI localName
-  = maybeNull (makeNewGObject mkNode)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString localName $
-             \ localNamePtr ->
-               withUTFString namespaceURI $
-                 \ namespaceURIPtr ->
-                   {# call webkit_dom_named_node_map_remove_named_item_ns #}
-                     (toNamedNodeMap self)
-                     namespaceURIPtr
-                 localNamePtr
-             errorPtr_)
+removeNamedItemNS ::
+                  (MonadIO m, NamedNodeMapClass self, GlibString string) =>
+                    self -> string -> string -> m (Maybe Node)
+removeNamedItemNS self namespaceURI localName
+  = liftIO
+      (maybeNull (makeNewGObject mkNode)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString localName $
+                \ localNamePtr ->
+                  withUTFString namespaceURI $
+                    \ namespaceURIPtr ->
+                      {# call webkit_dom_named_node_map_remove_named_item_ns #}
+                        (toNamedNodeMap self)
+                        namespaceURIPtr
+                    localNamePtr
+                errorPtr_))
  
-namedNodeMapGetLength ::
-                      (NamedNodeMapClass self) => self -> IO Word
-namedNodeMapGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_named_node_map_get_length #}
-         (toNamedNodeMap self))
+getLength :: (MonadIO m, NamedNodeMapClass self) => self -> m Word
+getLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_named_node_map_get_length #}
+            (toNamedNodeMap self)))

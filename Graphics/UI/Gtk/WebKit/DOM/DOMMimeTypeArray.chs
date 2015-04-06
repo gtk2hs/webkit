@@ -1,38 +1,52 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray
-       (domMimeTypeArrayItem, domMimeTypeArrayNamedItem,
-        domMimeTypeArrayGetLength, DOMMimeTypeArray, DOMMimeTypeArrayClass,
-        castToDOMMimeTypeArray, gTypeDOMMimeTypeArray, toDOMMimeTypeArray)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray(
+item,
+namedItem,
+getLength,
+DOMMimeTypeArray,
+castToDOMMimeTypeArray,
+gTypeDOMMimeTypeArray,
+DOMMimeTypeArrayClass,
+toDOMMimeTypeArray,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-domMimeTypeArrayItem ::
-                     (DOMMimeTypeArrayClass self) =>
-                       self -> Word -> IO (Maybe DOMMimeType)
-domMimeTypeArrayItem self index
-  = maybeNull (makeNewGObject mkDOMMimeType)
-      ({# call webkit_dom_dom_mime_type_array_item #}
-         (toDOMMimeTypeArray self)
-         (fromIntegral index))
+item ::
+     (MonadIO m, DOMMimeTypeArrayClass self) =>
+       self -> Word -> m (Maybe DOMMimeType)
+item self index
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMMimeType)
+         ({# call webkit_dom_dom_mime_type_array_item #}
+            (toDOMMimeTypeArray self)
+            (fromIntegral index)))
  
-domMimeTypeArrayNamedItem ::
-                          (DOMMimeTypeArrayClass self, GlibString string) =>
-                            self -> string -> IO (Maybe DOMMimeType)
-domMimeTypeArrayNamedItem self name
-  = maybeNull (makeNewGObject mkDOMMimeType)
-      (withUTFString name $
-         \ namePtr ->
-           {# call webkit_dom_dom_mime_type_array_named_item #}
-             (toDOMMimeTypeArray self)
-             namePtr)
+namedItem ::
+          (MonadIO m, DOMMimeTypeArrayClass self, GlibString string) =>
+            self -> string -> m (Maybe DOMMimeType)
+namedItem self name
+  = liftIO
+      (maybeNull (makeNewGObject mkDOMMimeType)
+         (withUTFString name $
+            \ namePtr ->
+              {# call webkit_dom_dom_mime_type_array_named_item #}
+                (toDOMMimeTypeArray self)
+                namePtr))
  
-domMimeTypeArrayGetLength ::
-                          (DOMMimeTypeArrayClass self) => self -> IO Word
-domMimeTypeArrayGetLength self
-  = fromIntegral <$>
-      ({# call webkit_dom_dom_mime_type_array_get_length #}
-         (toDOMMimeTypeArray self))
+getLength ::
+          (MonadIO m, DOMMimeTypeArrayClass self) => self -> m Word
+getLength self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_dom_mime_type_array_get_length #}
+            (toDOMMimeTypeArray self)))

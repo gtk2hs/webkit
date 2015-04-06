@@ -1,70 +1,88 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLParamElement
-       (htmlParamElementSetName, htmlParamElementGetName,
-        htmlParamElementSetValue, htmlParamElementGetValue,
-        htmlParamElementSetValueType, htmlParamElementGetValueType,
-        HTMLParamElement, HTMLParamElementClass, castToHTMLParamElement,
-        gTypeHTMLParamElement, toHTMLParamElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLParamElement(
+setName,
+getName,
+setValue,
+getValue,
+setValueType,
+getValueType,
+HTMLParamElement,
+castToHTMLParamElement,
+gTypeHTMLParamElement,
+HTMLParamElementClass,
+toHTMLParamElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlParamElementSetName ::
-                        (HTMLParamElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlParamElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_param_element_set_name #}
-          (toHTMLParamElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_param_element_set_name #}
+             (toHTMLParamElement self)
+             valPtr)
  
-htmlParamElementGetName ::
-                        (HTMLParamElementClass self, GlibString string) =>
-                          self -> IO string
-htmlParamElementGetName self
-  = ({# call webkit_dom_html_param_element_get_name #}
-       (toHTMLParamElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_param_element_get_name #}
+          (toHTMLParamElement self))
+         >>=
+         readUTFString)
  
-htmlParamElementSetValue ::
-                         (HTMLParamElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlParamElementSetValue self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_param_element_set_value #}
-          (toHTMLParamElement self)
-          valPtr
+setValue ::
+         (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+           self -> string -> m ()
+setValue self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_param_element_set_value #}
+             (toHTMLParamElement self)
+             valPtr)
  
-htmlParamElementGetValue ::
-                         (HTMLParamElementClass self, GlibString string) =>
-                           self -> IO string
-htmlParamElementGetValue self
-  = ({# call webkit_dom_html_param_element_get_value #}
-       (toHTMLParamElement self))
-      >>=
-      readUTFString
+getValue ::
+         (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+           self -> m string
+getValue self
+  = liftIO
+      (({# call webkit_dom_html_param_element_get_value #}
+          (toHTMLParamElement self))
+         >>=
+         readUTFString)
  
-htmlParamElementSetValueType ::
-                             (HTMLParamElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlParamElementSetValueType self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_param_element_set_value_type #}
-          (toHTMLParamElement self)
-          valPtr
+setValueType ::
+             (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+               self -> string -> m ()
+setValueType self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_param_element_set_value_type #}
+             (toHTMLParamElement self)
+             valPtr)
  
-htmlParamElementGetValueType ::
-                             (HTMLParamElementClass self, GlibString string) =>
-                               self -> IO string
-htmlParamElementGetValueType self
-  = ({# call webkit_dom_html_param_element_get_value_type #}
-       (toHTMLParamElement self))
-      >>=
-      readUTFString
+getValueType ::
+             (MonadIO m, HTMLParamElementClass self, GlibString string) =>
+               self -> m string
+getValueType self
+  = liftIO
+      (({# call webkit_dom_html_param_element_get_value_type #}
+          (toHTMLParamElement self))
+         >>=
+         readUTFString)

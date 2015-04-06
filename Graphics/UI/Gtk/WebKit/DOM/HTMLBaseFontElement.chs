@@ -1,66 +1,83 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseFontElement
-       (htmlBaseFontElementSetColor, htmlBaseFontElementGetColor,
-        htmlBaseFontElementSetFace, htmlBaseFontElementGetFace,
-        htmlBaseFontElementSetSize, htmlBaseFontElementGetSize,
-        HTMLBaseFontElement, HTMLBaseFontElementClass,
-        castToHTMLBaseFontElement, gTypeHTMLBaseFontElement,
-        toHTMLBaseFontElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseFontElement(
+setColor,
+getColor,
+setFace,
+getFace,
+setSize,
+getSize,
+HTMLBaseFontElement,
+castToHTMLBaseFontElement,
+gTypeHTMLBaseFontElement,
+HTMLBaseFontElementClass,
+toHTMLBaseFontElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlBaseFontElementSetColor ::
-                            (HTMLBaseFontElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlBaseFontElementSetColor self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_base_font_element_set_color #}
-          (toHTMLBaseFontElement self)
-          valPtr
+setColor ::
+         (MonadIO m, HTMLBaseFontElementClass self, GlibString string) =>
+           self -> string -> m ()
+setColor self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_base_font_element_set_color #}
+             (toHTMLBaseFontElement self)
+             valPtr)
  
-htmlBaseFontElementGetColor ::
-                            (HTMLBaseFontElementClass self, GlibString string) =>
-                              self -> IO string
-htmlBaseFontElementGetColor self
-  = ({# call webkit_dom_html_base_font_element_get_color #}
-       (toHTMLBaseFontElement self))
-      >>=
-      readUTFString
+getColor ::
+         (MonadIO m, HTMLBaseFontElementClass self, GlibString string) =>
+           self -> m string
+getColor self
+  = liftIO
+      (({# call webkit_dom_html_base_font_element_get_color #}
+          (toHTMLBaseFontElement self))
+         >>=
+         readUTFString)
  
-htmlBaseFontElementSetFace ::
-                           (HTMLBaseFontElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlBaseFontElementSetFace self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_base_font_element_set_face #}
-          (toHTMLBaseFontElement self)
-          valPtr
+setFace ::
+        (MonadIO m, HTMLBaseFontElementClass self, GlibString string) =>
+          self -> string -> m ()
+setFace self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_base_font_element_set_face #}
+             (toHTMLBaseFontElement self)
+             valPtr)
  
-htmlBaseFontElementGetFace ::
-                           (HTMLBaseFontElementClass self, GlibString string) =>
-                             self -> IO string
-htmlBaseFontElementGetFace self
-  = ({# call webkit_dom_html_base_font_element_get_face #}
-       (toHTMLBaseFontElement self))
-      >>=
-      readUTFString
+getFace ::
+        (MonadIO m, HTMLBaseFontElementClass self, GlibString string) =>
+          self -> m string
+getFace self
+  = liftIO
+      (({# call webkit_dom_html_base_font_element_get_face #}
+          (toHTMLBaseFontElement self))
+         >>=
+         readUTFString)
  
-htmlBaseFontElementSetSize ::
-                           (HTMLBaseFontElementClass self) => self -> Int -> IO ()
-htmlBaseFontElementSetSize self val
-  = {# call webkit_dom_html_base_font_element_set_size #}
-      (toHTMLBaseFontElement self)
-      (fromIntegral val)
+setSize ::
+        (MonadIO m, HTMLBaseFontElementClass self) => self -> Int -> m ()
+setSize self val
+  = liftIO
+      ({# call webkit_dom_html_base_font_element_set_size #}
+         (toHTMLBaseFontElement self)
+         (fromIntegral val))
  
-htmlBaseFontElementGetSize ::
-                           (HTMLBaseFontElementClass self) => self -> IO Int
-htmlBaseFontElementGetSize self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_base_font_element_get_size #}
-         (toHTMLBaseFontElement self))
+getSize ::
+        (MonadIO m, HTMLBaseFontElementClass self) => self -> m Int
+getSize self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_base_font_element_get_size #}
+            (toHTMLBaseFontElement self)))

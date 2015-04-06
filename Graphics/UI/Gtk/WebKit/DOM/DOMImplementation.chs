@@ -1,97 +1,110 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMImplementation
-       (domImplementationHasFeature, domImplementationCreateDocumentType,
-        domImplementationCreateDocument,
-        domImplementationCreateCSSStyleSheet,
-        domImplementationCreateHTMLDocument, DOMImplementation,
-        DOMImplementationClass, castToDOMImplementation,
-        gTypeDOMImplementation, toDOMImplementation)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMImplementation(
+hasFeature,
+createDocumentType,
+createDocument,
+createCSSStyleSheet,
+createHTMLDocument,
+DOMImplementation,
+castToDOMImplementation,
+gTypeDOMImplementation,
+DOMImplementationClass,
+toDOMImplementation,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-domImplementationHasFeature ::
-                            (DOMImplementationClass self, GlibString string) =>
-                              self -> string -> string -> IO Bool
-domImplementationHasFeature self feature version
-  = toBool <$>
-      (withUTFString version $
-         \ versionPtr ->
-           withUTFString feature $
-             \ featurePtr ->
-               {# call webkit_dom_dom_implementation_has_feature #}
-                 (toDOMImplementation self)
-                 featurePtr
-             versionPtr)
+hasFeature ::
+           (MonadIO m, DOMImplementationClass self, GlibString string) =>
+             self -> string -> string -> m Bool
+hasFeature self feature version
+  = liftIO
+      (toBool <$>
+         (withUTFString version $
+            \ versionPtr ->
+              withUTFString feature $
+                \ featurePtr ->
+                  {# call webkit_dom_dom_implementation_has_feature #}
+                    (toDOMImplementation self)
+                    featurePtr
+                versionPtr))
  
-domImplementationCreateDocumentType ::
-                                    (DOMImplementationClass self, GlibString string) =>
-                                      self -> string -> string -> string -> IO (Maybe DocumentType)
-domImplementationCreateDocumentType self qualifiedName publicId
-  systemId
-  = maybeNull (makeNewGObject mkDocumentType)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString systemId $
-             \ systemIdPtr ->
-               withUTFString publicId $
-                 \ publicIdPtr ->
-                   withUTFString qualifiedName $
-                     \ qualifiedNamePtr ->
-                       {# call webkit_dom_dom_implementation_create_document_type #}
-                         (toDOMImplementation self)
-                         qualifiedNamePtr
-                     publicIdPtr
-                 systemIdPtr
-             errorPtr_)
+createDocumentType ::
+                   (MonadIO m, DOMImplementationClass self, GlibString string) =>
+                     self -> string -> string -> string -> m (Maybe DocumentType)
+createDocumentType self qualifiedName publicId systemId
+  = liftIO
+      (maybeNull (makeNewGObject mkDocumentType)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString systemId $
+                \ systemIdPtr ->
+                  withUTFString publicId $
+                    \ publicIdPtr ->
+                      withUTFString qualifiedName $
+                        \ qualifiedNamePtr ->
+                          {# call webkit_dom_dom_implementation_create_document_type #}
+                            (toDOMImplementation self)
+                            qualifiedNamePtr
+                        publicIdPtr
+                    systemIdPtr
+                errorPtr_))
  
-domImplementationCreateDocument ::
-                                (DOMImplementationClass self, DocumentTypeClass doctype,
-                                 GlibString string) =>
-                                  self -> string -> string -> Maybe doctype -> IO (Maybe Document)
-domImplementationCreateDocument self namespaceURI qualifiedName
-  doctype
-  = maybeNull (makeNewGObject mkDocument)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString qualifiedName $
-             \ qualifiedNamePtr ->
-               withUTFString namespaceURI $
-                 \ namespaceURIPtr ->
-                   {# call webkit_dom_dom_implementation_create_document #}
-                     (toDOMImplementation self)
-                     namespaceURIPtr
-                 qualifiedNamePtr
-             (maybe (DocumentType nullForeignPtr) toDocumentType doctype)
-             errorPtr_)
+createDocument ::
+               (MonadIO m, DOMImplementationClass self, DocumentTypeClass doctype,
+                GlibString string) =>
+                 self -> string -> string -> Maybe doctype -> m (Maybe Document)
+createDocument self namespaceURI qualifiedName doctype
+  = liftIO
+      (maybeNull (makeNewGObject mkDocument)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString qualifiedName $
+                \ qualifiedNamePtr ->
+                  withUTFString namespaceURI $
+                    \ namespaceURIPtr ->
+                      {# call webkit_dom_dom_implementation_create_document #}
+                        (toDOMImplementation self)
+                        namespaceURIPtr
+                    qualifiedNamePtr
+                (maybe (DocumentType nullForeignPtr) toDocumentType doctype)
+                errorPtr_))
  
-domImplementationCreateCSSStyleSheet ::
-                                     (DOMImplementationClass self, GlibString string) =>
-                                       self -> string -> string -> IO (Maybe CSSStyleSheet)
-domImplementationCreateCSSStyleSheet self title media
-  = maybeNull (makeNewGObject mkCSSStyleSheet)
-      (propagateGError $
-         \ errorPtr_ ->
-           withUTFString media $
-             \ mediaPtr ->
-               withUTFString title $
-                 \ titlePtr ->
-                   {# call webkit_dom_dom_implementation_create_css_style_sheet #}
-                     (toDOMImplementation self)
-                     titlePtr
-                 mediaPtr
-             errorPtr_)
+createCSSStyleSheet ::
+                    (MonadIO m, DOMImplementationClass self, GlibString string) =>
+                      self -> string -> string -> m (Maybe CSSStyleSheet)
+createCSSStyleSheet self title media
+  = liftIO
+      (maybeNull (makeNewGObject mkCSSStyleSheet)
+         (propagateGError $
+            \ errorPtr_ ->
+              withUTFString media $
+                \ mediaPtr ->
+                  withUTFString title $
+                    \ titlePtr ->
+                      {# call webkit_dom_dom_implementation_create_css_style_sheet #}
+                        (toDOMImplementation self)
+                        titlePtr
+                    mediaPtr
+                errorPtr_))
  
-domImplementationCreateHTMLDocument ::
-                                    (DOMImplementationClass self, GlibString string) =>
-                                      self -> string -> IO (Maybe HTMLDocument)
-domImplementationCreateHTMLDocument self title
-  = maybeNull (makeNewGObject mkHTMLDocument)
-      (withUTFString title $
-         \ titlePtr ->
-           {# call webkit_dom_dom_implementation_create_html_document #}
-             (toDOMImplementation self)
-             titlePtr)
+createHTMLDocument ::
+                   (MonadIO m, DOMImplementationClass self, GlibString string) =>
+                     self -> string -> m (Maybe HTMLDocument)
+createHTMLDocument self title
+  = liftIO
+      (maybeNull (makeNewGObject mkHTMLDocument)
+         (withUTFString title $
+            \ titlePtr ->
+              {# call webkit_dom_dom_implementation_create_html_document #}
+                (toDOMImplementation self)
+                titlePtr))

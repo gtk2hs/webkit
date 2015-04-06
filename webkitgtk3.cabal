@@ -49,7 +49,8 @@ Library
                         pango >= 0.13.0.0 && < 0.14,
                         cairo >= 0.13.0.0 && < 0.14,
                         text  >= 1.0.0.0 && < 1.3,
-                        mtl
+                        mtl,
+                        transformers
 
         build-tools:    gtk2hsC2hs >= 0.13.11,
                         gtk2hsHookGenerator, gtk2hsTypeGen
@@ -79,11 +80,12 @@ Library
           Graphics.UI.Gtk.WebKit.WebView
           Graphics.UI.Gtk.WebKit.WebWindowFeatures
           Graphics.UI.Gtk.WebKit.DOM.Attr
+          Graphics.UI.Gtk.WebKit.DOM.AudioTrack
+          Graphics.UI.Gtk.WebKit.DOM.AudioTrackList
           Graphics.UI.Gtk.WebKit.DOM.BarProp
+          Graphics.UI.Gtk.WebKit.DOM.BatteryManager
           Graphics.UI.Gtk.WebKit.DOM.Blob
           Graphics.UI.Gtk.WebKit.DOM.CharacterData
-          Graphics.UI.Gtk.WebKit.DOM.Console
-          Graphics.UI.Gtk.WebKit.DOM.Css
           Graphics.UI.Gtk.WebKit.DOM.CSSRule
           Graphics.UI.Gtk.WebKit.DOM.CSSRuleList
           Graphics.UI.Gtk.WebKit.DOM.CSSStyleDeclaration
@@ -104,10 +106,10 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.DOMWindow
           Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS
           Graphics.UI.Gtk.WebKit.DOM.Element
+          Graphics.UI.Gtk.WebKit.DOM.Enums
           Graphics.UI.Gtk.WebKit.DOM.Event
           Graphics.UI.Gtk.WebKit.DOM.EventM
-          Graphics.UI.Gtk.WebKit.DOM.Events
---          Graphics.UI.Gtk.WebKit.DOM.EventTarget
+          Graphics.UI.Gtk.WebKit.DOM.EventTarget
           Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
           Graphics.UI.Gtk.WebKit.DOM.File
           Graphics.UI.Gtk.WebKit.DOM.FileList
@@ -178,22 +180,30 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.NodeFilter
           Graphics.UI.Gtk.WebKit.DOM.NodeIterator
           Graphics.UI.Gtk.WebKit.DOM.NodeList
+          Graphics.UI.Gtk.WebKit.DOM.Performance
+          Graphics.UI.Gtk.WebKit.DOM.PerformanceNavigation
+          Graphics.UI.Gtk.WebKit.DOM.PerformanceTiming
           Graphics.UI.Gtk.WebKit.DOM.ProcessingInstruction
           Graphics.UI.Gtk.WebKit.DOM.Range
-          Graphics.UI.Gtk.WebKit.DOM.Ranges
           Graphics.UI.Gtk.WebKit.DOM.Screen
           Graphics.UI.Gtk.WebKit.DOM.StyleMedia
           Graphics.UI.Gtk.WebKit.DOM.StyleSheet
           Graphics.UI.Gtk.WebKit.DOM.StyleSheetList
-          Graphics.UI.Gtk.WebKit.DOM.Stylesheets
           Graphics.UI.Gtk.WebKit.DOM.Storage
           Graphics.UI.Gtk.WebKit.DOM.Text
-          Graphics.UI.Gtk.WebKit.DOM.Traversal
+          Graphics.UI.Gtk.WebKit.DOM.TextTrack
+          Graphics.UI.Gtk.WebKit.DOM.TextTrackCue
+          Graphics.UI.Gtk.WebKit.DOM.TextTrackCueList
+          Graphics.UI.Gtk.WebKit.DOM.TextTrackList
           Graphics.UI.Gtk.WebKit.DOM.TreeWalker
+          Graphics.UI.Gtk.WebKit.DOM.Touch
           Graphics.UI.Gtk.WebKit.DOM.UIEvent
           Graphics.UI.Gtk.WebKit.DOM.ValidityState
+          Graphics.UI.Gtk.WebKit.DOM.VideoTrack
+          Graphics.UI.Gtk.WebKit.DOM.VideoTrackList
           Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow
           Graphics.UI.Gtk.WebKit.DOM.WebKitPoint
+          Graphics.UI.Gtk.WebKit.DOM.WheelEvent
           Graphics.UI.Gtk.WebKit.DOM.XPathExpression
           Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
           Graphics.UI.Gtk.WebKit.DOM.XPathResult
@@ -218,7 +228,7 @@ Library
           Graphics.UI.Gtk.WebKit.Signals
 
         default-language:   Haskell98
-        default-extensions: ForeignFunctionInterface
+        default-extensions: ForeignFunctionInterface, PatternSynonyms
         include-dirs: .
         cpp-options: -DDISABLE_DEPRECATED -U__BLOCKS__ -D__attribute__(A)=
 

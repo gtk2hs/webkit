@@ -1,220 +1,262 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLAppletElement
-       (htmlAppletElementSetAlign, htmlAppletElementGetAlign,
-        htmlAppletElementSetAlt, htmlAppletElementGetAlt,
-        htmlAppletElementSetArchive, htmlAppletElementGetArchive,
-        htmlAppletElementSetCode, htmlAppletElementGetCode,
-        htmlAppletElementSetCodeBase, htmlAppletElementGetCodeBase,
-        htmlAppletElementSetHeight, htmlAppletElementGetHeight,
-        htmlAppletElementSetHspace, htmlAppletElementGetHspace,
-        htmlAppletElementSetName, htmlAppletElementGetName,
-        htmlAppletElementSetObject, htmlAppletElementGetObject,
-        htmlAppletElementSetVspace, htmlAppletElementGetVspace,
-        htmlAppletElementSetWidth, htmlAppletElementGetWidth,
-        HTMLAppletElement, HTMLAppletElementClass, castToHTMLAppletElement,
-        gTypeHTMLAppletElement, toHTMLAppletElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLAppletElement(
+setAlign,
+getAlign,
+setAlt,
+getAlt,
+setArchive,
+getArchive,
+setCode,
+getCode,
+setCodeBase,
+getCodeBase,
+setHeight,
+getHeight,
+setHspace,
+getHspace,
+setName,
+getName,
+setObject,
+getObject,
+setVspace,
+getVspace,
+setWidth,
+getWidth,
+HTMLAppletElement,
+castToHTMLAppletElement,
+gTypeHTMLAppletElement,
+HTMLAppletElementClass,
+toHTMLAppletElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlAppletElementSetAlign ::
-                          (HTMLAppletElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlAppletElementSetAlign self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_align #}
-          (toHTMLAppletElement self)
-          valPtr
+setAlign ::
+         (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+           self -> string -> m ()
+setAlign self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_align #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetAlign ::
-                          (HTMLAppletElementClass self, GlibString string) =>
-                            self -> IO string
-htmlAppletElementGetAlign self
-  = ({# call webkit_dom_html_applet_element_get_align #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getAlign ::
+         (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+           self -> m string
+getAlign self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_align #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetAlt ::
-                        (HTMLAppletElementClass self, GlibString string) =>
-                          self -> string -> IO ()
-htmlAppletElementSetAlt self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_alt #}
-          (toHTMLAppletElement self)
-          valPtr
+setAlt ::
+       (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+         self -> string -> m ()
+setAlt self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_alt #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetAlt ::
-                        (HTMLAppletElementClass self, GlibString string) =>
-                          self -> IO string
-htmlAppletElementGetAlt self
-  = ({# call webkit_dom_html_applet_element_get_alt #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getAlt ::
+       (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+         self -> m string
+getAlt self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_alt #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetArchive ::
-                            (HTMLAppletElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlAppletElementSetArchive self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_archive #}
-          (toHTMLAppletElement self)
-          valPtr
+setArchive ::
+           (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+             self -> string -> m ()
+setArchive self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_archive #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetArchive ::
-                            (HTMLAppletElementClass self, GlibString string) =>
-                              self -> IO string
-htmlAppletElementGetArchive self
-  = ({# call webkit_dom_html_applet_element_get_archive #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getArchive ::
+           (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+             self -> m string
+getArchive self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_archive #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetCode ::
-                         (HTMLAppletElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlAppletElementSetCode self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_code #}
-          (toHTMLAppletElement self)
-          valPtr
+setCode ::
+        (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+          self -> string -> m ()
+setCode self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_code #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetCode ::
-                         (HTMLAppletElementClass self, GlibString string) =>
-                           self -> IO string
-htmlAppletElementGetCode self
-  = ({# call webkit_dom_html_applet_element_get_code #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getCode ::
+        (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+          self -> m string
+getCode self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_code #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetCodeBase ::
-                             (HTMLAppletElementClass self, GlibString string) =>
-                               self -> string -> IO ()
-htmlAppletElementSetCodeBase self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_code_base #}
-          (toHTMLAppletElement self)
-          valPtr
+setCodeBase ::
+            (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+              self -> string -> m ()
+setCodeBase self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_code_base #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetCodeBase ::
-                             (HTMLAppletElementClass self, GlibString string) =>
-                               self -> IO string
-htmlAppletElementGetCodeBase self
-  = ({# call webkit_dom_html_applet_element_get_code_base #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getCodeBase ::
+            (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+              self -> m string
+getCodeBase self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_code_base #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetHeight ::
-                           (HTMLAppletElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlAppletElementSetHeight self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_height #}
-          (toHTMLAppletElement self)
-          valPtr
+setHeight ::
+          (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+            self -> string -> m ()
+setHeight self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_height #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetHeight ::
-                           (HTMLAppletElementClass self, GlibString string) =>
-                             self -> IO string
-htmlAppletElementGetHeight self
-  = ({# call webkit_dom_html_applet_element_get_height #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getHeight ::
+          (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+            self -> m string
+getHeight self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_height #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetHspace ::
-                           (HTMLAppletElementClass self) => self -> Int -> IO ()
-htmlAppletElementSetHspace self val
-  = {# call webkit_dom_html_applet_element_set_hspace #}
-      (toHTMLAppletElement self)
-      (fromIntegral val)
+setHspace ::
+          (MonadIO m, HTMLAppletElementClass self) => self -> Int -> m ()
+setHspace self val
+  = liftIO
+      ({# call webkit_dom_html_applet_element_set_hspace #}
+         (toHTMLAppletElement self)
+         (fromIntegral val))
  
-htmlAppletElementGetHspace ::
-                           (HTMLAppletElementClass self) => self -> IO Int
-htmlAppletElementGetHspace self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_applet_element_get_hspace #}
-         (toHTMLAppletElement self))
+getHspace ::
+          (MonadIO m, HTMLAppletElementClass self) => self -> m Int
+getHspace self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_applet_element_get_hspace #}
+            (toHTMLAppletElement self)))
  
-htmlAppletElementSetName ::
-                         (HTMLAppletElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlAppletElementSetName self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_name #}
-          (toHTMLAppletElement self)
-          valPtr
+setName ::
+        (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+          self -> string -> m ()
+setName self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_name #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetName ::
-                         (HTMLAppletElementClass self, GlibString string) =>
-                           self -> IO string
-htmlAppletElementGetName self
-  = ({# call webkit_dom_html_applet_element_get_name #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getName ::
+        (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+          self -> m string
+getName self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_name #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetObject ::
-                           (HTMLAppletElementClass self, GlibString string) =>
-                             self -> string -> IO ()
-htmlAppletElementSetObject self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_object #}
-          (toHTMLAppletElement self)
-          valPtr
+setObject ::
+          (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+            self -> string -> m ()
+setObject self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_object #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetObject ::
-                           (HTMLAppletElementClass self, GlibString string) =>
-                             self -> IO string
-htmlAppletElementGetObject self
-  = ({# call webkit_dom_html_applet_element_get_object #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getObject ::
+          (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+            self -> m string
+getObject self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_object #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)
  
-htmlAppletElementSetVspace ::
-                           (HTMLAppletElementClass self) => self -> Int -> IO ()
-htmlAppletElementSetVspace self val
-  = {# call webkit_dom_html_applet_element_set_vspace #}
-      (toHTMLAppletElement self)
-      (fromIntegral val)
+setVspace ::
+          (MonadIO m, HTMLAppletElementClass self) => self -> Int -> m ()
+setVspace self val
+  = liftIO
+      ({# call webkit_dom_html_applet_element_set_vspace #}
+         (toHTMLAppletElement self)
+         (fromIntegral val))
  
-htmlAppletElementGetVspace ::
-                           (HTMLAppletElementClass self) => self -> IO Int
-htmlAppletElementGetVspace self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_applet_element_get_vspace #}
-         (toHTMLAppletElement self))
+getVspace ::
+          (MonadIO m, HTMLAppletElementClass self) => self -> m Int
+getVspace self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_applet_element_get_vspace #}
+            (toHTMLAppletElement self)))
  
-htmlAppletElementSetWidth ::
-                          (HTMLAppletElementClass self, GlibString string) =>
-                            self -> string -> IO ()
-htmlAppletElementSetWidth self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_applet_element_set_width #}
-          (toHTMLAppletElement self)
-          valPtr
+setWidth ::
+         (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+           self -> string -> m ()
+setWidth self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_applet_element_set_width #}
+             (toHTMLAppletElement self)
+             valPtr)
  
-htmlAppletElementGetWidth ::
-                          (HTMLAppletElementClass self, GlibString string) =>
-                            self -> IO string
-htmlAppletElementGetWidth self
-  = ({# call webkit_dom_html_applet_element_get_width #}
-       (toHTMLAppletElement self))
-      >>=
-      readUTFString
+getWidth ::
+         (MonadIO m, HTMLAppletElementClass self, GlibString string) =>
+           self -> m string
+getWidth self
+  = liftIO
+      (({# call webkit_dom_html_applet_element_get_width #}
+          (toHTMLAppletElement self))
+         >>=
+         readUTFString)

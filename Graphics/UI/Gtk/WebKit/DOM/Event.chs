@@ -1,124 +1,181 @@
-module Graphics.UI.Gtk.WebKit.DOM.Event
-       (eventStopPropagation, eventPreventDefault, eventInitEvent,
-        eventStopImmediatePropagation, cNONE, cCAPTURING_PHASE, cAT_TARGET,
-        cBUBBLING_PHASE, cMOUSEDOWN, cMOUSEUP, cMOUSEOVER, cMOUSEOUT,
-        cMOUSEMOVE, cMOUSEDRAG, cCLICK, cDBLCLICK, cKEYDOWN, cKEYUP,
-        cKEYPRESS, cDRAGDROP, cFOCUS, cBLUR, cSELECT, cCHANGE,
-        eventGetTarget, eventGetCurrentTarget, eventGetEventPhase,
-        eventGetBubbles, eventGetCancelable, eventGetTimeStamp,
-        eventGetDefaultPrevented, eventGetSrcElement, eventSetReturnValue,
-        eventGetReturnValue, eventSetCancelBubble, eventGetCancelBubble,
-        Event, EventClass, castToEvent, gTypeEvent, toEvent)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.Event(
+stopPropagation,
+preventDefault,
+initEvent,
+stopImmediatePropagation,
+pattern NONE,
+pattern CAPTURING_PHASE,
+pattern AT_TARGET,
+pattern BUBBLING_PHASE,
+pattern MOUSEDOWN,
+pattern MOUSEUP,
+pattern MOUSEOVER,
+pattern MOUSEOUT,
+pattern MOUSEMOVE,
+pattern MOUSEDRAG,
+pattern CLICK,
+pattern DBLCLICK,
+pattern KEYDOWN,
+pattern KEYUP,
+pattern KEYPRESS,
+pattern DRAGDROP,
+pattern FOCUS,
+pattern BLUR,
+pattern SELECT,
+pattern CHANGE,
+getTarget,
+getCurrentTarget,
+getEventPhase,
+getBubbles,
+getCancelable,
+getTimeStamp,
+getDefaultPrevented,
+getSrcElement,
+setReturnValue,
+getReturnValue,
+setCancelBubble,
+getCancelBubble,
+Event,
+castToEvent,
+gTypeEvent,
+EventClass,
+toEvent,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-eventStopPropagation :: (EventClass self) => self -> IO ()
-eventStopPropagation self
-  = {# call webkit_dom_event_stop_propagation #} (toEvent self)
+stopPropagation :: (MonadIO m, EventClass self) => self -> m ()
+stopPropagation self
+  = liftIO
+      ({# call webkit_dom_event_stop_propagation #} (toEvent self))
  
-eventPreventDefault :: (EventClass self) => self -> IO ()
-eventPreventDefault self
-  = {# call webkit_dom_event_prevent_default #} (toEvent self)
+preventDefault :: (MonadIO m, EventClass self) => self -> m ()
+preventDefault self
+  = liftIO
+      ({# call webkit_dom_event_prevent_default #} (toEvent self))
  
-eventInitEvent ::
-               (EventClass self, GlibString string) =>
-                 self -> string -> Bool -> Bool -> IO ()
-eventInitEvent self eventTypeArg canBubbleArg cancelableArg
-  = withUTFString eventTypeArg $
-      \ eventTypeArgPtr ->
-        {# call webkit_dom_event_init_event #} (toEvent self)
-          eventTypeArgPtr
-      (fromBool canBubbleArg)
-      (fromBool cancelableArg)
+initEvent ::
+          (MonadIO m, EventClass self, GlibString string) =>
+            self -> string -> Bool -> Bool -> m ()
+initEvent self eventTypeArg canBubbleArg cancelableArg
+  = liftIO
+      (withUTFString eventTypeArg $
+         \ eventTypeArgPtr ->
+           {# call webkit_dom_event_init_event #} (toEvent self)
+             eventTypeArgPtr
+         (fromBool canBubbleArg)
+         (fromBool cancelableArg))
  
-eventStopImmediatePropagation :: (EventClass self) => self -> IO ()
-eventStopImmediatePropagation self
-  = {# call webkit_dom_event_stop_immediate_propagation #}
-      (toEvent self)
-cNONE = 0
-cCAPTURING_PHASE = 1
-cAT_TARGET = 2
-cBUBBLING_PHASE = 3
-cMOUSEDOWN = 1
-cMOUSEUP = 2
-cMOUSEOVER = 4
-cMOUSEOUT = 8
-cMOUSEMOVE = 16
-cMOUSEDRAG = 32
-cCLICK = 64
-cDBLCLICK = 128
-cKEYDOWN = 256
-cKEYUP = 512
-cKEYPRESS = 1024
-cDRAGDROP = 2048
-cFOCUS = 4096
-cBLUR = 8192
-cSELECT = 16384
-cCHANGE = 32768
+stopImmediatePropagation ::
+                         (MonadIO m, EventClass self) => self -> m ()
+stopImmediatePropagation self
+  = liftIO
+      ({# call webkit_dom_event_stop_immediate_propagation #}
+         (toEvent self))
+pattern NONE = 0
+pattern CAPTURING_PHASE = 1
+pattern AT_TARGET = 2
+pattern BUBBLING_PHASE = 3
+pattern MOUSEDOWN = 1
+pattern MOUSEUP = 2
+pattern MOUSEOVER = 4
+pattern MOUSEOUT = 8
+pattern MOUSEMOVE = 16
+pattern MOUSEDRAG = 32
+pattern CLICK = 64
+pattern DBLCLICK = 128
+pattern KEYDOWN = 256
+pattern KEYUP = 512
+pattern KEYPRESS = 1024
+pattern DRAGDROP = 2048
+pattern FOCUS = 4096
+pattern BLUR = 8192
+pattern SELECT = 16384
+pattern CHANGE = 32768
  
-eventGetTarget ::
-               (EventClass self) => self -> IO (Maybe EventTarget)
-eventGetTarget self
-  = maybeNull (makeNewGObject mkEventTarget)
-      ({# call webkit_dom_event_get_target #} (toEvent self))
+getTarget ::
+          (MonadIO m, EventClass self) => self -> m (Maybe EventTarget)
+getTarget self
+  = liftIO
+      (maybeNull (makeNewGObject mkEventTarget)
+         ({# call webkit_dom_event_get_target #} (toEvent self)))
  
-eventGetCurrentTarget ::
-                      (EventClass self) => self -> IO (Maybe EventTarget)
-eventGetCurrentTarget self
-  = maybeNull (makeNewGObject mkEventTarget)
-      ({# call webkit_dom_event_get_current_target #} (toEvent self))
+getCurrentTarget ::
+                 (MonadIO m, EventClass self) => self -> m (Maybe EventTarget)
+getCurrentTarget self
+  = liftIO
+      (maybeNull (makeNewGObject mkEventTarget)
+         ({# call webkit_dom_event_get_current_target #} (toEvent self)))
  
-eventGetEventPhase :: (EventClass self) => self -> IO Word
-eventGetEventPhase self
-  = fromIntegral <$>
-      ({# call webkit_dom_event_get_event_phase #} (toEvent self))
+getEventPhase :: (MonadIO m, EventClass self) => self -> m Word
+getEventPhase self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_event_get_event_phase #} (toEvent self)))
  
-eventGetBubbles :: (EventClass self) => self -> IO Bool
-eventGetBubbles self
-  = toBool <$>
-      ({# call webkit_dom_event_get_bubbles #} (toEvent self))
+getBubbles :: (MonadIO m, EventClass self) => self -> m Bool
+getBubbles self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_event_get_bubbles #} (toEvent self)))
  
-eventGetCancelable :: (EventClass self) => self -> IO Bool
-eventGetCancelable self
-  = toBool <$>
-      ({# call webkit_dom_event_get_cancelable #} (toEvent self))
+getCancelable :: (MonadIO m, EventClass self) => self -> m Bool
+getCancelable self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_event_get_cancelable #} (toEvent self)))
  
-eventGetTimeStamp :: (EventClass self) => self -> IO Word
-eventGetTimeStamp self
-  = fromIntegral <$>
-      ({# call webkit_dom_event_get_time_stamp #} (toEvent self))
+getTimeStamp :: (MonadIO m, EventClass self) => self -> m Word
+getTimeStamp self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_event_get_time_stamp #} (toEvent self)))
  
-eventGetDefaultPrevented :: (EventClass self) => self -> IO Bool
-eventGetDefaultPrevented self
-  = toBool <$>
-      ({# call webkit_dom_event_get_default_prevented #} (toEvent self))
+getDefaultPrevented ::
+                    (MonadIO m, EventClass self) => self -> m Bool
+getDefaultPrevented self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_event_get_default_prevented #} (toEvent self)))
  
-eventGetSrcElement ::
-                   (EventClass self) => self -> IO (Maybe EventTarget)
-eventGetSrcElement self
-  = maybeNull (makeNewGObject mkEventTarget)
-      ({# call webkit_dom_event_get_src_element #} (toEvent self))
+getSrcElement ::
+              (MonadIO m, EventClass self) => self -> m (Maybe EventTarget)
+getSrcElement self
+  = liftIO
+      (maybeNull (makeNewGObject mkEventTarget)
+         ({# call webkit_dom_event_get_src_element #} (toEvent self)))
  
-eventSetReturnValue :: (EventClass self) => self -> Bool -> IO ()
-eventSetReturnValue self val
-  = {# call webkit_dom_event_set_return_value #} (toEvent self)
-      (fromBool val)
+setReturnValue ::
+               (MonadIO m, EventClass self) => self -> Bool -> m ()
+setReturnValue self val
+  = liftIO
+      ({# call webkit_dom_event_set_return_value #} (toEvent self)
+         (fromBool val))
  
-eventGetReturnValue :: (EventClass self) => self -> IO Bool
-eventGetReturnValue self
-  = toBool <$>
-      ({# call webkit_dom_event_get_return_value #} (toEvent self))
+getReturnValue :: (MonadIO m, EventClass self) => self -> m Bool
+getReturnValue self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_event_get_return_value #} (toEvent self)))
  
-eventSetCancelBubble :: (EventClass self) => self -> Bool -> IO ()
-eventSetCancelBubble self val
-  = {# call webkit_dom_event_set_cancel_bubble #} (toEvent self)
-      (fromBool val)
+setCancelBubble ::
+                (MonadIO m, EventClass self) => self -> Bool -> m ()
+setCancelBubble self val
+  = liftIO
+      ({# call webkit_dom_event_set_cancel_bubble #} (toEvent self)
+         (fromBool val))
  
-eventGetCancelBubble :: (EventClass self) => self -> IO Bool
-eventGetCancelBubble self
-  = toBool <$>
-      ({# call webkit_dom_event_get_cancel_bubble #} (toEvent self))
+getCancelBubble :: (MonadIO m, EventClass self) => self -> m Bool
+getCancelBubble self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_event_get_cancel_bubble #} (toEvent self)))

@@ -1,48 +1,65 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseElement
-       (htmlBaseElementSetHref, htmlBaseElementGetHref,
-        htmlBaseElementSetTarget, htmlBaseElementGetTarget,
-        HTMLBaseElement, HTMLBaseElementClass, castToHTMLBaseElement,
-        gTypeHTMLBaseElement, toHTMLBaseElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLBaseElement(
+setHref,
+getHref,
+setTarget,
+getTarget,
+HTMLBaseElement,
+castToHTMLBaseElement,
+gTypeHTMLBaseElement,
+HTMLBaseElementClass,
+toHTMLBaseElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlBaseElementSetHref ::
-                       (HTMLBaseElementClass self, GlibString string) =>
-                         self -> string -> IO ()
-htmlBaseElementSetHref self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_base_element_set_href #}
-          (toHTMLBaseElement self)
-          valPtr
+setHref ::
+        (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
+          self -> string -> m ()
+setHref self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_base_element_set_href #}
+             (toHTMLBaseElement self)
+             valPtr)
  
-htmlBaseElementGetHref ::
-                       (HTMLBaseElementClass self, GlibString string) => self -> IO string
-htmlBaseElementGetHref self
-  = ({# call webkit_dom_html_base_element_get_href #}
-       (toHTMLBaseElement self))
-      >>=
-      readUTFString
+getHref ::
+        (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
+          self -> m string
+getHref self
+  = liftIO
+      (({# call webkit_dom_html_base_element_get_href #}
+          (toHTMLBaseElement self))
+         >>=
+         readUTFString)
  
-htmlBaseElementSetTarget ::
-                         (HTMLBaseElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlBaseElementSetTarget self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_base_element_set_target #}
-          (toHTMLBaseElement self)
-          valPtr
+setTarget ::
+          (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
+            self -> string -> m ()
+setTarget self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_base_element_set_target #}
+             (toHTMLBaseElement self)
+             valPtr)
  
-htmlBaseElementGetTarget ::
-                         (HTMLBaseElementClass self, GlibString string) => self -> IO string
-htmlBaseElementGetTarget self
-  = ({# call webkit_dom_html_base_element_get_target #}
-       (toHTMLBaseElement self))
-      >>=
-      readUTFString
+getTarget ::
+          (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
+            self -> m string
+getTarget self
+  = liftIO
+      (({# call webkit_dom_html_base_element_get_target #}
+          (toHTMLBaseElement self))
+         >>=
+         readUTFString)

@@ -1,107 +1,103 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMApplicationCache
-       (domApplicationCacheUpdate, domApplicationCacheSwapCache,
-        domApplicationCacheAbort, domApplicationCacheDispatchEvent,
-        cUNCACHED, cIDLE, cCHECKING, cDOWNLOADING, cUPDATEREADY, cOBSOLETE,
-        domApplicationCacheGetStatus, domApplicationCacheOnchecking,
-        domApplicationCacheOnerror, domApplicationCacheOnnoupdate,
-        domApplicationCacheOndownloading, domApplicationCacheOnprogress,
-        domApplicationCacheOnupdateready, domApplicationCacheOncached,
-        domApplicationCacheOnobsolete, DOMApplicationCache,
-        DOMApplicationCacheClass, castToDOMApplicationCache,
-        gTypeDOMApplicationCache, toDOMApplicationCache)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.DOMApplicationCache(
+update,
+swapCache,
+abort,
+pattern UNCACHED,
+pattern IDLE,
+pattern CHECKING,
+pattern DOWNLOADING,
+pattern UPDATEREADY,
+pattern OBSOLETE,
+getStatus,
+checking,
+error,
+noUpdate,
+downloading,
+progress,
+updateReady,
+cached,
+obsolete,
+DOMApplicationCache,
+castToDOMApplicationCache,
+gTypeDOMApplicationCache,
+DOMApplicationCacheClass,
+toDOMApplicationCache,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-domApplicationCacheUpdate ::
-                          (DOMApplicationCacheClass self) => self -> IO ()
-domApplicationCacheUpdate self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_dom_application_cache_update #}
-          (toDOMApplicationCache self)
-          errorPtr_
- 
-domApplicationCacheSwapCache ::
-                             (DOMApplicationCacheClass self) => self -> IO ()
-domApplicationCacheSwapCache self
-  = propagateGError $
-      \ errorPtr_ ->
-        {# call webkit_dom_dom_application_cache_swap_cache #}
-          (toDOMApplicationCache self)
-          errorPtr_
- 
-domApplicationCacheAbort ::
-                         (DOMApplicationCacheClass self) => self -> IO ()
-domApplicationCacheAbort self
-  = {# call webkit_dom_dom_application_cache_abort #}
-      (toDOMApplicationCache self)
- 
-domApplicationCacheDispatchEvent ::
-                                 (DOMApplicationCacheClass self, EventClass evt) =>
-                                   self -> Maybe evt -> IO Bool
-domApplicationCacheDispatchEvent self evt
-  = toBool <$>
+update ::
+       (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+update self
+  = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_dom_application_cache_dispatch_event #}
+           {# call webkit_dom_dom_application_cache_update #}
              (toDOMApplicationCache self)
-             (maybe (Event nullForeignPtr) toEvent evt)
              errorPtr_)
-cUNCACHED = 0
-cIDLE = 1
-cCHECKING = 2
-cDOWNLOADING = 3
-cUPDATEREADY = 4
-cOBSOLETE = 5
  
-domApplicationCacheGetStatus ::
-                             (DOMApplicationCacheClass self) => self -> IO Word
-domApplicationCacheGetStatus self
-  = fromIntegral <$>
-      ({# call webkit_dom_dom_application_cache_get_status #}
+swapCache ::
+          (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+swapCache self
+  = liftIO
+      (propagateGError $
+         \ errorPtr_ ->
+           {# call webkit_dom_dom_application_cache_swap_cache #}
+             (toDOMApplicationCache self)
+             errorPtr_)
+ 
+abort :: (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+abort self
+  = liftIO
+      ({# call webkit_dom_dom_application_cache_abort #}
          (toDOMApplicationCache self))
+pattern UNCACHED = 0
+pattern IDLE = 1
+pattern CHECKING = 2
+pattern DOWNLOADING = 3
+pattern UPDATEREADY = 4
+pattern OBSOLETE = 5
  
-domApplicationCacheOnchecking ::
-                              (DOMApplicationCacheClass self) =>
-                                Signal self (EventM UIEvent self ())
-domApplicationCacheOnchecking = (connect "checking")
+getStatus ::
+          (MonadIO m, DOMApplicationCacheClass self) => self -> m Word
+getStatus self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_dom_application_cache_get_status #}
+            (toDOMApplicationCache self)))
  
-domApplicationCacheOnerror ::
-                           (DOMApplicationCacheClass self) =>
-                             Signal self (EventM UIEvent self ())
-domApplicationCacheOnerror = (connect "error")
+checking :: (DOMApplicationCacheClass self) => EventName self Event
+checking = EventName "checking"
  
-domApplicationCacheOnnoupdate ::
-                              (DOMApplicationCacheClass self) =>
-                                Signal self (EventM UIEvent self ())
-domApplicationCacheOnnoupdate = (connect "noupdate")
+error :: (DOMApplicationCacheClass self) => EventName self UIEvent
+error = EventName "error"
  
-domApplicationCacheOndownloading ::
-                                 (DOMApplicationCacheClass self) =>
-                                   Signal self (EventM UIEvent self ())
-domApplicationCacheOndownloading = (connect "downloading")
+noUpdate :: (DOMApplicationCacheClass self) => EventName self Event
+noUpdate = EventName "noupdate"
  
-domApplicationCacheOnprogress ::
-                              (DOMApplicationCacheClass self) =>
-                                Signal self (EventM UIEvent self ())
-domApplicationCacheOnprogress = (connect "progress")
+downloading ::
+            (DOMApplicationCacheClass self) => EventName self Event
+downloading = EventName "downloading"
  
-domApplicationCacheOnupdateready ::
-                                 (DOMApplicationCacheClass self) =>
-                                   Signal self (EventM UIEvent self ())
-domApplicationCacheOnupdateready = (connect "updateready")
+progress :: (DOMApplicationCacheClass self) => EventName self Event
+progress = EventName "progress"
  
-domApplicationCacheOncached ::
-                            (DOMApplicationCacheClass self) =>
-                              Signal self (EventM UIEvent self ())
-domApplicationCacheOncached = (connect "cached")
+updateReady ::
+            (DOMApplicationCacheClass self) => EventName self Event
+updateReady = EventName "updateready"
  
-domApplicationCacheOnobsolete ::
-                              (DOMApplicationCacheClass self) =>
-                                Signal self (EventM UIEvent self ())
-domApplicationCacheOnobsolete = (connect "obsolete")
+cached :: (DOMApplicationCacheClass self) => EventName self Event
+cached = EventName "cached"
+ 
+obsolete :: (DOMApplicationCacheClass self) => EventName self Event
+obsolete = EventName "obsolete"

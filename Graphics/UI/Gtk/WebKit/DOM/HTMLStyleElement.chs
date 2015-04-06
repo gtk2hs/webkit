@@ -1,67 +1,70 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLStyleElement
-       (htmlStyleElementSetDisabled, htmlStyleElementGetDisabled,
-        htmlStyleElementSetScoped, htmlStyleElementGetScoped,
-        htmlStyleElementSetMedia, htmlStyleElementGetMedia,
-        htmlStyleElementGetSheet, HTMLStyleElement, HTMLStyleElementClass,
-        castToHTMLStyleElement, gTypeHTMLStyleElement, toHTMLStyleElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLStyleElement(
+setDisabled,
+getDisabled,
+setMedia,
+getMedia,
+getSheet,
+HTMLStyleElement,
+castToHTMLStyleElement,
+gTypeHTMLStyleElement,
+HTMLStyleElementClass,
+toHTMLStyleElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlStyleElementSetDisabled ::
-                            (HTMLStyleElementClass self) => self -> Bool -> IO ()
-htmlStyleElementSetDisabled self val
-  = {# call webkit_dom_html_style_element_set_disabled #}
-      (toHTMLStyleElement self)
-      (fromBool val)
+setDisabled ::
+            (MonadIO m, HTMLStyleElementClass self) => self -> Bool -> m ()
+setDisabled self val
+  = liftIO
+      ({# call webkit_dom_html_style_element_set_disabled #}
+         (toHTMLStyleElement self)
+         (fromBool val))
  
-htmlStyleElementGetDisabled ::
-                            (HTMLStyleElementClass self) => self -> IO Bool
-htmlStyleElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_style_element_get_disabled #}
-         (toHTMLStyleElement self))
+getDisabled ::
+            (MonadIO m, HTMLStyleElementClass self) => self -> m Bool
+getDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_style_element_get_disabled #}
+            (toHTMLStyleElement self)))
  
-htmlStyleElementSetScoped ::
-                          (HTMLStyleElementClass self) => self -> Bool -> IO ()
-htmlStyleElementSetScoped self val
-  = {# call webkit_dom_html_style_element_set_scoped #}
-      (toHTMLStyleElement self)
-      (fromBool val)
+setMedia ::
+         (MonadIO m, HTMLStyleElementClass self, GlibString string) =>
+           self -> string -> m ()
+setMedia self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_style_element_set_media #}
+             (toHTMLStyleElement self)
+             valPtr)
  
-htmlStyleElementGetScoped ::
-                          (HTMLStyleElementClass self) => self -> IO Bool
-htmlStyleElementGetScoped self
-  = toBool <$>
-      ({# call webkit_dom_html_style_element_get_scoped #}
-         (toHTMLStyleElement self))
+getMedia ::
+         (MonadIO m, HTMLStyleElementClass self, GlibString string) =>
+           self -> m string
+getMedia self
+  = liftIO
+      (({# call webkit_dom_html_style_element_get_media #}
+          (toHTMLStyleElement self))
+         >>=
+         readUTFString)
  
-htmlStyleElementSetMedia ::
-                         (HTMLStyleElementClass self, GlibString string) =>
-                           self -> string -> IO ()
-htmlStyleElementSetMedia self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_style_element_set_media #}
-          (toHTMLStyleElement self)
-          valPtr
- 
-htmlStyleElementGetMedia ::
-                         (HTMLStyleElementClass self, GlibString string) =>
-                           self -> IO string
-htmlStyleElementGetMedia self
-  = ({# call webkit_dom_html_style_element_get_media #}
-       (toHTMLStyleElement self))
-      >>=
-      readUTFString
- 
-htmlStyleElementGetSheet ::
-                         (HTMLStyleElementClass self) => self -> IO (Maybe StyleSheet)
-htmlStyleElementGetSheet self
-  = maybeNull (makeNewGObject mkStyleSheet)
-      ({# call webkit_dom_html_style_element_get_sheet #}
-         (toHTMLStyleElement self))
+getSheet ::
+         (MonadIO m, HTMLStyleElementClass self) =>
+           self -> m (Maybe StyleSheet)
+getSheet self
+  = liftIO
+      (maybeNull (makeNewGObject mkStyleSheet)
+         ({# call webkit_dom_html_style_element_get_sheet #}
+            (toHTMLStyleElement self)))

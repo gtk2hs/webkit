@@ -1,40 +1,53 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLPreElement
-       (htmlPreElementSetWidth, htmlPreElementGetWidth,
-        htmlPreElementSetWrap, htmlPreElementGetWrap, HTMLPreElement,
-        HTMLPreElementClass, castToHTMLPreElement, gTypeHTMLPreElement,
-        toHTMLPreElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLPreElement(
+setWidth,
+getWidth,
+setWrap,
+getWrap,
+HTMLPreElement,
+castToHTMLPreElement,
+gTypeHTMLPreElement,
+HTMLPreElementClass,
+toHTMLPreElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlPreElementSetWidth ::
-                       (HTMLPreElementClass self) => self -> Int -> IO ()
-htmlPreElementSetWidth self val
-  = {# call webkit_dom_html_pre_element_set_width #}
-      (toHTMLPreElement self)
-      (fromIntegral val)
+setWidth ::
+         (MonadIO m, HTMLPreElementClass self) => self -> Int -> m ()
+setWidth self val
+  = liftIO
+      ({# call webkit_dom_html_pre_element_set_width #}
+         (toHTMLPreElement self)
+         (fromIntegral val))
  
-htmlPreElementGetWidth ::
-                       (HTMLPreElementClass self) => self -> IO Int
-htmlPreElementGetWidth self
-  = fromIntegral <$>
-      ({# call webkit_dom_html_pre_element_get_width #}
-         (toHTMLPreElement self))
+getWidth :: (MonadIO m, HTMLPreElementClass self) => self -> m Int
+getWidth self
+  = liftIO
+      (fromIntegral <$>
+         ({# call webkit_dom_html_pre_element_get_width #}
+            (toHTMLPreElement self)))
  
-htmlPreElementSetWrap ::
-                      (HTMLPreElementClass self) => self -> Bool -> IO ()
-htmlPreElementSetWrap self val
-  = {# call webkit_dom_html_pre_element_set_wrap #}
-      (toHTMLPreElement self)
-      (fromBool val)
+setWrap ::
+        (MonadIO m, HTMLPreElementClass self) => self -> Bool -> m ()
+setWrap self val
+  = liftIO
+      ({# call webkit_dom_html_pre_element_set_wrap #}
+         (toHTMLPreElement self)
+         (fromBool val))
  
-htmlPreElementGetWrap ::
-                      (HTMLPreElementClass self) => self -> IO Bool
-htmlPreElementGetWrap self
-  = toBool <$>
-      ({# call webkit_dom_html_pre_element_get_wrap #}
-         (toHTMLPreElement self))
+getWrap :: (MonadIO m, HTMLPreElementClass self) => self -> m Bool
+getWrap self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_pre_element_get_wrap #}
+            (toHTMLPreElement self)))

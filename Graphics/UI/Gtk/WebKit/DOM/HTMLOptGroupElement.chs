@@ -1,46 +1,60 @@
-module Graphics.UI.Gtk.WebKit.DOM.HTMLOptGroupElement
-       (htmlOptGroupElementSetDisabled, htmlOptGroupElementGetDisabled,
-        htmlOptGroupElementSetLabel, htmlOptGroupElementGetLabel,
-        HTMLOptGroupElement, HTMLOptGroupElementClass,
-        castToHTMLOptGroupElement, gTypeHTMLOptGroupElement,
-        toHTMLOptGroupElement)
-       where
-import System.Glib.FFI
-import System.Glib.UTFString
-import Control.Applicative
+module Graphics.UI.Gtk.WebKit.DOM.HTMLOptGroupElement(
+setDisabled,
+getDisabled,
+setLabel,
+getLabel,
+HTMLOptGroupElement,
+castToHTMLOptGroupElement,
+gTypeHTMLOptGroupElement,
+HTMLOptGroupElementClass,
+toHTMLOptGroupElement,
+) where
+import Prelude hiding (drop, error, print)
+import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
+import System.Glib.UTFString (GlibString(..), readUTFString)
+import Control.Applicative ((<$>))
+import Control.Monad (void)
+import Control.Monad.IO.Class (MonadIO(..))
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
+import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+import Graphics.UI.Gtk.WebKit.DOM.Enums
+
  
-htmlOptGroupElementSetDisabled ::
-                               (HTMLOptGroupElementClass self) => self -> Bool -> IO ()
-htmlOptGroupElementSetDisabled self val
-  = {# call webkit_dom_html_opt_group_element_set_disabled #}
-      (toHTMLOptGroupElement self)
-      (fromBool val)
+setDisabled ::
+            (MonadIO m, HTMLOptGroupElementClass self) => self -> Bool -> m ()
+setDisabled self val
+  = liftIO
+      ({# call webkit_dom_html_opt_group_element_set_disabled #}
+         (toHTMLOptGroupElement self)
+         (fromBool val))
  
-htmlOptGroupElementGetDisabled ::
-                               (HTMLOptGroupElementClass self) => self -> IO Bool
-htmlOptGroupElementGetDisabled self
-  = toBool <$>
-      ({# call webkit_dom_html_opt_group_element_get_disabled #}
-         (toHTMLOptGroupElement self))
+getDisabled ::
+            (MonadIO m, HTMLOptGroupElementClass self) => self -> m Bool
+getDisabled self
+  = liftIO
+      (toBool <$>
+         ({# call webkit_dom_html_opt_group_element_get_disabled #}
+            (toHTMLOptGroupElement self)))
  
-htmlOptGroupElementSetLabel ::
-                            (HTMLOptGroupElementClass self, GlibString string) =>
-                              self -> string -> IO ()
-htmlOptGroupElementSetLabel self val
-  = withUTFString val $
-      \ valPtr ->
-        {# call webkit_dom_html_opt_group_element_set_label #}
-          (toHTMLOptGroupElement self)
-          valPtr
+setLabel ::
+         (MonadIO m, HTMLOptGroupElementClass self, GlibString string) =>
+           self -> string -> m ()
+setLabel self val
+  = liftIO
+      (withUTFString val $
+         \ valPtr ->
+           {# call webkit_dom_html_opt_group_element_set_label #}
+             (toHTMLOptGroupElement self)
+             valPtr)
  
-htmlOptGroupElementGetLabel ::
-                            (HTMLOptGroupElementClass self, GlibString string) =>
-                              self -> IO string
-htmlOptGroupElementGetLabel self
-  = ({# call webkit_dom_html_opt_group_element_get_label #}
-       (toHTMLOptGroupElement self))
-      >>=
-      readUTFString
+getLabel ::
+         (MonadIO m, HTMLOptGroupElementClass self, GlibString string) =>
+           self -> m string
+getLabel self
+  = liftIO
+      (({# call webkit_dom_html_opt_group_element_get_label #}
+          (toHTMLOptGroupElement self))
+         >>=
+         readUTFString)
