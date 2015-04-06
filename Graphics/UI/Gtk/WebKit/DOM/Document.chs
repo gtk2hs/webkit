@@ -162,10 +162,10 @@ import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
-{#import Graphics.UI.Gtk.WebKit.Types#}
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 import Graphics.UI.Gtk.WebKit.DOM.EventM
+{#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
