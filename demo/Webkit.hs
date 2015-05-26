@@ -14,12 +14,16 @@
 --
 module Main where
 
-import Graphics.UI.Gtk
-import Graphics.UI.Gtk.WebKit.WebView
-import Graphics.UI.Gtk.WebKit.WebFrame
+import           Control.Monad.Trans
 
-import System.Process
-import System.Environment
+import           Data.Text
+
+import           Graphics.UI.Gtk
+import           Graphics.UI.Gtk.WebKit.WebFrame
+import           Graphics.UI.Gtk.WebKit.WebView
+
+import           System.Environment
+import           System.Process
 
 -- | Main entry.
 main :: IO ()
@@ -46,7 +50,7 @@ browser url = do
   window <- windowNew
   windowSetDefaultSize window 900 600
   windowSetPosition window WinPosCenter
-  windowSetOpacity window 0.8   -- this function need window-manager support Alpha channel in X11
+  set window [windowOpacity := 0.8]   -- this function need window-manager support Alpha channel in X11
 
   -- Create WebKit view.
   webView <- webViewNew
@@ -65,23 +69,23 @@ browser url = do
   entrySetText addressBar url
 
   -- Open uri when user press `return` at address bar.
-  onEntryActivate addressBar $ do
-    uri <- entryGetText addressBar -- get uri from address bar
-    webViewLoadUri webView uri    -- load new uri
+  addressBar `on` entryActivated $ do
+    uri <- entryGetText addressBar        -- get uri from address bar
+    webViewLoadUri webView (uri :: Text)  -- load new uri
 
   -- Add current uri to address bar when load is committed.
   webView `on` loadCommitted $ \frame -> do
     currentUri <- webFrameGetUri frame
     case currentUri of
-         Just uri -> entrySetText addressBar uri
-         Nothing  -> return ()
+      Just uri -> entrySetText addressBar (uri :: Text)
+      _ -> return ()
 
   -- Open all link in current window.
   webView `on` createWebView $ \frame -> do
     newUri <- webFrameGetUri frame
     case newUri of
-      Just uri -> webViewLoadUri webView uri
-      Nothing  -> return ()
+      Just uri -> webViewLoadUri webView (uri :: Text)
+      _ -> return ()
     return webView
 
   -- Connect and show.
@@ -89,7 +93,7 @@ browser url = do
   boxPackStart winBox scrollWin PackGrow 0
   window `containerAdd` winBox
   scrollWin `containerAdd` webView
-  window `onDestroy` mainQuit
+  window `on` deleteEvent $ lift mainQuit >> return True
   widgetShowAll window
 
   mainGUI
