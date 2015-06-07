@@ -343,35 +343,28 @@
         WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkitgtk-2.2
         WebKitDOMBlob as Blob, webkit_dom_blob_get_type if webkit-dom
             WebKitDOMFile as File, webkit_dom_file_get_type if webkit-dom
+        WebKitDOMDOMWindowCSS as CSS, webkit_dom_dom_window_css_get_type if webkit-dom
         WebKitDOMCSSRule as CSSRule, webkit_dom_css_rule_get_type if webkit-dom
         WebKitDOMCSSRuleList as CSSRuleList, webkit_dom_css_rule_list_get_type if webkit-dom
         WebKitDOMCSSStyleDeclaration as CSSStyleDeclaration, webkit_dom_css_style_declaration_get_type if webkit-dom
         WebKitDOMCSSValue as CSSValue, webkit_dom_css_value_get_type if webkit-dom
         WebKitDOMDOMImplementation as DOMImplementation, webkit_dom_dom_implementation_get_type if webkit-dom
-        WebKitDOMDOMMimeType as DOMMimeType, webkit_dom_dom_mime_type_get_type if webkit-dom
-        WebKitDOMDOMMimeTypeArray as DOMMimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
         WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkitgtk-2.2
-        WebKitDOMDOMPlugin as DOMPlugin, webkit_dom_dom_plugin_get_type if webkit-dom
-        WebKitDOMDOMPluginArray as DOMPluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
-        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
-        WebKitDOMDOMSelection as DOMSelection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
             WebKitDOMDOMSettableTokenList as DOMSettableTokenList, webkit_dom_dom_settable_token_list_get_type if webkit-dom
-        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkitgtk-2.2
         WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
             WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
                 WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkitgtk-2.2
                 WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
                     WebKitDOMWheelEvent as WheelEvent, webkit_dom_wheel_event_get_type if webkit-dom
         WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
+            WebKitDOMDOMApplicationCache as ApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
             WebKitDOMAudioTrackList as AudioTrackList, webkit_dom_audio_track_list_get_type if webkit-dom
             WebKitDOMBatteryManager as BatteryManager, webkit_dom_battery_manager_get_type if webkit-dom
-            WebKitDOMDOMApplicationCache as DOMApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
-            WebKitDOMDOMWindow as DOMWindow, webkit_dom_dom_window_get_type if webkit-dom
             WebKitDOMMessagePort as MessagePort, webkit_dom_message_port_get_type if webkit-dom
             WebKitDOMNode as Node, webkit_dom_node_get_type if webkit-dom
-                WebKitDOMAttr as DOMAttr, webkit_dom_attr_get_type if webkit-dom
+                WebKitDOMAttr as Attr, webkit_dom_attr_get_type if webkit-dom
                 WebKitDOMCharacterData as CharacterData, webkit_dom_character_data_get_type if webkit-dom
                     WebKitDOMComment as Comment, webkit_dom_comment_get_type if webkit-dom
                     WebKitDOMProcessingInstruction as ProcessingInstruction, webkit_dom_processing_instruction_get_type if webkit-dom
@@ -446,6 +439,7 @@
             WebKitDOMTextTrackList as TextTrackList, webkit_dom_text_track_list_get_type if webkit-dom
             WebKitDOMVideoTrackList as VideoTrackList, webkit_dom_video_track_list_get_type if webkit-dom
             WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
+            WebKitDOMDOMWindow as Window, webkit_dom_dom_window_get_type if webkit-dom
         WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
         WebKitDOMGeolocation as Geolocation, webkit_dom_geolocation_get_type if webkit-dom
         WebKitDOMHTMLCollection as HTMLCollection, webkit_dom_html_collection_get_type if webkit-dom
@@ -458,6 +452,8 @@
         WebKitDOMMediaError as MediaError, webkit_dom_media_error_get_type if webkit-dom
         WebKitDOMMediaList as MediaList, webkit_dom_media_list_get_type if webkit-dom
         WebKitDOMMediaQueryList as MediaQueryList, webkit_dom_media_query_list_get_type if webkit-dom
+        WebKitDOMDOMMimeType as MimeType, webkit_dom_dom_mime_type_get_type if webkit-dom
+        WebKitDOMDOMMimeTypeArray as MimeTypeArray, webkit_dom_dom_mime_type_array_get_type if webkit-dom
         WebKitDOMNamedNodeMap as NamedNodeMap, webkit_dom_named_node_map_get_type if webkit-dom
         WebKitDOMNavigator as Navigator, webkit_dom_navigator_get_type if webkit-dom
         WebKitDOMNodeFilter as NodeFilter, webkit_dom_node_filter_get_type if webkit-dom
@@ -465,8 +461,12 @@
         WebKitDOMNodeList as NodeList, webkit_dom_node_list_get_type if webkit-dom
         WebKitDOMPerformanceNavigation as PerformanceNavigation, webkit_dom_performance_navigation_get_type if webkit-dom
         WebKitDOMPerformanceTiming as PerformanceTiming, webkit_dom_performance_timing_get_type if webkit-dom
-        WebKitDOMRange as DOMRange, webkit_dom_range_get_type if webkit-dom
-        WebKitDOMScreen as DOMScreen, webkit_dom_screen_get_type if webkit-dom
+        WebKitDOMDOMPlugin as Plugin, webkit_dom_dom_plugin_get_type if webkit-dom
+        WebKitDOMDOMPluginArray as PluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
+        WebKitDOMRange as Range, webkit_dom_range_get_type if webkit-dom
+        WebKitDOMScreen as Screen, webkit_dom_screen_get_type if webkit-dom
+        WebKitDOMDOMSecurityPolicy as SecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
+        WebKitDOMDOMSelection as Selection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMStorage as Storage, webkit_dom_storage_get_type if webkit-dom
         WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkitgtk-1.10
         WebKitDOMStorageQuota as StorageQuota, webkit_dom_storage_quota_get_type if webkit-dom

@@ -28,7 +28,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 initUIEvent ::
-            (MonadIO m, UIEventClass self, DOMWindowClass view,
+            (MonadIO m, UIEventClass self, WindowClass view,
              GlibString string) =>
               self -> string -> Bool -> Bool -> Maybe view -> Int -> m ()
 initUIEvent self type' canBubble cancelable view detail
@@ -39,14 +39,14 @@ initUIEvent self type' canBubble cancelable view detail
              typePtr
          (fromBool canBubble)
          (fromBool cancelable)
-         (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+         (maybe (Window nullForeignPtr) toWindow view)
          (fromIntegral detail))
  
 getView ::
-        (MonadIO m, UIEventClass self) => self -> m (Maybe DOMWindow)
+        (MonadIO m, UIEventClass self) => self -> m (Maybe Window)
 getView self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMWindow)
+      (maybeNull (makeNewGObject mkWindow)
          ({# call webkit_dom_ui_event_get_view #} (toUIEvent self)))
  
 getDetail :: (MonadIO m, UIEventClass self) => self -> m Int

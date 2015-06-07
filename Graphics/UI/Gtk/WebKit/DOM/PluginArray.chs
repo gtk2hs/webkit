@@ -1,13 +1,13 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMPluginArray(
+module Graphics.UI.Gtk.WebKit.DOM.PluginArray(
 item,
 namedItem,
 refresh,
 getLength,
-DOMPluginArray,
-castToDOMPluginArray,
-gTypeDOMPluginArray,
-DOMPluginArrayClass,
-toDOMPluginArray,
+PluginArray,
+castToPluginArray,
+gTypePluginArray,
+PluginArrayClass,
+toPluginArray,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -23,39 +23,37 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 item ::
-     (MonadIO m, DOMPluginArrayClass self) =>
-       self -> Word -> m (Maybe DOMPlugin)
+     (MonadIO m, PluginArrayClass self) =>
+       self -> Word -> m (Maybe Plugin)
 item self index
   = liftIO
-      (maybeNull (makeNewGObject mkDOMPlugin)
-         ({# call webkit_dom_dom_plugin_array_item #}
-            (toDOMPluginArray self)
+      (maybeNull (makeNewGObject mkPlugin)
+         ({# call webkit_dom_dom_plugin_array_item #} (toPluginArray self)
             (fromIntegral index)))
  
 namedItem ::
-          (MonadIO m, DOMPluginArrayClass self, GlibString string) =>
-            self -> string -> m (Maybe DOMPlugin)
+          (MonadIO m, PluginArrayClass self, GlibString string) =>
+            self -> string -> m (Maybe Plugin)
 namedItem self name
   = liftIO
-      (maybeNull (makeNewGObject mkDOMPlugin)
+      (maybeNull (makeNewGObject mkPlugin)
          (withUTFString name $
             \ namePtr ->
               {# call webkit_dom_dom_plugin_array_named_item #}
-                (toDOMPluginArray self)
+                (toPluginArray self)
                 namePtr))
  
 refresh ::
-        (MonadIO m, DOMPluginArrayClass self) => self -> Bool -> m ()
+        (MonadIO m, PluginArrayClass self) => self -> Bool -> m ()
 refresh self reload
   = liftIO
       ({# call webkit_dom_dom_plugin_array_refresh #}
-         (toDOMPluginArray self)
+         (toPluginArray self)
          (fromBool reload))
  
-getLength ::
-          (MonadIO m, DOMPluginArrayClass self) => self -> m Word
+getLength :: (MonadIO m, PluginArrayClass self) => self -> m Word
 getLength self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_plugin_array_get_length #}
-            (toDOMPluginArray self)))
+            (toPluginArray self)))

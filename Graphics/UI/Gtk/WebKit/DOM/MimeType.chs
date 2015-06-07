@@ -1,12 +1,12 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMMimeType(
+module Graphics.UI.Gtk.WebKit.DOM.MimeType(
 getSuffixes,
 getDescription,
 getEnabledPlugin,
-DOMMimeType,
-castToDOMMimeType,
-gTypeDOMMimeType,
-DOMMimeTypeClass,
-toDOMMimeType,
+MimeType,
+castToMimeType,
+gTypeMimeType,
+MimeTypeClass,
+toMimeType,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -22,29 +22,29 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 getSuffixes ::
-            (MonadIO m, DOMMimeTypeClass self, GlibString string) =>
+            (MonadIO m, MimeTypeClass self, GlibString string) =>
               self -> m string
 getSuffixes self
   = liftIO
       (({# call webkit_dom_dom_mime_type_get_suffixes #}
-          (toDOMMimeType self))
+          (toMimeType self))
          >>=
          readUTFString)
  
 getDescription ::
-               (MonadIO m, DOMMimeTypeClass self, GlibString string) =>
+               (MonadIO m, MimeTypeClass self, GlibString string) =>
                  self -> m string
 getDescription self
   = liftIO
       (({# call webkit_dom_dom_mime_type_get_description #}
-          (toDOMMimeType self))
+          (toMimeType self))
          >>=
          readUTFString)
  
 getEnabledPlugin ::
-                 (MonadIO m, DOMMimeTypeClass self) => self -> m (Maybe DOMPlugin)
+                 (MonadIO m, MimeTypeClass self) => self -> m (Maybe Plugin)
 getEnabledPlugin self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMPlugin)
+      (maybeNull (makeNewGObject mkPlugin)
          ({# call webkit_dom_dom_mime_type_get_enabled_plugin #}
-            (toDOMMimeType self)))
+            (toMimeType self)))

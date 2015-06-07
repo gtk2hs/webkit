@@ -68,7 +68,7 @@ import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
 import System.Glib.GError
-import System.Glib.Attributes
+import System.Glib.Attributes as G
 import System.Glib.Properties
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -144,7 +144,7 @@ webInspectorInspectedUri :: (WebInspectorClass self, GlibString string) => ReadA
 webInspectorInspectedUri = readAttr webInspectorGetInspectedUri
 
 -- | This is enabling JavaScript profiling in the Inspector. This means that Console.profiles will return the profiles.
-webInspectorJSProfilingEnable :: (WebInspectorClass self) => Attr self Bool
+webInspectorJSProfilingEnable :: (WebInspectorClass self) => G.Attr self Bool
 webInspectorJSProfilingEnable = newAttrFromBoolProperty "javascript-profiling-enabled"
 
 #if WEBKIT_CHECK_VERSION (1,1,17)
@@ -153,7 +153,7 @@ webInspectorJSProfilingEnable = newAttrFromBoolProperty "javascript-profiling-en
 -- Default value: 'False'
 --
 -- * Since 1.1.17
-webInspectorTimelineProfilingEnabled :: (WebInspectorClass self) => Attr self Bool
+webInspectorTimelineProfilingEnabled :: (WebInspectorClass self) => G.Attr self Bool
 webInspectorTimelineProfilingEnabled = newAttrFromBoolProperty "timeline-profiling-enabled"
 #endif
 

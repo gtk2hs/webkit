@@ -307,9 +307,9 @@ getContentDocument self
  
 getContentWindow ::
                  (MonadIO m, HTMLIFrameElementClass self) =>
-                   self -> m (Maybe DOMWindow)
+                   self -> m (Maybe Window)
 getContentWindow self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMWindow)
+      (maybeNull (makeNewGObject mkWindow)
          ({# call webkit_dom_html_iframe_element_get_content_window #}
             (toHTMLIFrameElement self)))

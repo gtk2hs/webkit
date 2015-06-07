@@ -1,4 +1,4 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy(
+module Graphics.UI.Gtk.WebKit.DOM.SecurityPolicy(
 allowsConnectionTo,
 allowsFontFrom,
 allowsFormAction,
@@ -14,11 +14,11 @@ getAllowsInlineScript,
 getAllowsInlineStyle,
 getIsActive,
 getReportURIs,
-DOMSecurityPolicy,
-castToDOMSecurityPolicy,
-gTypeDOMSecurityPolicy,
-DOMSecurityPolicyClass,
-toDOMSecurityPolicy,
+SecurityPolicy,
+castToSecurityPolicy,
+gTypeSecurityPolicy,
+SecurityPolicyClass,
+toSecurityPolicy,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -34,7 +34,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 allowsConnectionTo ::
-                   (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                   (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                      self -> string -> m Bool
 allowsConnectionTo self url
   = liftIO
@@ -42,11 +42,11 @@ allowsConnectionTo self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_connection_to #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsFontFrom ::
-               (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+               (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                  self -> string -> m Bool
 allowsFontFrom self url
   = liftIO
@@ -54,11 +54,11 @@ allowsFontFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_font_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsFormAction ::
-                 (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                 (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                    self -> string -> m Bool
 allowsFormAction self url
   = liftIO
@@ -66,11 +66,11 @@ allowsFormAction self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_form_action #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsFrameFrom ::
-                (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                   self -> string -> m Bool
 allowsFrameFrom self url
   = liftIO
@@ -78,11 +78,11 @@ allowsFrameFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_frame_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsImageFrom ::
-                (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                   self -> string -> m Bool
 allowsImageFrom self url
   = liftIO
@@ -90,11 +90,11 @@ allowsImageFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_image_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsMediaFrom ::
-                (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                   self -> string -> m Bool
 allowsMediaFrom self url
   = liftIO
@@ -102,11 +102,11 @@ allowsMediaFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_media_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsObjectFrom ::
-                 (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                 (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                    self -> string -> m Bool
 allowsObjectFrom self url
   = liftIO
@@ -114,11 +114,11 @@ allowsObjectFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_object_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsPluginType ::
-                 (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                 (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                    self -> string -> m Bool
 allowsPluginType self type'
   = liftIO
@@ -126,11 +126,11 @@ allowsPluginType self type'
          (withUTFString type' $
             \ typePtr ->
               {# call webkit_dom_dom_security_policy_allows_plugin_type #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 typePtr))
  
 allowsScriptFrom ::
-                 (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                 (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                    self -> string -> m Bool
 allowsScriptFrom self url
   = liftIO
@@ -138,11 +138,11 @@ allowsScriptFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_script_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 allowsStyleFrom ::
-                (MonadIO m, DOMSecurityPolicyClass self, GlibString string) =>
+                (MonadIO m, SecurityPolicyClass self, GlibString string) =>
                   self -> string -> m Bool
 allowsStyleFrom self url
   = liftIO
@@ -150,46 +150,46 @@ allowsStyleFrom self url
          (withUTFString url $
             \ urlPtr ->
               {# call webkit_dom_dom_security_policy_allows_style_from #}
-                (toDOMSecurityPolicy self)
+                (toSecurityPolicy self)
                 urlPtr))
  
 getAllowsEval ::
-              (MonadIO m, DOMSecurityPolicyClass self) => self -> m Bool
+              (MonadIO m, SecurityPolicyClass self) => self -> m Bool
 getAllowsEval self
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_security_policy_get_allows_eval #}
-            (toDOMSecurityPolicy self)))
+            (toSecurityPolicy self)))
  
 getAllowsInlineScript ::
-                      (MonadIO m, DOMSecurityPolicyClass self) => self -> m Bool
+                      (MonadIO m, SecurityPolicyClass self) => self -> m Bool
 getAllowsInlineScript self
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_security_policy_get_allows_inline_script #}
-            (toDOMSecurityPolicy self)))
+            (toSecurityPolicy self)))
  
 getAllowsInlineStyle ::
-                     (MonadIO m, DOMSecurityPolicyClass self) => self -> m Bool
+                     (MonadIO m, SecurityPolicyClass self) => self -> m Bool
 getAllowsInlineStyle self
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_security_policy_get_allows_inline_style #}
-            (toDOMSecurityPolicy self)))
+            (toSecurityPolicy self)))
  
 getIsActive ::
-            (MonadIO m, DOMSecurityPolicyClass self) => self -> m Bool
+            (MonadIO m, SecurityPolicyClass self) => self -> m Bool
 getIsActive self
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_security_policy_get_is_active #}
-            (toDOMSecurityPolicy self)))
+            (toSecurityPolicy self)))
  
 getReportURIs ::
-              (MonadIO m, DOMSecurityPolicyClass self) =>
+              (MonadIO m, SecurityPolicyClass self) =>
                 self -> m (Maybe DOMStringList)
 getReportURIs self
   = liftIO
       (maybeNull (makeNewGObject mkDOMStringList)
          ({# call webkit_dom_dom_security_policy_get_report_ur_is #}
-            (toDOMSecurityPolicy self)))
+            (toSecurityPolicy self)))

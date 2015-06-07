@@ -1,7 +1,6 @@
 module Graphics.UI.Gtk.WebKit.DOM.Enums(
 DomEnum(..),
 KeyType(..),
-DomEnum,
 KeyUsage(..),
 CanvasWindingRule(..),
 VideoPresentationMode(..),
@@ -30,17 +29,17 @@ import Control.Monad.IO.Class (MonadIO(..))
 import System.Glib.GError
 import Graphics.UI.Gtk.WebKit.DOM.EventTargetClosures
 
- 
+
 class DomEnum e where
-         
+
         enumToString :: e -> String
-         
+
         stringToEnum :: String -> e
- 
+
 data KeyType = KeyTypeSecret
              | KeyTypePublic
              | KeyTypePrivate
- 
+
 instance DomEnum KeyType where
         enumToString KeyTypeSecret = "secret"
         enumToString KeyTypePublic = "public"
@@ -48,7 +47,7 @@ instance DomEnum KeyType where
         stringToEnum "secret" = KeyTypeSecret
         stringToEnum "public" = KeyTypePublic
         stringToEnum "private" = KeyTypePrivate
- 
+
 data KeyUsage = KeyUsageEncrypt
               | KeyUsageDecrypt
               | KeyUsageSign
@@ -57,7 +56,7 @@ data KeyUsage = KeyUsageEncrypt
               | KeyUsageDeriveBits
               | KeyUsageWrapKey
               | KeyUsageUnwrapKey
- 
+
 instance DomEnum KeyUsage where
         enumToString KeyUsageEncrypt = "encrypt"
         enumToString KeyUsageDecrypt = "decrypt"
@@ -75,20 +74,20 @@ instance DomEnum KeyUsage where
         stringToEnum "deriveBits" = KeyUsageDeriveBits
         stringToEnum "wrapKey" = KeyUsageWrapKey
         stringToEnum "unwrapKey" = KeyUsageUnwrapKey
- 
+
 data CanvasWindingRule = CanvasWindingRuleNonzero
                        | CanvasWindingRuleEvenodd
- 
+
 instance DomEnum CanvasWindingRule where
         enumToString CanvasWindingRuleNonzero = "nonzero"
         enumToString CanvasWindingRuleEvenodd = "evenodd"
         stringToEnum "nonzero" = CanvasWindingRuleNonzero
         stringToEnum "evenodd" = CanvasWindingRuleEvenodd
- 
+
 data VideoPresentationMode = VideoPresentationModeFullscreen
                            | VideoPresentationModeOptimized
                            | VideoPresentationModeInline
- 
+
 instance DomEnum VideoPresentationMode where
         enumToString VideoPresentationModeFullscreen = "fullscreen"
         enumToString VideoPresentationModeOptimized = "optimized"
@@ -96,11 +95,11 @@ instance DomEnum VideoPresentationMode where
         stringToEnum "fullscreen" = VideoPresentationModeFullscreen
         stringToEnum "optimized" = VideoPresentationModeOptimized
         stringToEnum "inline" = VideoPresentationModeInline
- 
+
 data TextTrackMode = TextTrackModeDisabled
                    | TextTrackModeHidden
                    | TextTrackModeShowing
- 
+
 instance DomEnum TextTrackMode where
         enumToString TextTrackModeDisabled = "disabled"
         enumToString TextTrackModeHidden = "hidden"
@@ -108,13 +107,13 @@ instance DomEnum TextTrackMode where
         stringToEnum "disabled" = TextTrackModeDisabled
         stringToEnum "hidden" = TextTrackModeHidden
         stringToEnum "showing" = TextTrackModeShowing
- 
+
 data TextTrackKind = TextTrackKindSubtitles
                    | TextTrackKindCaptions
                    | TextTrackKindDescriptions
                    | TextTrackKindChapters
                    | TextTrackKindMetadata
- 
+
 instance DomEnum TextTrackKind where
         enumToString TextTrackKindSubtitles = "subtitles"
         enumToString TextTrackKindCaptions = "captions"
@@ -126,11 +125,11 @@ instance DomEnum TextTrackKind where
         stringToEnum "descriptions" = TextTrackKindDescriptions
         stringToEnum "chapters" = TextTrackKindChapters
         stringToEnum "metadata" = TextTrackKindMetadata
- 
+
 data DeviceType = DeviceTypeNone
                 | DeviceTypeAirplay
                 | DeviceTypeTvout
- 
+
 instance DomEnum DeviceType where
         enumToString DeviceTypeNone = "none"
         enumToString DeviceTypeAirplay = "airplay"
@@ -138,10 +137,10 @@ instance DomEnum DeviceType where
         stringToEnum "none" = DeviceTypeNone
         stringToEnum "airplay" = DeviceTypeAirplay
         stringToEnum "tvout" = DeviceTypeTvout
- 
+
 data MediaUIPartID = MediaUIPartIDOptimizedFullscreenButton
                    | MediaUIPartIDOptimizedFullscreenPlaceholder
- 
+
 instance DomEnum MediaUIPartID where
         enumToString MediaUIPartIDOptimizedFullscreenButton
           = "optimized-fullscreen-button"
@@ -151,29 +150,29 @@ instance DomEnum MediaUIPartID where
           = MediaUIPartIDOptimizedFullscreenButton
         stringToEnum "optimized-fullscreen-placeholder"
           = MediaUIPartIDOptimizedFullscreenPlaceholder
- 
+
 data EndOfStreamError = EndOfStreamErrorNetwork
                       | EndOfStreamErrorDecode
- 
+
 instance DomEnum EndOfStreamError where
         enumToString EndOfStreamErrorNetwork = "network"
         enumToString EndOfStreamErrorDecode = "decode"
         stringToEnum "network" = EndOfStreamErrorNetwork
         stringToEnum "decode" = EndOfStreamErrorDecode
- 
+
 data AppendMode = AppendModeSegments
                 | AppendModeSequence
- 
+
 instance DomEnum AppendMode where
         enumToString AppendModeSegments = "segments"
         enumToString AppendModeSequence = "sequence"
         stringToEnum "segments" = AppendModeSegments
         stringToEnum "sequence" = AppendModeSequence
- 
+
 data SourceTypeEnum = SourceTypeEnumNone
                     | SourceTypeEnumCamera
                     | SourceTypeEnumMicrophone
- 
+
 instance DomEnum SourceTypeEnum where
         enumToString SourceTypeEnumNone = "none"
         enumToString SourceTypeEnumCamera = "camera"
@@ -181,12 +180,12 @@ instance DomEnum SourceTypeEnum where
         stringToEnum "none" = SourceTypeEnumNone
         stringToEnum "camera" = SourceTypeEnumCamera
         stringToEnum "microphone" = SourceTypeEnumMicrophone
- 
+
 data VideoFacingModeEnum = VideoFacingModeEnumUser
                          | VideoFacingModeEnumEnvironment
                          | VideoFacingModeEnumLeft
                          | VideoFacingModeEnumRight
- 
+
 instance DomEnum VideoFacingModeEnum where
         enumToString VideoFacingModeEnumUser = "user"
         enumToString VideoFacingModeEnumEnvironment = "environment"
@@ -196,11 +195,11 @@ instance DomEnum VideoFacingModeEnum where
         stringToEnum "environment" = VideoFacingModeEnumEnvironment
         stringToEnum "left" = VideoFacingModeEnumLeft
         stringToEnum "right" = VideoFacingModeEnumRight
- 
+
 data MediaStreamTrackState = MediaStreamTrackStateNew
                            | MediaStreamTrackStateLive
                            | MediaStreamTrackStateEnded
- 
+
 instance DomEnum MediaStreamTrackState where
         enumToString MediaStreamTrackStateNew = "new"
         enumToString MediaStreamTrackStateLive = "live"
@@ -208,11 +207,11 @@ instance DomEnum MediaStreamTrackState where
         stringToEnum "new" = MediaStreamTrackStateNew
         stringToEnum "live" = MediaStreamTrackStateLive
         stringToEnum "ended" = MediaStreamTrackStateEnded
- 
+
 data RTCIceTransportsEnum = RTCIceTransportsEnumNone
                           | RTCIceTransportsEnumRelay
                           | RTCIceTransportsEnumAll
- 
+
 instance DomEnum RTCIceTransportsEnum where
         enumToString RTCIceTransportsEnumNone = "none"
         enumToString RTCIceTransportsEnumRelay = "relay"
@@ -220,11 +219,11 @@ instance DomEnum RTCIceTransportsEnum where
         stringToEnum "none" = RTCIceTransportsEnumNone
         stringToEnum "relay" = RTCIceTransportsEnumRelay
         stringToEnum "all" = RTCIceTransportsEnumAll
- 
+
 data RTCIdentityOptionEnum = RTCIdentityOptionEnumYes
                            | RTCIdentityOptionEnumNo
                            | RTCIdentityOptionEnumIfconfigured
- 
+
 instance DomEnum RTCIdentityOptionEnum where
         enumToString RTCIdentityOptionEnumYes = "yes"
         enumToString RTCIdentityOptionEnumNo = "no"
@@ -232,12 +231,12 @@ instance DomEnum RTCIdentityOptionEnum where
         stringToEnum "yes" = RTCIdentityOptionEnumYes
         stringToEnum "no" = RTCIdentityOptionEnumNo
         stringToEnum "ifconfigured" = RTCIdentityOptionEnumIfconfigured
- 
+
 data ReadableStreamStateType = ReadableStreamStateTypeReadable
                              | ReadableStreamStateTypeWaiting
                              | ReadableStreamStateTypeClosed
                              | ReadableStreamStateTypeErrored
- 
+
 instance DomEnum ReadableStreamStateType where
         enumToString ReadableStreamStateTypeReadable = "readable"
         enumToString ReadableStreamStateTypeWaiting = "waiting"
@@ -247,11 +246,11 @@ instance DomEnum ReadableStreamStateType where
         stringToEnum "waiting" = ReadableStreamStateTypeWaiting
         stringToEnum "closed" = ReadableStreamStateTypeClosed
         stringToEnum "errored" = ReadableStreamStateTypeErrored
- 
+
 data OverSampleType = OverSampleTypeNone
                     | OverSampleType2x
                     | OverSampleType4x
- 
+
 instance DomEnum OverSampleType where
         enumToString OverSampleTypeNone = "none"
         enumToString OverSampleType2x = "2x"
@@ -259,23 +258,23 @@ instance DomEnum OverSampleType where
         stringToEnum "none" = OverSampleTypeNone
         stringToEnum "2x" = OverSampleType2x
         stringToEnum "4x" = OverSampleType4x
- 
+
 data PageOverlayType = PageOverlayTypeView
                      | PageOverlayTypeDocument
- 
+
 instance DomEnum PageOverlayType where
         enumToString PageOverlayTypeView = "view"
         enumToString PageOverlayTypeDocument = "document"
         stringToEnum "view" = PageOverlayTypeView
         stringToEnum "document" = PageOverlayTypeDocument
- 
+
 data XMLHttpRequestResponseType = XMLHttpRequestResponseType
                                 | XMLHttpRequestResponseTypeArraybuffer
                                 | XMLHttpRequestResponseTypeBlob
                                 | XMLHttpRequestResponseTypeDocument
                                 | XMLHttpRequestResponseTypeJson
                                 | XMLHttpRequestResponseTypeText
- 
+
 instance DomEnum XMLHttpRequestResponseType where
         enumToString XMLHttpRequestResponseType = ""
         enumToString XMLHttpRequestResponseTypeArraybuffer = "arraybuffer"

@@ -211,11 +211,10 @@ getContentDocument self
             (toHTMLFrameElement self)))
  
 getContentWindow ::
-                 (MonadIO m, HTMLFrameElementClass self) =>
-                   self -> m (Maybe DOMWindow)
+                 (MonadIO m, HTMLFrameElementClass self) => self -> m (Maybe Window)
 getContentWindow self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMWindow)
+      (maybeNull (makeNewGObject mkWindow)
          ({# call webkit_dom_html_frame_element_get_content_window #}
             (toHTMLFrameElement self)))
  

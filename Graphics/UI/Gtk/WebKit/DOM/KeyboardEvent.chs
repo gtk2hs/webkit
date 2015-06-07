@@ -48,7 +48,7 @@ getModifierState self keyIdentifierArg
                 keyIdentifierArgPtr))
  
 initKeyboardEvent ::
-                  (MonadIO m, KeyboardEventClass self, DOMWindowClass view,
+                  (MonadIO m, KeyboardEventClass self, WindowClass view,
                    GlibString string) =>
                     self ->
                       string ->
@@ -68,7 +68,7 @@ initKeyboardEvent self type' canBubble cancelable view
                  typePtr
              (fromBool canBubble)
              (fromBool cancelable)
-             (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+             (maybe (Window nullForeignPtr) toWindow view)
              keyIdentifierPtr
          (fromIntegral location)
          (fromBool ctrlKey)

@@ -1,10 +1,10 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS(
+module Graphics.UI.Gtk.WebKit.DOM.CSS(
 supports2,
-DOMWindowCSS,
-castToDOMWindowCSS,
-gTypeDOMWindowCSS,
-DOMWindowCSSClass,
-toDOMWindowCSS,
+CSS,
+castToCSS,
+gTypeCSS,
+CSSClass,
+toCSS,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -20,7 +20,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 supports2 ::
-          (MonadIO m, DOMWindowCSSClass self, GlibString string) =>
+          (MonadIO m, CSSClass self, GlibString string) =>
             self -> string -> string -> m Bool
 supports2 self property value
   = liftIO
@@ -29,6 +29,6 @@ supports2 self property value
             \ valuePtr ->
               withUTFString property $
                 \ propertyPtr ->
-                  {# call webkit_dom_dom_window_css_supports #} (toDOMWindowCSS self)
+                  {# call webkit_dom_dom_window_css_supports #} (toCSS self)
                     propertyPtr
                 valuePtr))

@@ -37,7 +37,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 initMouseEvent ::
-               (MonadIO m, MouseEventClass self, DOMWindowClass view,
+               (MonadIO m, MouseEventClass self, WindowClass view,
                 EventTargetClass relatedTarget, GlibString string) =>
                  self ->
                    string ->
@@ -62,7 +62,7 @@ initMouseEvent self type' canBubble cancelable view detail screenX
              typePtr
          (fromBool canBubble)
          (fromBool cancelable)
-         (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+         (maybe (Window nullForeignPtr) toWindow view)
          (fromIntegral detail)
          (fromIntegral screenX)
          (fromIntegral screenY)

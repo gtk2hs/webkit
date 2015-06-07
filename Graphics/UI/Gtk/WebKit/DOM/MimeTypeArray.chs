@@ -1,12 +1,12 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray(
+module Graphics.UI.Gtk.WebKit.DOM.MimeTypeArray(
 item,
 namedItem,
 getLength,
-DOMMimeTypeArray,
-castToDOMMimeTypeArray,
-gTypeDOMMimeTypeArray,
-DOMMimeTypeArrayClass,
-toDOMMimeTypeArray,
+MimeTypeArray,
+castToMimeTypeArray,
+gTypeMimeTypeArray,
+MimeTypeArrayClass,
+toMimeTypeArray,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -22,31 +22,30 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 item ::
-     (MonadIO m, DOMMimeTypeArrayClass self) =>
-       self -> Word -> m (Maybe DOMMimeType)
+     (MonadIO m, MimeTypeArrayClass self) =>
+       self -> Word -> m (Maybe MimeType)
 item self index
   = liftIO
-      (maybeNull (makeNewGObject mkDOMMimeType)
+      (maybeNull (makeNewGObject mkMimeType)
          ({# call webkit_dom_dom_mime_type_array_item #}
-            (toDOMMimeTypeArray self)
+            (toMimeTypeArray self)
             (fromIntegral index)))
  
 namedItem ::
-          (MonadIO m, DOMMimeTypeArrayClass self, GlibString string) =>
-            self -> string -> m (Maybe DOMMimeType)
+          (MonadIO m, MimeTypeArrayClass self, GlibString string) =>
+            self -> string -> m (Maybe MimeType)
 namedItem self name
   = liftIO
-      (maybeNull (makeNewGObject mkDOMMimeType)
+      (maybeNull (makeNewGObject mkMimeType)
          (withUTFString name $
             \ namePtr ->
               {# call webkit_dom_dom_mime_type_array_named_item #}
-                (toDOMMimeTypeArray self)
+                (toMimeTypeArray self)
                 namePtr))
  
-getLength ::
-          (MonadIO m, DOMMimeTypeArrayClass self) => self -> m Word
+getLength :: (MonadIO m, MimeTypeArrayClass self) => self -> m Word
 getLength self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_mime_type_array_get_length #}
-            (toDOMMimeTypeArray self)))
+            (toMimeTypeArray self)))

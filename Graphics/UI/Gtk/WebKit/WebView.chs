@@ -274,7 +274,7 @@ import Data.ByteString          (ByteString, useAsCString)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.Attributes
+import System.Glib.Attributes as G
 import System.Glib.Properties
 import System.Glib.GError
 import Graphics.UI.Gtk.Gdk.Events
@@ -776,14 +776,14 @@ webViewGetPasteTargetList = maybePeek mkTargetList <=< {#call web_view_get_paste
 
 #if WEBKIT_CHECK_VERSION(1,0,1)
 -- | Zoom level of the 'WebView' instance
-webViewZoomLevel :: WebViewClass self => Attr self Float
+webViewZoomLevel :: WebViewClass self => G.Attr self Float
 webViewZoomLevel = newAttrFromFloatProperty "zoom-level"
 #endif
 
 -- | Whether the full content is scaled when zooming
 --
 -- Default value: False
-webViewFullContentZoom :: WebViewClass self => Attr self Bool
+webViewFullContentZoom :: WebViewClass self => G.Attr self Bool
 webViewFullContentZoom = newAttrFromBoolProperty "full-content-zoom"
 
 -- | The default encoding of the 'WebView' instance
@@ -806,7 +806,7 @@ webViewProgress = readAttrFromDoubleProperty "progress"
 
 
 -- | The associated webSettings of the 'WebView' instance
-webViewWebSettings :: WebViewClass self => Attr self WebSettings
+webViewWebSettings :: WebViewClass self => G.Attr self WebSettings
 webViewWebSettings = newAttr
    webViewGetWebSettings
    webViewSetWebSettings
@@ -824,23 +824,23 @@ webViewInspector = readAttr webViewGetInspector
 -- | The custom encoding of the 'WebView' instance
 --
 -- Default value: @Nothing@
-webViewCustomEncoding :: (WebViewClass self, GlibString string) => Attr self (Maybe string)
+webViewCustomEncoding :: (WebViewClass self, GlibString string) => G.Attr self (Maybe string)
 webViewCustomEncoding = newAttrFromMaybeStringProperty "custom-encoding"
 
 -- | view source mode of the 'WebView' instance
-webViewViewSourceMode :: WebViewClass self => Attr self Bool
+webViewViewSourceMode :: WebViewClass self => G.Attr self Bool
 webViewViewSourceMode = newAttr
   webViewGetViewSourceMode
   webViewSetViewSourceMode
 
 -- | transparent background of the 'WebView' instance
-webViewTransparent :: WebViewClass self => Attr self Bool
+webViewTransparent :: WebViewClass self => G.Attr self Bool
 webViewTransparent = newAttrFromBoolProperty "transparent"
 
 -- | Whether content of the 'WebView' can be modified by the user
 --
 -- Default value: @False@
-webViewEditable :: WebViewClass self => Attr self Bool
+webViewEditable :: WebViewClass self => G.Attr self Bool
 webViewEditable = newAttrFromBoolProperty "editable"
 
 -- | Returns the current URI of the contents displayed by the @web_view@.
@@ -858,7 +858,7 @@ webViewPasteTargetList :: WebViewClass self => ReadAttr self (Maybe TargetList)
 webViewPasteTargetList = readAttr webViewGetPasteTargetList
 
 -- | An associated 'WebWindowFeatures' instance.
-webViewWindowFeatures :: WebViewClass self => Attr self WebWindowFeatures
+webViewWindowFeatures :: WebViewClass self => G.Attr self WebWindowFeatures
 webViewWindowFeatures =
   newAttrFromObjectProperty "window-features"
   {#call pure webkit_web_window_features_get_type#}
@@ -888,7 +888,7 @@ webViewImContext =
 
 #if WEBKIT_CHECK_VERSION(1,3,4)
 -- | The "view-mode" property of the 'WebView'
-webViewViewMode :: (WebViewClass self) => Attr self ViewMode
+webViewViewMode :: (WebViewClass self) => G.Attr self ViewMode
 webViewViewMode = newAttr
     webViewGetViewMode
     webViewSetViewMode

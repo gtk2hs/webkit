@@ -29,7 +29,7 @@ module Graphics.UI.Gtk.WebKit.WebWindowFeatures (
 -- include the x, y position of the window, the width and height but also if a toolbar, scrollbar,
 -- statusbar, locationbar should be visible to the user, the request to show the WebKitWebView
 -- fullscreen.
--- 
+--
 -- In the normal case one will use 'webViewGetWindowFeatures' to get the
 -- WebKitWebWindowFeatures and then monitor the property changes. Be aware that the
 -- WebKitWebWindowFeatures might change change before 'webViewReady' signal is emitted. To be safe
@@ -43,7 +43,7 @@ module Graphics.UI.Gtk.WebKit.WebWindowFeatures (
 -- * Constructors
   webWindowFeaturesNew,
 
--- * Methods  
+-- * Methods
   webWindowFeaturesEqual,
 
 -- * Attributes
@@ -64,8 +64,8 @@ import Control.Monad		(liftM)
 import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
-import System.Glib.GError 
-import System.Glib.Attributes
+import System.Glib.GError
+import System.Glib.Attributes as G
 import System.Glib.Properties
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -77,14 +77,14 @@ import Graphics.UI.Gtk.Gdk.Events
 
 -- * Constructors
 
--- | Creates a new 'WebWindowFeatures' instance with default values. 
+-- | Creates a new 'WebWindowFeatures' instance with default values.
 -- It must be manually attached to a WebView.
 webWindowFeaturesNew :: IO WebWindowFeatures
-webWindowFeaturesNew = 
+webWindowFeaturesNew =
     wrapNewGObject mkWebWindowFeatures $ {#call web_window_features_new#}
 
 -- | Decides if a 'WebWindowFeatures' instance equals another, as in has the same values.
-webWindowFeaturesEqual :: 
+webWindowFeaturesEqual ::
    (WebWindowFeaturesClass winA, WebWindowFeaturesClass winB) => winA -> winB
  -> IO Bool
 webWindowFeaturesEqual winA winB =
@@ -93,42 +93,42 @@ webWindowFeaturesEqual winA winB =
 -- * Attributes
 
 -- | Controls whether window will be displayed fullscreen.
-webWindowFeaturesFullscreen :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesFullscreen :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesFullscreen = newAttrFromBoolProperty "fullscreen"
 
 -- | The height of the window on the screen.
-webWindowFeaturesHeight :: WebWindowFeaturesClass self => Attr self Int
+webWindowFeaturesHeight :: WebWindowFeaturesClass self => G.Attr self Int
 webWindowFeaturesHeight = newAttrFromIntProperty "height"
 
 -- | The width of the window on the screen.
-webWindowFeaturesWidth :: WebWindowFeaturesClass self => Attr self Int
+webWindowFeaturesWidth :: WebWindowFeaturesClass self => G.Attr self Int
 webWindowFeaturesWidth = newAttrFromIntProperty "width"
 
 -- | Controls whether the locationbar should be visible for the window.
-webWindowFeaturesLocationbarVisible :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesLocationbarVisible :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesLocationbarVisible = newAttrFromBoolProperty "locationbar-visible"
 
 -- | Controls whether the menubar should be visible for the window.
-webWindowFeaturesMenubarVisible :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesMenubarVisible :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesMenubarVisible = newAttrFromBoolProperty "menubar-visible"
 
 -- | Controls whether the scrollbar should be visible for the window.
-webWindowFeaturesScrollbarVisible :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesScrollbarVisible :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesScrollbarVisible = newAttrFromBoolProperty "scrollbar-visible"
 
 -- | Controls whether the statusbar should be visible for the window.
-webWindowFeaturesStatusbarVisible :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesStatusbarVisible :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesStatusbarVisible = newAttrFromBoolProperty "statusbar-visible"
 
 -- | Controls whether the toolbar should be visible for the window.
-webWindowFeaturesToolbarVisible :: WebWindowFeaturesClass self => Attr self Bool
+webWindowFeaturesToolbarVisible :: WebWindowFeaturesClass self => G.Attr self Bool
 webWindowFeaturesToolbarVisible = newAttrFromBoolProperty "toolbar-visible"
 
 -- | The starting x position of the window on the screen.
-webWindowFeaturesX :: WebWindowFeaturesClass self => Attr self Int
+webWindowFeaturesX :: WebWindowFeaturesClass self => G.Attr self Int
 webWindowFeaturesX = newAttrFromIntProperty "x"
 
 -- | The starting y position of the window on the screen.
-webWindowFeaturesY :: WebWindowFeaturesClass self => Attr self Int
+webWindowFeaturesY :: WebWindowFeaturesClass self => G.Attr self Int
 webWindowFeaturesY = newAttrFromIntProperty "y"
 

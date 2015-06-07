@@ -249,10 +249,10 @@ createProcessingInstruction self target data'
  
 createAttribute ::
                 (MonadIO m, DocumentClass self, GlibString string) =>
-                  self -> string -> m (Maybe DOMAttr)
+                  self -> string -> m (Maybe Attr)
 createAttribute self name
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
               withUTFString name $
@@ -320,10 +320,10 @@ createElementNS self namespaceURI qualifiedName
  
 createAttributeNS ::
                   (MonadIO m, DocumentClass self, GlibString string) =>
-                    self -> string -> string -> m (Maybe DOMAttr)
+                    self -> string -> string -> m (Maybe Attr)
 createAttributeNS self namespaceURI qualifiedName
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
               withUTFString qualifiedName $
@@ -389,10 +389,10 @@ createEvent self eventType
                 errorPtr_))
  
 createRange ::
-            (MonadIO m, DocumentClass self) => self -> m (Maybe DOMRange)
+            (MonadIO m, DocumentClass self) => self -> m (Maybe Range)
 createRange self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMRange)
+      (maybeNull (makeNewGObject mkRange)
          ({# call webkit_dom_document_create_range #} (toDocument self)))
  
 createNodeIterator ::
@@ -595,10 +595,10 @@ elementFromPoint self x y
  
 caretRangeFromPoint ::
                     (MonadIO m, DocumentClass self) =>
-                      self -> Int -> Int -> m (Maybe DOMRange)
+                      self -> Int -> Int -> m (Maybe Range)
 caretRangeFromPoint self x y
   = liftIO
-      (maybeNull (makeNewGObject mkDOMRange)
+      (maybeNull (makeNewGObject mkRange)
          ({# call webkit_dom_document_caret_range_from_point #}
             (toDocument self)
             (fromIntegral x)
@@ -687,7 +687,7 @@ webkitGetNamedFlows self
 #endif
  
 createTouch ::
-            (MonadIO m, DocumentClass self, DOMWindowClass window,
+            (MonadIO m, DocumentClass self, WindowClass window,
              EventTargetClass target) =>
               self ->
                 Maybe window ->
@@ -703,7 +703,7 @@ createTouch self window target identifier pageX pageY screenX
          (propagateGError $
             \ errorPtr_ ->
               {# call webkit_dom_document_create_touch #} (toDocument self)
-                (maybe (DOMWindow nullForeignPtr) toDOMWindow window)
+                (maybe (Window nullForeignPtr) toWindow window)
                 (maybe (EventTarget nullForeignPtr) toEventTarget target)
                 (fromIntegral identifier)
                 (fromIntegral pageX)
@@ -811,10 +811,10 @@ getDocumentURI self
          readUTFString)
  
 getDefaultView ::
-               (MonadIO m, DocumentClass self) => self -> m (Maybe DOMWindow)
+               (MonadIO m, DocumentClass self) => self -> m (Maybe Window)
 getDefaultView self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMWindow)
+      (maybeNull (makeNewGObject mkWindow)
          ({# call webkit_dom_document_get_default_view #}
             (toDocument self)))
  
@@ -1288,11 +1288,10 @@ getHidden self
 
 #if WEBKIT_CHECK_VERSION(1,10,0) 
 getSecurityPolicy ::
-                  (MonadIO m, DocumentClass self) =>
-                    self -> m (Maybe DOMSecurityPolicy)
+                  (MonadIO m, DocumentClass self) => self -> m (Maybe SecurityPolicy)
 getSecurityPolicy self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMSecurityPolicy)
+      (maybeNull (makeNewGObject mkSecurityPolicy)
          ({# call webkit_dom_document_get_security_policy #}
             (toDocument self)))
 #endif

@@ -34,7 +34,7 @@ Data-Files:     Webkit.hs
 x-Types-File:       Graphics/UI/Gtk/WebKit/Types.chs
 x-Types-Tag:        webkit webkit-dom
 x-Types-ModName:    Graphics.UI.Gtk.WebKit.Types
-x-Types-Forward:    *Graphics.UI.GtkInternals
+x-Types-Forward:    Graphics.UI.Gtk.WebKit.GtkInternals
 x-Types-Destructor: objectUnrefFromMainloop
 x-Types-Hierarchy:  hierarchy3.list
 
@@ -61,6 +61,7 @@ Library
           Graphics.UI.Gtk.WebKit.CacheModel
           Graphics.UI.Gtk.WebKit.Download
           Graphics.UI.Gtk.WebKit.GeolocationPolicyDecision
+          Graphics.UI.Gtk.WebKit.GtkInternals
           Graphics.UI.Gtk.WebKit.HitTestResult
           Graphics.UI.Gtk.WebKit.NetworkRequest
           Graphics.UI.Gtk.WebKit.NetworkResponse
@@ -79,6 +80,7 @@ Library
           Graphics.UI.Gtk.WebKit.WebSettings
           Graphics.UI.Gtk.WebKit.WebView
           Graphics.UI.Gtk.WebKit.WebWindowFeatures
+          Graphics.UI.Gtk.WebKit.DOM.ApplicationCache
           Graphics.UI.Gtk.WebKit.DOM.Attr
           Graphics.UI.Gtk.WebKit.DOM.AudioTrack
           Graphics.UI.Gtk.WebKit.DOM.AudioTrackList
@@ -86,6 +88,7 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.BatteryManager
           Graphics.UI.Gtk.WebKit.DOM.Blob
           Graphics.UI.Gtk.WebKit.DOM.CharacterData
+          Graphics.UI.Gtk.WebKit.DOM.CSS
           Graphics.UI.Gtk.WebKit.DOM.CSSRule
           Graphics.UI.Gtk.WebKit.DOM.CSSRuleList
           Graphics.UI.Gtk.WebKit.DOM.CSSStyleDeclaration
@@ -93,18 +96,10 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.CSSValue
           Graphics.UI.Gtk.WebKit.DOM.Document
           Graphics.UI.Gtk.WebKit.DOM.DocumentType
-          Graphics.UI.Gtk.WebKit.DOM.DOMApplicationCache
           Graphics.UI.Gtk.WebKit.DOM.DOMImplementation
-          Graphics.UI.Gtk.WebKit.DOM.DOMMimeType
-          Graphics.UI.Gtk.WebKit.DOM.DOMMimeTypeArray
           Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection
-          Graphics.UI.Gtk.WebKit.DOM.DOMPlugin
-          Graphics.UI.Gtk.WebKit.DOM.DOMPluginArray
-          Graphics.UI.Gtk.WebKit.DOM.DOMSelection
           Graphics.UI.Gtk.WebKit.DOM.DOMSettableTokenList
           Graphics.UI.Gtk.WebKit.DOM.DOMTokenList
-          Graphics.UI.Gtk.WebKit.DOM.DOMWindow
-          Graphics.UI.Gtk.WebKit.DOM.DOMWindowCSS
           Graphics.UI.Gtk.WebKit.DOM.Element
           Graphics.UI.Gtk.WebKit.DOM.Enums
           Graphics.UI.Gtk.WebKit.DOM.Event
@@ -173,6 +168,8 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.Location
           Graphics.UI.Gtk.WebKit.DOM.MediaList
           Graphics.UI.Gtk.WebKit.DOM.MediaQueryList
+          Graphics.UI.Gtk.WebKit.DOM.MimeType
+          Graphics.UI.Gtk.WebKit.DOM.MimeTypeArray
           Graphics.UI.Gtk.WebKit.DOM.MouseEvent
           Graphics.UI.Gtk.WebKit.DOM.NamedNodeMap
           Graphics.UI.Gtk.WebKit.DOM.Navigator
@@ -183,9 +180,13 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.Performance
           Graphics.UI.Gtk.WebKit.DOM.PerformanceNavigation
           Graphics.UI.Gtk.WebKit.DOM.PerformanceTiming
+          Graphics.UI.Gtk.WebKit.DOM.Plugin
+          Graphics.UI.Gtk.WebKit.DOM.PluginArray
           Graphics.UI.Gtk.WebKit.DOM.ProcessingInstruction
           Graphics.UI.Gtk.WebKit.DOM.Range
           Graphics.UI.Gtk.WebKit.DOM.Screen
+          Graphics.UI.Gtk.WebKit.DOM.SecurityPolicy
+          Graphics.UI.Gtk.WebKit.DOM.Selection
           Graphics.UI.Gtk.WebKit.DOM.StyleMedia
           Graphics.UI.Gtk.WebKit.DOM.StyleSheet
           Graphics.UI.Gtk.WebKit.DOM.StyleSheetList
@@ -204,10 +205,10 @@ Library
           Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow
           Graphics.UI.Gtk.WebKit.DOM.WebKitPoint
           Graphics.UI.Gtk.WebKit.DOM.WheelEvent
+          Graphics.UI.Gtk.WebKit.DOM.Window
           Graphics.UI.Gtk.WebKit.DOM.XPathExpression
           Graphics.UI.Gtk.WebKit.DOM.XPathNSResolver
           Graphics.UI.Gtk.WebKit.DOM.XPathResult
-          Graphics.UI.Gtk.WebKit.DOM.DOMSecurityPolicy
           Graphics.UI.Gtk.WebKit.DOM.DOMStringList
           Graphics.UI.Gtk.WebKit.DOM.Geolocation
           Graphics.UI.Gtk.WebKit.DOM.HTMLCanvasElement

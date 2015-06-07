@@ -1,4 +1,4 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMApplicationCache(
+module Graphics.UI.Gtk.WebKit.DOM.ApplicationCache(
 update,
 swapCache,
 abort,
@@ -17,11 +17,11 @@ progress,
 updateReady,
 cached,
 obsolete,
-DOMApplicationCache,
-castToDOMApplicationCache,
-gTypeDOMApplicationCache,
-DOMApplicationCacheClass,
-toDOMApplicationCache,
+ApplicationCache,
+castToApplicationCache,
+gTypeApplicationCache,
+ApplicationCacheClass,
+toApplicationCache,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -36,31 +36,30 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
-update ::
-       (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+update :: (MonadIO m, ApplicationCacheClass self) => self -> m ()
 update self
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_application_cache_update #}
-             (toDOMApplicationCache self)
+             (toApplicationCache self)
              errorPtr_)
  
 swapCache ::
-          (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+          (MonadIO m, ApplicationCacheClass self) => self -> m ()
 swapCache self
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_application_cache_swap_cache #}
-             (toDOMApplicationCache self)
+             (toApplicationCache self)
              errorPtr_)
  
-abort :: (MonadIO m, DOMApplicationCacheClass self) => self -> m ()
+abort :: (MonadIO m, ApplicationCacheClass self) => self -> m ()
 abort self
   = liftIO
       ({# call webkit_dom_dom_application_cache_abort #}
-         (toDOMApplicationCache self))
+         (toApplicationCache self))
 pattern UNCACHED = 0
 pattern IDLE = 1
 pattern CHECKING = 2
@@ -69,35 +68,33 @@ pattern UPDATEREADY = 4
 pattern OBSOLETE = 5
  
 getStatus ::
-          (MonadIO m, DOMApplicationCacheClass self) => self -> m Word
+          (MonadIO m, ApplicationCacheClass self) => self -> m Word
 getStatus self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_application_cache_get_status #}
-            (toDOMApplicationCache self)))
+            (toApplicationCache self)))
  
-checking :: (DOMApplicationCacheClass self) => EventName self Event
+checking :: (ApplicationCacheClass self) => EventName self Event
 checking = EventName "checking"
  
-error :: (DOMApplicationCacheClass self) => EventName self UIEvent
+error :: (ApplicationCacheClass self) => EventName self UIEvent
 error = EventName "error"
  
-noUpdate :: (DOMApplicationCacheClass self) => EventName self Event
+noUpdate :: (ApplicationCacheClass self) => EventName self Event
 noUpdate = EventName "noupdate"
  
-downloading ::
-            (DOMApplicationCacheClass self) => EventName self Event
+downloading :: (ApplicationCacheClass self) => EventName self Event
 downloading = EventName "downloading"
  
-progress :: (DOMApplicationCacheClass self) => EventName self Event
+progress :: (ApplicationCacheClass self) => EventName self Event
 progress = EventName "progress"
  
-updateReady ::
-            (DOMApplicationCacheClass self) => EventName self Event
+updateReady :: (ApplicationCacheClass self) => EventName self Event
 updateReady = EventName "updateready"
  
-cached :: (DOMApplicationCacheClass self) => EventName self Event
+cached :: (ApplicationCacheClass self) => EventName self Event
 cached = EventName "cached"
  
-obsolete :: (DOMApplicationCacheClass self) => EventName self Event
+obsolete :: (ApplicationCacheClass self) => EventName self Event
 obsolete = EventName "obsolete"

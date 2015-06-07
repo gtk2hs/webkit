@@ -80,7 +80,7 @@ import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
 import System.Glib.GError
-import System.Glib.Attributes
+import System.Glib.Attributes as G
 import System.Glib.Properties
 import Graphics.UI.Gtk.Gdk.Events
 
@@ -237,13 +237,13 @@ currentSize = readAttr downloadGetCurrentSize
 -- Default value: \"\"
 --
 -- * Since 1.1.2
-destinationUri :: (DownloadClass self, GlibString string) => Attr self (Maybe string)
+destinationUri :: (DownloadClass self, GlibString string) => G.Attr self (Maybe string)
 destinationUri = newAttrFromMaybeStringProperty "destination-uri"
 
 -- | The NetworkRequest instance associated with the download.
 --
 -- * Since 1.1.2
-networkRequest :: DownloadClass self => Attr self NetworkRequest
+networkRequest :: DownloadClass self => G.Attr self NetworkRequest
 networkRequest =
   newAttrFromObjectProperty "network-request"
   {#call pure webkit_network_request_get_type#}
@@ -252,7 +252,7 @@ networkRequest =
 -- | The NetworkResponse instance associated with the download.
 --
 -- * Since 1.1.16
-networkResponse :: DownloadClass self => Attr self NetworkResponse
+networkResponse :: DownloadClass self => G.Attr self NetworkResponse
 networkResponse =
   newAttrFromObjectProperty "network-response"
   {#call pure webkit_network_response_get_type#}

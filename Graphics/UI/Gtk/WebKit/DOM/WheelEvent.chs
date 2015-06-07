@@ -31,7 +31,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 initWheelEvent ::
-               (MonadIO m, WheelEventClass self, DOMWindowClass view) =>
+               (MonadIO m, WheelEventClass self, WindowClass view) =>
                  self ->
                    Int ->
                      Int ->
@@ -44,7 +44,7 @@ initWheelEvent self wheelDeltaX wheelDeltaY view screenX screenY
          (toWheelEvent self)
          (fromIntegral wheelDeltaX)
          (fromIntegral wheelDeltaY)
-         (maybe (DOMWindow nullForeignPtr) toDOMWindow view)
+         (maybe (Window nullForeignPtr) toWindow view)
          (fromIntegral screenX)
          (fromIntegral screenY)
          (fromIntegral clientX)

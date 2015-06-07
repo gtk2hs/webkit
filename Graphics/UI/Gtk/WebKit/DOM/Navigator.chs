@@ -201,19 +201,17 @@ getPlatform self
          readUTFString)
  
 getPlugins ::
-           (MonadIO m, NavigatorClass self) =>
-             self -> m (Maybe DOMPluginArray)
+           (MonadIO m, NavigatorClass self) => self -> m (Maybe PluginArray)
 getPlugins self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMPluginArray)
+      (maybeNull (makeNewGObject mkPluginArray)
          ({# call webkit_dom_navigator_get_plugins #} (toNavigator self)))
  
 getMimeTypes ::
-             (MonadIO m, NavigatorClass self) =>
-               self -> m (Maybe DOMMimeTypeArray)
+             (MonadIO m, NavigatorClass self) => self -> m (Maybe MimeTypeArray)
 getMimeTypes self
   = liftIO
-      (maybeNull (makeNewGObject mkDOMMimeTypeArray)
+      (maybeNull (makeNewGObject mkMimeTypeArray)
          ({# call webkit_dom_navigator_get_mime_types #}
             (toNavigator self)))
  

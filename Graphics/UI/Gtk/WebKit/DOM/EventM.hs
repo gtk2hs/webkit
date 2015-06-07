@@ -142,7 +142,7 @@ getReturnValue = event >>= Event.getReturnValue
 returnValue :: EventClass e => Bool -> EventM t e ()
 returnValue f = event >>= flip Event.setReturnValue f
 
-uiView :: UIEventClass e => EventM t e (Maybe DOMWindow)
+uiView :: UIEventClass e => EventM t e (Maybe Window)
 uiView = event >>= UIEvent.getView
 
 uiDetail :: UIEventClass e => EventM t e Int

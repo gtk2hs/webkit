@@ -1,4 +1,4 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMSelection(
+module Graphics.UI.Gtk.WebKit.DOM.Selection(
 collapse,
 collapseToEnd,
 collapseToStart,
@@ -23,11 +23,11 @@ getBaseNode,
 getBaseOffset,
 getExtentNode,
 getExtentOffset,
-DOMSelection,
-castToDOMSelection,
-gTypeDOMSelection,
-DOMSelectionClass,
-toDOMSelection,
+Selection,
+castToSelection,
+gTypeSelection,
+SelectionClass,
+toSelection,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -43,110 +43,104 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 collapse ::
-         (MonadIO m, DOMSelectionClass self, NodeClass node) =>
+         (MonadIO m, SelectionClass self, NodeClass node) =>
            self -> Maybe node -> Int -> m ()
 collapse self node index
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_dom_selection_collapse #} (toDOMSelection self)
+           {# call webkit_dom_dom_selection_collapse #} (toSelection self)
              (maybe (Node nullForeignPtr) toNode node)
              (fromIntegral index)
              errorPtr_)
  
-collapseToEnd ::
-              (MonadIO m, DOMSelectionClass self) => self -> m ()
+collapseToEnd :: (MonadIO m, SelectionClass self) => self -> m ()
 collapseToEnd self
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_selection_collapse_to_end #}
-             (toDOMSelection self)
+             (toSelection self)
              errorPtr_)
  
-collapseToStart ::
-                (MonadIO m, DOMSelectionClass self) => self -> m ()
+collapseToStart :: (MonadIO m, SelectionClass self) => self -> m ()
 collapseToStart self
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_selection_collapse_to_start #}
-             (toDOMSelection self)
+             (toSelection self)
              errorPtr_)
  
 deleteFromDocument ::
-                   (MonadIO m, DOMSelectionClass self) => self -> m ()
+                   (MonadIO m, SelectionClass self) => self -> m ()
 deleteFromDocument self
   = liftIO
       ({# call webkit_dom_dom_selection_delete_from_document #}
-         (toDOMSelection self))
+         (toSelection self))
  
 containsNode ::
-             (MonadIO m, DOMSelectionClass self, NodeClass node) =>
+             (MonadIO m, SelectionClass self, NodeClass node) =>
                self -> Maybe node -> Bool -> m Bool
 containsNode self node allowPartial
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_selection_contains_node #}
-            (toDOMSelection self)
+            (toSelection self)
             (maybe (Node nullForeignPtr) toNode node)
             (fromBool allowPartial)))
  
 selectAllChildren ::
-                  (MonadIO m, DOMSelectionClass self, NodeClass node) =>
+                  (MonadIO m, SelectionClass self, NodeClass node) =>
                     self -> Maybe node -> m ()
 selectAllChildren self node
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_selection_select_all_children #}
-             (toDOMSelection self)
+             (toSelection self)
              (maybe (Node nullForeignPtr) toNode node)
              errorPtr_)
  
 extend ::
-       (MonadIO m, DOMSelectionClass self, NodeClass node) =>
+       (MonadIO m, SelectionClass self, NodeClass node) =>
          self -> Maybe node -> Int -> m ()
 extend self node offset
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_dom_selection_extend #} (toDOMSelection self)
+           {# call webkit_dom_dom_selection_extend #} (toSelection self)
              (maybe (Node nullForeignPtr) toNode node)
              (fromIntegral offset)
              errorPtr_)
  
 getRangeAt ::
-           (MonadIO m, DOMSelectionClass self) =>
-             self -> Int -> m (Maybe DOMRange)
+           (MonadIO m, SelectionClass self) => self -> Int -> m (Maybe Range)
 getRangeAt self index
   = liftIO
-      (maybeNull (makeNewGObject mkDOMRange)
+      (maybeNull (makeNewGObject mkRange)
          (propagateGError $
             \ errorPtr_ ->
-              {# call webkit_dom_dom_selection_get_range_at #}
-                (toDOMSelection self)
+              {# call webkit_dom_dom_selection_get_range_at #} (toSelection self)
                 (fromIntegral index)
                 errorPtr_))
  
-removeAllRanges ::
-                (MonadIO m, DOMSelectionClass self) => self -> m ()
+removeAllRanges :: (MonadIO m, SelectionClass self) => self -> m ()
 removeAllRanges self
   = liftIO
       ({# call webkit_dom_dom_selection_remove_all_ranges #}
-         (toDOMSelection self))
+         (toSelection self))
  
 addRange ::
-         (MonadIO m, DOMSelectionClass self, DOMRangeClass range) =>
+         (MonadIO m, SelectionClass self, RangeClass range) =>
            self -> Maybe range -> m ()
 addRange self range
   = liftIO
-      ({# call webkit_dom_dom_selection_add_range #}
-         (toDOMSelection self)
-         (maybe (DOMRange nullForeignPtr) toDOMRange range))
+      ({# call webkit_dom_dom_selection_add_range #} (toSelection self)
+         (maybe (Range nullForeignPtr) toRange range))
  
 modify ::
-       (MonadIO m, DOMSelectionClass self, GlibString string) =>
+       (MonadIO m, SelectionClass self, GlibString string) =>
          self -> string -> string -> string -> m ()
 modify self alter direction granularity
   = liftIO
@@ -156,13 +150,13 @@ modify self alter direction granularity
              \ directionPtr ->
                withUTFString alter $
                  \ alterPtr ->
-                   {# call webkit_dom_dom_selection_modify #} (toDOMSelection self)
+                   {# call webkit_dom_dom_selection_modify #} (toSelection self)
                      alterPtr
                  directionPtr
              granularityPtr)
  
 setBaseAndExtent ::
-                 (MonadIO m, DOMSelectionClass self, NodeClass baseNode,
+                 (MonadIO m, SelectionClass self, NodeClass baseNode,
                   NodeClass extentNode) =>
                    self -> Maybe baseNode -> Int -> Maybe extentNode -> Int -> m ()
 setBaseAndExtent self baseNode baseOffset extentNode extentOffset
@@ -170,7 +164,7 @@ setBaseAndExtent self baseNode baseOffset extentNode extentOffset
       (propagateGError $
          \ errorPtr_ ->
            {# call webkit_dom_dom_selection_set_base_and_extent #}
-             (toDOMSelection self)
+             (toSelection self)
              (maybe (Node nullForeignPtr) toNode baseNode)
              (fromIntegral baseOffset)
              (maybe (Node nullForeignPtr) toNode extentNode)
@@ -178,99 +172,95 @@ setBaseAndExtent self baseNode baseOffset extentNode extentOffset
              errorPtr_)
  
 setPosition ::
-            (MonadIO m, DOMSelectionClass self, NodeClass node) =>
+            (MonadIO m, SelectionClass self, NodeClass node) =>
               self -> Maybe node -> Int -> m ()
 setPosition self node offset
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           {# call webkit_dom_dom_selection_set_position #}
-             (toDOMSelection self)
+           {# call webkit_dom_dom_selection_set_position #} (toSelection self)
              (maybe (Node nullForeignPtr) toNode node)
              (fromIntegral offset)
              errorPtr_)
  
-empty :: (MonadIO m, DOMSelectionClass self) => self -> m ()
+empty :: (MonadIO m, SelectionClass self) => self -> m ()
 empty self
   = liftIO
-      ({# call webkit_dom_dom_selection_empty #} (toDOMSelection self))
+      ({# call webkit_dom_dom_selection_empty #} (toSelection self))
  
 getAnchorNode ::
-              (MonadIO m, DOMSelectionClass self) => self -> m (Maybe Node)
+              (MonadIO m, SelectionClass self) => self -> m (Maybe Node)
 getAnchorNode self
   = liftIO
       (maybeNull (makeNewGObject mkNode)
          ({# call webkit_dom_dom_selection_get_anchor_node #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getAnchorOffset ::
-                (MonadIO m, DOMSelectionClass self) => self -> m Int
+                (MonadIO m, SelectionClass self) => self -> m Int
 getAnchorOffset self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_selection_get_anchor_offset #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getFocusNode ::
-             (MonadIO m, DOMSelectionClass self) => self -> m (Maybe Node)
+             (MonadIO m, SelectionClass self) => self -> m (Maybe Node)
 getFocusNode self
   = liftIO
       (maybeNull (makeNewGObject mkNode)
          ({# call webkit_dom_dom_selection_get_focus_node #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
-getFocusOffset ::
-               (MonadIO m, DOMSelectionClass self) => self -> m Int
+getFocusOffset :: (MonadIO m, SelectionClass self) => self -> m Int
 getFocusOffset self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_selection_get_focus_offset #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getIsCollapsed ::
-               (MonadIO m, DOMSelectionClass self) => self -> m Bool
+               (MonadIO m, SelectionClass self) => self -> m Bool
 getIsCollapsed self
   = liftIO
       (toBool <$>
          ({# call webkit_dom_dom_selection_get_is_collapsed #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
-getRangeCount ::
-              (MonadIO m, DOMSelectionClass self) => self -> m Int
+getRangeCount :: (MonadIO m, SelectionClass self) => self -> m Int
 getRangeCount self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_selection_get_range_count #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getBaseNode ::
-            (MonadIO m, DOMSelectionClass self) => self -> m (Maybe Node)
+            (MonadIO m, SelectionClass self) => self -> m (Maybe Node)
 getBaseNode self
   = liftIO
       (maybeNull (makeNewGObject mkNode)
          ({# call webkit_dom_dom_selection_get_base_node #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
-getBaseOffset ::
-              (MonadIO m, DOMSelectionClass self) => self -> m Int
+getBaseOffset :: (MonadIO m, SelectionClass self) => self -> m Int
 getBaseOffset self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_selection_get_base_offset #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getExtentNode ::
-              (MonadIO m, DOMSelectionClass self) => self -> m (Maybe Node)
+              (MonadIO m, SelectionClass self) => self -> m (Maybe Node)
 getExtentNode self
   = liftIO
       (maybeNull (makeNewGObject mkNode)
          ({# call webkit_dom_dom_selection_get_extent_node #}
-            (toDOMSelection self)))
+            (toSelection self)))
  
 getExtentOffset ::
-                (MonadIO m, DOMSelectionClass self) => self -> m Int
+                (MonadIO m, SelectionClass self) => self -> m Int
 getExtentOffset self
   = liftIO
       (fromIntegral <$>
          ({# call webkit_dom_dom_selection_get_extent_offset #}
-            (toDOMSelection self)))
+            (toSelection self)))

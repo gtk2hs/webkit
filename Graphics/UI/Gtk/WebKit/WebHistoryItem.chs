@@ -63,7 +63,7 @@ import System.Glib.FFI
 import System.Glib.UTFString
 import System.Glib.GList
 import System.Glib.GError
-import System.Glib.Attributes
+import System.Glib.Attributes as G
 import Graphics.UI.Gtk.Gdk.Events
 
 {#import Graphics.UI.Gtk.Abstract.Object#}	(makeNewObject)
@@ -184,7 +184,7 @@ webHistoryItemTitle = readAttr webHistoryItemGetTitle
 -- | The alternate title of the history item.
 --
 -- Default value: @Nothing@
-webHistoryItemAlternateTitle :: (WebHistoryItemClass self, GlibString string) => Attr self (Maybe string)
+webHistoryItemAlternateTitle :: (WebHistoryItemClass self, GlibString string) => G.Attr self (Maybe string)
 webHistoryItemAlternateTitle = newAttr webHistoryItemGetAlternateTitle webHistoryItemSetAlternateTitle
 
 -- | The URI of the history item.

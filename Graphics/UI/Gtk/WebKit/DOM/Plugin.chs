@@ -1,15 +1,15 @@
-module Graphics.UI.Gtk.WebKit.DOM.DOMPlugin(
+module Graphics.UI.Gtk.WebKit.DOM.Plugin(
 item,
 namedItem,
 getName,
 getFilename,
 getDescription,
 getLength,
-DOMPlugin,
-castToDOMPlugin,
-gTypeDOMPlugin,
-DOMPluginClass,
-toDOMPlugin,
+Plugin,
+castToPlugin,
+gTypePlugin,
+PluginClass,
+toPlugin,
 ) where
 import Prelude hiding (drop, error, print)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
@@ -25,54 +25,52 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 item ::
-     (MonadIO m, DOMPluginClass self) =>
-       self -> Word -> m (Maybe DOMMimeType)
+     (MonadIO m, PluginClass self) => self -> Word -> m (Maybe MimeType)
 item self index
   = liftIO
-      (maybeNull (makeNewGObject mkDOMMimeType)
-         ({# call webkit_dom_dom_plugin_item #} (toDOMPlugin self)
+      (maybeNull (makeNewGObject mkMimeType)
+         ({# call webkit_dom_dom_plugin_item #} (toPlugin self)
             (fromIntegral index)))
  
 namedItem ::
-          (MonadIO m, DOMPluginClass self, GlibString string) =>
-            self -> string -> m (Maybe DOMMimeType)
+          (MonadIO m, PluginClass self, GlibString string) =>
+            self -> string -> m (Maybe MimeType)
 namedItem self name
   = liftIO
-      (maybeNull (makeNewGObject mkDOMMimeType)
+      (maybeNull (makeNewGObject mkMimeType)
          (withUTFString name $
             \ namePtr ->
-              {# call webkit_dom_dom_plugin_named_item #} (toDOMPlugin self)
+              {# call webkit_dom_dom_plugin_named_item #} (toPlugin self)
                 namePtr))
  
 getName ::
-        (MonadIO m, DOMPluginClass self, GlibString string) =>
+        (MonadIO m, PluginClass self, GlibString string) =>
           self -> m string
 getName self
   = liftIO
-      (({# call webkit_dom_dom_plugin_get_name #} (toDOMPlugin self)) >>=
+      (({# call webkit_dom_dom_plugin_get_name #} (toPlugin self)) >>=
          readUTFString)
  
 getFilename ::
-            (MonadIO m, DOMPluginClass self, GlibString string) =>
+            (MonadIO m, PluginClass self, GlibString string) =>
               self -> m string
 getFilename self
   = liftIO
-      (({# call webkit_dom_dom_plugin_get_filename #} (toDOMPlugin self))
+      (({# call webkit_dom_dom_plugin_get_filename #} (toPlugin self))
          >>=
          readUTFString)
  
 getDescription ::
-               (MonadIO m, DOMPluginClass self, GlibString string) =>
+               (MonadIO m, PluginClass self, GlibString string) =>
                  self -> m string
 getDescription self
   = liftIO
-      (({# call webkit_dom_dom_plugin_get_description #}
-          (toDOMPlugin self))
+      (({# call webkit_dom_dom_plugin_get_description #} (toPlugin self))
          >>=
          readUTFString)
  
-getLength :: (MonadIO m, DOMPluginClass self) => self -> m Word
+getLength :: (MonadIO m, PluginClass self) => self -> m Word
 getLength self
   = liftIO
       (fromIntegral <$>
-         ({# call webkit_dom_dom_plugin_get_length #} (toDOMPlugin self)))
+         ({# call webkit_dom_dom_plugin_get_length #} (toPlugin self)))

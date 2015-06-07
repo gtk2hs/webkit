@@ -188,38 +188,38 @@ removeAttribute self name
  
 getAttributeNode ::
                  (MonadIO m, ElementClass self, GlibString string) =>
-                   self -> string -> m (Maybe DOMAttr)
+                   self -> string -> m (Maybe Attr)
 getAttributeNode self name
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (withUTFString name $
             \ namePtr ->
               {# call webkit_dom_element_get_attribute_node #} (toElement self)
                 namePtr))
  
 setAttributeNode ::
-                 (MonadIO m, ElementClass self, DOMAttrClass newAttr) =>
-                   self -> Maybe newAttr -> m (Maybe DOMAttr)
+                 (MonadIO m, ElementClass self, AttrClass newAttr) =>
+                   self -> Maybe newAttr -> m (Maybe Attr)
 setAttributeNode self newAttr
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
               {# call webkit_dom_element_set_attribute_node #} (toElement self)
-                (maybe (DOMAttr nullForeignPtr) toDOMAttr newAttr)
+                (maybe (Attr nullForeignPtr) toAttr newAttr)
                 errorPtr_))
  
 removeAttributeNode ::
-                    (MonadIO m, ElementClass self, DOMAttrClass oldAttr) =>
-                      self -> Maybe oldAttr -> m (Maybe DOMAttr)
+                    (MonadIO m, ElementClass self, AttrClass oldAttr) =>
+                      self -> Maybe oldAttr -> m (Maybe Attr)
 removeAttributeNode self oldAttr
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
               {# call webkit_dom_element_remove_attribute_node #}
                 (toElement self)
-                (maybe (DOMAttr nullForeignPtr) toDOMAttr oldAttr)
+                (maybe (Attr nullForeignPtr) toAttr oldAttr)
                 errorPtr_))
  
 getElementsByTagName ::
@@ -306,10 +306,10 @@ getElementsByTagNameNS self namespaceURI localName
  
 getAttributeNodeNS ::
                    (MonadIO m, ElementClass self, GlibString string) =>
-                     self -> string -> string -> m (Maybe DOMAttr)
+                     self -> string -> string -> m (Maybe Attr)
 getAttributeNodeNS self namespaceURI localName
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (withUTFString localName $
             \ localNamePtr ->
               withUTFString namespaceURI $
@@ -320,16 +320,16 @@ getAttributeNodeNS self namespaceURI localName
                 localNamePtr))
  
 setAttributeNodeNS ::
-                   (MonadIO m, ElementClass self, DOMAttrClass newAttr) =>
-                     self -> Maybe newAttr -> m (Maybe DOMAttr)
+                   (MonadIO m, ElementClass self, AttrClass newAttr) =>
+                     self -> Maybe newAttr -> m (Maybe Attr)
 setAttributeNodeNS self newAttr
   = liftIO
-      (maybeNull (makeNewGObject mkDOMAttr)
+      (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
               {# call webkit_dom_element_set_attribute_node_ns #}
                 (toElement self)
-                (maybe (DOMAttr nullForeignPtr) toDOMAttr newAttr)
+                (maybe (Attr nullForeignPtr) toAttr newAttr)
                 errorPtr_))
  
 hasAttribute ::
@@ -507,7 +507,7 @@ requestPointerLock self
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 webkitGetRegionFlowRanges ::
-                          (MonadIO m, ElementClass self) => self -> m [Maybe DOMRange]
+                          (MonadIO m, ElementClass self) => self -> m [Maybe Range]
 webkitGetRegionFlowRanges self
   = liftIO
       ({# call webkit_dom_element_webkit_get_region_flow_ranges #}
