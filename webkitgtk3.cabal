@@ -48,6 +48,7 @@ Library
                         glib  >= 0.13.1.0 && < 0.14,
                         pango >= 0.13.0.0 && < 0.14,
                         cairo >= 0.13.0.0 && < 0.14,
+                        gtk3  >= 0.13.0.0 && < 0.15,
                         text  >= 1.0.0.0 && < 1.3,
                         mtl,
                         transformers
@@ -240,5 +241,4 @@ Library
 
         hs-source-dirs:    .
         pkgconfig-depends: webkitgtk-3.0 >= 1.8
-        build-depends:     gtk3 >=0.13.0.0 && <0.14
         x-c2hs-Header:     hswebkit.h
