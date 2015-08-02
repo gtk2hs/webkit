@@ -230,7 +230,7 @@ Library
           Graphics.UI.Gtk.WebKit.Signals
 
         default-language:   Haskell98
-        default-extensions: ForeignFunctionInterface, PatternSynonyms
+        default-extensions: ForeignFunctionInterface, PatternSynonyms, DeriveDataTypeable
         include-dirs: .
         cpp-options: -DDISABLE_DEPRECATED -U__BLOCKS__ -D__attribute__(A)=
 

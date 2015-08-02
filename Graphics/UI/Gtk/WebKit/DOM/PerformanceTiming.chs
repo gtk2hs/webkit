@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.PerformanceTiming(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getNavigationStart,
 getUnloadEventStart,
 getUnloadEventEnd,
@@ -25,7 +26,9 @@ castToPerformanceTiming,
 gTypePerformanceTiming,
 PerformanceTimingClass,
 toPerformanceTiming,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -213,3 +216,4 @@ getLoadEventEnd self
       (fromIntegral <$>
          ({# call webkit_dom_performance_timing_get_load_event_end #}
             (toPerformanceTiming self)))
+#endif

@@ -65,8 +65,10 @@ getDevicePixelRatio,
 getApplicationCache,
 getSessionStorage,
 getLocalStorage,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getPerformance,
 getCSS,
+#endif
 abort,
 beforeUnload,
 blurEvent,
@@ -130,7 +132,9 @@ timeUpdate,
 unload,
 volumeChange,
 waiting,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 wheel,
+#endif
 reset,
 search,
 webKitAnimationEnd,
@@ -694,7 +698,8 @@ getLocalStorage self
             \ errorPtr_ ->
               {# call webkit_dom_dom_window_get_local_storage #} (toWindow self)
                 errorPtr_))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getPerformance ::
                (MonadIO m, WindowClass self) => self -> m (Maybe Performance)
 getPerformance self
@@ -707,6 +712,7 @@ getCSS self
   = liftIO
       (maybeNull (makeNewGObject mkCSS)
          ({# call webkit_dom_dom_window_get_css #} (toWindow self)))
+#endif
  
 abort :: (WindowClass self) => EventName self UIEvent
 abort = EventName "abort"
@@ -896,9 +902,11 @@ volumeChange = EventName "volumechange"
  
 waiting :: (WindowClass self) => EventName self Event
 waiting = EventName "waiting"
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 wheel :: (WindowClass self) => EventName self WheelEvent
 wheel = EventName "wheel"
+#endif
  
 reset :: (WindowClass self) => EventName self Event
 reset = EventName "reset"

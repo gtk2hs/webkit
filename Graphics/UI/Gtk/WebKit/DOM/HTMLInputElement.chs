@@ -82,10 +82,12 @@ setUseMap,
 getUseMap,
 setIncremental,
 getIncremental,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 setAutocorrect,
 getAutocorrect,
 setAutocapitalize,
 getAutocapitalize,
+#endif
 #if WEBKIT_CHECK_VERSION(2,7,0)
 setCapture,
 getCapture,
@@ -907,7 +909,8 @@ getIncremental self
       (toBool <$>
          ({# call webkit_dom_html_input_element_get_incremental #}
             (toHTMLInputElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 setAutocorrect ::
                (MonadIO m, HTMLInputElementClass self) => self -> Bool -> m ()
 setAutocorrect self val
@@ -944,6 +947,7 @@ getAutocapitalize self
           (toHTMLInputElement self))
          >>=
          maybePeek readUTFString)
+#endif
 
 #if WEBKIT_CHECK_VERSION(2,7,0) 
 setCapture ::

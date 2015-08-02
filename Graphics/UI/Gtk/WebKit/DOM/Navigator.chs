@@ -4,7 +4,9 @@ isProtocolHandlerRegistered,
 unregisterProtocolHandler,
 javaEnabled,
 getStorageUpdates,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitBattery,
+#endif
 getGeolocation,
 getWebkitTemporaryStorage,
 getWebkitPersistentStorage,
@@ -111,7 +113,8 @@ getStorageUpdates self
   = liftIO
       ({# call webkit_dom_navigator_get_storage_updates #}
          (toNavigator self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getWebkitBattery ::
                  (MonadIO m, NavigatorClass self) =>
                    self -> m (Maybe BatteryManager)
@@ -120,6 +123,7 @@ getWebkitBattery self
       (maybeNull (makeNewGObject mkBatteryManager)
          ({# call webkit_dom_navigator_get_webkit_battery #}
             (toNavigator self)))
+#endif
  
 getGeolocation ::
                (MonadIO m, NavigatorClass self) => self -> m (Maybe Geolocation)

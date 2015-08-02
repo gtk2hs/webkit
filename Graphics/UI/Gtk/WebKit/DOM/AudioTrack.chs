@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.AudioTrack(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getId,
 getLabel,
 setEnabled,
@@ -8,7 +9,9 @@ castToAudioTrack,
 gTypeAudioTrack,
 AudioTrackClass,
 toAudioTrack,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -54,3 +57,4 @@ getEnabled self
       (toBool <$>
          ({# call webkit_dom_audio_track_get_enabled #}
             (toAudioTrack self)))
+#endif

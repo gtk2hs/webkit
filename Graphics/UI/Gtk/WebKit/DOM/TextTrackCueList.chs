@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.TextTrackCueList(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 item,
 getCueById,
 getLength,
@@ -7,7 +8,9 @@ castToTextTrackCueList,
 gTypeTextTrackCueList,
 TextTrackCueListClass,
 toTextTrackCueList,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -52,3 +55,4 @@ getLength self
       (fromIntegral <$>
          ({# call webkit_dom_text_track_cue_list_get_length #}
             (toTextTrackCueList self)))
+#endif

@@ -340,35 +340,29 @@
         WebKitWebWindowFeatures as WebWindowFeatures, webkit_web_window_features_get_type if webkit
         WebKitGeolocationPolicyDecision as GeolocationPolicyDecision, webkit_geolocation_policy_decision_get_type if webkit
 
+        WebKitDOMAudioTrack as AudioTrack, webkit_dom_audio_track_get_type if webkit-2.2
         WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkit-2.2
-        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkit-2.2
-        WebKitDOMDOMSecurityPolicy as DOMSecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-1.10
-        WebKitDOMDOMWindowCSS as DOMWindowCSS, webkit_dom_dom_window_css_get_type if webkit-2.2
-                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-2.2
-        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkit-1.10
-        WebKitDOMAudioTrack as AudioTrack, webkit_dom_audio_track_get_type if webkit-dom
-        WebKitDOMBarProp as BarProp, webkit_dom_bar_prop_get_type if webkitgtk-2.2
         WebKitDOMBlob as Blob, webkit_dom_blob_get_type if webkit-dom
             WebKitDOMFile as File, webkit_dom_file_get_type if webkit-dom
-        WebKitDOMDOMWindowCSS as CSS, webkit_dom_dom_window_css_get_type if webkit-dom
+        WebKitDOMDOMWindowCSS as CSS, webkit_dom_dom_window_css_get_type if webkit-2.2
         WebKitDOMCSSRule as CSSRule, webkit_dom_css_rule_get_type if webkit-dom
         WebKitDOMCSSRuleList as CSSRuleList, webkit_dom_css_rule_list_get_type if webkit-dom
         WebKitDOMCSSStyleDeclaration as CSSStyleDeclaration, webkit_dom_css_style_declaration_get_type if webkit-dom
         WebKitDOMCSSValue as CSSValue, webkit_dom_css_value_get_type if webkit-dom
         WebKitDOMDOMImplementation as DOMImplementation, webkit_dom_dom_implementation_get_type if webkit-dom
-        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkitgtk-2.2
+        WebKitDOMDOMNamedFlowCollection as DOMNamedFlowCollection, webkit_dom_dom_named_flow_collection_get_type if webkit-2.2
         WebKitDOMDOMStringList as DOMStringList, webkit_dom_dom_string_list_get_type if webkit-dom
         WebKitDOMDOMTokenList as DOMTokenList, webkit_dom_dom_token_list_get_type if webkit-dom
             WebKitDOMDOMSettableTokenList as DOMSettableTokenList, webkit_dom_dom_settable_token_list_get_type if webkit-dom
         WebKitDOMEvent as Event, webkit_dom_event_get_type if webkit-dom
             WebKitDOMUIEvent as UIEvent, webkit_dom_ui_event_get_type if webkit-dom
-                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkitgtk-2.2
+                WebKitDOMKeyboardEvent as KeyboardEvent, webkit_dom_keyboard_event_get_type if webkit-2.2
                 WebKitDOMMouseEvent as MouseEvent, webkit_dom_mouse_event_get_type if webkit-dom
-                    WebKitDOMWheelEvent as WheelEvent, webkit_dom_wheel_event_get_type if webkit-dom
+                    WebKitDOMWheelEvent as WheelEvent, webkit_dom_wheel_event_get_type if webkit-2.4
         WebKitDOMEventTarget as EventTarget, webkit_dom_event_target_get_type if webkit-dom
             WebKitDOMDOMApplicationCache as ApplicationCache, webkit_dom_dom_application_cache_get_type if webkit-dom
-            WebKitDOMAudioTrackList as AudioTrackList, webkit_dom_audio_track_list_get_type if webkit-dom
-            WebKitDOMBatteryManager as BatteryManager, webkit_dom_battery_manager_get_type if webkit-dom
+            WebKitDOMAudioTrackList as AudioTrackList, webkit_dom_audio_track_list_get_type if webkit-2.2
+            WebKitDOMBatteryManager as BatteryManager, webkit_dom_battery_manager_get_type if webkit-2.2
             WebKitDOMMessagePort as MessagePort, webkit_dom_message_port_get_type if webkit-dom
             WebKitDOMNode as Node, webkit_dom_node_get_type if webkit-dom
                 WebKitDOMAttr as Attr, webkit_dom_attr_get_type if webkit-dom
@@ -440,11 +434,11 @@
                         WebKitDOMHTMLTitleElement as HTMLTitleElement, webkit_dom_html_title_element_get_type if webkit-dom
                         WebKitDOMHTMLUListElement as HTMLUListElement, webkit_dom_htmlu_list_element_get_type if webkit-dom
                 WebKitDOMEntityReference as EntityReference, webkit_dom_entity_reference_get_type if webkit-dom
-            WebKitDOMPerformance as Performance, webkit_dom_performance_get_type if webkit-dom
-            WebKitDOMTextTrack as TextTrack, webkit_dom_text_track_get_type if webkit-dom
-            WebKitDOMTextTrackCue as TextTrackCue, webkit_dom_text_track_cue_get_type if webkit-dom
-            WebKitDOMTextTrackList as TextTrackList, webkit_dom_text_track_list_get_type if webkit-dom
-            WebKitDOMVideoTrackList as VideoTrackList, webkit_dom_video_track_list_get_type if webkit-dom
+            WebKitDOMPerformance as Performance, webkit_dom_performance_get_type if webkit-2.2
+            WebKitDOMTextTrack as TextTrack, webkit_dom_text_track_get_type if webkit-2.2
+            WebKitDOMTextTrackCue as TextTrackCue, webkit_dom_text_track_cue_get_type if webkit-2.2
+            WebKitDOMTextTrackList as TextTrackList, webkit_dom_text_track_list_get_type if webkit-2.2
+            WebKitDOMVideoTrackList as VideoTrackList, webkit_dom_video_track_list_get_type if webkit-2.2
             WebKitDOMWebKitNamedFlow as WebKitNamedFlow, webkit_dom_webkit_named_flow_get_type if webkit-dom
             WebKitDOMDOMWindow as Window, webkit_dom_dom_window_get_type if webkit-dom
         WebKitDOMFileList as FileList, webkit_dom_file_list_get_type if webkit-dom
@@ -466,27 +460,27 @@
         WebKitDOMNodeFilter as NodeFilter, webkit_dom_node_filter_get_type if webkit-dom
         WebKitDOMNodeIterator as NodeIterator, webkit_dom_node_iterator_get_type if webkit-dom
         WebKitDOMNodeList as NodeList, webkit_dom_node_list_get_type if webkit-dom
-        WebKitDOMPerformanceNavigation as PerformanceNavigation, webkit_dom_performance_navigation_get_type if webkit-dom
-        WebKitDOMPerformanceTiming as PerformanceTiming, webkit_dom_performance_timing_get_type if webkit-dom
+        WebKitDOMPerformanceNavigation as PerformanceNavigation, webkit_dom_performance_navigation_get_type if webkit-2.2
+        WebKitDOMPerformanceTiming as PerformanceTiming, webkit_dom_performance_timing_get_type if webkit-2.2
         WebKitDOMDOMPlugin as Plugin, webkit_dom_dom_plugin_get_type if webkit-dom
         WebKitDOMDOMPluginArray as PluginArray, webkit_dom_dom_plugin_array_get_type if webkit-dom
         WebKitDOMRange as Range, webkit_dom_range_get_type if webkit-dom
         WebKitDOMScreen as Screen, webkit_dom_screen_get_type if webkit-dom
-        WebKitDOMDOMSecurityPolicy as SecurityPolicy, webkit_dom_dom_security_policy_get_type if webkitgtk-1.10
+        WebKitDOMDOMSecurityPolicy as SecurityPolicy, webkit_dom_dom_security_policy_get_type if webkit-1.10
         WebKitDOMDOMSelection as Selection, webkit_dom_dom_selection_get_type if webkit-dom
         WebKitDOMStorage as Storage, webkit_dom_storage_get_type if webkit-dom
-        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkitgtk-1.10
-        WebKitDOMStorageQuota as StorageQuota, webkit_dom_storage_quota_get_type if webkit-dom
+        WebKitDOMStorageInfo as StorageInfo, webkit_dom_storage_info_get_type if webkit-1.10
+        WebKitDOMStorageQuota as StorageQuota, webkit_dom_storage_quota_get_type if webkit-2.2
         WebKitDOMStyleMedia as StyleMedia, webkit_dom_style_media_get_type if webkit-dom
         WebKitDOMStyleSheet as StyleSheet, webkit_dom_style_sheet_get_type if webkit-dom
             WebKitDOMCSSStyleSheet as CSSStyleSheet, webkit_dom_css_style_sheet_get_type if webkit-dom
         WebKitDOMStyleSheetList as StyleSheetList, webkit_dom_style_sheet_list_get_type if webkit-dom
-        WebKitDOMTextTrackCueList as TextTrackCueList, webkit_dom_text_track_cue_list_get_type if webkit-dom
+        WebKitDOMTextTrackCueList as TextTrackCueList, webkit_dom_text_track_cue_list_get_type if webkit-2.2
         WebKitDOMTimeRanges as TimeRanges, webkit_dom_time_ranges_get_type if webkit-dom
-        WebKitDOMTouch as Touch, webkit_dom_touch_get_type if webkit-dom
+        WebKitDOMTouch as Touch, webkit_dom_touch_get_type if webkit-2.4
         WebKitDOMTreeWalker as TreeWalker, webkit_dom_tree_walker_get_type if webkit-dom
         WebKitDOMValidityState as ValidityState, webkit_dom_validity_state_get_type if webkit-dom
-        WebKitDOMVideoTrack as VideoTrack, webkit_dom_video_track_get_type if webkit-dom
+        WebKitDOMVideoTrack as VideoTrack, webkit_dom_video_track_get_type if webkit-2.2
         WebKitDOMWebKitPoint as WebKitPoint, webkit_dom_webkit_point_get_type if webkit-dom
         WebKitDOMXPathExpression as XPathExpression, webkit_dom_xpath_expression_get_type if webkit-dom
         WebKitDOMXPathNSResolver as XPathNSResolver, webkit_dom_xpath_ns_resolver_get_type if webkit-dom

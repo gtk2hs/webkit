@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.TextTrackCue(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getTrack,
 setId,
 getId,
@@ -15,7 +16,9 @@ castToTextTrackCue,
 gTypeTextTrackCue,
 TextTrackCueClass,
 toTextTrackCue,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -118,3 +121,4 @@ enter = EventName "enter"
  
 exit :: (TextTrackCueClass self) => EventName self Event
 exit = EventName "exit"
+#endif

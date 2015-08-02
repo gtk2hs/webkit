@@ -31,7 +31,11 @@ addEventListener self type' listener useCapture
       (void $
          withUTFString type' $
            \ typePtr ->
+#if !WEBKIT_CHECK_VERSION(2,4,0)
+             {# call webkit_dom_event_target_add_event_listener_closure #}
+#else
              {# call webkit_dom_event_target_add_event_listener_with_closure #}
+#endif
                (toEventTarget self)
                typePtr
            (maybe nullPtr (castPtr . unEventListener . toEventListener)
@@ -47,8 +51,11 @@ removeEventListener self type' listener useCapture
       (void $
          withUTFString type' $
            \ typePtr ->
-             {# call webkit_dom_event_target_remove_event_listener_with_closure
-               #}
+#if !WEBKIT_CHECK_VERSION(2,4,0)
+             {# call webkit_dom_event_target_remove_event_listener_closure #}
+#else
+             {# call webkit_dom_event_target_remove_event_listener_with_closure #}
+#endif
                (toEventTarget self)
                typePtr
            (maybe nullPtr (castPtr . unEventListener . toEventListener)
@@ -57,13 +64,12 @@ removeEventListener self type' listener useCapture
  
 dispatchEvent ::
               (MonadIO m, EventTargetClass self, EventClass event) =>
-                self -> Maybe event -> m Bool
+                self -> Maybe event -> m ()
 dispatchEvent self event
-  = liftIO
-      (toBool <$>
-         (propagateGError $
+  = liftIO . void $
+         propagateGError $
             \ errorPtr_ ->
               {# call webkit_dom_event_target_dispatch_event #}
                 (toEventTarget self)
                 (maybe (Event nullForeignPtr) toEvent event)
-                errorPtr_))
+                errorPtr_

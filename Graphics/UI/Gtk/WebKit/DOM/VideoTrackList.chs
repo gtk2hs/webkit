@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.VideoTrackList(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 item,
 getTrackById,
 getLength,
@@ -13,7 +14,9 @@ castToVideoTrackList,
 gTypeVideoTrackList,
 VideoTrackListClass,
 toVideoTrackList,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -77,3 +80,4 @@ addTrack = EventName "addtrack"
  
 removeTrack :: (VideoTrackListClass self) => EventName self Event
 removeTrack = EventName "removetrack"
+#endif

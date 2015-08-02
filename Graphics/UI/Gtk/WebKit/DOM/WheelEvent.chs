@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.WheelEvent(
+#if WEBKIT_CHECK_VERSION(2,4,0)
 initWheelEvent,
 pattern DOM_DELTA_PIXEL,
 pattern DOM_DELTA_LINE,
@@ -16,7 +17,9 @@ castToWheelEvent,
 gTypeWheelEvent,
 WheelEventClass,
 toWheelEvent,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,4,0)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -119,3 +122,4 @@ getWebkitDirectionInvertedFromDevice self
             webkit_dom_wheel_event_get_webkit_direction_inverted_from_device
             #}
             (toWheelEvent self)))
+#endif

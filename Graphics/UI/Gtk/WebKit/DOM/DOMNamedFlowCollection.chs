@@ -1,7 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 item,
 namedItem,
 getLength,
+#endif
 DOMNamedFlowCollection,
 castToDOMNamedFlowCollection,
 gTypeDOMNamedFlowCollection,
@@ -22,7 +24,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 item ::
      (MonadIO m, DOMNamedFlowCollectionClass self) =>
        self -> Word -> m (Maybe WebKitNamedFlow)
@@ -52,3 +55,4 @@ getLength self
       (fromIntegral <$>
          ({# call webkit_dom_dom_named_flow_collection_get_length #}
             (toDOMNamedFlowCollection self)))
+#endif

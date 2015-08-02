@@ -1,6 +1,9 @@
 module Graphics.UI.Gtk.WebKit.DOM.TextTrackList(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 item,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 getTrackById,
+#endif
 getLength,
 addTrack,
 change,
@@ -10,7 +13,9 @@ castToTextTrackList,
 gTypeTextTrackList,
 TextTrackListClass,
 toTextTrackList,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -34,7 +39,8 @@ item self index
       (maybeNull (makeNewGObject mkTextTrack)
          ({# call webkit_dom_text_track_list_item #} (toTextTrackList self)
             (fromIntegral index)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 getTrackById ::
              (MonadIO m, TextTrackListClass self, GlibString string) =>
                self -> string -> m (Maybe TextTrack)
@@ -46,6 +52,7 @@ getTrackById self id
               {# call webkit_dom_text_track_list_get_track_by_id #}
                 (toTextTrackList self)
                 idPtr))
+#endif
  
 getLength :: (MonadIO m, TextTrackListClass self) => self -> m Word
 getLength self
@@ -62,3 +69,4 @@ change = EventName "change"
  
 removeTrack :: (TextTrackListClass self) => EventName self Event
 removeTrack = EventName "removetrack"
+#endif

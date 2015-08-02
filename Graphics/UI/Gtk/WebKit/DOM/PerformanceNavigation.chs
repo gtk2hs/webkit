@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.PerformanceNavigation(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 pattern TYPE_NAVIGATE,
 pattern TYPE_RELOAD,
 pattern TYPE_BACK_FORWARD,
@@ -9,7 +10,9 @@ castToPerformanceNavigation,
 gTypePerformanceNavigation,
 PerformanceNavigationClass,
 toPerformanceNavigation,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -36,3 +39,4 @@ getRedirectCount self
       (fromIntegral <$>
          ({# call webkit_dom_performance_navigation_get_redirect_count #}
             (toPerformanceNavigation self)))
+#endif

@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.AudioTrackList(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 item,
 getTrackById,
 getLength,
@@ -10,7 +11,9 @@ castToAudioTrackList,
 gTypeAudioTrackList,
 AudioTrackListClass,
 toAudioTrackList,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -64,3 +67,4 @@ addTrack = EventName "addtrack"
  
 removeTrack :: (AudioTrackListClass self) => EventName self Event
 removeTrack = EventName "removetrack"
+#endif

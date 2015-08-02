@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.Performance(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 now,
 getNavigation,
 getTiming,
@@ -7,7 +8,9 @@ castToPerformance,
 gTypePerformance,
 PerformanceClass,
 toPerformance,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -46,3 +49,4 @@ getTiming self
       (maybeNull (makeNewGObject mkPerformanceTiming)
          ({# call webkit_dom_performance_get_timing #}
             (toPerformance self)))
+#endif

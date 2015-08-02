@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.BatteryManager(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getCharging,
 getChargingTime,
 getDischargingTime,
@@ -12,7 +13,9 @@ castToBatteryManager,
 gTypeBatteryManager,
 BatteryManagerClass,
 toBatteryManager,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -74,3 +77,4 @@ dischargingTimeChange = EventName "dischargingtimechange"
  
 levelChange :: (BatteryManagerClass self) => EventName self Event
 levelChange = EventName "levelchange"
+#endif

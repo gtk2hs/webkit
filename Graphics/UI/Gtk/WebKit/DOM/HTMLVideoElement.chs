@@ -17,8 +17,10 @@ setPoster,
 getPoster,
 getWebkitSupportsFullscreen,
 getWebkitDisplayingFullscreen,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 setWebkitWirelessVideoPlaybackDisabled,
 getWebkitWirelessVideoPlaybackDisabled,
+#endif
 getWebkitDecodedFrameCount,
 getWebkitDroppedFrameCount,
 #if WEBKIT_CHECK_VERSION(99,0,0)
@@ -196,7 +198,8 @@ getWebkitDisplayingFullscreen self
             webkit_dom_html_video_element_get_webkit_displaying_fullscreen
             #}
             (toHTMLVideoElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 setWebkitWirelessVideoPlaybackDisabled ::
                                        (MonadIO m, HTMLVideoElementClass self) =>
                                          self -> Bool -> m ()
@@ -217,6 +220,7 @@ getWebkitWirelessVideoPlaybackDisabled self
             webkit_dom_html_video_element_get_webkit_wireless_video_playback_disabled
             #}
             (toHTMLVideoElement self)))
+#endif
  
 getWebkitDecodedFrameCount ::
                            (MonadIO m, HTMLVideoElementClass self) => self -> m Word

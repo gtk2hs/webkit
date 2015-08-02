@@ -1,11 +1,14 @@
 module Graphics.UI.Gtk.WebKit.DOM.CSS(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 supports2,
 CSS,
 castToCSS,
 gTypeCSS,
 CSSClass,
 toCSS,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -34,3 +37,4 @@ supports2 self property value
                   {# call webkit_dom_dom_window_css_supports #} (toCSS self)
                     propertyPtr
                 valuePtr))
+#endif

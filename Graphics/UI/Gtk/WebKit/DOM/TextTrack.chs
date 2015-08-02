@@ -1,9 +1,12 @@
 module Graphics.UI.Gtk.WebKit.DOM.TextTrack(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 #if WEBKIT_CHECK_VERSION(2,7,0)
 addCue,
 #endif
 removeCue,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 getId,
+#endif
 getLabel,
 #if WEBKIT_CHECK_VERSION(99,0,0)
 getInBandMetadataTrackDispatchType,
@@ -18,7 +21,9 @@ castToTextTrack,
 gTypeTextTrack,
 TextTrackClass,
 toTextTrack,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -58,7 +63,8 @@ removeCue self cue
            {# call webkit_dom_text_track_remove_cue #} (toTextTrack self)
              (maybe (TextTrackCue nullForeignPtr) toTextTrackCue cue)
              errorPtr_)
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 getId ::
       (MonadIO m, TextTrackClass self, GlibString string) =>
         self -> m string
@@ -66,6 +72,7 @@ getId self
   = liftIO
       (({# call webkit_dom_text_track_get_id #} (toTextTrack self)) >>=
          readUTFString)
+#endif
  
 getLabel ::
          (MonadIO m, TextTrackClass self, GlibString string) =>
@@ -126,3 +133,4 @@ getActiveCues self
  
 cueChange :: (TextTrackClass self) => EventName self Event
 cueChange = EventName "cuechange"
+#endif

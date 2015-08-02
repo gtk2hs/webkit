@@ -39,11 +39,13 @@ hasFocus,
 querySelector,
 querySelectorAll,
 webkitCancelFullScreen,
-webkitExitFullscreen,
 #if WEBKIT_CHECK_VERSION(2,2,2)
+webkitExitFullscreen,
 webkitGetNamedFlows,
 #endif
+#if WEBKIT_CHECK_VERSION(2,4,2)
 createTouch,
+#endif
 getDoctype,
 getImplementation,
 getDocumentElement,
@@ -83,8 +85,10 @@ getCompatMode,
 getWebkitIsFullScreen,
 getWebkitFullScreenKeyboardInputAllowed,
 getWebkitCurrentFullScreenElement,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitFullscreenEnabled,
 getWebkitFullscreenElement,
+#endif
 abort,
 blur,
 change,
@@ -118,7 +122,9 @@ readyStateChange,
 scroll,
 select,
 submit,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 wheel,
+#endif
 beforeCut,
 cut,
 beforeCopy,
@@ -669,15 +675,15 @@ webkitCancelFullScreen self
   = liftIO
       ({# call webkit_dom_document_webkit_cancel_full_screen #}
          (toDocument self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 webkitExitFullscreen ::
                      (MonadIO m, DocumentClass self) => self -> m ()
 webkitExitFullscreen self
   = liftIO
       ({# call webkit_dom_document_webkit_exit_fullscreen #}
          (toDocument self))
-
-#if WEBKIT_CHECK_VERSION(2,2,2) 
+ 
 webkitGetNamedFlows ::
                     (MonadIO m, DocumentClass self) =>
                       self -> m (Maybe DOMNamedFlowCollection)
@@ -687,7 +693,8 @@ webkitGetNamedFlows self
          ({# call webkit_dom_document_webkit_get_named_flows #}
             (toDocument self)))
 #endif
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,2) 
 createTouch ::
             (MonadIO m, DocumentClass self, WindowClass window,
              EventTargetClass target) =>
@@ -717,6 +724,7 @@ createTouch self window target identifier pageX pageY screenX
                 (realToFrac webkitRotationAngle)
                 (realToFrac webkitForce)
                 errorPtr_))
+#endif
  
 getDoctype ::
            (MonadIO m, DocumentClass self) => self -> m (Maybe DocumentType)
@@ -1070,7 +1078,8 @@ getWebkitCurrentFullScreenElement self
          ({# call webkit_dom_document_get_webkit_current_full_screen_element
             #}
             (toDocument self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getWebkitFullscreenEnabled ::
                            (MonadIO m, DocumentClass self) => self -> m Bool
 getWebkitFullscreenEnabled self
@@ -1086,6 +1095,7 @@ getWebkitFullscreenElement self
       (maybeNull (makeNewGObject mkElement)
          ({# call webkit_dom_document_get_webkit_fullscreen_element #}
             (toDocument self)))
+#endif
  
 abort :: (DocumentClass self) => EventName self UIEvent
 abort = EventName "abort"
@@ -1185,9 +1195,11 @@ select = EventName "select"
  
 submit :: (DocumentClass self) => EventName self Event
 submit = EventName "submit"
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 wheel :: (DocumentClass self) => EventName self WheelEvent
 wheel = EventName "wheel"
+#endif
  
 beforeCut :: (DocumentClass self) => EventName self Event
 beforeCut = EventName "beforecut"

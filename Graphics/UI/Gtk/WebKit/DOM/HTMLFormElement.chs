@@ -25,10 +25,12 @@ setTarget,
 getTarget,
 getElements,
 getLength,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 setAutocorrect,
 getAutocorrect,
 setAutocapitalize,
 getAutocapitalize,
+#endif
 autocomplete,
 autocompleteerror,
 HTMLFormElement,
@@ -281,7 +283,8 @@ getLength self
       (fromIntegral <$>
          ({# call webkit_dom_html_form_element_get_length #}
             (toHTMLFormElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 setAutocorrect ::
                (MonadIO m, HTMLFormElementClass self) => self -> Bool -> m ()
 setAutocorrect self val
@@ -318,6 +321,7 @@ getAutocapitalize self
           (toHTMLFormElement self))
          >>=
          maybePeek readUTFString)
+#endif
  
 autocomplete :: (HTMLFormElementClass self) => EventName self Event
 autocomplete = EventName "autocomplete"

@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.Touch(
+#if WEBKIT_CHECK_VERSION(2,4,0)
 getClientX,
 getClientY,
 getScreenX,
@@ -16,7 +17,9 @@ castToTouch,
 gTypeTouch,
 TouchClass,
 toTouch,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,4,0)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -106,3 +109,4 @@ getWebkitForce self
   = liftIO
       (realToFrac <$>
          ({# call webkit_dom_touch_get_webkit_force #} (toTouch self)))
+#endif

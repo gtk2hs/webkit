@@ -112,3 +112,9 @@
 #undef OwnerChangeDestroy
 #undef OwnerChangeClose
 #undef NULL
+
+#if !WEBKIT_CHECK_VERSION(2,4,0)
+#define webkit_dom_event_target_add_event_listener_with_closure webkit_dom_event_target_add_event_listener_closure
+#define webkit_dom_event_target_remove_event_listener_with_closure webkit_dom_event_target_remove_event_listener_closure
+#endif
+

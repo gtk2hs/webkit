@@ -5,18 +5,24 @@ canPlayType,
 #endif
 play,
 pause,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 fastSeek,
+#endif
 #if WEBKIT_CHECK_VERSION(99,0,0)
 webkitGenerateKeyRequest,
 webkitAddKey,
 webkitCancelKeyRequest,
 webkitSetMediaKeys,
 #endif
+#if WEBKIT_CHECK_VERSION(2,4,0)
 addTextTrack,
+#endif
 #if WEBKIT_CHECK_VERSION(99,0,0)
 getVideoPlaybackQuality,
 #endif
+#if WEBKIT_CHECK_VERSION(2,4,0)
 webkitShowPlaybackTargetPicker,
+#endif
 pattern NETWORK_EMPTY,
 pattern NETWORK_IDLE,
 pattern NETWORK_LOADING,
@@ -87,12 +93,16 @@ webKitNeedKey,
 #if WEBKIT_CHECK_VERSION(99,0,0)
 getWebkitKeys,
 #endif
+#if WEBKIT_CHECK_VERSION(2,4,0)
 getAudioTracks,
 getTextTracks,
 getVideoTracks,
+#endif
 setMediaGroup,
 getMediaGroup,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 getWebkitCurrentPlaybackTargetIsWireless,
+#endif
 webKitCurrentPlaybackTargetIsWirelessChanged,
 webKitPlaybackTargetAvailabilityChanged,
 #if WEBKIT_CHECK_VERSION(99,0,0)
@@ -155,7 +165,8 @@ pause self
   = liftIO
       ({# call webkit_dom_html_media_element_pause #}
          (toHTMLMediaElement self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 fastSeek ::
          (MonadIO m, HTMLMediaElementClass self) => self -> Double -> m ()
 fastSeek self time
@@ -163,6 +174,7 @@ fastSeek self time
       ({# call webkit_dom_html_media_element_fast_seek #}
          (toHTMLMediaElement self)
          (realToFrac time))
+#endif
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 webkitGenerateKeyRequest ::
@@ -230,7 +242,8 @@ webkitSetMediaKeys self mediaKeys
          (toHTMLMediaElement self)
          (maybe (MediaKeys nullForeignPtr) toMediaKeys mediaKeys))
 #endif
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 addTextTrack ::
              (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
                self -> string -> string -> string -> m (Maybe TextTrack)
@@ -251,6 +264,7 @@ addTextTrack self kind label language
                         labelPtr
                     languagePtr
                 errorPtr_))
+#endif
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 getVideoPlaybackQuality ::
@@ -263,7 +277,8 @@ getVideoPlaybackQuality self
             #}
             (toHTMLMediaElement self)))
 #endif
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 webkitShowPlaybackTargetPicker ::
                                (MonadIO m, HTMLMediaElementClass self) => self -> m ()
 webkitShowPlaybackTargetPicker self
@@ -272,6 +287,7 @@ webkitShowPlaybackTargetPicker self
          webkit_dom_html_media_element_webkit_show_playback_target_picker
          #}
          (toHTMLMediaElement self))
+#endif
 pattern NETWORK_EMPTY = 0
 pattern NETWORK_IDLE = 1
 pattern NETWORK_LOADING = 2
@@ -708,7 +724,8 @@ getWebkitKeys self
          ({# call webkit_dom_html_media_element_get_webkit_keys #}
             (toHTMLMediaElement self)))
 #endif
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 getAudioTracks ::
                (MonadIO m, HTMLMediaElementClass self) =>
                  self -> m (Maybe AudioTrackList)
@@ -735,6 +752,7 @@ getVideoTracks self
       (maybeNull (makeNewGObject mkVideoTrackList)
          ({# call webkit_dom_html_media_element_get_video_tracks #}
             (toHTMLMediaElement self)))
+#endif
  
 setMediaGroup ::
               (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
@@ -756,7 +774,8 @@ getMediaGroup self
           (toHTMLMediaElement self))
          >>=
          maybePeek readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 getWebkitCurrentPlaybackTargetIsWireless ::
                                          (MonadIO m, HTMLMediaElementClass self) => self -> m Bool
 getWebkitCurrentPlaybackTargetIsWireless self
@@ -766,6 +785,7 @@ getWebkitCurrentPlaybackTargetIsWireless self
             webkit_dom_html_media_element_get_webkit_current_playback_target_is_wireless
             #}
             (toHTMLMediaElement self)))
+#endif
  
 webKitCurrentPlaybackTargetIsWirelessChanged ::
                                              (HTMLMediaElementClass self) => EventName self Event

@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.VideoTrack(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getId,
 getLabel,
 setSelected,
@@ -8,7 +9,9 @@ castToVideoTrack,
 gTypeVideoTrack,
 VideoTrackClass,
 toVideoTrack,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -54,3 +57,4 @@ getSelected self
       (toBool <$>
          ({# call webkit_dom_video_track_get_selected #}
             (toVideoTrack self)))
+#endif

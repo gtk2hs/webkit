@@ -42,10 +42,12 @@ setSelectionEnd,
 getSelectionEnd,
 setSelectionDirection,
 getSelectionDirection,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 setAutocorrect,
 getAutocorrect,
 setAutocapitalize,
 getAutocapitalize,
+#endif
 HTMLTextAreaElement,
 castToHTMLTextAreaElement,
 gTypeHTMLTextAreaElement,
@@ -474,7 +476,8 @@ getSelectionDirection self
           (toHTMLTextAreaElement self))
          >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 setAutocorrect ::
                (MonadIO m, HTMLTextAreaElementClass self) => self -> Bool -> m ()
 setAutocorrect self val
@@ -511,3 +514,4 @@ getAutocapitalize self
           (toHTMLTextAreaElement self))
          >>=
          maybePeek readUTFString)
+#endif

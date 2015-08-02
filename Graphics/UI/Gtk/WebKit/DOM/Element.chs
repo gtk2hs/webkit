@@ -109,7 +109,9 @@ mouseWheel,
 scroll,
 select,
 submit,
+#if WEBKIT_CHECK_VERSION(2,4,0)
 wheel,
+#endif
 beforeCut,
 cut,
 beforeCopy,
@@ -889,9 +891,11 @@ select = EventName "select"
  
 submit :: (ElementClass self) => EventName self Event
 submit = EventName "submit"
- 
+
+#if WEBKIT_CHECK_VERSION(2,4,0) 
 wheel :: (ElementClass self) => EventName self WheelEvent
 wheel = EventName "wheel"
+#endif
  
 beforeCut :: (ElementClass self) => EventName self Event
 beforeCut = EventName "beforecut"
