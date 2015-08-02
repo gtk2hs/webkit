@@ -12,6 +12,8 @@ AttrClass,
 toAttr,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -25,11 +27,12 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
  
 getName ::
-        (MonadIO m, AttrClass self, GlibString string) => self -> m string
+        (MonadIO m, AttrClass self, GlibString string) =>
+          self -> m (Maybe string)
 getName self
   = liftIO
       (({# call webkit_dom_attr_get_name #} (toAttr self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getSpecified :: (MonadIO m, AttrClass self) => self -> m Bool
 getSpecified self
@@ -39,22 +42,23 @@ getSpecified self
  
 setValue ::
          (MonadIO m, AttrClass self, GlibString string) =>
-           self -> string -> m ()
+           self -> (Maybe string) -> m ()
 setValue self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_attr_set_value #} (toAttr self) valPtr
              errorPtr_)
  
 getValue ::
-         (MonadIO m, AttrClass self, GlibString string) => self -> m string
+         (MonadIO m, AttrClass self, GlibString string) =>
+           self -> m (Maybe string)
 getValue self
   = liftIO
       (({# call webkit_dom_attr_get_value #} (toAttr self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getOwnerElement ::
                 (MonadIO m, AttrClass self) => self -> m (Maybe Element)

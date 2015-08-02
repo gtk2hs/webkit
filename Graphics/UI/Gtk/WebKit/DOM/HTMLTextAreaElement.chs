@@ -53,6 +53,8 @@ HTMLTextAreaElementClass,
 toHTMLTextAreaElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -75,10 +77,10 @@ checkValidity self
  
 setCustomValidity ::
                   (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setCustomValidity self error
   = liftIO
-      (withUTFString error $
+      (maybeWith withUTFString error $
          \ errorPtr ->
            {# call webkit_dom_html_text_area_element_set_custom_validity #}
              (toHTMLTextAreaElement self)
@@ -333,10 +335,10 @@ getWrap self
  
 setDefaultValue ::
                 (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-                  self -> string -> m ()
+                  self -> (Maybe string) -> m ()
 setDefaultValue self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_text_area_element_set_default_value #}
              (toHTMLTextAreaElement self)
@@ -344,20 +346,20 @@ setDefaultValue self val
  
 getDefaultValue ::
                 (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-                  self -> m string
+                  self -> m (Maybe string)
 getDefaultValue self
   = liftIO
       (({# call webkit_dom_html_text_area_element_get_default_value #}
           (toHTMLTextAreaElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setValue ::
          (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-           self -> string -> m ()
+           self -> (Maybe string) -> m ()
 setValue self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_text_area_element_set_value #}
              (toHTMLTextAreaElement self)
@@ -365,13 +367,13 @@ setValue self val
  
 getValue ::
          (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-           self -> m string
+           self -> m (Maybe string)
 getValue self
   = liftIO
       (({# call webkit_dom_html_text_area_element_get_value #}
           (toHTMLTextAreaElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getTextLength ::
               (MonadIO m, HTMLTextAreaElementClass self) => self -> m Word
@@ -491,10 +493,10 @@ getAutocorrect self
  
 setAutocapitalize ::
                   (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setAutocapitalize self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_text_area_element_set_autocapitalize #}
              (toHTMLTextAreaElement self)
@@ -502,10 +504,10 @@ setAutocapitalize self val
  
 getAutocapitalize ::
                   (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
-                    self -> m string
+                    self -> m (Maybe string)
 getAutocapitalize self
   = liftIO
       (({# call webkit_dom_html_text_area_element_get_autocapitalize #}
           (toHTMLTextAreaElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)

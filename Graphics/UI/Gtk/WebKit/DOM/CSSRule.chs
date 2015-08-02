@@ -24,6 +24,8 @@ CSSRuleClass,
 toCSSRule,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -52,23 +54,23 @@ pattern WEBKIT_KEYFRAME_RULE = 8
  
 setCssText ::
            (MonadIO m, CSSRuleClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setCssText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_css_rule_set_css_text #} (toCSSRule self) valPtr
              errorPtr_)
  
 getCssText ::
            (MonadIO m, CSSRuleClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getCssText self
   = liftIO
       (({# call webkit_dom_css_rule_get_css_text #} (toCSSRule self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getParentStyleSheet ::
                     (MonadIO m, CSSRuleClass self) => self -> m (Maybe CSSStyleSheet)

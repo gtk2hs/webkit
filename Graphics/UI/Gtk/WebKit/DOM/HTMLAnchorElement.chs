@@ -50,6 +50,8 @@ HTMLAnchorElementClass,
 toHTMLAnchorElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -295,10 +297,10 @@ getTarget self
  
 setHash ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setHash self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_hash #}
              (toHTMLAnchorElement self)
@@ -306,20 +308,20 @@ setHash self val
  
 getHash ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getHash self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_hash #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setHost ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setHost self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_host #}
              (toHTMLAnchorElement self)
@@ -327,20 +329,20 @@ setHost self val
  
 getHost ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getHost self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_host #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setHostname ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> string -> m ()
+              self -> (Maybe string) -> m ()
 setHostname self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_hostname #}
              (toHTMLAnchorElement self)
@@ -348,20 +350,20 @@ setHostname self val
  
 getHostname ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getHostname self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_hostname #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setPathname ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> string -> m ()
+              self -> (Maybe string) -> m ()
 setPathname self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_pathname #}
              (toHTMLAnchorElement self)
@@ -369,20 +371,20 @@ setPathname self val
  
 getPathname ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getPathname self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_pathname #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setPort ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setPort self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_port #}
              (toHTMLAnchorElement self)
@@ -390,20 +392,20 @@ setPort self val
  
 getPort ::
         (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getPort self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_port #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setProtocol ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> string -> m ()
+              self -> (Maybe string) -> m ()
 setProtocol self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_protocol #}
              (toHTMLAnchorElement self)
@@ -411,20 +413,20 @@ setProtocol self val
  
 getProtocol ::
             (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getProtocol self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_protocol #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setSearch ::
           (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-            self -> string -> m ()
+            self -> (Maybe string) -> m ()
 setSearch self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_anchor_element_set_search #}
              (toHTMLAnchorElement self)
@@ -432,23 +434,23 @@ setSearch self val
  
 getSearch ::
           (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-            self -> m string
+            self -> m (Maybe string)
 getSearch self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_search #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getOrigin ::
           (MonadIO m, HTMLAnchorElementClass self, GlibString string) =>
-            self -> m string
+            self -> m (Maybe string)
 getOrigin self
   = liftIO
       (({# call webkit_dom_html_anchor_element_get_origin #}
           (toHTMLAnchorElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 setText ::

@@ -17,6 +17,8 @@ CSSStyleDeclarationClass,
 toCSSStyleDeclaration,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -31,7 +33,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 getPropertyValue ::
                  (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-                   self -> string -> m string
+                   self -> string -> m (Maybe string)
 getPropertyValue self propertyName
   = liftIO
       ((withUTFString propertyName $
@@ -40,11 +42,11 @@ getPropertyValue self propertyName
               (toCSSStyleDeclaration self)
               propertyNamePtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 removeProperty ::
                (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-                 self -> string -> m string
+                 self -> string -> m (Maybe string)
 removeProperty self propertyName
   = liftIO
       ((propagateGError $
@@ -56,11 +58,11 @@ removeProperty self propertyName
                   propertyNamePtr
               errorPtr_)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getPropertyPriority ::
                     (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-                      self -> string -> m string
+                      self -> string -> m (Maybe string)
 getPropertyPriority self propertyName
   = liftIO
       ((withUTFString propertyName $
@@ -69,18 +71,18 @@ getPropertyPriority self propertyName
               (toCSSStyleDeclaration self)
               propertyNamePtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setProperty ::
             (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-              self -> string -> string -> string -> m ()
+              self -> string -> (Maybe string) -> string -> m ()
 setProperty self propertyName value priority
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            withUTFString priority $
              \ priorityPtr ->
-               withUTFString value $
+               maybeWith withUTFString value $
                  \ valuePtr ->
                    withUTFString propertyName $
                      \ propertyNamePtr ->
@@ -104,7 +106,7 @@ item self index
  
 getPropertyShorthand ::
                      (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-                       self -> string -> m string
+                       self -> string -> m (Maybe string)
 getPropertyShorthand self propertyName
   = liftIO
       ((withUTFString propertyName $
@@ -113,7 +115,7 @@ getPropertyShorthand self propertyName
               (toCSSStyleDeclaration self)
               propertyNamePtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 isPropertyImplicit ::
                    (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
@@ -129,12 +131,12 @@ isPropertyImplicit self propertyName
  
 setCssText ::
            (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setCssText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_css_style_declaration_set_css_text #}
                  (toCSSStyleDeclaration self)
@@ -143,13 +145,13 @@ setCssText self val
  
 getCssText ::
            (MonadIO m, CSSStyleDeclarationClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getCssText self
   = liftIO
       (({# call webkit_dom_css_style_declaration_get_css_text #}
           (toCSSStyleDeclaration self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getLength ::
           (MonadIO m, CSSStyleDeclarationClass self) => self -> m Word

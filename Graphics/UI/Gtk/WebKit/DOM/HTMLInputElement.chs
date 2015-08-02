@@ -97,6 +97,8 @@ HTMLInputElementClass,
 toHTMLInputElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -141,10 +143,10 @@ checkValidity self
  
 setCustomValidity ::
                   (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setCustomValidity self error
   = liftIO
-      (withUTFString error $
+      (maybeWith withUTFString error $
          \ errorPtr ->
            {# call webkit_dom_html_input_element_set_custom_validity #}
              (toHTMLInputElement self)
@@ -177,10 +179,10 @@ setRangeText4 self replacement start end selectionMode
  
 setValueForUser ::
                 (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                  self -> string -> m ()
+                  self -> (Maybe string) -> m ()
 setValueForUser self value
   = liftIO
-      (withUTFString value $
+      (maybeWith withUTFString value $
          \ valuePtr ->
            {# call webkit_dom_html_input_element_set_value_for_user #}
              (toHTMLInputElement self)
@@ -384,10 +386,10 @@ getFormAction self
  
 setFormEnctype ::
                (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                 self -> string -> m ()
+                 self -> (Maybe string) -> m ()
 setFormEnctype self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_input_element_set_form_enctype #}
              (toHTMLInputElement self)
@@ -395,20 +397,20 @@ setFormEnctype self val
  
 getFormEnctype ::
                (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                 self -> m string
+                 self -> m (Maybe string)
 getFormEnctype self
   = liftIO
       (({# call webkit_dom_html_input_element_get_form_enctype #}
           (toHTMLInputElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setFormMethod ::
               (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setFormMethod self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_input_element_set_form_method #}
              (toHTMLInputElement self)
@@ -416,13 +418,13 @@ setFormMethod self val
  
 getFormMethod ::
               (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getFormMethod self
   = liftIO
       (({# call webkit_dom_html_input_element_get_form_method #}
           (toHTMLInputElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setFormNoValidate ::
                   (MonadIO m, HTMLInputElementClass self) => self -> Bool -> m ()
@@ -737,10 +739,10 @@ getStep self
  
 setDefaultValue ::
                 (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                  self -> string -> m ()
+                  self -> (Maybe string) -> m ()
 setDefaultValue self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_input_element_set_default_value #}
              (toHTMLInputElement self)
@@ -748,20 +750,20 @@ setDefaultValue self val
  
 getDefaultValue ::
                 (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                  self -> m string
+                  self -> m (Maybe string)
 getDefaultValue self
   = liftIO
       (({# call webkit_dom_html_input_element_get_default_value #}
           (toHTMLInputElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setValue ::
          (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-           self -> string -> m ()
+           self -> (Maybe string) -> m ()
 setValue self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_input_element_set_value #}
              (toHTMLInputElement self)
@@ -769,13 +771,13 @@ setValue self val
  
 getValue ::
          (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-           self -> m string
+           self -> m (Maybe string)
 getValue self
   = liftIO
       (({# call webkit_dom_html_input_element_get_value #}
           (toHTMLInputElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setValueAsNumber ::
                  (MonadIO m, HTMLInputElementClass self) => self -> Double -> m ()
@@ -924,10 +926,10 @@ getAutocorrect self
  
 setAutocapitalize ::
                   (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setAutocapitalize self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_input_element_set_autocapitalize #}
              (toHTMLInputElement self)
@@ -935,13 +937,13 @@ setAutocapitalize self val
  
 getAutocapitalize ::
                   (MonadIO m, HTMLInputElementClass self, GlibString string) =>
-                    self -> m string
+                    self -> m (Maybe string)
 getAutocapitalize self
   = liftIO
       (({# call webkit_dom_html_input_element_get_autocapitalize #}
           (toHTMLInputElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
 
 #if WEBKIT_CHECK_VERSION(2,7,0) 
 setCapture ::

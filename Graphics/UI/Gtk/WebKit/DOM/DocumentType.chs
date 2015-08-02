@@ -12,6 +12,8 @@ DocumentTypeClass,
 toDocumentType,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -54,30 +56,30 @@ getNotations self
  
 getPublicId ::
             (MonadIO m, DocumentTypeClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getPublicId self
   = liftIO
       (({# call webkit_dom_document_type_get_public_id #}
           (toDocumentType self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getSystemId ::
             (MonadIO m, DocumentTypeClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getSystemId self
   = liftIO
       (({# call webkit_dom_document_type_get_system_id #}
           (toDocumentType self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getInternalSubset ::
                   (MonadIO m, DocumentTypeClass self, GlibString string) =>
-                    self -> m string
+                    self -> m (Maybe string)
 getInternalSubset self
   = liftIO
       (({# call webkit_dom_document_type_get_internal_subset #}
           (toDocumentType self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)

@@ -157,6 +157,8 @@ DocumentClass,
 toDocument,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -171,13 +173,13 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 createElement ::
               (MonadIO m, DocumentClass self, GlibString string) =>
-                self -> string -> m (Maybe Element)
+                self -> (Maybe string) -> m (Maybe Element)
 createElement self tagName
   = liftIO
       (maybeNull (makeNewGObject mkElement)
          (propagateGError $
             \ errorPtr_ ->
-              withUTFString tagName $
+              maybeWith withUTFString tagName $
                 \ tagNamePtr ->
                   {# call webkit_dom_document_create_element #} (toDocument self)
                     tagNamePtr
@@ -303,15 +305,15 @@ importNode self importedNode deep
  
 createElementNS ::
                 (MonadIO m, DocumentClass self, GlibString string) =>
-                  self -> string -> string -> m (Maybe Element)
+                  self -> (Maybe string) -> (Maybe string) -> m (Maybe Element)
 createElementNS self namespaceURI qualifiedName
   = liftIO
       (maybeNull (makeNewGObject mkElement)
          (propagateGError $
             \ errorPtr_ ->
-              withUTFString qualifiedName $
+              maybeWith withUTFString qualifiedName $
                 \ qualifiedNamePtr ->
-                  withUTFString namespaceURI $
+                  maybeWith withUTFString namespaceURI $
                     \ namespaceURIPtr ->
                       {# call webkit_dom_document_create_element_ns #} (toDocument self)
                         namespaceURIPtr
@@ -320,15 +322,15 @@ createElementNS self namespaceURI qualifiedName
  
 createAttributeNS ::
                   (MonadIO m, DocumentClass self, GlibString string) =>
-                    self -> string -> string -> m (Maybe Attr)
+                    self -> (Maybe string) -> (Maybe string) -> m (Maybe Attr)
 createAttributeNS self namespaceURI qualifiedName
   = liftIO
       (maybeNull (makeNewGObject mkAttr)
          (propagateGError $
             \ errorPtr_ ->
-              withUTFString qualifiedName $
+              maybeWith withUTFString qualifiedName $
                 \ qualifiedNamePtr ->
-                  withUTFString namespaceURI $
+                  maybeWith withUTFString namespaceURI $
                     \ namespaceURIPtr ->
                       {# call webkit_dom_document_create_attribute_ns #}
                         (toDocument self)
@@ -338,13 +340,13 @@ createAttributeNS self namespaceURI qualifiedName
  
 getElementsByTagNameNS ::
                        (MonadIO m, DocumentClass self, GlibString string) =>
-                         self -> string -> string -> m (Maybe NodeList)
+                         self -> (Maybe string) -> string -> m (Maybe NodeList)
 getElementsByTagNameNS self namespaceURI localName
   = liftIO
       (maybeNull (makeNewGObject mkNodeList)
          (withUTFString localName $
             \ localNamePtr ->
-              withUTFString namespaceURI $
+              maybeWith withUTFString namespaceURI $
                 \ namespaceURIPtr ->
                   {# call webkit_dom_document_get_elements_by_tag_name_ns #}
                     (toDocument self)
@@ -496,11 +498,11 @@ evaluate self expression contextNode resolver type' inResult
  
 execCommand ::
             (MonadIO m, DocumentClass self, GlibString string) =>
-              self -> string -> Bool -> string -> m Bool
+              self -> string -> Bool -> (Maybe string) -> m Bool
 execCommand self command userInterface value
   = liftIO
       (toBool <$>
-         (withUTFString value $
+         (maybeWith withUTFString value $
             \ valuePtr ->
               withUTFString command $
                 \ commandPtr ->
@@ -742,32 +744,32 @@ getDocumentElement self
  
 getInputEncoding ::
                  (MonadIO m, DocumentClass self, GlibString string) =>
-                   self -> m string
+                   self -> m (Maybe string)
 getInputEncoding self
   = liftIO
       (({# call webkit_dom_document_get_input_encoding #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getXmlEncoding ::
                (MonadIO m, DocumentClass self, GlibString string) =>
-                 self -> m string
+                 self -> m (Maybe string)
 getXmlEncoding self
   = liftIO
       (({# call webkit_dom_document_get_xml_encoding #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setXmlVersion ::
               (MonadIO m, DocumentClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setXmlVersion self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_document_set_xml_version #} (toDocument self)
                  valPtr
@@ -775,12 +777,12 @@ setXmlVersion self val
  
 getXmlVersion ::
               (MonadIO m, DocumentClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getXmlVersion self
   = liftIO
       (({# call webkit_dom_document_get_xml_version #} (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setXmlStandalone ::
                  (MonadIO m, DocumentClass self) => self -> Bool -> m ()
@@ -802,13 +804,13 @@ getXmlStandalone self
  
 getDocumentURI ::
                (MonadIO m, DocumentClass self, GlibString string) =>
-                 self -> m string
+                 self -> m (Maybe string)
 getDocumentURI self
   = liftIO
       (({# call webkit_dom_document_get_document_uri #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getDefaultView ::
                (MonadIO m, DocumentClass self) => self -> m (Maybe Window)
@@ -828,20 +830,20 @@ getStyleSheets self
  
 setTitle ::
          (MonadIO m, DocumentClass self, GlibString string) =>
-           self -> string -> m ()
+           self -> (Maybe string) -> m ()
 setTitle self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_document_set_title #} (toDocument self) valPtr)
  
 getTitle ::
          (MonadIO m, DocumentClass self, GlibString string) =>
-           self -> m string
+           self -> m (Maybe string)
 getTitle self
   = liftIO
       (({# call webkit_dom_document_get_title #} (toDocument self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getReferrer ::
             (MonadIO m, DocumentClass self, GlibString string) =>
@@ -862,19 +864,19 @@ getDomain self
  
 setCookie ::
           (MonadIO m, DocumentClass self, GlibString string) =>
-            self -> string -> m ()
+            self -> (Maybe string) -> m ()
 setCookie self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_document_set_cookie #} (toDocument self) valPtr
              errorPtr_)
  
 getCookie ::
           (MonadIO m, DocumentClass self, GlibString string) =>
-            self -> m string
+            self -> m (Maybe string)
 getCookie self
   = liftIO
       ((propagateGError $
@@ -882,7 +884,7 @@ getCookie self
             {# call webkit_dom_document_get_cookie #} (toDocument self)
               errorPtr_)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setBody ::
         (MonadIO m, HTMLElementClass val, DocumentClass self) =>
@@ -957,67 +959,67 @@ getLastModified self
  
 setCharset ::
            (MonadIO m, DocumentClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setCharset self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_document_set_charset #} (toDocument self)
              valPtr)
  
 getCharset ::
            (MonadIO m, DocumentClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getCharset self
   = liftIO
       (({# call webkit_dom_document_get_charset #} (toDocument self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getDefaultCharset ::
                   (MonadIO m, DocumentClass self, GlibString string) =>
-                    self -> m string
+                    self -> m (Maybe string)
 getDefaultCharset self
   = liftIO
       (({# call webkit_dom_document_get_default_charset #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getReadyState ::
               (MonadIO m, DocumentClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getReadyState self
   = liftIO
       (({# call webkit_dom_document_get_ready_state #} (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getCharacterSet ::
                 (MonadIO m, DocumentClass self, GlibString string) =>
-                  self -> m string
+                  self -> m (Maybe string)
 getCharacterSet self
   = liftIO
       (({# call webkit_dom_document_get_character_set #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getPreferredStylesheetSet ::
                           (MonadIO m, DocumentClass self, GlibString string) =>
-                            self -> m string
+                            self -> m (Maybe string)
 getPreferredStylesheetSet self
   = liftIO
       (({# call webkit_dom_document_get_preferred_stylesheet_set #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setSelectedStylesheetSet ::
                          (MonadIO m, DocumentClass self, GlibString string) =>
-                           self -> string -> m ()
+                           self -> (Maybe string) -> m ()
 setSelectedStylesheetSet self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_document_set_selected_stylesheet_set #}
              (toDocument self)
@@ -1025,13 +1027,13 @@ setSelectedStylesheetSet self val
  
 getSelectedStylesheetSet ::
                          (MonadIO m, DocumentClass self, GlibString string) =>
-                           self -> m string
+                           self -> m (Maybe string)
 getSelectedStylesheetSet self
   = liftIO
       (({# call webkit_dom_document_get_selected_stylesheet_set #}
           (toDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getCompatMode ::
               (MonadIO m, DocumentClass self, GlibString string) =>

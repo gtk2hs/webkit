@@ -31,6 +31,8 @@ HTMLButtonElementClass,
 toHTMLButtonElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -53,10 +55,10 @@ checkValidity self
  
 setCustomValidity ::
                   (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setCustomValidity self error
   = liftIO
-      (withUTFString error $
+      (maybeWith withUTFString error $
          \ errorPtr ->
            {# call webkit_dom_html_button_element_set_custom_validity #}
              (toHTMLButtonElement self)
@@ -126,10 +128,10 @@ getFormAction self
  
 setFormEnctype ::
                (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
-                 self -> string -> m ()
+                 self -> (Maybe string) -> m ()
 setFormEnctype self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_button_element_set_form_enctype #}
              (toHTMLButtonElement self)
@@ -137,20 +139,20 @@ setFormEnctype self val
  
 getFormEnctype ::
                (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
-                 self -> m string
+                 self -> m (Maybe string)
 getFormEnctype self
   = liftIO
       (({# call webkit_dom_html_button_element_get_form_enctype #}
           (toHTMLButtonElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setFormMethod ::
               (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setFormMethod self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_button_element_set_form_method #}
              (toHTMLButtonElement self)
@@ -158,13 +160,13 @@ setFormMethod self val
  
 getFormMethod ::
               (MonadIO m, HTMLButtonElementClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getFormMethod self
   = liftIO
       (({# call webkit_dom_html_button_element_get_form_method #}
           (toHTMLButtonElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setFormNoValidate ::
                   (MonadIO m, HTMLButtonElementClass self) => self -> Bool -> m ()

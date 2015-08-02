@@ -8,6 +8,8 @@ BlobClass,
 toBlob,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -22,11 +24,11 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 slice ::
       (MonadIO m, BlobClass self, GlibString string) =>
-        self -> Int64 -> Int64 -> string -> m (Maybe Blob)
+        self -> Int64 -> Int64 -> (Maybe string) -> m (Maybe Blob)
 slice self start end contentType
   = liftIO
       (maybeNull (makeNewGObject mkBlob)
-         (withUTFString contentType $
+         (maybeWith withUTFString contentType $
             \ contentTypePtr ->
               {# call webkit_dom_blob_slice #} (toBlob self) (fromIntegral start)
                 (fromIntegral end)

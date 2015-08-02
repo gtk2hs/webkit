@@ -12,6 +12,8 @@ MediaListClass,
 toMediaList,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -26,13 +28,13 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 item ::
      (MonadIO m, MediaListClass self, GlibString string) =>
-       self -> Word -> m string
+       self -> Word -> m (Maybe string)
 item self index
   = liftIO
       (({# call webkit_dom_media_list_item #} (toMediaList self)
           (fromIntegral index))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 deleteMedium ::
              (MonadIO m, MediaListClass self, GlibString string) =>
@@ -62,12 +64,12 @@ appendMedium self newMedium
  
 setMediaText ::
              (MonadIO m, MediaListClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setMediaText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_media_list_set_media_text #} (toMediaList self)
                  valPtr
@@ -75,13 +77,13 @@ setMediaText self val
  
 getMediaText ::
              (MonadIO m, MediaListClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getMediaText self
   = liftIO
       (({# call webkit_dom_media_list_get_media_text #}
           (toMediaList self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getLength :: (MonadIO m, MediaListClass self) => self -> m Word
 getLength self

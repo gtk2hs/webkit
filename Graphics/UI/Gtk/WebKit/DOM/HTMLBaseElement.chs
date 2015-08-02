@@ -10,6 +10,8 @@ HTMLBaseElementClass,
 toHTMLBaseElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -24,10 +26,10 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 setHref ::
         (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setHref self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_base_element_set_href #}
              (toHTMLBaseElement self)
@@ -35,13 +37,13 @@ setHref self val
  
 getHref ::
         (MonadIO m, HTMLBaseElementClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getHref self
   = liftIO
       (({# call webkit_dom_html_base_element_get_href #}
           (toHTMLBaseElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setTarget ::
           (MonadIO m, HTMLBaseElementClass self, GlibString string) =>

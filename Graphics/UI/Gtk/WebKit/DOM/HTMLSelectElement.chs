@@ -1,7 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLSelectElement(
 item,
 namedItem,
-add,
+addBefore,
 remove,
 checkValidity,
 setCustomValidity,
@@ -37,6 +37,8 @@ HTMLSelectElementClass,
 toHTMLSelectElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -71,11 +73,11 @@ namedItem self name
                 (toHTMLSelectElement self)
                 namePtr))
  
-add ::
-    (MonadIO m, HTMLSelectElementClass self, HTMLElementClass element,
-     HTMLElementClass before) =>
-      self -> Maybe element -> Maybe before -> m ()
-add self element before
+addBefore ::
+          (MonadIO m, HTMLSelectElementClass self, HTMLElementClass element,
+           HTMLElementClass before) =>
+            self -> Maybe element -> Maybe before -> m ()
+addBefore self element before
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
@@ -103,10 +105,10 @@ checkValidity self
  
 setCustomValidity ::
                   (MonadIO m, HTMLSelectElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setCustomValidity self error
   = liftIO
-      (withUTFString error $
+      (maybeWith withUTFString error $
          \ errorPtr ->
            {# call webkit_dom_html_select_element_set_custom_validity #}
              (toHTMLSelectElement self)
@@ -277,10 +279,10 @@ getSelectedIndex self
  
 setValue ::
          (MonadIO m, HTMLSelectElementClass self, GlibString string) =>
-           self -> string -> m ()
+           self -> (Maybe string) -> m ()
 setValue self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_select_element_set_value #}
              (toHTMLSelectElement self)
@@ -288,13 +290,13 @@ setValue self val
  
 getValue ::
          (MonadIO m, HTMLSelectElementClass self, GlibString string) =>
-           self -> m string
+           self -> m (Maybe string)
 getValue self
   = liftIO
       (({# call webkit_dom_html_select_element_get_value #}
           (toHTMLSelectElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getWillValidate ::
                 (MonadIO m, HTMLSelectElementClass self) => self -> m Bool

@@ -12,6 +12,8 @@ StorageClass,
 toStorage,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -26,7 +28,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 key ::
     (MonadIO m, StorageClass self, GlibString string) =>
-      self -> Word -> m string
+      self -> Word -> m (Maybe string)
 key self index
   = liftIO
       ((propagateGError $
@@ -35,11 +37,11 @@ key self index
               (fromIntegral index)
               errorPtr_)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getItem ::
         (MonadIO m, StorageClass self, GlibString string) =>
-          self -> string -> m string
+          self -> string -> m (Maybe string)
 getItem self key
   = liftIO
       ((propagateGError $
@@ -49,7 +51,7 @@ getItem self key
                 {# call webkit_dom_storage_get_item #} (toStorage self) keyPtr
               errorPtr_)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setItem ::
         (MonadIO m, StorageClass self, GlibString string) =>

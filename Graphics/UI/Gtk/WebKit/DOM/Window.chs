@@ -162,6 +162,8 @@ WindowClass,
 toWindow,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -215,17 +217,17 @@ confirm self message
  
 prompt ::
        (MonadIO m, WindowClass self, GlibString string) =>
-         self -> string -> string -> m string
+         self -> string -> (Maybe string) -> m (Maybe string)
 prompt self message defaultValue
   = liftIO
-      ((withUTFString defaultValue $
+      ((maybeWith withUTFString defaultValue $
           \ defaultValuePtr ->
             withUTFString message $
               \ messagePtr ->
                 {# call webkit_dom_dom_window_prompt #} (toWindow self) messagePtr
               defaultValuePtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 find ::
      (MonadIO m, WindowClass self, GlibString string) =>
@@ -315,11 +317,12 @@ matchMedia self query
 getComputedStyle ::
                  (MonadIO m, WindowClass self, ElementClass element,
                   GlibString string) =>
-                   self -> Maybe element -> string -> m (Maybe CSSStyleDeclaration)
+                   self ->
+                     Maybe element -> (Maybe string) -> m (Maybe CSSStyleDeclaration)
 getComputedStyle self element pseudoElement
   = liftIO
       (maybeNull (makeNewGObject mkCSSStyleDeclaration)
-         (withUTFString pseudoElement $
+         (maybeWith withUTFString pseudoElement $
             \ pseudoElementPtr ->
               {# call webkit_dom_dom_window_get_computed_style #} (toWindow self)
                 (maybe (Element nullForeignPtr) toElement element)

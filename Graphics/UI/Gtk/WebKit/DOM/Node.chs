@@ -58,6 +58,8 @@ NodeClass,
 toNode,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -142,11 +144,11 @@ normalize self
  
 isSupported ::
             (MonadIO m, NodeClass self, GlibString string) =>
-              self -> string -> string -> m Bool
+              self -> string -> (Maybe string) -> m Bool
 isSupported self feature version
   = liftIO
       (toBool <$>
-         (withUTFString version $
+         (maybeWith withUTFString version $
             \ versionPtr ->
               withUTFString feature $
                 \ featurePtr ->
@@ -173,38 +175,38 @@ isEqualNode self other
  
 lookupPrefix ::
              (MonadIO m, NodeClass self, GlibString string) =>
-               self -> string -> m string
+               self -> (Maybe string) -> m (Maybe string)
 lookupPrefix self namespaceURI
   = liftIO
-      ((withUTFString namespaceURI $
+      ((maybeWith withUTFString namespaceURI $
           \ namespaceURIPtr ->
             {# call webkit_dom_node_lookup_prefix #} (toNode self)
               namespaceURIPtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 isDefaultNamespace ::
                    (MonadIO m, NodeClass self, GlibString string) =>
-                     self -> string -> m Bool
+                     self -> (Maybe string) -> m Bool
 isDefaultNamespace self namespaceURI
   = liftIO
       (toBool <$>
-         (withUTFString namespaceURI $
+         (maybeWith withUTFString namespaceURI $
             \ namespaceURIPtr ->
               {# call webkit_dom_node_is_default_namespace #} (toNode self)
                 namespaceURIPtr))
  
 lookupNamespaceURI ::
                    (MonadIO m, NodeClass self, GlibString string) =>
-                     self -> string -> m string
+                     self -> (Maybe string) -> m (Maybe string)
 lookupNamespaceURI self prefix
   = liftIO
-      ((withUTFString prefix $
+      ((maybeWith withUTFString prefix $
           \ prefixPtr ->
             {# call webkit_dom_node_lookup_namespace_uri #} (toNode self)
               prefixPtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 compareDocumentPosition ::
                         (MonadIO m, NodeClass self, NodeClass other) =>
@@ -243,30 +245,32 @@ pattern DOCUMENT_POSITION_CONTAINED_BY = 16
 pattern DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32
  
 getNodeName ::
-            (MonadIO m, NodeClass self, GlibString string) => self -> m string
+            (MonadIO m, NodeClass self, GlibString string) =>
+              self -> m (Maybe string)
 getNodeName self
   = liftIO
       (({# call webkit_dom_node_get_node_name #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setNodeValue ::
              (MonadIO m, NodeClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setNodeValue self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_node_set_node_value #} (toNode self) valPtr
              errorPtr_)
  
 getNodeValue ::
-             (MonadIO m, NodeClass self, GlibString string) => self -> m string
+             (MonadIO m, NodeClass self, GlibString string) =>
+               self -> m (Maybe string)
 getNodeValue self
   = liftIO
       (({# call webkit_dom_node_get_node_value #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getNodeType :: (MonadIO m, NodeClass self) => self -> m Word
 getNodeType self
@@ -324,63 +328,68 @@ getOwnerDocument self
          ({# call webkit_dom_node_get_owner_document #} (toNode self)))
  
 getNamespaceURI ::
-                (MonadIO m, NodeClass self, GlibString string) => self -> m string
+                (MonadIO m, NodeClass self, GlibString string) =>
+                  self -> m (Maybe string)
 getNamespaceURI self
   = liftIO
       (({# call webkit_dom_node_get_namespace_uri #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setPrefix ::
           (MonadIO m, NodeClass self, GlibString string) =>
-            self -> string -> m ()
+            self -> (Maybe string) -> m ()
 setPrefix self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_node_set_prefix #} (toNode self) valPtr
              errorPtr_)
  
 getPrefix ::
-          (MonadIO m, NodeClass self, GlibString string) => self -> m string
+          (MonadIO m, NodeClass self, GlibString string) =>
+            self -> m (Maybe string)
 getPrefix self
   = liftIO
       (({# call webkit_dom_node_get_prefix #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getLocalName ::
-             (MonadIO m, NodeClass self, GlibString string) => self -> m string
+             (MonadIO m, NodeClass self, GlibString string) =>
+               self -> m (Maybe string)
 getLocalName self
   = liftIO
       (({# call webkit_dom_node_get_local_name #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getBaseURI ::
-           (MonadIO m, NodeClass self, GlibString string) => self -> m string
+           (MonadIO m, NodeClass self, GlibString string) =>
+             self -> m (Maybe string)
 getBaseURI self
   = liftIO
       (({# call webkit_dom_node_get_base_uri #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setTextContent ::
                (MonadIO m, NodeClass self, GlibString string) =>
-                 self -> string -> m ()
+                 self -> (Maybe string) -> m ()
 setTextContent self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_node_set_text_content #} (toNode self) valPtr
              errorPtr_)
  
 getTextContent ::
-               (MonadIO m, NodeClass self, GlibString string) => self -> m string
+               (MonadIO m, NodeClass self, GlibString string) =>
+                 self -> m (Maybe string)
 getTextContent self
   = liftIO
       (({# call webkit_dom_node_get_text_content #} (toNode self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getParentElement ::
                  (MonadIO m, NodeClass self) => self -> m (Maybe Element)

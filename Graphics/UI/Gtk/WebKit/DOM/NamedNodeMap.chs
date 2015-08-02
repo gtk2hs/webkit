@@ -14,6 +14,8 @@ NamedNodeMapClass,
 toNamedNodeMap,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -77,13 +79,13 @@ item self index
  
 getNamedItemNS ::
                (MonadIO m, NamedNodeMapClass self, GlibString string) =>
-                 self -> string -> string -> m (Maybe Node)
+                 self -> (Maybe string) -> string -> m (Maybe Node)
 getNamedItemNS self namespaceURI localName
   = liftIO
       (maybeNull (makeNewGObject mkNode)
          (withUTFString localName $
             \ localNamePtr ->
-              withUTFString namespaceURI $
+              maybeWith withUTFString namespaceURI $
                 \ namespaceURIPtr ->
                   {# call webkit_dom_named_node_map_get_named_item_ns #}
                     (toNamedNodeMap self)
@@ -105,7 +107,7 @@ setNamedItemNS self node
  
 removeNamedItemNS ::
                   (MonadIO m, NamedNodeMapClass self, GlibString string) =>
-                    self -> string -> string -> m (Maybe Node)
+                    self -> (Maybe string) -> string -> m (Maybe Node)
 removeNamedItemNS self namespaceURI localName
   = liftIO
       (maybeNull (makeNewGObject mkNode)
@@ -113,7 +115,7 @@ removeNamedItemNS self namespaceURI localName
             \ errorPtr_ ->
               withUTFString localName $
                 \ localNamePtr ->
-                  withUTFString namespaceURI $
+                  maybeWith withUTFString namespaceURI $
                     \ namespaceURIPtr ->
                       {# call webkit_dom_named_node_map_remove_named_item_ns #}
                         (toNamedNodeMap self)

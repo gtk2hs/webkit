@@ -8,6 +8,8 @@ ProcessingInstructionClass,
 toProcessingInstruction,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -22,13 +24,13 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 getTarget ::
           (MonadIO m, ProcessingInstructionClass self, GlibString string) =>
-            self -> m string
+            self -> m (Maybe string)
 getTarget self
   = liftIO
       (({# call webkit_dom_processing_instruction_get_target #}
           (toProcessingInstruction self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getSheet ::
          (MonadIO m, ProcessingInstructionClass self) =>

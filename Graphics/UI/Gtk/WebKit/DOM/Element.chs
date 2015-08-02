@@ -136,6 +136,8 @@ ElementClass,
 toElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -150,7 +152,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 getAttribute ::
              (MonadIO m, ElementClass self, GlibString string) =>
-               self -> string -> m string
+               self -> string -> m (Maybe string)
 getAttribute self name
   = liftIO
       ((withUTFString name $
@@ -158,7 +160,7 @@ getAttribute self name
             {# call webkit_dom_element_get_attribute #} (toElement self)
               namePtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setAttribute ::
              (MonadIO m, ElementClass self, GlibString string) =>
@@ -244,12 +246,12 @@ hasAttributes self
  
 getAttributeNS ::
                (MonadIO m, ElementClass self, GlibString string) =>
-                 self -> string -> string -> m string
+                 self -> (Maybe string) -> string -> m string
 getAttributeNS self namespaceURI localName
   = liftIO
       ((withUTFString localName $
           \ localNamePtr ->
-            withUTFString namespaceURI $
+            maybeWith withUTFString namespaceURI $
               \ namespaceURIPtr ->
                 {# call webkit_dom_element_get_attribute_ns #} (toElement self)
                   namespaceURIPtr
@@ -259,7 +261,7 @@ getAttributeNS self namespaceURI localName
  
 setAttributeNS ::
                (MonadIO m, ElementClass self, GlibString string) =>
-                 self -> string -> string -> string -> m ()
+                 self -> (Maybe string) -> string -> string -> m ()
 setAttributeNS self namespaceURI qualifiedName value
   = liftIO
       (propagateGError $
@@ -268,7 +270,7 @@ setAttributeNS self namespaceURI qualifiedName value
              \ valuePtr ->
                withUTFString qualifiedName $
                  \ qualifiedNamePtr ->
-                   withUTFString namespaceURI $
+                   maybeWith withUTFString namespaceURI $
                      \ namespaceURIPtr ->
                        {# call webkit_dom_element_set_attribute_ns #} (toElement self)
                          namespaceURIPtr
@@ -278,12 +280,12 @@ setAttributeNS self namespaceURI qualifiedName value
  
 removeAttributeNS ::
                   (MonadIO m, ElementClass self, GlibString string) =>
-                    self -> string -> string -> m ()
+                    self -> (Maybe string) -> string -> m ()
 removeAttributeNS self namespaceURI localName
   = liftIO
       (withUTFString localName $
          \ localNamePtr ->
-           withUTFString namespaceURI $
+           maybeWith withUTFString namespaceURI $
              \ namespaceURIPtr ->
                {# call webkit_dom_element_remove_attribute_ns #} (toElement self)
                  namespaceURIPtr
@@ -291,13 +293,13 @@ removeAttributeNS self namespaceURI localName
  
 getElementsByTagNameNS ::
                        (MonadIO m, ElementClass self, GlibString string) =>
-                         self -> string -> string -> m (Maybe NodeList)
+                         self -> (Maybe string) -> string -> m (Maybe NodeList)
 getElementsByTagNameNS self namespaceURI localName
   = liftIO
       (maybeNull (makeNewGObject mkNodeList)
          (withUTFString localName $
             \ localNamePtr ->
-              withUTFString namespaceURI $
+              maybeWith withUTFString namespaceURI $
                 \ namespaceURIPtr ->
                   {# call webkit_dom_element_get_elements_by_tag_name_ns #}
                     (toElement self)
@@ -306,13 +308,13 @@ getElementsByTagNameNS self namespaceURI localName
  
 getAttributeNodeNS ::
                    (MonadIO m, ElementClass self, GlibString string) =>
-                     self -> string -> string -> m (Maybe Attr)
+                     self -> (Maybe string) -> string -> m (Maybe Attr)
 getAttributeNodeNS self namespaceURI localName
   = liftIO
       (maybeNull (makeNewGObject mkAttr)
          (withUTFString localName $
             \ localNamePtr ->
-              withUTFString namespaceURI $
+              maybeWith withUTFString namespaceURI $
                 \ namespaceURIPtr ->
                   {# call webkit_dom_element_get_attribute_node_ns #}
                     (toElement self)
@@ -345,13 +347,13 @@ hasAttribute self name
  
 hasAttributeNS ::
                (MonadIO m, ElementClass self, GlibString string) =>
-                 self -> string -> string -> m Bool
+                 self -> (Maybe string) -> string -> m Bool
 hasAttributeNS self namespaceURI localName
   = liftIO
       (toBool <$>
          (withUTFString localName $
             \ localNamePtr ->
-              withUTFString namespaceURI $
+              maybeWith withUTFString namespaceURI $
                 \ namespaceURIPtr ->
                   {# call webkit_dom_element_has_attribute_ns #} (toElement self)
                     namespaceURIPtr
@@ -517,11 +519,11 @@ pattern ALLOW_KEYBOARD_INPUT = 1
  
 getTagName ::
            (MonadIO m, ElementClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getTagName self
   = liftIO
       (({# call webkit_dom_element_get_tag_name #} (toElement self)) >>=
-         readUTFString)
+         maybePeek readUTFString)
 
 #if WEBKIT_CHECK_VERSION(2,2,2) 
 getAttributes ::
@@ -658,12 +660,12 @@ getOffsetParent self
  
 setInnerHTML ::
              (MonadIO m, ElementClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setInnerHTML self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
 #if WEBKIT_CHECK_VERSION(2,8,0)
                {# call webkit_dom_element_set_inner_html #} (toElement self)
@@ -675,7 +677,7 @@ setInnerHTML self val
  
 getInnerHTML ::
              (MonadIO m, ElementClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getInnerHTML self
   = liftIO
 #if WEBKIT_CHECK_VERSION(2,8,0)
@@ -684,16 +686,16 @@ getInnerHTML self
       ((({# call webkit_dom_html_element_get_inner_html #} . castToHTMLElement) (toElement self))
 #endif
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setOuterHTML ::
              (MonadIO m, ElementClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setOuterHTML self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
 #if WEBKIT_CHECK_VERSION(2,8,0)
                {# call webkit_dom_element_set_outer_html #} (toElement self)
@@ -705,7 +707,7 @@ setOuterHTML self val
  
 getOuterHTML ::
              (MonadIO m, ElementClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getOuterHTML self
   = liftIO
 #if WEBKIT_CHECK_VERSION(2,8,0)
@@ -714,7 +716,7 @@ getOuterHTML self
       ((({# call webkit_dom_html_element_get_outer_html #} . castToHTMLElement) (toElement self))
 #endif
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setClassName ::
              (MonadIO m, ElementClass self, GlibString string) =>

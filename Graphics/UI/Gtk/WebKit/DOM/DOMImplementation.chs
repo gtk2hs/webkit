@@ -11,6 +11,8 @@ DOMImplementationClass,
 toDOMImplementation,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -25,11 +27,11 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 hasFeature ::
            (MonadIO m, DOMImplementationClass self, GlibString string) =>
-             self -> string -> string -> m Bool
+             self -> string -> (Maybe string) -> m Bool
 hasFeature self feature version
   = liftIO
       (toBool <$>
-         (withUTFString version $
+         (maybeWith withUTFString version $
             \ versionPtr ->
               withUTFString feature $
                 \ featurePtr ->
@@ -40,17 +42,19 @@ hasFeature self feature version
  
 createDocumentType ::
                    (MonadIO m, DOMImplementationClass self, GlibString string) =>
-                     self -> string -> string -> string -> m (Maybe DocumentType)
+                     self ->
+                       (Maybe string) ->
+                         (Maybe string) -> (Maybe string) -> m (Maybe DocumentType)
 createDocumentType self qualifiedName publicId systemId
   = liftIO
       (maybeNull (makeNewGObject mkDocumentType)
          (propagateGError $
             \ errorPtr_ ->
-              withUTFString systemId $
+              maybeWith withUTFString systemId $
                 \ systemIdPtr ->
-                  withUTFString publicId $
+                  maybeWith withUTFString publicId $
                     \ publicIdPtr ->
-                      withUTFString qualifiedName $
+                      maybeWith withUTFString qualifiedName $
                         \ qualifiedNamePtr ->
                           {# call webkit_dom_dom_implementation_create_document_type #}
                             (toDOMImplementation self)
@@ -62,15 +66,17 @@ createDocumentType self qualifiedName publicId systemId
 createDocument ::
                (MonadIO m, DOMImplementationClass self, DocumentTypeClass doctype,
                 GlibString string) =>
-                 self -> string -> string -> Maybe doctype -> m (Maybe Document)
+                 self ->
+                   (Maybe string) ->
+                     (Maybe string) -> Maybe doctype -> m (Maybe Document)
 createDocument self namespaceURI qualifiedName doctype
   = liftIO
       (maybeNull (makeNewGObject mkDocument)
          (propagateGError $
             \ errorPtr_ ->
-              withUTFString qualifiedName $
+              maybeWith withUTFString qualifiedName $
                 \ qualifiedNamePtr ->
-                  withUTFString namespaceURI $
+                  maybeWith withUTFString namespaceURI $
                     \ namespaceURIPtr ->
                       {# call webkit_dom_dom_implementation_create_document #}
                         (toDOMImplementation self)

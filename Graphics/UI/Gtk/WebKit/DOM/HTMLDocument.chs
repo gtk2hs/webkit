@@ -30,6 +30,8 @@ HTMLDocumentClass,
 toHTMLDocument,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -109,30 +111,30 @@ getHeight self
  
 setDir ::
        (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-         self -> string -> m ()
+         self -> (Maybe string) -> m ()
 setDir self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_dir #} (toHTMLDocument self)
              valPtr)
  
 getDir ::
        (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-         self -> m string
+         self -> m (Maybe string)
 getDir self
   = liftIO
       (({# call webkit_dom_html_document_get_dir #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setDesignMode ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setDesignMode self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_design_mode #}
              (toHTMLDocument self)
@@ -140,13 +142,13 @@ setDesignMode self val
  
 getDesignMode ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getDesignMode self
   = liftIO
       (({# call webkit_dom_html_document_get_design_mode #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getCompatMode ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
@@ -160,10 +162,10 @@ getCompatMode self
  
 setBgColor ::
            (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setBgColor self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_bg_color #}
              (toHTMLDocument self)
@@ -171,20 +173,20 @@ setBgColor self val
  
 getBgColor ::
            (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getBgColor self
   = liftIO
       (({# call webkit_dom_html_document_get_bg_color #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setFgColor ::
            (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setFgColor self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_fg_color #}
              (toHTMLDocument self)
@@ -192,20 +194,20 @@ setFgColor self val
  
 getFgColor ::
            (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getFgColor self
   = liftIO
       (({# call webkit_dom_html_document_get_fg_color #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setAlinkColor ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setAlinkColor self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_alink_color #}
              (toHTMLDocument self)
@@ -213,20 +215,20 @@ setAlinkColor self val
  
 getAlinkColor ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getAlinkColor self
   = liftIO
       (({# call webkit_dom_html_document_get_alink_color #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setLinkColor ::
              (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setLinkColor self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_link_color #}
              (toHTMLDocument self)
@@ -234,20 +236,20 @@ setLinkColor self val
  
 getLinkColor ::
              (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getLinkColor self
   = liftIO
       (({# call webkit_dom_html_document_get_link_color #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setVlinkColor ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setVlinkColor self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_document_set_vlink_color #}
              (toHTMLDocument self)
@@ -255,10 +257,10 @@ setVlinkColor self val
  
 getVlinkColor ::
               (MonadIO m, HTMLDocumentClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getVlinkColor self
   = liftIO
       (({# call webkit_dom_html_document_get_vlink_color #}
           (toHTMLDocument self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)

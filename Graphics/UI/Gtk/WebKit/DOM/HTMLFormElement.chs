@@ -38,6 +38,8 @@ HTMLFormElementClass,
 toHTMLFormElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -144,10 +146,10 @@ getAutocomplete self
  
 setEnctype ::
            (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setEnctype self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_form_element_set_enctype #}
              (toHTMLFormElement self)
@@ -155,20 +157,20 @@ setEnctype self val
  
 getEnctype ::
            (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getEnctype self
   = liftIO
       (({# call webkit_dom_html_form_element_get_enctype #}
           (toHTMLFormElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setEncoding ::
             (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-              self -> string -> m ()
+              self -> (Maybe string) -> m ()
 setEncoding self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_form_element_set_encoding #}
              (toHTMLFormElement self)
@@ -176,20 +178,20 @@ setEncoding self val
  
 getEncoding ::
             (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-              self -> m string
+              self -> m (Maybe string)
 getEncoding self
   = liftIO
       (({# call webkit_dom_html_form_element_get_encoding #}
           (toHTMLFormElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setMethod ::
           (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-            self -> string -> m ()
+            self -> (Maybe string) -> m ()
 setMethod self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_form_element_set_method #}
              (toHTMLFormElement self)
@@ -197,13 +199,13 @@ setMethod self val
  
 getMethod ::
           (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-            self -> m string
+            self -> m (Maybe string)
 getMethod self
   = liftIO
       (({# call webkit_dom_html_form_element_get_method #}
           (toHTMLFormElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setName ::
         (MonadIO m, HTMLFormElementClass self, GlibString string) =>
@@ -298,10 +300,10 @@ getAutocorrect self
  
 setAutocapitalize ::
                   (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setAutocapitalize self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_form_element_set_autocapitalize #}
              (toHTMLFormElement self)
@@ -309,13 +311,13 @@ setAutocapitalize self val
  
 getAutocapitalize ::
                   (MonadIO m, HTMLFormElementClass self, GlibString string) =>
-                    self -> m string
+                    self -> m (Maybe string)
 getAutocapitalize self
   = liftIO
       (({# call webkit_dom_html_form_element_get_autocapitalize #}
           (toHTMLFormElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 autocomplete :: (HTMLFormElementClass self) => EventName self Event
 autocomplete = EventName "autocomplete"

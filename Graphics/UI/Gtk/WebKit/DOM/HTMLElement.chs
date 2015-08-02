@@ -38,6 +38,8 @@ HTMLElementClass,
 toHTMLElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -269,12 +271,12 @@ getAccessKey self
  
 setInnerText ::
              (MonadIO m, HTMLElementClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setInnerText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_html_element_set_inner_text #}
                  (toHTMLElement self)
@@ -283,22 +285,22 @@ setInnerText self val
  
 getInnerText ::
              (MonadIO m, HTMLElementClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getInnerText self
   = liftIO
       (({# call webkit_dom_html_element_get_inner_text #}
           (toHTMLElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setOuterText ::
              (MonadIO m, HTMLElementClass self, GlibString string) =>
-               self -> string -> m ()
+               self -> (Maybe string) -> m ()
 setOuterText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_html_element_set_outer_text #}
                  (toHTMLElement self)
@@ -307,13 +309,13 @@ setOuterText self val
  
 getOuterText ::
              (MonadIO m, HTMLElementClass self, GlibString string) =>
-               self -> m string
+               self -> m (Maybe string)
 getOuterText self
   = liftIO
       (({# call webkit_dom_html_element_get_outer_text #}
           (toHTMLElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getChildren ::
             (MonadIO m, HTMLElementClass self) =>
@@ -326,12 +328,12 @@ getChildren self
  
 setContentEditable ::
                    (MonadIO m, HTMLElementClass self, GlibString string) =>
-                     self -> string -> m ()
+                     self -> (Maybe string) -> m ()
 setContentEditable self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_html_element_set_content_editable #}
                  (toHTMLElement self)
@@ -340,13 +342,13 @@ setContentEditable self val
  
 getContentEditable ::
                    (MonadIO m, HTMLElementClass self, GlibString string) =>
-                     self -> m string
+                     self -> m (Maybe string)
 getContentEditable self
   = liftIO
       (({# call webkit_dom_html_element_get_content_editable #}
           (toHTMLElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getIsContentEditable ::
                      (MonadIO m, HTMLElementClass self) => self -> m Bool

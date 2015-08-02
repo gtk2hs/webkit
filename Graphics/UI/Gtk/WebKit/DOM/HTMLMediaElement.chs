@@ -106,6 +106,8 @@ HTMLMediaElementClass,
 toHTMLMediaElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -127,10 +129,10 @@ load self
 #if WEBKIT_CHECK_VERSION(2,7,0) 
 canPlayType ::
             (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
-              self -> string -> string -> m string
+              self -> string -> (Maybe string) -> m string
 canPlayType self type' keySystem
   = liftIO
-      ((withUTFString keySystem $
+      ((maybeWith withUTFString keySystem $
           \ keySystemPtr ->
             withUTFString type' $
               \ typePtr ->
@@ -166,12 +168,12 @@ fastSeek self time
 webkitGenerateKeyRequest ::
                          (MonadIO m, HTMLMediaElementClass self, Uint8ArrayClass initData,
                           GlibString string) =>
-                           self -> string -> Maybe initData -> m ()
+                           self -> (Maybe string) -> Maybe initData -> m ()
 webkitGenerateKeyRequest self keySystem initData
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString keySystem $
+           maybeWith withUTFString keySystem $
              \ keySystemPtr ->
                {# call webkit_dom_html_media_element_webkit_generate_key_request
                  #}
@@ -183,14 +185,15 @@ webkitGenerateKeyRequest self keySystem initData
 webkitAddKey ::
              (MonadIO m, HTMLMediaElementClass self, Uint8ArrayClass key,
               Uint8ArrayClass initData, GlibString string) =>
-               self -> string -> Maybe key -> Maybe initData -> string -> m ()
+               self ->
+                 (Maybe string) -> Maybe key -> Maybe initData -> string -> m ()
 webkitAddKey self keySystem key initData sessionId
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            withUTFString sessionId $
              \ sessionIdPtr ->
-               withUTFString keySystem $
+               maybeWith withUTFString keySystem $
                  \ keySystemPtr ->
                    {# call webkit_dom_html_media_element_webkit_add_key #}
                      (toHTMLMediaElement self)
@@ -202,14 +205,14 @@ webkitAddKey self keySystem key initData sessionId
  
 webkitCancelKeyRequest ::
                        (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
-                         self -> string -> string -> m ()
+                         self -> (Maybe string) -> string -> m ()
 webkitCancelKeyRequest self keySystem sessionId
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
            withUTFString sessionId $
              \ sessionIdPtr ->
-               withUTFString keySystem $
+               maybeWith withUTFString keySystem $
                  \ keySystemPtr ->
                    {# call webkit_dom_html_media_element_webkit_cancel_key_request #}
                      (toHTMLMediaElement self)
@@ -735,10 +738,10 @@ getVideoTracks self
  
 setMediaGroup ::
               (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
-                self -> string -> m ()
+                self -> (Maybe string) -> m ()
 setMediaGroup self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_media_element_set_media_group #}
              (toHTMLMediaElement self)
@@ -746,13 +749,13 @@ setMediaGroup self val
  
 getMediaGroup ::
               (MonadIO m, HTMLMediaElementClass self, GlibString string) =>
-                self -> m string
+                self -> m (Maybe string)
 getMediaGroup self
   = liftIO
       (({# call webkit_dom_html_media_element_get_media_group #}
           (toHTMLMediaElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getWebkitCurrentPlaybackTargetIsWireless ::
                                          (MonadIO m, HTMLMediaElementClass self) => self -> m Bool

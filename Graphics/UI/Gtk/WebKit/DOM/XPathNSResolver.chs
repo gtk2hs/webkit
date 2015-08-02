@@ -7,6 +7,8 @@ XPathNSResolverClass,
 toXPathNSResolver,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -21,7 +23,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 lookupNamespaceURI ::
                    (MonadIO m, XPathNSResolverClass self, GlibString string) =>
-                     self -> string -> m string
+                     self -> string -> m (Maybe string)
 lookupNamespaceURI self prefix
   = liftIO
       ((withUTFString prefix $
@@ -30,4 +32,4 @@ lookupNamespaceURI self prefix
               (toXPathNSResolver self)
               prefixPtr)
          >>=
-         readUTFString)
+         maybePeek readUTFString)

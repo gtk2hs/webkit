@@ -43,6 +43,8 @@ HTMLObjectElementClass,
 toHTMLObjectElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -65,10 +67,10 @@ checkValidity self
  
 setCustomValidity ::
                   (MonadIO m, HTMLObjectElementClass self, GlibString string) =>
-                    self -> string -> m ()
+                    self -> (Maybe string) -> m ()
 setCustomValidity self error
   = liftIO
-      (withUTFString error $
+      (maybeWith withUTFString error $
          \ errorPtr ->
            {# call webkit_dom_html_object_element_set_custom_validity #}
              (toHTMLObjectElement self)

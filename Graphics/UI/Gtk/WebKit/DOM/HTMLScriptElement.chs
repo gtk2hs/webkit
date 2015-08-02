@@ -24,6 +24,8 @@ HTMLScriptElementClass,
 toHTMLScriptElement,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -38,10 +40,10 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 setText ::
         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setText self val
   = liftIO
-      (withUTFString val $
+      (maybeWith withUTFString val $
          \ valPtr ->
            {# call webkit_dom_html_script_element_set_text #}
              (toHTMLScriptElement self)
@@ -49,13 +51,13 @@ setText self val
  
 getText ::
         (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getText self
   = liftIO
       (({# call webkit_dom_html_script_element_get_text #}
           (toHTMLScriptElement self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 setHtmlFor ::
            (MonadIO m, HTMLScriptElementClass self, GlibString string) =>

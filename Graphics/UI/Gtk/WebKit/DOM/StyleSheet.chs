@@ -13,6 +13,8 @@ StyleSheetClass,
 toStyleSheet,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -57,21 +59,21 @@ getParentStyleSheet self
  
 getHref ::
         (MonadIO m, StyleSheetClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getHref self
   = liftIO
       (({# call webkit_dom_style_sheet_get_href #} (toStyleSheet self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getTitle ::
          (MonadIO m, StyleSheetClass self, GlibString string) =>
-           self -> m string
+           self -> m (Maybe string)
 getTitle self
   = liftIO
       (({# call webkit_dom_style_sheet_get_title #} (toStyleSheet self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getMedia ::
          (MonadIO m, StyleSheetClass self) => self -> m (Maybe MediaList)

@@ -12,6 +12,8 @@ DOMTokenListClass,
 toDOMTokenList,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -26,13 +28,13 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 item ::
      (MonadIO m, DOMTokenListClass self, GlibString string) =>
-       self -> Word -> m string
+       self -> Word -> m (Maybe string)
 item self index
   = liftIO
       (({# call webkit_dom_dom_token_list_item #} (toDOMTokenList self)
           (fromIntegral index))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 contains ::
          (MonadIO m, DOMTokenListClass self, GlibString string) =>

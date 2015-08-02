@@ -13,6 +13,8 @@ CSSValueClass,
 toCSSValue,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -31,12 +33,12 @@ pattern CSS_CUSTOM = 3
  
 setCssText ::
            (MonadIO m, CSSValueClass self, GlibString string) =>
-             self -> string -> m ()
+             self -> (Maybe string) -> m ()
 setCssText self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_css_value_set_css_text #} (toCSSValue self)
                  valPtr
@@ -44,12 +46,12 @@ setCssText self val
  
 getCssText ::
            (MonadIO m, CSSValueClass self, GlibString string) =>
-             self -> m string
+             self -> m (Maybe string)
 getCssText self
   = liftIO
       (({# call webkit_dom_css_value_get_css_text #} (toCSSValue self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getCssValueType ::
                 (MonadIO m, CSSValueClass self) => self -> m Word

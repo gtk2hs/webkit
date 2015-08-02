@@ -14,6 +14,8 @@ CharacterDataClass,
 toCharacterData,
 ) where
 import Prelude hiding (drop, error, print)
+import Data.Typeable (Typeable)
+import Foreign.Marshal (maybePeek, maybeWith)
 import System.Glib.FFI (maybeNull, withForeignPtr, nullForeignPtr, Ptr, nullPtr, castPtr, Word, Int64, Word64, CChar(..), CInt(..), CUInt(..), CLong(..), CULong(..), CShort(..), CUShort(..), CFloat(..), CDouble(..), toBool, fromBool)
 import System.Glib.UTFString (GlibString(..), readUTFString)
 import Control.Applicative ((<$>))
@@ -28,7 +30,7 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
  
 substringData ::
               (MonadIO m, CharacterDataClass self, GlibString string) =>
-                self -> Word -> Word -> m string
+                self -> Word -> Word -> m (Maybe string)
 substringData self offset length
   = liftIO
       ((propagateGError $
@@ -39,7 +41,7 @@ substringData self offset length
               (fromIntegral length)
               errorPtr_)
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 appendData ::
            (MonadIO m, CharacterDataClass self, GlibString string) =>
@@ -101,12 +103,12 @@ replaceData self offset length data'
  
 setData ::
         (MonadIO m, CharacterDataClass self, GlibString string) =>
-          self -> string -> m ()
+          self -> (Maybe string) -> m ()
 setData self val
   = liftIO
       (propagateGError $
          \ errorPtr_ ->
-           withUTFString val $
+           maybeWith withUTFString val $
              \ valPtr ->
                {# call webkit_dom_character_data_set_data #}
                  (toCharacterData self)
@@ -115,13 +117,13 @@ setData self val
  
 getData ::
         (MonadIO m, CharacterDataClass self, GlibString string) =>
-          self -> m string
+          self -> m (Maybe string)
 getData self
   = liftIO
       (({# call webkit_dom_character_data_get_data #}
           (toCharacterData self))
          >>=
-         readUTFString)
+         maybePeek readUTFString)
  
 getLength :: (MonadIO m, CharacterDataClass self) => self -> m Word
 getLength self
