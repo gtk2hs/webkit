@@ -1,15 +1,19 @@
 module Graphics.UI.Gtk.WebKit.DOM.Navigator(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 registerProtocolHandler,
 isProtocolHandlerRegistered,
 unregisterProtocolHandler,
+#endif
 javaEnabled,
 getStorageUpdates,
 #if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitBattery,
 #endif
 getGeolocation,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitTemporaryStorage,
 getWebkitPersistentStorage,
+#endif
 getAppCodeName,
 getAppName,
 getAppVersion,
@@ -44,7 +48,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 registerProtocolHandler ::
                         (MonadIO m, NavigatorClass self, GlibString string) =>
                           self -> string -> string -> string -> m ()
@@ -100,6 +105,7 @@ unregisterProtocolHandler self scheme url
                      schemePtr
                  urlPtr
              errorPtr_)
+#endif
  
 javaEnabled :: (MonadIO m, NavigatorClass self) => self -> m Bool
 javaEnabled self
@@ -132,7 +138,8 @@ getGeolocation self
       (maybeNull (makeNewGObject mkGeolocation)
          ({# call webkit_dom_navigator_get_geolocation #}
             (toNavigator self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getWebkitTemporaryStorage ::
                           (MonadIO m, NavigatorClass self) => self -> m (Maybe StorageQuota)
 getWebkitTemporaryStorage self
@@ -148,6 +155,7 @@ getWebkitPersistentStorage self
       (maybeNull (makeNewGObject mkStorageQuota)
          ({# call webkit_dom_navigator_get_webkit_persistent_storage #}
             (toNavigator self)))
+#endif
  
 getAppCodeName ::
                (MonadIO m, NavigatorClass self, GlibString string) =>

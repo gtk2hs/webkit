@@ -20,15 +20,19 @@ webkitConvertPointFromPageToNode,
 webkitConvertPointFromNodeToPage,
 captureEvents,
 releaseEvents,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitStorageInfo,
+#endif
 getScreen,
 getHistory,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getLocationbar,
 getMenubar,
 getPersonalbar,
 getScrollbars,
 getStatusbar,
 getToolbar,
+#endif
 getNavigator,
 getClientInformation,
 getFrameElement,
@@ -93,9 +97,11 @@ focusEvent,
 hashChange,
 input,
 invalid,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 keyDown,
 keyPress,
 keyUp,
+#endif
 load,
 loadedData,
 loadedMetadata,
@@ -369,7 +375,8 @@ releaseEvents :: (MonadIO m, WindowClass self) => self -> m ()
 releaseEvents self
   = liftIO
       ({# call webkit_dom_dom_window_release_events #} (toWindow self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getWebkitStorageInfo ::
                      (MonadIO m, WindowClass self) => self -> m (Maybe StorageInfo)
 getWebkitStorageInfo self
@@ -377,6 +384,7 @@ getWebkitStorageInfo self
       (maybeNull (makeNewGObject mkStorageInfo)
          ({# call webkit_dom_dom_window_get_webkit_storage_info #}
             (toWindow self)))
+#endif
  
 getScreen ::
           (MonadIO m, WindowClass self) => self -> m (Maybe Screen)
@@ -391,7 +399,8 @@ getHistory self
   = liftIO
       (maybeNull (makeNewGObject mkHistory)
          ({# call webkit_dom_dom_window_get_history #} (toWindow self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getLocationbar ::
                (MonadIO m, WindowClass self) => self -> m (Maybe BarProp)
 getLocationbar self
@@ -433,6 +442,7 @@ getToolbar self
   = liftIO
       (maybeNull (makeNewGObject mkBarProp)
          ({# call webkit_dom_dom_window_get_toolbar #} (toWindow self)))
+#endif
  
 getNavigator ::
              (MonadIO m, WindowClass self) => self -> m (Maybe Navigator)
@@ -785,7 +795,8 @@ input = EventName "input"
  
 invalid :: (WindowClass self) => EventName self Event
 invalid = EventName "invalid"
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 keyDown :: (WindowClass self) => EventName self KeyboardEvent
 keyDown = EventName "keydown"
  
@@ -794,6 +805,7 @@ keyPress = EventName "keypress"
  
 keyUp :: (WindowClass self) => EventName self KeyboardEvent
 keyUp = EventName "keyup"
+#endif
  
 load :: (WindowClass self) => EventName self UIEvent
 load = EventName "load"

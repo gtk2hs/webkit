@@ -106,9 +106,11 @@ error,
 focus,
 input,
 invalid,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 keyDown,
 keyPress,
 keyUp,
+#endif
 load,
 mouseDown,
 mouseEnter,
@@ -1147,7 +1149,8 @@ input = EventName "input"
  
 invalid :: (DocumentClass self) => EventName self Event
 invalid = EventName "invalid"
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 keyDown :: (DocumentClass self) => EventName self KeyboardEvent
 keyDown = EventName "keydown"
  
@@ -1156,6 +1159,7 @@ keyPress = EventName "keypress"
  
 keyUp :: (DocumentClass self) => EventName self KeyboardEvent
 keyUp = EventName "keyup"
+#endif
  
 load :: (DocumentClass self) => EventName self UIEvent
 load = EventName "load"

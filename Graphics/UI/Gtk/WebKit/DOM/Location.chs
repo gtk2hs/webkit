@@ -1,6 +1,8 @@
 module Graphics.UI.Gtk.WebKit.DOM.Location(
 getOrigin,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getAncestorOrigins,
+#endif
 Location,
 castToLocation,
 gTypeLocation,
@@ -29,7 +31,8 @@ getOrigin self
   = liftIO
       (({# call webkit_dom_location_get_origin #} (toLocation self)) >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getAncestorOrigins ::
                    (MonadIO m, LocationClass self) => self -> m (Maybe DOMStringList)
 getAncestorOrigins self
@@ -37,3 +40,4 @@ getAncestorOrigins self
       (maybeNull (makeNewGObject mkDOMStringList)
          ({# call webkit_dom_location_get_ancestor_origins #}
             (toLocation self)))
+#endif

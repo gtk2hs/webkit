@@ -13,10 +13,12 @@ setDefer,
 getDefer,
 setSrc,
 getSrc,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setCrossOrigin,
 getCrossOrigin,
 setNonce,
 getNonce,
+#endif
 HTMLScriptElement,
 castToHTMLScriptElement,
 gTypeHTMLScriptElement,
@@ -174,7 +176,8 @@ getSrc self
           (toHTMLScriptElement self))
          >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setCrossOrigin ::
                (MonadIO m, HTMLScriptElementClass self, GlibString string) =>
                  self -> string -> m ()
@@ -216,3 +219,4 @@ getNonce self
           (toHTMLScriptElement self))
          >>=
          readUTFString)
+#endif

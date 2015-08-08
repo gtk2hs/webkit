@@ -2,7 +2,9 @@ module Graphics.UI.Gtk.WebKit.DOM.HTMLTextAreaElement(
 checkValidity,
 setCustomValidity,
 select,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setRangeText4,
+#endif
 setSelectionRange,
 setAutofocus,
 getAutofocus,
@@ -94,7 +96,8 @@ select self
   = liftIO
       ({# call webkit_dom_html_text_area_element_select #}
          (toHTMLTextAreaElement self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setRangeText4 ::
               (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>
                 self -> string -> Word -> Word -> string -> m ()
@@ -113,6 +116,7 @@ setRangeText4 self replacement start end selectionMode
                  (fromIntegral end)
                  selectionModePtr
              errorPtr_)
+#endif
  
 setSelectionRange ::
                   (MonadIO m, HTMLTextAreaElementClass self, GlibString string) =>

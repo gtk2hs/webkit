@@ -1,12 +1,16 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLFieldSetElement(
 checkValidity,
 setCustomValidity,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setDisabled,
 getDisabled,
+#endif
 getForm,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setName,
 getName,
 getElements,
+#endif
 getWillValidate,
 getValidity,
 getValidationMessage,
@@ -49,7 +53,8 @@ setCustomValidity self error
            {# call webkit_dom_html_field_set_element_set_custom_validity #}
              (toHTMLFieldSetElement self)
              errorPtr)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setDisabled ::
             (MonadIO m, HTMLFieldSetElementClass self) => self -> Bool -> m ()
 setDisabled self val
@@ -65,6 +70,7 @@ getDisabled self
       (toBool <$>
          ({# call webkit_dom_html_field_set_element_get_disabled #}
             (toHTMLFieldSetElement self)))
+#endif
  
 getForm ::
         (MonadIO m, HTMLFieldSetElementClass self) =>
@@ -74,7 +80,8 @@ getForm self
       (maybeNull (makeNewGObject mkHTMLFormElement)
          ({# call webkit_dom_html_field_set_element_get_form #}
             (toHTMLFieldSetElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setName ::
         (MonadIO m, HTMLFieldSetElementClass self, GlibString string) =>
           self -> string -> m ()
@@ -104,6 +111,7 @@ getElements self
       (maybeNull (makeNewGObject mkHTMLCollection)
          ({# call webkit_dom_html_field_set_element_get_elements #}
             (toHTMLFieldSetElement self)))
+#endif
  
 getWillValidate ::
                 (MonadIO m, HTMLFieldSetElementClass self) => self -> m Bool

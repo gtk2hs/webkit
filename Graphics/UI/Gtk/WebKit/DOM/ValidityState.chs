@@ -6,7 +6,9 @@ getTooLong,
 getRangeUnderflow,
 getRangeOverflow,
 getStepMismatch,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getBadInput,
+#endif
 getCustomError,
 getValid,
 ValidityState,
@@ -85,7 +87,8 @@ getStepMismatch self
       (toBool <$>
          ({# call webkit_dom_validity_state_get_step_mismatch #}
             (toValidityState self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getBadInput ::
             (MonadIO m, ValidityStateClass self) => self -> m Bool
 getBadInput self
@@ -93,6 +96,7 @@ getBadInput self
       (toBool <$>
          ({# call webkit_dom_validity_state_get_bad_input #}
             (toValidityState self)))
+#endif
  
 getCustomError ::
                (MonadIO m, ValidityStateClass self) => self -> m Bool

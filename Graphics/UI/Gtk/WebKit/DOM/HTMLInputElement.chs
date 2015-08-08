@@ -4,7 +4,9 @@ stepDown,
 checkValidity,
 setCustomValidity,
 select,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setRangeText4,
+#endif
 setValueForUser,
 setAccept,
 getAccept,
@@ -23,7 +25,9 @@ getDirName,
 setDisabled,
 getDisabled,
 getForm,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setFiles,
+#endif
 getFiles,
 setFormAction,
 getFormAction,
@@ -35,8 +39,10 @@ setFormNoValidate,
 getFormNoValidate,
 setFormTarget,
 getFormTarget,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setHeight,
 getHeight,
+#endif
 setIndeterminate,
 getIndeterminate,
 getList,
@@ -58,7 +64,9 @@ setReadOnly,
 getReadOnly,
 setRequired,
 getRequired,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setSize,
+#endif
 getSize,
 setSrc,
 getSrc,
@@ -70,8 +78,10 @@ setValue,
 getValue,
 setValueAsNumber,
 getValueAsNumber,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setWidth,
 getWidth,
+#endif
 getWillValidate,
 getValidity,
 getValidationMessage,
@@ -159,7 +169,8 @@ select self
   = liftIO
       ({# call webkit_dom_html_input_element_select #}
          (toHTMLInputElement self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setRangeText4 ::
               (MonadIO m, HTMLInputElementClass self, GlibString string) =>
                 self -> string -> Word -> Word -> string -> m ()
@@ -178,6 +189,7 @@ setRangeText4 self replacement start end selectionMode
                  (fromIntegral end)
                  selectionModePtr
              errorPtr_)
+#endif
  
 setValueForUser ::
                 (MonadIO m, HTMLInputElementClass self, GlibString string) =>
@@ -346,7 +358,8 @@ getForm self
       (maybeNull (makeNewGObject mkHTMLFormElement)
          ({# call webkit_dom_html_input_element_get_form #}
             (toHTMLInputElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setFiles ::
          (MonadIO m, FileListClass val, HTMLInputElementClass self) =>
            self -> Maybe val -> m ()
@@ -355,6 +368,7 @@ setFiles self val
       ({# call webkit_dom_html_input_element_set_files #}
          (toHTMLInputElement self)
          (maybe (FileList nullForeignPtr) toFileList val))
+#endif
  
 getFiles ::
          (MonadIO m, HTMLInputElementClass self) =>
@@ -464,7 +478,8 @@ getFormTarget self
           (toHTMLInputElement self))
          >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setHeight ::
           (MonadIO m, HTMLInputElementClass self) => self -> Word -> m ()
 setHeight self val
@@ -480,6 +495,7 @@ getHeight self
       (fromIntegral <$>
          ({# call webkit_dom_html_input_element_get_height #}
             (toHTMLInputElement self)))
+#endif
  
 setIndeterminate ::
                  (MonadIO m, HTMLInputElementClass self) => self -> Bool -> m ()
@@ -677,7 +693,8 @@ getRequired self
       (toBool <$>
          ({# call webkit_dom_html_input_element_get_required #}
             (toHTMLInputElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setSize ::
         (MonadIO m, HTMLInputElementClass self) => self -> Word -> m ()
 setSize self val
@@ -688,6 +705,7 @@ setSize self val
              (toHTMLInputElement self)
              (fromIntegral val)
              errorPtr_)
+#endif
  
 getSize ::
         (MonadIO m, HTMLInputElementClass self) => self -> m Word
@@ -799,7 +817,8 @@ getValueAsNumber self
       (realToFrac <$>
          ({# call webkit_dom_html_input_element_get_value_as_number #}
             (toHTMLInputElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setWidth ::
          (MonadIO m, HTMLInputElementClass self) => self -> Word -> m ()
 setWidth self val
@@ -815,6 +834,7 @@ getWidth self
       (fromIntegral <$>
          ({# call webkit_dom_html_input_element_get_width #}
             (toHTMLInputElement self)))
+#endif
  
 getWillValidate ::
                 (MonadIO m, HTMLInputElementClass self) => self -> m Bool

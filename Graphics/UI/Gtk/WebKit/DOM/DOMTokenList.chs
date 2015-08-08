@@ -3,7 +3,9 @@ item,
 contains,
 add,
 remove,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 toggle,
+#endif
 getLength,
 DOMTokenList,
 castToDOMTokenList,
@@ -75,7 +77,8 @@ remove self tokens
                {# call webkit_dom_dom_token_list_remove #} (toDOMTokenList self)
                  tokensPtr
              errorPtr_)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 toggle ::
        (MonadIO m, DOMTokenListClass self, GlibString string) =>
          self -> string -> Bool -> m Bool
@@ -90,6 +93,7 @@ toggle self token force
                     tokenPtr
                 (fromBool force)
                 errorPtr_))
+#endif
  
 getLength :: (MonadIO m, DOMTokenListClass self) => self -> m Word
 getLength self

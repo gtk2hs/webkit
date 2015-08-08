@@ -21,7 +21,9 @@ getSize,
 getOptions,
 setLength,
 getLength,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getSelectedOptions,
+#endif
 setSelectedIndex,
 getSelectedIndex,
 setValue,
@@ -251,7 +253,8 @@ getLength self
       (fromIntegral <$>
          ({# call webkit_dom_html_select_element_get_length #}
             (toHTMLSelectElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getSelectedOptions ::
                    (MonadIO m, HTMLSelectElementClass self) =>
                      self -> m (Maybe HTMLCollection)
@@ -260,6 +263,7 @@ getSelectedOptions self
       (maybeNull (makeNewGObject mkHTMLCollection)
          ({# call webkit_dom_html_select_element_get_selected_options #}
             (toHTMLSelectElement self)))
+#endif
  
 setSelectedIndex ::
                  (MonadIO m, HTMLSelectElementClass self) => self -> Int -> m ()

@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.SecurityPolicy(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 allowsConnectionTo,
 allowsFontFrom,
 allowsFormAction,
@@ -19,7 +20,9 @@ castToSecurityPolicy,
 gTypeSecurityPolicy,
 SecurityPolicyClass,
 toSecurityPolicy,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -195,3 +198,4 @@ getReportURIs self
       (maybeNull (makeNewGObject mkDOMStringList)
          ({# call webkit_dom_dom_security_policy_get_report_ur_is #}
             (toSecurityPolicy self)))
+#endif

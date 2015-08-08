@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.StorageInfo(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 pattern TEMPORARY,
 pattern PERSISTENT,
 StorageInfo,
@@ -6,7 +7,9 @@ castToStorageInfo,
 gTypeStorageInfo,
 StorageInfoClass,
 toStorageInfo,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -23,3 +26,4 @@ import Graphics.UI.Gtk.WebKit.DOM.Enums
 
 pattern TEMPORARY = 0
 pattern PERSISTENT = 1
+#endif

@@ -19,8 +19,10 @@ setLongDesc,
 getLongDesc,
 setSrc,
 getSrc,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setSrcset,
 getSrcset,
+#endif
 #if WEBKIT_CHECK_VERSION(99,0,0)
 setSizes,
 getSizes,
@@ -254,7 +256,8 @@ getSrc self
           (toHTMLImageElement self))
          >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setSrcset ::
           (MonadIO m, HTMLImageElementClass self, GlibString string) =>
             self -> string -> m ()
@@ -275,6 +278,7 @@ getSrcset self
           (toHTMLImageElement self))
          >>=
          readUTFString)
+#endif
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 setSizes ::

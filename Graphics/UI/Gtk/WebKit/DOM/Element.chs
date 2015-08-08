@@ -31,9 +31,9 @@ matches,
 closest,
 #endif
 webkitMatchesSelector,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 webkitRequestFullScreen,
 webkitRequestFullscreen,
-#if WEBKIT_CHECK_VERSION(2,2,2)
 requestPointerLock,
 #endif
 #if WEBKIT_CHECK_VERSION(99,0,0)
@@ -68,15 +68,19 @@ setInnerHTML,
 getInnerHTML,
 setOuterHTML,
 getOuterHTML,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setClassName,
 getClassName,
 getClassList,
+#endif
 getFirstElementChild,
 getLastElementChild,
 getPreviousElementSibling,
 getNextElementSibling,
 getChildElementCount,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getWebkitRegionOverset,
+#endif
 abort,
 blurEvent,
 change,
@@ -94,9 +98,11 @@ error,
 focusEvent,
 input,
 invalid,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 keyDown,
 keyPress,
 keyUp,
+#endif
 load,
 mouseDown,
 mouseEnter,
@@ -480,7 +486,8 @@ webkitMatchesSelector self selectors
                     (toElement self)
                     selectorsPtr
                 errorPtr_))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 webkitRequestFullScreen ::
                         (MonadIO m, ElementClass self) => self -> Word -> m ()
 webkitRequestFullScreen self flags
@@ -495,8 +502,7 @@ webkitRequestFullscreen self
   = liftIO
       ({# call webkit_dom_element_webkit_request_fullscreen #}
          (toElement self))
-
-#if WEBKIT_CHECK_VERSION(2,2,2) 
+ 
 requestPointerLock ::
                    (MonadIO m, ElementClass self) => self -> m ()
 requestPointerLock self
@@ -719,7 +725,8 @@ getOuterHTML self
 #endif
          >>=
          maybePeek readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setClassName ::
              (MonadIO m, ElementClass self, GlibString string) =>
                self -> string -> m ()
@@ -745,6 +752,7 @@ getClassList self
   = liftIO
       (maybeNull (makeNewGObject mkDOMTokenList)
          ({# call webkit_dom_element_get_class_list #} (toElement self)))
+#endif
  
 getFirstElementChild ::
                      (MonadIO m, ElementClass self) => self -> m (Maybe Element)
@@ -785,7 +793,8 @@ getChildElementCount self
       (fromIntegral <$>
          ({# call webkit_dom_element_get_child_element_count #}
             (toElement self)))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getWebkitRegionOverset ::
                        (MonadIO m, ElementClass self, GlibString string) =>
                          self -> m string
@@ -795,6 +804,7 @@ getWebkitRegionOverset self
           (toElement self))
          >>=
          readUTFString)
+#endif
  
 abort :: (ElementClass self) => EventName self UIEvent
 abort = EventName "abort"
@@ -846,7 +856,8 @@ input = EventName "input"
  
 invalid :: (ElementClass self) => EventName self Event
 invalid = EventName "invalid"
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 keyDown :: (ElementClass self) => EventName self KeyboardEvent
 keyDown = EventName "keydown"
  
@@ -855,6 +866,7 @@ keyPress = EventName "keypress"
  
 keyUp :: (ElementClass self) => EventName self KeyboardEvent
 keyUp = EventName "keyup"
+#endif
  
 load :: (ElementClass self) => EventName self UIEvent
 load = EventName "load"

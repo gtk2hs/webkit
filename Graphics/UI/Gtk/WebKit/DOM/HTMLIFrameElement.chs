@@ -19,8 +19,10 @@ setScrolling,
 getScrolling,
 setSrc,
 getSrc,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 setSrcdoc,
 getSrcdoc,
+#endif
 setWidth,
 getWidth,
 getContentDocument,
@@ -255,7 +257,8 @@ getSrc self
           (toHTMLIFrameElement self))
          >>=
          readUTFString)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 setSrcdoc ::
           (MonadIO m, HTMLIFrameElementClass self, GlibString string) =>
             self -> string -> m ()
@@ -276,6 +279,7 @@ getSrcdoc self
           (toHTMLIFrameElement self))
          >>=
          readUTFString)
+#endif
  
 setWidth ::
          (MonadIO m, HTMLIFrameElementClass self, GlibString string) =>

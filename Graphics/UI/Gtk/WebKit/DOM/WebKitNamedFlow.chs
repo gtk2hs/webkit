@@ -1,10 +1,12 @@
 module Graphics.UI.Gtk.WebKit.DOM.WebKitNamedFlow(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getRegionsByContent,
 getRegions,
 getContent,
 getName,
 getOverset,
 getFirstEmptyRegionIndex,
+#endif
 WebKitNamedFlow,
 castToWebKitNamedFlow,
 gTypeWebKitNamedFlow,
@@ -25,7 +27,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 getRegionsByContent ::
                     (MonadIO m, WebKitNamedFlowClass self, NodeClass contentNode) =>
                       self -> Maybe contentNode -> m (Maybe NodeList)
@@ -80,3 +83,4 @@ getFirstEmptyRegionIndex self
          ({# call webkit_dom_webkit_named_flow_get_first_empty_region_index
             #}
             (toWebKitNamedFlow self)))
+#endif

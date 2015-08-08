@@ -1,10 +1,14 @@
 module Graphics.UI.Gtk.WebKit.DOM.Storage(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 key,
 getItem,
+#endif
 setItem,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 removeItem,
 clear,
 getLength,
+#endif
 Storage,
 castToStorage,
 gTypeStorage,
@@ -25,7 +29,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 key ::
     (MonadIO m, StorageClass self, GlibString string) =>
       self -> Word -> m (Maybe string)
@@ -52,6 +57,7 @@ getItem self key
               errorPtr_)
          >>=
          maybePeek readUTFString)
+#endif
  
 setItem ::
         (MonadIO m, StorageClass self, GlibString string) =>
@@ -67,7 +73,8 @@ setItem self key data'
                    {# call webkit_dom_storage_set_item #} (toStorage self) keyPtr
                  dataPtr
              errorPtr_)
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 removeItem ::
            (MonadIO m, StorageClass self, GlibString string) =>
              self -> string -> m ()
@@ -95,3 +102,4 @@ getLength self
             \ errorPtr_ ->
               {# call webkit_dom_storage_get_length #} (toStorage self)
                 errorPtr_))
+#endif

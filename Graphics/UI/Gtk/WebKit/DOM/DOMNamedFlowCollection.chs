@@ -3,13 +3,14 @@ module Graphics.UI.Gtk.WebKit.DOM.DOMNamedFlowCollection(
 item,
 namedItem,
 getLength,
-#endif
 DOMNamedFlowCollection,
 castToDOMNamedFlowCollection,
 gTypeDOMNamedFlowCollection,
 DOMNamedFlowCollectionClass,
 toDOMNamedFlowCollection,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -24,8 +25,7 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
-
-#if WEBKIT_CHECK_VERSION(2,2,2) 
+ 
 item ::
      (MonadIO m, DOMNamedFlowCollectionClass self) =>
        self -> Word -> m (Maybe WebKitNamedFlow)

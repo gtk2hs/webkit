@@ -1,4 +1,5 @@
 module Graphics.UI.Gtk.WebKit.DOM.KeyboardEvent(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 getModifierState,
 initKeyboardEvent,
 pattern KEY_LOCATION_STANDARD,
@@ -21,7 +22,9 @@ castToKeyboardEvent,
 gTypeKeyboardEvent,
 KeyboardEventClass,
 toKeyboardEvent,
+#endif
 ) where
+#if WEBKIT_CHECK_VERSION(2,2,2)
 import Prelude hiding (drop, error, print)
 import Data.Typeable (Typeable)
 import Foreign.Marshal (maybePeek, maybeWith)
@@ -155,4 +158,5 @@ getCharCode self
       (fromIntegral <$>
          ({# call webkit_dom_keyboard_event_get_char_code #}
             (toKeyboardEvent self)))
+#endif
 #endif

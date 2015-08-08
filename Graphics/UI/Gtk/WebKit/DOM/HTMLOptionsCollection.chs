@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLOptionsCollection(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 namedItem,
+#endif
 #if WEBKIT_CHECK_VERSION(99,0,0)
 addBefore,
 add,
@@ -26,7 +28,8 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 namedItem ::
           (MonadIO m, HTMLOptionsCollectionClass self, GlibString string) =>
             self -> string -> m (Maybe Node)
@@ -38,6 +41,7 @@ namedItem self name
               {# call webkit_dom_html_options_collection_named_item #}
                 (toHTMLOptionsCollection self)
                 namePtr))
+#endif
 
 #if WEBKIT_CHECK_VERSION(99,0,0) 
 addBefore ::

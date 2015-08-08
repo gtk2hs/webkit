@@ -1,5 +1,7 @@
 module Graphics.UI.Gtk.WebKit.DOM.HTMLMediaElement(
+#if WEBKIT_CHECK_VERSION(2,2,2)
 load,
+#endif
 #if WEBKIT_CHECK_VERSION(2,7,0)
 canPlayType,
 #endif
@@ -129,12 +131,14 @@ import Graphics.UI.Gtk.WebKit.DOM.EventM
 {#import Graphics.UI.Gtk.WebKit.Types#}
 import Graphics.UI.Gtk.WebKit.DOM.Enums
 
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 load :: (MonadIO m, HTMLMediaElementClass self) => self -> m ()
 load self
   = liftIO
       ({# call webkit_dom_html_media_element_load #}
          (toHTMLMediaElement self))
+#endif
 
 #if WEBKIT_CHECK_VERSION(2,7,0) 
 canPlayType ::

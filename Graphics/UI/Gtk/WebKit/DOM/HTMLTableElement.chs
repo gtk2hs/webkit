@@ -3,7 +3,9 @@ createTHead,
 deleteTHead,
 createTFoot,
 deleteTFoot,
+#if WEBKIT_CHECK_VERSION(2,2,2)
 createTBody,
+#endif
 createCaption,
 deleteCaption,
 insertRow,
@@ -86,7 +88,8 @@ deleteTFoot self
   = liftIO
       ({# call webkit_dom_html_table_element_delete_t_foot #}
          (toHTMLTableElement self))
- 
+
+#if WEBKIT_CHECK_VERSION(2,2,2) 
 createTBody ::
             (MonadIO m, HTMLTableElementClass self) =>
               self -> m (Maybe HTMLElement)
@@ -95,6 +98,7 @@ createTBody self
       (maybeNull (makeNewGObject mkHTMLElement)
          ({# call webkit_dom_html_table_element_create_t_body #}
             (toHTMLTableElement self)))
+#endif
  
 createCaption ::
               (MonadIO m, HTMLTableElementClass self) =>
