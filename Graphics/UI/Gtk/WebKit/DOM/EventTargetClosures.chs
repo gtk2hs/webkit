@@ -54,6 +54,5 @@ foreign import ccall unsafe "g_closure_unref"
 eventListenerRelease :: EventListener -> IO ()
 eventListenerRelease (EventListener gclosurePtr sptr) = do
   g_closure_unref gclosurePtr
-  freeStablePtr sptr
 
 
